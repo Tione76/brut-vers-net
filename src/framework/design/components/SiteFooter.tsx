@@ -10,6 +10,7 @@ export interface SiteTool {
 }
 
 interface SiteFooterProps {
+  brandName: string;
   siteName: string;
   footerDescription: string;
   tools: SiteTool[];
@@ -18,6 +19,7 @@ interface SiteFooterProps {
 }
 
 export function SiteFooter({
+  brandName,
   siteName,
   footerDescription,
   tools,
@@ -35,7 +37,7 @@ export function SiteFooter({
             <div className="site-footer__logo" aria-hidden="true">
               {logoLetter}
             </div>
-            <p className="site-footer__name">{siteName}</p>
+            <p className="site-footer__name">{brandName}</p>
             <p className="site-footer__desc">{footerDescription}</p>
           </div>
 

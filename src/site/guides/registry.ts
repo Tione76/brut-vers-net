@@ -30,11 +30,3 @@ export function getPublishedGuideSlugs(): string[] {
 export function getAllGuideSlugs(): string[] {
   return [GUIDE_MODEL_SLUG, ...getPublishedGuideSlugs()];
 }
-
-/** Liens sidebar — tous les guides publiés (page d'accueil, listes) */
-export function getGuidesSidebarLinks(): { title: string; href: string }[] {
-  return guides.map((guide) => ({
-    title: guide.title,
-    href: `/guides/${guide.slug}`,
-  }));
-}

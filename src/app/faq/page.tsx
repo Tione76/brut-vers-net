@@ -1,51 +1,44 @@
-import Link from "next/link";
 import { config, seoConfig } from "@/site";
 import { ContentPageLayout } from "@/framework/layouts/ContentPageLayout";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
 import { buildBreadcrumbSchema, buildFaqSchema, buildWebPageSchema } from "@/framework/seo/json-ld";
-
-const page = seoConfig.legal.faq;
+import {
+  FAQ_PAGE_H1,
+  FAQ_PAGE_META,
+  getFaqPageSchemaItems,
+} from "@/site/faq-page-data";
+import { FaqPageContent } from "@/site/FaqPageContent";
+import { FaqPageSidebar } from "@/site/guides/GuidePageSidebar";
+import "@/site/guides/guide-page.css";
 
 export const metadata = buildPageMetadata(config, seoConfig, {
-  title: page.title,
-  description: page.description,
+  title: FAQ_PAGE_META.title,
+  description: FAQ_PAGE_META.description,
   path: "/faq",
 });
 
 export default function FaqPage() {
+  const faqSchemaItems = getFaqPageSchemaItems();
+
   return (
     <>
       <JsonLd
         data={[
-          buildWebPageSchema(config, page.title, page.description, "/faq"),
+          buildWebPageSchema(config, FAQ_PAGE_META.title, FAQ_PAGE_META.description, "/faq"),
           buildBreadcrumbSchema(config, [
             { name: "Accueil", path: "/" },
-            { name: page.title, path: "/faq" },
+            { name: "FAQ TVA", path: "/faq" },
           ]),
-          buildFaqSchema(config.faq),
+          buildFaqSchema(faqSchemaItems),
         ]}
       />
-      <ContentPageLayout meta="Aide" title={page.title} subtitle="Réponses aux questions les plus fréquentes." prose={false}>
-        <div className="faq-list faq-list--flush">
-          {config.faq.map((item) => (
-            <details key={item.question} className="faq-item">
-              <summary className="faq-item__summary">
-                <span>{item.question}</span>
-                <span className="faq-chevron" aria-hidden="true">
-                  ▾
-                </span>
-              </summary>
-              <div className="faq-item__body">
-                <p>{item.answer}</p>
-              </div>
-            </details>
-          ))}
-        </div>
-        <p style={{ marginTop: "24px" }}>
-          Vous ne trouvez pas votre réponse ?{" "}
-          <Link href="/contact">Contactez-nous</Link>.
-        </p>
+      <ContentPageLayout
+        title={FAQ_PAGE_H1}
+        prose={false}
+        sidebar={<FaqPageSidebar />}
+      >
+        <FaqPageContent />
       </ContentPageLayout>
     </>
   );

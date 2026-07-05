@@ -7,8 +7,7 @@ import { AdSlot } from "@/framework/AdSlot";
 import { SiteNav } from "@/framework/design/components/SiteNav";
 import { HeaderCurveDown } from "@/framework/design/components/Curves";
 import { PageFooter } from "@/framework/design/PageFooter";
-import { getGuidesSidebarLinks } from "@/site/guides/registry";
-import { GuideSidebar } from "@/site/guides/GuideRenderer";
+import { HomePageSidebar } from "@/site/guides/GuidePageSidebar";
 import { HomeEditorial } from "@/site/home-editorial";
 import "@/framework/design/index.css";
 import "@/site/guides/guide-page.css";
@@ -155,11 +154,7 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
         )}
             </div>
             <aside className="article-sidebar" aria-label="Guides">
-              <GuideSidebar
-                allGuides={getGuidesSidebarLinks()}
-                guidesSectionTitle="Nos guides"
-                showTools={false}
-              />
+              <HomePageSidebar />
             </aside>
           </div>
         </div>

@@ -252,8 +252,6 @@ interface GuideSidebarProps {
   allGuides?: GuideSidebarLink[];
   guidesSectionTitle?: string;
   showTools?: boolean;
-  relatedSimulator?: { title: string; description: string; href: string };
-  discover?: { title: string; href: string }[];
 }
 
 export function GuideSidebar({
@@ -262,8 +260,6 @@ export function GuideSidebar({
   allGuides,
   guidesSectionTitle = "À lire aussi",
   showTools = true,
-  relatedSimulator,
-  discover,
 }: GuideSidebarProps) {
   const guideLinks = allGuides ?? relatedGuides ?? [];
   const guidesBlockClass = allGuides
@@ -298,33 +294,6 @@ export function GuideSidebar({
         guides={guideLinks}
         blockClassName={guidesBlockClass}
       />
-
-      {relatedSimulator && (
-        <div className="guide-sidebar-block">
-          <p className="guide-sidebar-block__title">Futurs calculateurs</p>
-          <Link href={relatedSimulator.href} className="guide-sidebar-card">
-            <span className="guide-sidebar-card__icon" aria-hidden="true">◫</span>
-            <span>
-              <span className="guide-sidebar-card__title">{relatedSimulator.title}</span>
-              <span className="guide-sidebar-card__desc">{relatedSimulator.description}</span>
-            </span>
-          </Link>
-        </div>
-      )}
-
-      {discover && discover.length > 0 && (
-        <div className="guide-sidebar-block">
-          <p className="guide-sidebar-block__title">À découvrir</p>
-          <div className="guide-sidebar-cards">
-            {discover.map((item) => (
-              <Link key={item.href} href={item.href} className="guide-sidebar-card guide-sidebar-card--compact">
-                <span className="guide-sidebar-card__icon guide-sidebar-card__icon--sm" aria-hidden="true">→</span>
-                <span className="guide-sidebar-card__title">{item.title}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
     </>
   );
 }

@@ -9,7 +9,7 @@ import {
   getGuideBySlug,
   GuideArticle,
   GuidePageLayout,
-  GuideSidebar,
+  GuidePageSidebar,
 } from "@/site/guides";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
@@ -97,14 +97,7 @@ export default async function GuidePage({ params }: Props) {
       <GuidePageLayout
         title={guide.isTemplate ? "Modèle officiel de guide" : guide.title}
         subtitle={guide.subtitle}
-        sidebar={
-          <GuideSidebar
-            calculator={guide.sidebar.calculator}
-            relatedGuides={guide.isTemplate ? undefined : guide.sidebar.relatedGuides}
-            relatedSimulator={guide.isTemplate ? undefined : guide.sidebar.relatedSimulator}
-            discover={guide.isTemplate ? undefined : guide.sidebar.discover}
-          />
-        }
+        sidebar={guide.isTemplate ? undefined : <GuidePageSidebar slug={slug} />}
       >
         <GuideBreadcrumb title={guide.title} isTemplate={guide.isTemplate} />
         <p className="guide-meta">

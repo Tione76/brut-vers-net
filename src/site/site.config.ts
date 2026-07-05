@@ -32,8 +32,9 @@ export const siteConfig = {
   favicon: "/icon.png",
   ogImage: "/images/og/Calcul-HT-vers-TTC.webp",
 
+  footerBrandName: "HT-VERS-TTC.FR",
   footerDescription:
-    "Calculateur en ligne gratuit pour convertir un prix hors taxes en TTC et obtenir le montant de TVA.",
+    "Calculateur de TVA gratuit et guides pratiques pour tout comprendre sur la TVA, les prix HT, les prix TTC et la facturation.",
 
   home: {
     h1: "CALCULATEUR TVA : HT → TTC ET TTC → HT",

@@ -42,7 +42,13 @@ export {
 } from "./covers";
 export type { GuideCoverImage } from "./covers";
 export { GuideArticle, GuideInlineToc, GuideSidebar } from "./GuideRenderer";
+export { GuidePageSidebar, HomePageSidebar, FaqPageSidebar } from "./GuidePageSidebar";
+export {
+  getGuidesSidebarLinks,
+  getRelatedGuidesForSlug,
+  SIDEBAR_CALCULATOR,
+} from "./sidebar";
+export type { GuideSidebarLink } from "./sidebar";
 export { GuideCoverImage as GuideCoverImageComponent } from "./GuideCoverImage";
 export { GuideListCard } from "./GuideListCard";
 export { GuidePageLayout } from "./GuidePageLayout";
-export { getGuidesSidebarLinks } from "./registry";
