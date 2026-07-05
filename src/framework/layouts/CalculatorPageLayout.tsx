@@ -7,7 +7,11 @@ import { AdSlot } from "@/framework/AdSlot";
 import { SiteNav } from "@/framework/design/components/SiteNav";
 import { HeaderCurveDown } from "@/framework/design/components/Curves";
 import { PageFooter } from "@/framework/design/PageFooter";
+import { getGuidesSidebarLinks } from "@/site/guides/registry";
+import { GuideSidebar } from "@/site/guides/GuideRenderer";
+import { HomeEditorial } from "@/site/home-editorial";
 import "@/framework/design/index.css";
+import "@/site/guides/guide-page.css";
 
 interface CalculatorPageLayoutProps {
   Calculator: ComponentType;
@@ -47,9 +51,14 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
   return (
     <>
       <section className="tool-header">
+        <SiteNav
+          siteName={site.name}
+          nav={site.navigation.header}
+          logo={site.logo}
+          guidesNavigation={site.guidesNavigation}
+        />
         <div className="tool-header__inner">
-          <SiteNav siteName={site.name} nav={site.navigation.header} />
-          <h1 className="sr-only">{site.home.h1}</h1>
+          <h1 className="tool-header__title">{site.home.h1}</h1>
           <div className="calc-stage">
             <CalculatorHero Calculator={Calculator} />
           </div>
@@ -58,22 +67,10 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
       </section>
 
       <main id="main-content" className="content-main">
-        {site.explanations.length > 0 && (
-          <section id="explications" className="content-section">
-            <div className="content-wrap">
-              <p className="section-eyebrow section-eyebrow--dark">Guide</p>
-              <h2 className="section-title section-title--dark">Explications</h2>
-              <div className="prose">
-                {site.explanations.map((section) => (
-                  <div key={section.title}>
-                    <h2>{section.title}</h2>
-                    <p>{section.content}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+        <div className="content-wrap content-wrap--wide home-with-sidebar">
+          <div className="article-layout">
+            <div className="home-with-sidebar__main">
+              <HomeEditorial />
 
         {site.blogPosts.length > 0 && (
           <section id="blog" className="content-section content-section--border">
@@ -156,6 +153,16 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
             </div>
           </section>
         )}
+            </div>
+            <aside className="article-sidebar" aria-label="Guides">
+              <GuideSidebar
+                allGuides={getGuidesSidebarLinks()}
+                guidesSectionTitle="Nos guides"
+                showTools={false}
+              />
+            </aside>
+          </div>
+        </div>
       </main>
 
       <div className="content-wrap">

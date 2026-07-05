@@ -31,6 +31,8 @@ export function ContentPageLayout({
       <CompactPageHeader
         siteName={site.name}
         nav={site.navigation.header}
+        logo={site.logo}
+        guidesNavigation={site.guidesNavigation}
         meta={meta}
         title={title}
         subtitle={subtitle}

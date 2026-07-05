@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
 
+export interface OgImageInput {
+  url: string;
+  width?: number;
+  height?: number;
+  alt?: string;
+  type?: string;
+}
+
 export interface SeoPageInput {
   title: string;
   description: string;
   path: string;
-  ogImage?: string;
+  ogImage?: string | OgImageInput;
 }
 
 export interface SiteSeoInput {
@@ -22,11 +30,24 @@ export interface SeoDefaultsInput {
   defaultDescription: string;
   keywords: string[];
   twitterHandle?: string;
-  home: { title: string };
+  home: { title: string; ogImage?: string | OgImageInput };
 }
 
 export function getCanonicalUrl(url: string, path: string): string {
   return `${url}${path === "/" ? "" : path}`;
+}
+
+function resolveOgImage(
+  site: SiteSeoInput,
+  pageImage?: string | OgImageInput,
+): { absoluteUrl: string; meta: OgImageInput } {
+  const fallback = pageImage ?? site.ogImage;
+  const resolved: OgImageInput =
+    typeof fallback === "string" ? { url: fallback } : fallback;
+  const absoluteUrl = resolved.url.startsWith("http")
+    ? resolved.url
+    : `${site.url}${resolved.url}`;
+  return { absoluteUrl, meta: { ...resolved, url: absoluteUrl } };
 }
 
 export function buildPageMetadata(
@@ -35,8 +56,15 @@ export function buildPageMetadata(
   page: SeoPageInput,
 ): Metadata {
   const canonical = getCanonicalUrl(site.url, page.path);
-  const ogImage = page.ogImage ?? site.ogImage;
-  const ogImageUrl = ogImage.startsWith("http") ? ogImage : `${site.url}${ogImage}`;
+  const { absoluteUrl, meta } = resolveOgImage(site, page.ogImage);
+
+  const ogImageEntry = {
+    url: absoluteUrl,
+    width: meta.width ?? 1200,
+    height: meta.height ?? 630,
+    alt: meta.alt ?? page.title,
+    type: meta.type ?? "image/webp",
+  };
 
   return {
     title: page.title,
@@ -51,13 +79,13 @@ export function buildPageMetadata(
       siteName: site.name,
       title: page.title,
       description: page.description,
-      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: page.title }],
+      images: [ogImageEntry],
     },
     twitter: {
       card: "summary_large_image",
       title: page.title,
       description: page.description,
-      images: [ogImageUrl],
+      images: [{ url: absoluteUrl, alt: ogImageEntry.alt }],
       ...(seo.twitterHandle && { site: seo.twitterHandle }),
     },
     ...(site.analytics.googleSearchConsoleId && {
@@ -76,7 +104,6 @@ export function buildRootMetadata(
     description: seo.defaultDescription,
     keywords: seo.keywords,
     authors: [{ name: site.author }],
-    icons: { icon: site.favicon },
     manifest: "/manifest.webmanifest",
     ...(site.analytics.googleSearchConsoleId && {
       verification: { google: site.analytics.googleSearchConsoleId },

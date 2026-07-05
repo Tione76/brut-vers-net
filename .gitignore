@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# sources JPG temporaires (conversion OG)
+/public/images/og/_incoming/*.jpg
+/public/images/og/_incoming/*.jpeg
+/public/images/og/_incoming/*.JPG
+/public/images/og/_incoming/*.JPEG
+/public/images/og/_incoming/*.png
+/public/images/og/_incoming/*.PNG

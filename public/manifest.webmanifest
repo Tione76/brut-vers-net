@@ -1,10 +1,24 @@
 {
-  "name": "Calculateur Financier",
-  "short_name": "CalcFinance",
-  "description": "Simulateur en ligne gratuit pour vos calculs financiers",
+  "name": "Calculateur TVA",
+  "short_name": "Calculateur TVA",
+  "description": "Calculateur en ligne gratuit pour convertir un prix hors taxes en TTC et obtenir le montant de la TVA.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000091",
-  "lang": "fr"
+  "theme_color": "#1a4b7c",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }

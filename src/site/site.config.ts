@@ -1,10 +1,12 @@
 /**
  * Configuration du site — modifiez ce fichier pour chaque nouveau site.
  */
+import { guidesNavigation } from "./guides/navigation";
+
 export const siteConfig = {
-  name: "Simulateur en ligne",
-  domain: "example.com",
-  url: "https://example.com",
+  name: "Calculateur TVA",
+  domain: "ht-vers-ttc.fr",
+  url: "https://ht-vers-ttc.fr",
   author: "Éditeur du site",
   language: "fr",
   locale: "fr-FR",
@@ -25,34 +27,23 @@ export const siteConfig = {
     error: "#ce0500",
   },
 
-  logo: { src: "/logo.svg", alt: "Simulateur en ligne", width: 160, height: 32 },
-  logoLetter: "S",
-  favicon: "/icon.svg",
-  ogImage: "/og-image.png",
+  logo: { src: "/logo.png", alt: "Calculateur TVA", width: 800, height: 800 },
+  logoLetter: "€",
+  favicon: "/icon.png",
+  ogImage: "/images/og/Calcul-HT-vers-TTC.webp",
 
   footerDescription:
-    "Outils gratuits en ligne permettant de réaliser rapidement vos calculs et simulations.",
+    "Calculateur en ligne gratuit pour convertir un prix hors taxes en TTC et obtenir le montant de TVA.",
 
   home: {
-    h1: "Simulateur en ligne",
+    h1: "CALCULATEUR TVA : HT → TTC ET TTC → HT",
     intro: [
-      "Saisissez vos données ci-dessous pour obtenir une estimation immédiate.",
-      "Les résultats sont fournis à titre indicatif.",
+      "Saisissez votre montant hors taxes, choisissez le taux de TVA applicable et obtenez instantanément le prix TTC ainsi que le montant de la taxe.",
+      "Le calcul inverse (TTC vers HT) est également disponible.",
     ] as [string, string?],
   },
 
-  explanations: [
-    {
-      title: "Comment lire le résultat ?",
-      content:
-        "Le résultat correspond à une estimation basée sur vos données. Vérifiez vos entrées avant de vous fier au résultat.",
-    },
-    {
-      title: "Limites du simulateur",
-      content:
-        "Ce simulateur ne couvre pas toutes les situations particulières. Il ne remplace pas l'avis d'un professionnel qualifié.",
-    },
-  ],
+  explanations: [] as { title: string; content: string }[],
 
   blogPosts: [] as {
     title: string;
@@ -62,41 +53,30 @@ export const siteConfig = {
     href: string;
   }[],
 
-  tools: [
-    {
-      title: "Outil A",
-      description: "Description courte du simulateur complémentaire.",
-      href: "/simulateurs",
-      icon: "€",
-    },
-    {
-      title: "Outil B",
-      description: "Description courte du simulateur complémentaire.",
-      href: "/simulateurs",
-      icon: "◫",
-    },
-  ],
+  tools: [] as {
+    title: string;
+    description: string;
+    href: string;
+    icon: string;
+  }[],
 
   recommendedSites: {
     title: "Autres outils",
-    description: "Découvrez nos calculateurs complémentaires, tous gratuits et sans inscription.",
-    links: [
-      { title: "Outil A", description: "Description courte.", href: "https://example.com/a", external: true },
-      { title: "Outil B", description: "Description courte.", href: "https://example.com/b", external: true },
-    ],
+    description: "",
+    links: [] as { title: string; description: string; href: string; external?: boolean }[],
   },
 
   contact: {
-    email: "contact@example.com",
+    email: "contact@ht-vers-ttc.fr",
     companyName: "[Raison sociale]",
     address: "[Adresse complète]",
     intro:
-      "Une question concernant ce simulateur ? Vous pouvez nous contacter grâce au formulaire ci-dessous.",
+      "Une question concernant ce calculateur ? Vous pouvez nous contacter grâce au formulaire ci-dessous.",
     trustNote:
       "Vos informations sont utilisées uniquement pour répondre à votre demande. Aucune utilisation commerciale.",
     infoItems: ["Réponse sous 48 h", "Gratuit", "Aucune donnée revendue"],
     subjects: [
-      "Question sur le simulateur",
+      "Question sur le calculateur",
       "Signaler une erreur",
       "Suggestion d'amélioration",
       "Autre demande",
@@ -127,18 +107,20 @@ export const siteConfig = {
     mentions: {
       lastUpdated: "2026-01-01",
       sections: [
-        { title: "Éditeur du site", content: "[Raison sociale], [adresse]. Contact : contact@example.com." },
+        { title: "Éditeur du site", content: "[Raison sociale], [adresse]. Contact : contact@ht-vers-ttc.fr." },
         { title: "Hébergeur", content: "Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis." },
         { title: "Limitation de responsabilité", content: "Les simulateurs fournissent des estimations indicatives." },
       ],
     },
   },
 
+  /** Menu Guides — voir src/site/guides/navigation.ts */
+  guidesNavigation,
+
   navigation: {
     header: [
-      { label: "Accueil", href: "/" },
+      { label: "Calcul HT → TTC", href: "/" },
       { label: "FAQ", href: "/faq" },
-      { label: "Contact", href: "/contact" },
     ],
     footer: [
       { label: "Mentions légales", href: "/mentions-legales" },

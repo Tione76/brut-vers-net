@@ -2,14 +2,28 @@
  * SEO du site — titres, descriptions, pages supplémentaires.
  */
 export const seoConfig = {
-  titleTemplate: "%s | Simulateur en ligne",
-  defaultDescription: "Simulateur en ligne gratuit. Saisissez vos données, obtenez un résultat immédiat.",
-  keywords: ["simulateur", "calcul", "estimation", "outil en ligne"],
+  titleTemplate: "%s | Calculateur TVA",
+  defaultDescription:
+    "Calculateur gratuit pour convertir un prix HT en TTC (ou l'inverse). Taux de TVA 20 %, 10 %, 5,5 % et 2,1 %. Résultat immédiat, sans inscription.",
+  keywords: [
+    "prix HT",
+    "prix TTC",
+    "calcul TVA",
+    "taux TVA",
+    "convertir HT en TTC",
+    "convertir TTC en HT",
+    "montant TVA",
+    "calculateur TVA",
+    "hors taxes",
+    "toutes taxes comprises",
+  ],
   twitterHandle: undefined as string | undefined,
 
   home: {
-    title: "Simulateur en ligne",
-    description: "Simulateur gratuit et immédiat. Saisissez vos données, obtenez un résultat détaillé.",
+    title: "Calculateur HT vers TTC — Prix TTC et montant de TVA",
+    description:
+      "Calculez instantanément un prix TTC à partir d'un montant hors taxes. Choisissez le taux de TVA (20 %, 10 %, 5,5 % ou 2,1 %) et obtenez le montant de TVA. Calcul inverse TTC vers HT inclus. Gratuit et sans inscription.",
+    ogImage: "/images/og/Calcul-HT-vers-TTC.webp",
   },
 
   legal: {
@@ -17,7 +31,7 @@ export const seoConfig = {
     privacy: { title: "Politique de confidentialité", description: "Informations sur vos données personnelles." },
     cookies: { title: "Politique de cookies", description: "Détail des cookies et gestion de vos préférences." },
     mentions: { title: "Mentions légales", description: "Informations légales sur l'éditeur et l'hébergeur." },
-    faq: { title: "Questions fréquentes", description: "Réponses aux questions les plus posées sur le simulateur." },
+    faq: { title: "Questions fréquentes", description: "Réponses aux questions les plus posées sur le calculateur HT / TTC." },
     sitemap: { title: "Plan du site", description: "Liste de toutes les pages du site." },
     simulators: { title: "Tous les simulateurs", description: "Découvrez l'ensemble de nos outils en ligne." },
     cookiePrefs: { title: "Gestion des cookies", description: "Gérez vos préférences de cookies." },
