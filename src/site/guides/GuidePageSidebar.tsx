@@ -1,39 +1,58 @@
 import { GuideSidebar } from "./GuideRenderer";
 import {
-  getGuidesSidebarLinks,
-  getRelatedGuidesForSlug,
-  SIDEBAR_CALCULATOR,
+  getSidebarGuides,
+  getSidebarTools,
+  type SidebarPageType,
 } from "./sidebar";
 
-/** Sidebar standard — pages guides (outils + à lire aussi) */
+export interface SiteSidebarProps {
+  pageType: SidebarPageType;
+  currentPath: string;
+  currentGuideSlug?: string;
+}
+
+/** Sidebar unique — filtre automatiquement la page courante */
+export function SiteSidebar({ pageType, currentPath, currentGuideSlug }: SiteSidebarProps) {
+  const context = { pageType, currentPath, currentGuideSlug };
+  const tools = getSidebarTools(context);
+  const guides = getSidebarGuides(context);
+  const showTools = tools.length > 0;
+  const guidesSectionTitle = pageType === "home" ? "Nos guides" : "À lire aussi";
+  const guidesBlockVariant = pageType === "home" ? "guides" : "also-read";
+
+  return (
+    <GuideSidebar
+      tools={tools}
+      guides={guides}
+      guidesSectionTitle={guidesSectionTitle}
+      guidesBlockVariant={guidesBlockVariant}
+      showTools={showTools}
+    />
+  );
+}
+
+/** Sidebar standard — pages guides */
 export function GuidePageSidebar({ slug }: { slug: string }) {
   return (
-    <GuideSidebar
-      calculator={SIDEBAR_CALCULATOR}
-      relatedGuides={getRelatedGuidesForSlug(slug)}
-      showTools
+    <SiteSidebar
+      pageType="guide"
+      currentPath={`/guides/${slug}`}
+      currentGuideSlug={slug}
     />
   );
 }
 
-/** Sidebar page FAQ — identique aux guides (outils + à lire aussi) */
+/** Sidebar page FAQ */
 export function FaqPageSidebar() {
-  return (
-    <GuideSidebar
-      calculator={SIDEBAR_CALCULATOR}
-      allGuides={getGuidesSidebarLinks()}
-      showTools
-    />
-  );
+  return <SiteSidebar pageType="faq" currentPath="/faq" />;
 }
 
-/** Sidebar page d'accueil — guides uniquement, sans bloc calculateur */
+/** Sidebar pages calculateurs secondaires */
+export function ToolPageSidebar({ currentPath }: { currentPath: string }) {
+  return <SiteSidebar pageType="calculator" currentPath={currentPath} />;
+}
+
+/** Sidebar page d'accueil — autres outils + guides (sans le calculateur HT → TTC) */
 export function HomePageSidebar() {
-  return (
-    <GuideSidebar
-      allGuides={getGuidesSidebarLinks()}
-      guidesSectionTitle="À lire aussi"
-      showTools={false}
-    />
-  );
+  return <SiteSidebar pageType="home" currentPath="/" />;
 }

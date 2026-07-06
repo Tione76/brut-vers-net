@@ -7,6 +7,9 @@ export interface ExtraPage {
 
 export interface SeoConfigShape {
   extraPages: ExtraPage[];
+  calculators?: {
+    marginHtTtc: { path: string };
+  };
 }
 
 export interface SitemapEntry {
@@ -16,8 +19,17 @@ export interface SitemapEntry {
 }
 
 export function getAllPages(seo: SeoConfigShape): SitemapEntry[] {
+  const calculatorPages: SitemapEntry[] = seo.calculators
+    ? Object.values(seo.calculators).map((calc) => ({
+        path: calc.path,
+        changefreq: "monthly" as const,
+        priority: 0.9,
+      }))
+    : [];
+
   return [
     { path: "/", changefreq: "weekly", priority: 1 },
+    ...calculatorPages,
     { path: "/contact", changefreq: "monthly", priority: 0.5 },
     { path: "/faq", changefreq: "monthly", priority: 0.7 },
     { path: "/simulateurs", changefreq: "monthly", priority: 0.7 },

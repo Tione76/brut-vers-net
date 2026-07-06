@@ -1,0 +1,205 @@
+/* Margin calculator — scoped styles (does not affect HT → TTC calculator) */
+
+.margin-calc-fields {
+  gap: 20px;
+}
+
+.margin-calc-inputs-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 520px) {
+  .margin-calc-inputs-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.margin-vat-fieldset {
+  margin-top: 4px;
+}
+
+.margin-vat-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.margin-vat-btn {
+  height: 36px;
+  padding: 0 14px;
+  font-family: inherit;
+  font-size: var(--ds-font-size-base);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--ds-radius);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--ds-transition),
+    border-color var(--ds-transition),
+    color var(--ds-transition),
+    box-shadow var(--ds-transition);
+}
+
+.margin-vat-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.margin-vat-btn--active {
+  color: var(--ds-brand);
+  background: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.margin-vat-btn--active:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+.margin-vat-custom {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.margin-vat-custom__input {
+  width: 52px;
+  height: 36px;
+  padding: 0 10px;
+  font-family: inherit;
+  font-size: var(--ds-font-size-base);
+  font-weight: 600;
+  color: #1a1a1a;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #b8c9d9;
+  border-radius: var(--ds-radius);
+  transition: border-color var(--ds-transition), box-shadow var(--ds-transition);
+}
+
+.margin-vat-custom__input:focus {
+  outline: none;
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55);
+}
+
+/* Results — two panels side by side on desktop */
+.margin-results-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .margin-results-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .tool-header--margin-page .calc-columns {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+}
+
+.tool-header--margin-page .margin-results-grid {
+  min-height: 0;
+}
+
+.margin-results-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 22px;
+  min-height: 0;
+}
+
+@media (min-width: 900px) {
+  .margin-results-panel {
+    padding: 22px 24px;
+  }
+}
+
+.margin-results-panel__title {
+  margin: 0 0 20px;
+  font-size: calc(var(--ds-font-size-xs) * 1.35);
+  font-weight: 700;
+  color: #5a7085;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.margin-results-panel__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.margin-result-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8eef3;
+}
+
+.margin-result-row:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.margin-result-row__label {
+  font-size: var(--ds-font-size-sm, 0.875rem);
+  font-weight: 500;
+  color: #5a7085;
+  line-height: 1.35;
+  flex-shrink: 0;
+}
+
+.margin-result-row__value {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--ds-brand);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.margin-result-row--highlight .margin-result-row__value {
+  font-size: 1.625rem;
+}
+
+@media (min-width: 900px) {
+  .margin-result-row__value {
+    font-size: 1.5rem;
+  }
+
+  .margin-result-row--highlight .margin-result-row__value {
+    font-size: 1.75rem;
+  }
+}
+
+/* Compact margin page header */
+.tool-header--margin-page {
+  min-height: clamp(460px, 52vh, 560px);
+}
+
+.tool-header--margin-page .calc-tool {
+  min-height: 0;
+}
+
+.tool-header--margin-page .calc-col--results.margin-calc-results {
+  gap: 0;
+}
+
+.tool-header--margin-page .calc-fields {
+  gap: 18px;
+}

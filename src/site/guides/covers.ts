@@ -27,6 +27,15 @@ export const HOME_COVER: GuideCoverImage = {
   height: OG_IMAGE_HEIGHT,
 };
 
+/** Image de couverture — calculateur de marge (fallback : image principale jusqu'à image dédiée) */
+export const MARGIN_CALCULATOR_COVER: GuideCoverImage = {
+  src: HOME_COVER.src,
+  alt: "Calculateur de marge HT / TTC — prix de vente, marge, taux de marque et TVA",
+  title: "Calculateur de marge HT / TTC",
+  width: OG_IMAGE_WIDTH,
+  height: OG_IMAGE_HEIGHT,
+};
+
 /** Couvertures par slug de guide — une seule source pour OG, sidebar et futures listes */
 export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
   "quels-sont-les-taux-de-tva-en-france": {

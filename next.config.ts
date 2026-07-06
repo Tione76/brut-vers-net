@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["@/framework"],
   },
+  // Évite les erreurs "Cannot find module './331.js'" sur Windows en dev
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.cache = false;
+    }
+    return config;
+  },
   headers: async () => [
     {
       source: "/(.*)",

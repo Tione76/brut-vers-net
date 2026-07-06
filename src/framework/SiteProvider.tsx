@@ -68,7 +68,7 @@ const CalculatorContext = createContext<CalculatorContextValue | null>(null);
 
 export function useCalculatorSlot(): CalculatorContextValue {
   const ctx = useContext(CalculatorContext);
-  if (!ctx) throw new Error("useCalculatorSlot must be used within CalculatorPageLayout");
+  if (!ctx) throw new Error("useCalculatorSlot must be used within CalculatorProvider");
   return ctx;
 }
 

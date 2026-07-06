@@ -38,17 +38,29 @@ export {
   getGuideCoverByHref,
   GUIDE_COVERS,
   HOME_COVER,
+  MARGIN_CALCULATOR_COVER,
   resolveGuideCover,
 } from "./covers";
 export type { GuideCoverImage } from "./covers";
 export { GuideArticle, GuideInlineToc, GuideSidebar } from "./GuideRenderer";
-export { GuidePageSidebar, HomePageSidebar, FaqPageSidebar } from "./GuidePageSidebar";
 export {
+  SiteSidebar,
+  GuidePageSidebar,
+  HomePageSidebar,
+  FaqPageSidebar,
+  ToolPageSidebar,
+} from "./GuidePageSidebar";
+export {
+  getAllSidebarTools,
+  getSidebarGuides,
+  getSidebarTools,
   getGuidesSidebarLinks,
   getRelatedGuidesForSlug,
   SIDEBAR_CALCULATOR,
+  SIDEBAR_LIMITS,
+  SIDEBAR_TOOLS,
 } from "./sidebar";
-export type { GuideSidebarLink } from "./sidebar";
+export type { GuideSidebarLink, SidebarContext, SidebarPageType, SidebarTool } from "./sidebar";
 export { GuideCoverImage as GuideCoverImageComponent } from "./GuideCoverImage";
 export { GuideListCard } from "./GuideListCard";
 export { GuidePageLayout } from "./GuidePageLayout";

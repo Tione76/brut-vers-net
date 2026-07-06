@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { getGuideCoverByHref, HOME_COVER } from "./covers";
+import { getGuideCoverByHref } from "./covers";
 import { GuideCoverImage } from "./GuideCoverImage";
+import type { GuideSidebarLink, SidebarTool } from "./sidebar";
 import type { GuideBlock, GuideTocEntry } from "./types";
 import { GUIDE_CALLOUT_LABELS } from "./types";
 import { GuideIllustration } from "./illustrations";
@@ -196,11 +197,6 @@ export function GuideInlineToc({ entries }: { entries: GuideTocEntry[] }) {
   );
 }
 
-interface GuideSidebarLink {
-  title: string;
-  href: string;
-}
-
 function GuideSidebarGuideCards({ guides }: { guides: GuideSidebarLink[] }) {
   return (
     <div className="guide-sidebar-cards">
@@ -246,52 +242,60 @@ function GuideSidebarGuidesSection({
   );
 }
 
+function GuideSidebarToolCard({ tool }: { tool: SidebarTool }) {
+  return (
+    <Link href={tool.href} className="guide-sidebar-card guide-sidebar-card--calculator">
+      <span className="guide-sidebar-card__cover">
+        <GuideCoverImage cover={tool.cover} className="guide-sidebar-card__cover-img" />
+      </span>
+      <span className="guide-sidebar-card__body">
+        <span className="guide-sidebar-card__calc-icon" aria-hidden="true">
+          {tool.icon ?? "€"}
+        </span>
+        <span className="guide-sidebar-card__title">{tool.title}</span>
+        <span className="guide-sidebar-card__subtitle">{tool.description}</span>
+        <span className="guide-sidebar-card__badge">{tool.badge ?? "✓ Outil gratuit"}</span>
+      </span>
+    </Link>
+  );
+}
+
 interface GuideSidebarProps {
-  calculator?: { title: string; description: string; href: string };
-  relatedGuides?: GuideSidebarLink[];
-  allGuides?: GuideSidebarLink[];
+  tools?: SidebarTool[];
+  guides?: GuideSidebarLink[];
   guidesSectionTitle?: string;
+  guidesBlockVariant?: "guides" | "also-read";
   showTools?: boolean;
 }
 
 export function GuideSidebar({
-  calculator,
-  relatedGuides,
-  allGuides,
+  tools = [],
+  guides = [],
   guidesSectionTitle = "À lire aussi",
+  guidesBlockVariant = "also-read",
   showTools = true,
 }: GuideSidebarProps) {
-  const guideLinks = allGuides ?? relatedGuides ?? [];
-  const guidesBlockClass = allGuides
-    ? "guide-sidebar-block--guides"
-    : "guide-sidebar-block--also-read";
+  const guidesBlockClass =
+    guidesBlockVariant === "guides"
+      ? "guide-sidebar-block--guides"
+      : "guide-sidebar-block--also-read";
 
   return (
     <>
-      {showTools && calculator && (
+      {showTools && tools.length > 0 && (
         <div className="guide-sidebar-block guide-sidebar-block--calculator guide-sidebar-block--tools">
           <p className="guide-sidebar-block__title">Nos outils gratuits</p>
-          <Link href={calculator.href} className="guide-sidebar-card guide-sidebar-card--calculator">
-            <span className="guide-sidebar-card__cover">
-              <GuideCoverImage cover={HOME_COVER} className="guide-sidebar-card__cover-img" />
-            </span>
-            <span className="guide-sidebar-card__body">
-              <span className="guide-sidebar-card__calc-icon" aria-hidden="true">
-                €
-              </span>
-              <span className="guide-sidebar-card__title">Calculateur HT → TTC</span>
-              <span className="guide-sidebar-card__subtitle">
-                Calculez instantanément un prix HT, TTC et le montant de TVA.
-              </span>
-              <span className="guide-sidebar-card__badge">✓ Outil gratuit</span>
-            </span>
-          </Link>
+          <div className="guide-sidebar-tools-list">
+            {tools.map((tool) => (
+              <GuideSidebarToolCard key={tool.id} tool={tool} />
+            ))}
+          </div>
         </div>
       )}
 
       <GuideSidebarGuidesSection
         title={guidesSectionTitle}
-        guides={guideLinks}
+        guides={guides}
         blockClassName={guidesBlockClass}
       />
     </>

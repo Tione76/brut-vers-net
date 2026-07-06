@@ -26,6 +26,16 @@ export const seoConfig = {
     ogImage: "/images/og/Calcul-HT-vers-TTC.webp",
   },
 
+  calculators: {
+    marginHtTtc: {
+      path: "/calculateurs/calculateur-marge-ht-ttc",
+      title: "Calculateur de marge HT / TTC gratuit",
+      description:
+        "Calculez votre prix de vente HT, votre marge, votre taux de marque, votre TVA et votre prix TTC à partir d'un prix d'achat.",
+      h1: "Calculateur de marge HT / TTC",
+    },
+  },
+
   legal: {
     contact: { title: "Contact", description: "Contactez l'équipe éditoriale." },
     privacy: { title: "Politique de confidentialité", description: "Informations sur vos données personnelles." },

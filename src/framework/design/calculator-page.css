@@ -36,6 +36,17 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+.tool-header__title--sentence {
+  text-transform: none;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.375rem, 1rem + 2.2vw, 2.5rem);
+  font-weight: 700;
+}
+
+.tool-header--tool-page {
+  min-height: clamp(680px, 72vh, 820px);
+}
+
 @media (min-width: 640px) {
   .tool-header__inner {
     padding: 0 32px 16px;
@@ -209,14 +220,26 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 .result-primary {
   background: #ffffff;
   border: 2px solid #ffffff;
   border-radius: var(--ds-radius);
-  padding: 32px 40px;
+  padding: 24px 28px;
   flex-shrink: 0;
+}
+
+@media (min-width: 900px) {
+  .result-primary {
+    padding: 32px 40px;
+  }
+
+  .tool-header--tool-page .result-primary {
+    padding: 20px 24px;
+  }
 }
 
 .result-primary-label {
@@ -235,6 +258,16 @@
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
   line-height: 1;
+}
+
+.result-primary-value--compact {
+  font-size: 2.25rem;
+}
+
+@media (min-width: 900px) {
+  .result-primary-value--compact {
+    font-size: 2.5rem;
+  }
 }
 
 @media (min-width: 900px) {
