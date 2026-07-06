@@ -13,6 +13,7 @@ export function buildWebApplicationSchema(
   site: JsonLdSiteInput,
   title: string,
   description: string,
+  options?: { dateModified?: string },
 ) {
   return {
     "@context": "https://schema.org",
@@ -24,6 +25,7 @@ export function buildWebApplicationSchema(
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
     inLanguage: site.language,
+    ...(options?.dateModified && { dateModified: options.dateModified }),
   };
 }
 

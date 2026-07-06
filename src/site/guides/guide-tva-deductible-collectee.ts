@@ -7,7 +7,7 @@ export const guideTvaDeductibleCollectee: Guide = {
     "Guide complet sur la TVA collectée et la TVA déductible : définitions, formule de calcul, déclaration CA3, prorata, crédit de TVA et exemples concrets.",
   subtitle:
     "Collectée sur vos ventes, déductible sur vos achats : maîtrisez la mécanique de la TVA, calculez ce que vous devez et évitez les erreurs courantes.",
-  updatedAt: "2026-07-04",
+  updatedAt: "2026-07-06",
   publishedAt: "2026-07-04",
   keywords: [
     "TVA déductible",
@@ -24,7 +24,7 @@ export const guideTvaDeductibleCollectee: Guide = {
 
   introduction: [
     "La TVA collectée est la taxe que vous facturez à vos clients ; la TVA déductible est celle que vous récupérez sur vos achats professionnels.",
-    "Ce guide explique la mécanique complète — de la facturation à la déclaration CA3 — avec formules, exemples chiffrés et références aux articles 271, 272 et 287 du CGI.",
+    "Ce guide explique la mécanique complète — de la facturation à la déclaration CA3 — avec formules, exemples chiffrés et références aux articles 271 et 287 du CGI.",
   ],
 
   sections: [
@@ -36,7 +36,7 @@ export const guideTvaDeductibleCollectee: Guide = {
           type: "callout",
           variant: "retain",
           paragraphs: [
-            "La TVA collectée correspond à la taxe que vous additionnez sur vos factures de vente. La TVA déductible est celle que vous payez à vos fournisseurs et que vous pouvez imputer sur votre déclaration, sous conditions (art. 271 et 272 du CGI).",
+            "La TVA collectée correspond à la taxe que vous additionnez sur vos factures de vente. La TVA déductible est celle que vous payez à vos fournisseurs et que vous pouvez imputer sur votre déclaration, sous conditions. Le droit à déduction repose principalement sur l'article 271 du CGI, avec des règles particulières selon les opérations et les régularisations.",
             "La TVA due que vous reversez à l'État se calcule ainsi : TVA due = TVA collectée − TVA déductible. Si le résultat est négatif, vous disposez d'un crédit de TVA reportable ou remboursable.",
             "Vous déclarez ces montants périodiquement sur la déclaration de TVA CA3 (art. 287 du CGI), mensuellement ou trimestriellement selon votre régime.",
           ],
@@ -199,15 +199,24 @@ export const guideTvaDeductibleCollectee: Guide = {
         },
         {
           type: "paragraph",
-          text: "Les articles 271 et 272 du CGI encadrent le droit à déduction. La TVA est déductible dès lors qu'elle figure sur une facture conforme et que la dépense est engagée pour les besoins de l'activité taxable.",
+          text: "Le droit à déduction repose principalement sur l'article 271 du CGI, avec des règles particulières selon les opérations et les régularisations. La TVA est déductible dès lors qu'elle figure sur une facture conforme, qu'elle a été légalement facturée et que la dépense est engagée pour les besoins de l'activité taxable.",
+        },
+        {
+          type: "checklist",
+          title: "À vérifier avant de déduire la TVA",
+          items: [
+            "Facture conforme (mentions légales, dont le montant de TVA ventilé).",
+            "TVA légalement facturée par le fournisseur.",
+            "Dépense engagée pour les besoins de l'activité professionnelle.",
+            "Opération ouvrant droit à déduction.",
+            "Absence d'exclusion ou de limitation spécifique (repas, cadeaux, véhicule de tourisme…).",
+          ],
         },
         {
           type: "list",
           items: [
-            "Art. 271 du CGI : la TVA afférente aux biens et services utilisés pour les besoins de l'entreprise est déductible de la TVA collectée.",
-            "Art. 272 du CGI : la déduction s'applique aux acquisitions intracommunautaires et aux importations dans les conditions prévues.",
-            "Facture conforme obligatoire : mentions légales, dont le montant de TVA ventilé.",
-            "Lien direct avec l'activité taxable : la dépense doit servir à des opérations soumises à la TVA.",
+            "Art. 271 du CGI : droit à déduction sur les biens et services utilisés pour les besoins de l'entreprise, sous réserve des exclusions et limitations.",
+            "Importations et acquisitions intracommunautaires : déclaration et identification des parties requises ; la déduction s'apprécie selon les règles applicables à chaque opération.",
           ],
         },
         {
@@ -217,9 +226,9 @@ export const guideTvaDeductibleCollectee: Guide = {
           rows: [
             ["Fournitures de bureau", "Oui", "Usage professionnel exclusif"],
             ["Loyer de locaux professionnels", "Oui", "Facture au nom de l'entreprise"],
-            ["Carburant véhicule tourisme", "Partielle (80 %)", "Art. 206, annexe II — véhicule de tourisme"],
-            ["Repas d'affaires", "Non", "Exclusion — art. 271, I du CGI"],
-            ["Cadeaux clients > 73 € TTC", "Non", "Exclusion pour les cadeaux de valeur"],
+            ["Carburant véhicule tourisme", "Partielle ou totale selon le cas", "Déduction partielle ou totale selon le carburant et le véhicule — ex. courant : 80 % pour certains carburants avec un véhicule de tourisme (art. 206, annexe II)"],
+            ["Repas d'affaires", "À vérifier", "Selon la nature du repas, le justificatif, les participants et l'intérêt professionnel — certaines dépenses de réception, logement ou représentation sont exclues ou limitées"],
+            ["Cadeaux clients", "À vérifier", "Seuil de 73 € TTC par bénéficiaire et par an — à apprécier au moment de l'opération (art. 271, I du CGI)"],
             ["Immobilisation (matériel informatique)", "Oui", "Immobilisation au bilan, déduction immédiate"],
           ],
         },
@@ -257,18 +266,18 @@ export const guideTvaDeductibleCollectee: Guide = {
         },
         {
           id: "deduction-importations-intracom",
-          title: "Et pour les importations et achats intracommunautaires (art. 272) ?",
+          title: "Et pour les importations et achats intracommunautaires ?",
           blocks: [
             {
               type: "paragraph",
-              text: "L'article 272 du CGI étend le droit à déduction à la TVA afférente aux importations et aux acquisitions intracommunautaires, dès lors que les formalités déclaratives sont respectées.",
+              text: "Les importations et acquisitions intracommunautaires obéissent à des formalités déclaratives spécifiques. Le droit à déduction s'apprécie au titre de l'article 271 du CGI, une fois l'opération correctement déclarée.",
             },
             {
               type: "list",
               items: [
                 "Importation : TVA payée en douane ou autoliquidée, déductible si l'importation sert l'activité taxable.",
                 "Acquisition intracommunautaire : autoliquidation en case 17 de la CA3, déduction simultanée en case 19 si conditions remplies.",
-                "Numéro de TVA intracommunautaire valide du fournisseur requis.",
+                "Les acquisitions intracommunautaires supposent généralement l'identification TVA des parties et une déclaration correcte de l'opération.",
               ],
             },
           ],
@@ -290,6 +299,12 @@ export const guideTvaDeductibleCollectee: Guide = {
           paragraphs: [
             "TVA due = TVA collectée − TVA déductible. Si TVA déductible > TVA collectée, le solde est un crédit de TVA.",
           ],
+        },
+        {
+          type: "illustration",
+          id: "vat-enterprise-journey",
+          caption:
+            "Ce schéma résume le fonctionnement de la TVA dans une entreprise, depuis les achats jusqu'au calcul de la TVA nette à reverser ou du crédit de TVA.",
         },
         {
           type: "steps",
@@ -378,7 +393,7 @@ export const guideTvaDeductibleCollectee: Guide = {
           items: [
             "Fréquence mensuelle pour la majorité des entreprises au régime réel normal.",
             "Fréquence trimestrielle possible sous conditions de chiffre d'affaires (art. 287, I bis du CGI).",
-            "Échéance : entre le 15 et le 24 du mois suivant la période, selon le lieu d'imposition.",
+            "Échéance : elle dépend de la situation de l'entreprise et de son régime ; elle intervient généralement dans la seconde moitié du mois suivant la période déclarée.",
             "Télédéclaration obligatoire via impots.gouv.fr ou un EDI partenaire.",
           ],
         },
@@ -393,6 +408,13 @@ export const guideTvaDeductibleCollectee: Guide = {
             ["25", "TVA due avant déductions diverses", "2 850 €"],
             ["32", "TVA nette due", "2 850 €"],
             ["27", "Crédit de TVA (si solde négatif)", "0 €"],
+          ],
+        },
+        {
+          type: "callout",
+          variant: "verify",
+          paragraphs: [
+            "Les numéros de cases peuvent évoluer selon la version du formulaire. Vérifiez toujours la déclaration en vigueur sur impots.gouv.fr.",
           ],
         },
         {
@@ -423,7 +445,7 @@ export const guideTvaDeductibleCollectee: Guide = {
               items: [
                 "Acomptes en juillet et décembre : estimation basée sur la TVA de l'année précédente.",
                 "CA12 en mai : régularisation annuelle avec ventilation détaillée.",
-                "Même droit à déduction (art. 271-272) et même logique de solde.",
+                "Même droit à déduction (art. 271 du CGI) et même logique de solde.",
               ],
             },
           ],
@@ -437,7 +459,7 @@ export const guideTvaDeductibleCollectee: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "Le prorata s'applique lorsque votre entreprise réalise à la fois des opérations taxables et des opérations exonérées (activité mixte). Vous ne pouvez alors déduire qu'une fraction de la TVA sur vos achats communs.",
+          text: "Le terme « prorata » est une simplification pédagogique. Techniquement, le droit à déduction peut dépendre d'un coefficient de déduction, qui combine notamment le coefficient d'assujettissement, le coefficient de taxation et le coefficient d'admission. Il s'applique lorsque votre entreprise réalise à la fois des opérations taxables et des opérations exonérées (activité mixte) : vous ne pouvez alors déduire qu'une fraction de la TVA sur vos achats communs.",
         },
         {
           type: "callout",
@@ -473,13 +495,13 @@ export const guideTvaDeductibleCollectee: Guide = {
           blocks: [
             {
               type: "paragraph",
-              text: "Oui. Pour certains biens (immobilisations, véhicules), un prorata spécial peut s'appliquer en complément du prorata général, notamment en cas d'utilisation partiellement non professionnelle.",
+              text: "Au-delà du coefficient de déduction global, des coefficients spécifiques et des régularisations annuelles peuvent s'appliquer à certains biens (immobilisations, véhicules) ou en cas d'utilisation partiellement non professionnelle. Les modalités dépendent de la nature du bien et des règles de l'annexe II au CGI.",
             },
             {
               type: "callout",
               variant: "warning",
               paragraphs: [
-                "Le prorata se calcule une fois par an (exercice civil ou décalé) et s'applique à l'année suivante. Une régularisation annuelle corrige les écarts.",
+                "Le coefficient de déduction se calcule une fois par an (exercice civil ou décalé) et s'applique à l'année suivante. Une régularisation annuelle corrige les écarts constatés.",
               ],
             },
           ],
@@ -537,7 +559,7 @@ export const guideTvaDeductibleCollectee: Guide = {
           blocks: [
             {
               type: "table",
-              caption: "Chantier rénovation — TVA collectée à 10 %",
+              caption: "Chantier rénovation — TVA collectée à 10 %, sous réserve des conditions applicables aux travaux à taux réduit (notamment attestation client lorsque requise).",
               headers: ["Poste", "TVA collectée", "TVA déductible"],
               rows: [
                 ["Facture client travaux", "540 € (sur 5 400 € HT)", "—"],
@@ -550,7 +572,7 @@ export const guideTvaDeductibleCollectee: Guide = {
               type: "callout",
               variant: "tip",
               paragraphs: [
-                "Ventilez distinctement la TVA à 10 % (travaux) et à 20 % (fournitures séparées) sur vos factures et votre CA3.",
+                "Ventilez distinctement la TVA à 10 % (travaux) et à 20 % (fournitures séparées) sur vos factures et votre CA3. Sous réserve des conditions applicables aux travaux à taux réduit, notamment l'attestation client lorsque requise.",
               ],
             },
           ],
@@ -587,7 +609,7 @@ export const guideTvaDeductibleCollectee: Guide = {
           type: "list",
           items: [
             "Confondre montant HT et TTC lors du calcul de la TVA collectée ou déductible.",
-            "Déduire la TVA sur des dépenses exclues (repas, cadeaux, carburant véhicule tourisme sans application du coefficient).",
+            "Déduire la TVA sur des dépenses exclues ou limitées (repas, cadeaux, carburant de véhicule de tourisme sans vérifier les coefficients applicables).",
             "Oublier de ventiler la TVA par taux sur la CA3 (20 %, 10 %, 5,5 %).",
             "Déduire la TVA sans facture conforme ou sur une facture au nom personnel.",
             "Ne pas appliquer le prorata en activité mixte taxable / exonérée.",
@@ -632,7 +654,7 @@ export const guideTvaDeductibleCollectee: Guide = {
     {
       question: "Quelle est la différence entre TVA collectée et TVA déductible ?",
       answer:
-        "La TVA collectée est celle que vous facturez à vos clients sur vos ventes. La TVA déductible est celle que vous payez à vos fournisseurs et que vous récupérez sur votre déclaration, sous conditions (art. 271 et 272 du CGI).",
+        "La TVA collectée est celle que vous facturez à vos clients sur vos ventes. La TVA déductible est celle que vous payez à vos fournisseurs et que vous pouvez imputer sur votre déclaration, sous conditions. Le droit à déduction repose principalement sur l'article 271 du CGI, avec des règles particulières selon les opérations et les régularisations.",
     },
     {
       question: "Comment calculer la TVA due à payer ?",
@@ -647,22 +669,22 @@ export const guideTvaDeductibleCollectee: Guide = {
     {
       question: "Quelles conditions pour déduire la TVA sur un achat ?",
       answer:
-        "L'article 271 du CGI exige : être assujetti à la TVA, disposer d'une facture conforme, que la dépense serve l'activité taxable et que la TVA ait été effectivement payée ou due au fournisseur.",
+        "Le droit à déduction repose principalement sur l'article 271 du CGI : être assujetti à la TVA, disposer d'une facture conforme, TVA légalement facturée, dépense engagée pour l'activité, opération ouvrant droit à déduction, absence d'exclusion ou de limitation spécifique.",
     },
     {
       question: "Peut-on déduire la TVA sur tous les achats professionnels ?",
       answer:
-        "Non. Certaines dépenses sont exclues : repas, hébergement, carburant de véhicule de tourisme (sauf coefficient de 80 %), cadeaux au-delà de 73 € TTC, etc. (art. 271 du CGI).",
+        "Non. Certaines dépenses sont exclues ou limitées : repas d'affaires (selon nature, justificatif, participants et intérêt professionnel), réception, logement, représentation, carburant de véhicule de tourisme (déduction partielle ou totale selon le cas — ex. courant : 80 % pour certains carburants), cadeaux au-delà de 73 € TTC par bénéficiaire et par an, etc.",
     },
     {
       question: "Qu'est-ce qu'un crédit de TVA ?",
       answer:
-        "C'est un solde positif obtenu lorsque la TVA déductible dépasse la TVA collectée sur une période. Il est reporté sur la déclaration suivante (case 27) ou remboursable si le montant dépasse 760 € (150 € en décembre pour les mensuels).",
+        "C'est un solde obtenu lorsque la TVA déductible dépasse la TVA collectée sur une période. Il est reporté sur la déclaration suivante (case 27 de la CA3) ou peut faire l'objet d'une demande de remboursement si les seuils applicables sont atteints (vérifiez les montants en vigueur sur impots.gouv.fr).",
     },
     {
       question: "Qu'est-ce que le prorata de déduction ?",
       answer:
-        "Coefficient appliqué quand l'entreprise réalise des opérations taxables et exonérées. Il limite la TVA déductible sur les achats communs au prorata du chiffre d'affaires taxable.",
+        "Le terme « prorata » est une simplification pédagogique : techniquement, le droit à déduction peut dépendre d'un coefficient de déduction (assujettissement, taxation, admission). Il limite la TVA déductible sur les achats communs lorsque l'entreprise réalise des opérations taxables et exonérées.",
     },
     {
       question: "Un auto-entrepreneur en franchise déduit-il la TVA ?",
@@ -680,9 +702,14 @@ export const guideTvaDeductibleCollectee: Guide = {
         "L'administration fiscale peut procéder à un redressement avec majorations (10 % en cas de manquement délibéré) et intérêts de retard. Il est essentiel de rapprocher factures émises et case 08 de la CA3.",
     },
     {
-      question: "Peut-on récupérer la TVA sur une facture d'achat sans numéro de TVA ?",
+      question: "Comment déduire la TVA sur une acquisition intracommunautaire ?",
       answer:
-        "Pour les achats auprès d'un assujetti français, la facture doit comporter le numéro de TVA intracommunautaire du vendeur. Sans facture conforme, le droit à déduction est refusé.",
+        "Les acquisitions intracommunautaires supposent généralement l'identification TVA des parties et une déclaration correcte de l'opération (autoliquidation en case 17, déduction en case 19 si conditions remplies). Le droit à déduction s'apprécie au titre de l'article 271 du CGI.",
+    },
+    {
+      question: "Peut-on récupérer la TVA sur une facture d'achat non conforme ?",
+      answer:
+        "Sans facture conforme, le droit à déduction est en principe refusé. Pour un achat auprès d'un assujetti français, la facture doit notamment comporter les mentions légales requises, dont l'identification du vendeur.",
     },
     {
       question: "Comment ventiler la TVA collectée à plusieurs taux sur la CA3 ?",
@@ -694,10 +721,10 @@ export const guideTvaDeductibleCollectee: Guide = {
   conclusion: {
     title: "Conclusion",
     keyPoints: [
-      "La TVA collectée provient de vos ventes ; la TVA déductible, de vos achats professionnels éligibles (art. 271-272 du CGI).",
+      "La TVA collectée provient de vos ventes ; la TVA déductible, de vos achats professionnels éligibles (art. 271 du CGI, sous réserve des exclusions et limitations).",
       "TVA due = TVA collectée − TVA déductible. Un solde négatif forme un crédit de TVA.",
-      "Déclarez vos montants sur la CA3 (art. 287 du CGI), en respectant la ventilation par taux.",
-      "Appliquez le prorata en activité mixte et conservez toutes vos factures justificatives.",
+      "Déclarez vos montants sur la CA3 (art. 287 du CGI), en respectant la ventilation par taux — vérifiez les numéros de cases sur impots.gouv.fr.",
+      "En activité mixte, appliquez le coefficient de déduction et conservez toutes vos factures justificatives.",
     ],
     closingText:
       "Avant de remplir votre prochaine déclaration, vérifiez vos montants HT et TTC sur chaque facture.",

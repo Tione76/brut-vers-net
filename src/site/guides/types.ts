@@ -96,7 +96,8 @@ export type GuideIllustrationId =
   | "ae-invoice-comparison"
   | "vat-flow-diagram"
   | "vat-net-balance"
-  | "vat-declaration-cycle";
+  | "vat-declaration-cycle"
+  | "vat-enterprise-journey";
 
 export interface GuideIllustration {
   type: "illustration";

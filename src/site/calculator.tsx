@@ -33,6 +33,11 @@ function formatRate(rate: string): string {
   return rate.replace(".", ",");
 }
 
+/** Arrondi arithmétique au centime d'euro */
+function roundCent(value: number): number {
+  return Math.round(value * 100) / 100;
+}
+
 function ResultCard({
   label,
   value,
@@ -76,7 +81,7 @@ function buildResults(
     return (
       <>
         <ResultCard
-          label="Prix TTC"
+          label={direction === "ht-to-ttc" ? "Prix TTC" : "Prix HT"}
           value={ZERO_EUR}
           details={
             direction === "ht-to-ttc"
@@ -116,8 +121,8 @@ function buildResults(
 
   if (direction === "ht-to-ttc") {
     ht = parsed;
-    tva = ht * (rate / 100);
-    ttc = ht + tva;
+    tva = roundCent(ht * (rate / 100));
+    ttc = roundCent(ht + tva);
 
     const muted = ttc === 0;
 
@@ -140,8 +145,8 @@ function buildResults(
   }
 
   ttc = parsed;
-  ht = ttc / (1 + rate / 100);
-  tva = ttc - ht;
+  ht = roundCent(ttc / (1 + rate / 100));
+  tva = roundCent(ttc - ht);
 
   const muted = ht === 0;
 

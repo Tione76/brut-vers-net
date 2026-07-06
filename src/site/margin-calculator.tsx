@@ -40,6 +40,11 @@ function formatMultiplier(value: number): string {
   return value.toFixed(2).replace(".", ",");
 }
 
+/** Arrondi arithmétique au centime d'euro */
+function roundCent(value: number): number {
+  return Math.round(value * 100) / 100;
+}
+
 function resolveVatRate(vatRate: string, customVatRaw: string): number {
   if (vatRate === "custom") {
     const custom = parseAmount(customVatRaw);
@@ -110,13 +115,13 @@ function buildResults(purchasePriceRaw: string, marginPercentRaw: string, vatRat
 
   if (!muted && purchaseParsed !== null && marginParsed !== null) {
     purchase = purchaseParsed;
-    sellingPriceHt = purchase * (1 + marginParsed / 100);
-    marginAmount = sellingPriceHt - purchase;
-    marginRate = purchase > 0 ? (marginAmount / purchase) * 100 : 0;
-    markupRate = sellingPriceHt > 0 ? (marginAmount / sellingPriceHt) * 100 : 0;
-    multiplier = purchase > 0 ? sellingPriceHt / purchase : 0;
-    vatAmount = sellingPriceHt * (rate / 100);
-    sellingPriceTtc = sellingPriceHt + vatAmount;
+    sellingPriceHt = roundCent(purchase * (1 + marginParsed / 100));
+    marginAmount = roundCent(sellingPriceHt - purchase);
+    marginRate = purchase > 0 ? roundCent((marginAmount / purchase) * 100) : 0;
+    markupRate = sellingPriceHt > 0 ? roundCent((marginAmount / sellingPriceHt) * 100) : 0;
+    multiplier = purchase > 0 ? roundCent(sellingPriceHt / purchase) : 0;
+    vatAmount = roundCent(sellingPriceHt * (rate / 100));
+    sellingPriceTtc = roundCent(sellingPriceHt + vatAmount);
   }
 
   return (
@@ -157,7 +162,7 @@ function buildResults(purchasePriceRaw: string, marginPercentRaw: string, vatRat
           muted={muted}
         />
         <ResultRow
-          label="Coefficient multiplicateur"
+          label="Coefficient multiplicateur HT"
           value={muted ? ZERO_COEF : formatMultiplier(multiplier)}
           muted={muted}
         />
@@ -198,7 +203,7 @@ export default function MarginCalculator() {
 
         <div>
           <label htmlFor="marginPercent" className="calc-field-label">
-            Marge souhaitée (%)
+            Taux de marge (%)
           </label>
           <input
             id="marginPercent"
@@ -209,7 +214,11 @@ export default function MarginCalculator() {
             value={marginPercent}
             onChange={(e) => setMarginPercent(e.target.value)}
             className="calc-input"
+            aria-describedby="marginPercentHint"
           />
+          <p className="margin-field-hint" id="marginPercentHint">
+            Appliqué sur le prix d&apos;achat HT — distinct du taux de marque.
+          </p>
         </div>
       </div>
 

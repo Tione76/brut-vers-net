@@ -58,7 +58,7 @@ export const guideFranchiseTva: Guide = {
     "Guide de référence 2026 sur la franchise en base de TVA : art. 293 B du CGI, seuils 85 000 € et 37 500 €, mention sur facture, dépassement, option volontaire et cas pratiques.",
   subtitle:
     "Définition, seuils officiels, obligations de facturation, sortie de franchise, avantages et inconvénients, cas pratiques par métier et 35 réponses aux questions les plus fréquentes.",
-  updatedAt: "2026-07-05",
+  updatedAt: "2026-07-06",
   publishedAt: "2026-07-04",
   keywords: [
     "franchise en base TVA",
@@ -187,6 +187,17 @@ export const guideFranchiseTva: Guide = {
             "Les deux catégories principales : prestations de services (37 500 € / 41 250 €) et ventes-hébergement (85 000 € / 93 500 €).",
         },
         {
+          type: "paragraph",
+          text: "En cas d'activité mixte (ventes et prestations de services), chaque catégorie de recettes est comparée à son propre seuil. Le seuil ventes (85 000 € / 93 500 €) ne permet pas de faire entrer les prestations de services : celles-ci restent soumises au seuil services (37 500 € / 41 250 €). Un dépassement sur l'une des catégories peut entraîner l'assujettissement de l'ensemble de l'entreprise (art. 293 B du CGI).",
+        },
+        {
+          type: "callout",
+          variant: "example",
+          paragraphs: [
+            "Exemple : un artisan réalise 60 000 € HT de ventes de meubles et 35 000 € HT de prestations de pose. Les deux catégories restent sous leurs seuils respectifs — franchise en principe. Si les prestations atteignent 42 000 € HT, le seuil majoré services est dépassé : assujettissement en principe, pour l'ensemble de l'activité.",
+          ],
+        },
+        {
           type: "callout",
           variant: "warning",
           paragraphs: [
@@ -274,7 +285,7 @@ export const guideFranchiseTva: Guide = {
             "Moins de formalités : pas de déclaration de TVA (CA3, CA12).",
             "Prix plus lisibles pour les particuliers : montant unique, sans taxe ajoutée.",
             "Gestion simplifiée : pas de calcul ni de reversement de TVA.",
-            "Pas de numéro de TVA intracommunautaire obligatoire.",
+            "Pas de numéro de TVA intracommunautaire obligatoire sur une facture française classique.",
             "Comptabilité allégée pour les micro-entrepreneurs (livre des recettes).",
           ],
         },
@@ -300,7 +311,7 @@ export const guideFranchiseTva: Guide = {
           type: "checklist",
           title: "Inconvénients à anticiper",
           items: [
-            "TVA non récupérable : la taxe sur vos achats reste une charge intégrale.",
+            "TVA non récupérable tant que vous êtes en franchise : la taxe sur vos achats reste une charge intégrale.",
             "Croissance : dépassement des seuils = bascule obligatoire vers la TVA.",
             "Clients professionnels : ils ne peuvent pas déduire de TVA sur vos factures.",
             "Investissements lourds : matériel, véhicule, local — la TVA payée n'est pas récupérable.",
@@ -340,7 +351,7 @@ export const guideFranchiseTva: Guide = {
             ["Montant", "Prix net — pas de ligne TVA", "Obligatoire"],
             ["SIRET / identité vendeur", "Nom, adresse, SIRET", "Obligatoire"],
             ["Client B2B", "Nom, adresse du client", "Obligatoire"],
-            ["N° TVA intracommunautaire", "Non requis en franchise", "Non"],
+            ["N° TVA intracommunautaire", "Non requis pour une facture française classique ; règles spécifiques possibles en intracommunautaire", "Non"],
           ],
         },
         {
@@ -361,11 +372,11 @@ export const guideFranchiseTva: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "La réponse est claire et sans exception : aucun achat ne permet de récupérer la TVA tant que vous êtes en franchise en base de TVA.",
+          text: "Tant que vous êtes en franchise en base de TVA, vous ne pouvez pas déduire la TVA sur vos achats professionnels. La taxe payée à vos fournisseurs constitue une charge intégrée au coût d'achat — matériel, logiciels, loyer, prestations, frais de déplacement. Après sortie de franchise ou en cas d'option pour la TVA (art. 293 C), le droit à déduction peut s'ouvrir selon les règles applicables.",
         },
         {
           type: "paragraph",
-          text: "La TVA payée à vos fournisseurs constitue une charge non déductible. Elle est intégrée au coût d'achat — matériel, logiciels, loyer, prestations, frais de déplacement.",
+          text: "Exemples en franchise :",
         },
         {
           type: "list",

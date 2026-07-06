@@ -10,6 +10,13 @@
   gap: 16px;
 }
 
+.margin-field-hint {
+  margin: 6px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.65);
+}
+
 @media (min-width: 520px) {
   .margin-calc-inputs-row {
     grid-template-columns: 1fr 1fr;

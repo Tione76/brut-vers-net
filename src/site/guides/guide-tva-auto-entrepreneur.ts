@@ -7,7 +7,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
     "Guide complet sur la TVA pour l'auto-entrepreneur : franchise en base (art. 293 B), seuils de CA, assujettissement, facturation, option volontaire (art. 293 C) et erreurs à éviter.",
   subtitle:
     "Franchise en base, seuils de chiffre d'affaires, facturation, option pour la TVA et passage au régime réel : toutes les règles applicables à l'auto-entrepreneur.",
-  updatedAt: "2026-07-04",
+  updatedAt: "2026-07-06",
   publishedAt: "2026-07-04",
   keywords: [
     "TVA auto-entrepreneur",
@@ -44,7 +44,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
             "Régime par défaut : franchise en base (art. 293 B du CGI) — pas de TVA sur les factures.",
             "Seuils TVA distincts des plafonds du régime micro-fiscal.",
             "Dépassement du seuil de base : assujettissement au 1er janvier de l'année suivante.",
-            "Dépassement du seuil majoré : assujettissement au 1er du mois suivant.",
+            "Dépassement du seuil majoré : la franchise cesse pour les opérations réalisées à compter de la date de dépassement.",
             "Option volontaire possible à tout moment (art. 293 C du CGI), valable au minimum deux ans.",
             "Mention art. 293 B obligatoire sur chaque facture en franchise.",
           ],
@@ -78,7 +78,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
             ["TVA facturée aux clients", "Non", "Oui"],
             ["TVA déductible sur achats", "Non", "Oui"],
             ["Déclarations de TVA", "Aucune", "CA3 ou CA12"],
-            ["N° de TVA intracommunautaire", "Non attribué", "Obligatoire (FR + clé)"],
+            ["N° de TVA intracommunautaire", "Non requis pour une facture française classique ; règles spécifiques possibles en intracommunautaire", "Obligatoire (FR + clé)"],
             ["Mention sur facture", "« TVA non applicable, art. 293 B du CGI »", "Montants HT, taux et TVA"],
             ["Condition", "CA sous les seuils légaux", "Option ou dépassement des seuils"],
           ],
@@ -104,7 +104,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
               type: "list",
               items: [
                 "Pas de démarche à effectuer : la franchise s'applique automatiquement.",
-                "Pas de numéro de TVA intracommunautaire attribué.",
+                "Pas de numéro de TVA intracommunautaire obligatoire sur une facture française classique en franchise.",
                 "Pas de déclaration périodique de TVA à déposer.",
                 "Obligation de surveillance du chiffre d'affaires pour anticiper le dépassement des seuils.",
               ],
@@ -137,7 +137,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "Les seuils de franchise en base de TVA sont fixés par la loi de finances et réévalués chaque année. Ils dépendent de la nature de l'activité exercée. Le chiffre d'affaires à retenir est le montant des recettes encaissées, hors taxes.",
+          text: "Les seuils de franchise en base de TVA sont fixés par la loi de finances ; ils peuvent évoluer et doivent être vérifiés chaque année. Ils dépendent de la nature de l'activité exercée. Le chiffre d'affaires à retenir est le montant des recettes encaissées, hors taxes.",
         },
         {
           type: "illustration",
@@ -158,9 +158,21 @@ export const guideTvaAutoEntrepreneur: Guide = {
             ],
             [
               "Ventes de marchandises, restauration, hébergement",
-              "85 800 €",
-              "94 300 €",
+              "85 000 €",
+              "93 500 €",
               "Commerce, artisanat, vente en ligne, restauration, location meublée",
+            ],
+            [
+              "Avocats, auteurs, artistes-interprètes (activités réglementées)",
+              "50 000 €",
+              "55 000 €",
+              "Prestations d'avocat, cession de droits d'auteur (art. 293 B, I bis)",
+            ],
+            [
+              "Avocats, auteurs, artistes-interprètes (autres activités)",
+              "35 000 €",
+              "38 500 €",
+              "Activités annexes non réglementées",
             ],
           ],
         },
@@ -168,7 +180,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
           type: "callout",
           variant: "retain",
           paragraphs: [
-            "Ces montants sont révisés annuellement par la loi de finances. Consultez impots.gouv.fr ou votre centre des finances publiques pour vérifier les seuils en vigueur l'année de votre exercice.",
+            "Les seuils peuvent évoluer chaque année par la loi de finances — vérifiez les montants en vigueur sur impots.gouv.fr ou auprès de votre centre des finances publiques.",
           ],
         },
       ],
@@ -179,13 +191,13 @@ export const guideTvaAutoEntrepreneur: Guide = {
           blocks: [
             {
               type: "paragraph",
-              text: "Si vous exercez à la fois une activité de vente et une activité de services, les deux catégories de recettes sont additionnées. C'est le seuil le plus bas (prestations de services) qui s'applique à l'ensemble du chiffre d'affaires.",
+              text: "Si vous exercez à la fois une activité de vente (ou d'hébergement, de restauration) et une activité de prestations de services, chaque catégorie de recettes est comparée à son propre seuil. Le seuil ventes (85 000 € / 93 500 €) ne couvre pas les prestations de services, qui restent soumises au seuil services (37 500 € / 41 250 €). Un dépassement sur l'une des catégories peut entraîner l'assujettissement de l'ensemble de l'activité (art. 293 B du CGI).",
             },
             {
               type: "callout",
               variant: "example",
               paragraphs: [
-                "Un auto-entrepreneur vend des créations artisanales (15 000 €) et donne des cours (20 000 €). CA total = 35 000 €. Il reste en franchise car le total est inférieur au seuil services de 37 500 €.",
+                "Un auto-entrepreneur vend des créations artisanales (60 000 €) et réalise des prestations (35 000 €). Les ventes restent sous le seuil ventes et les services sous le seuil services — franchise en principe. Si les prestations atteignent 42 000 €, le seuil majoré services est dépassé : la franchise cesse pour les opérations réalisées à compter de cette date.",
               ],
             },
           ],
@@ -252,7 +264,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
             {
               title: "Dépassement du seuil majoré",
               description:
-                "L'assujettissement est immédiat : au 1er jour du mois suivant celui du dépassement.",
+                "La franchise cesse pour les opérations réalisées à compter de la date de dépassement du seuil majoré (art. 293 B du CGI).",
             },
             {
               title: "Déclaration à l'administration",
@@ -272,7 +284,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
           type: "callout",
           variant: "example",
           paragraphs: [
-            "Même consultant : CA de 42 000 € en juin 2026. Le seuil majoré est dépassé. Il devient assujetti au 1er juillet 2026 et doit facturer la TVA sur les prestations à partir de cette date.",
+            "Même consultant : le CA cumulé atteint 41 251 € le 15 juin 2026. La franchise cesse pour les opérations réalisées à compter de cette date ; il doit facturer la TVA sur les prestations ultérieures.",
           ],
         },
       ],
@@ -338,7 +350,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
           rows: [
             ["Mention TVA", "« TVA non applicable, art. 293 B du CGI »", "Taux et montant de TVA par ligne"],
             ["Montant facturé", "Prix net (pas de distinction HT/TTC)", "Montants HT, TVA et TTC"],
-            ["N° TVA intracommunautaire", "Non requis", "Obligatoire (vendeur)"],
+            ["N° TVA intracommunautaire", "Non requis pour une facture française classique ; règles spécifiques possibles en intracommunautaire", "Obligatoire (vendeur)"],
             ["Total", "Montant unique", "Total HT + TVA = TTC"],
             ["SIRET", "Obligatoire", "Obligatoire"],
           ],
@@ -430,7 +442,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
           type: "list",
           items: [
             "L'option s'exerce par lettre adressée au service des impôts dont dépend l'entreprise.",
-            "Elle prend effet au 1er janvier de l'année suivant la demande, ou à une date ultérieure précisée.",
+            "Elle prend effet le premier jour du mois au cours duquel elle est déclarée au service des impôts (art. 293 C du CGI).",
             "Elle est valable pour une durée minimale de deux ans.",
             "À l'issue de cette période, le retrait de l'option est possible si le CA est inférieur aux seuils.",
           ],
@@ -643,12 +655,12 @@ export const guideTvaAutoEntrepreneur: Guide = {
     {
       question: "Quels sont les seuils de franchise TVA pour un auto-entrepreneur ?",
       answer:
-        "Pour les prestations de services : 37 500 € (seuil de base) et 41 250 € (seuil majoré). Pour les ventes, la restauration et l'hébergement : 85 800 € et 94 300 €. Ces montants sont révisés annuellement par la loi de finances (art. 293 B du CGI).",
+        "Pour les prestations de services : 37 500 € (base) et 41 250 € (majoré). Pour les ventes, la restauration et l'hébergement : 85 000 € et 93 500 €. Pour les avocats, auteurs et artistes-interprètes : 50 000 € / 55 000 € (activités réglementées) ou 35 000 € / 38 500 € (autres activités). Les seuils peuvent évoluer — vérifiez les montants en vigueur (art. 293 B du CGI).",
     },
     {
       question: "Que se passe-t-il si je dépasse le seuil de TVA ?",
       answer:
-        "Si vous dépassez le seuil de base mais restez sous le seuil majoré, vous restez en franchise l'année en cours et devenez assujetti au 1er janvier suivant. Si vous dépassez le seuil majoré, l'assujettissement est immédiat au 1er du mois suivant.",
+        "Si vous dépassez le seuil de base mais restez sous le seuil majoré, vous restez en franchise l'année en cours et devenez assujetti au 1er janvier suivant. Si vous dépassez le seuil majoré, la franchise cesse pour les opérations réalisées à compter de la date de dépassement (art. 293 B du CGI).",
     },
     {
       question: "Peut-on être auto-entrepreneur et assujetti à la TVA ?",
@@ -658,7 +670,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
     {
       question: "Comment opter pour la TVA en tant qu'auto-entrepreneur ?",
       answer:
-        "Adressez une lettre à votre service des impôts en invoquant l'article 293 C du CGI. L'option prend effet au 1er janvier de l'année suivante (ou à une date ultérieure). Elle est valable au minimum deux ans.",
+        "Adressez une lettre à votre service des impôts en invoquant l'article 293 C du CGI. L'option prend effet le premier jour du mois au cours duquel elle est déclarée. Elle est valable au minimum deux ans.",
     },
     {
       question: "La TVA est-elle déductible pour un auto-entrepreneur ?",
@@ -668,7 +680,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
     {
       question: "Faut-il un numéro de TVA intracommunautaire en franchise ?",
       answer:
-        "Non. En franchise en base de TVA, aucun numéro de TVA intracommunautaire n'est attribué. Il devient obligatoire dès que vous êtes assujetti, et doit figurer sur vos factures.",
+        "Non requis pour une facture française classique en franchise ; des règles spécifiques peuvent s'appliquer pour les échanges intracommunautaires. Un numéro devient obligatoire dès que vous êtes assujetti, et doit figurer sur vos factures.",
     },
     {
       question: "Quelle est la différence entre le plafond micro-fiscal et le seuil TVA ?",
@@ -702,7 +714,7 @@ export const guideTvaAutoEntrepreneur: Guide = {
     keyPoints: [
       "Par défaut, l'auto-entrepreneur est en franchise en base de TVA : pas de TVA sur les factures, mention art. 293 B obligatoire.",
       "Les seuils TVA (art. 293 B) sont distincts et inférieurs aux plafonds micro-fiscaux.",
-      "Le dépassement des seuils entraîne un assujettissement automatique, immédiat ou différé selon le seuil franchi.",
+      "Le dépassement du seuil majoré met fin à la franchise à compter de la date de dépassement ; le dépassement du seuil de base entraîne un assujettissement au 1er janvier suivant.",
       "L'option volontaire (art. 293 C) est possible mais engage pour au minimum deux ans.",
       "Surveillez votre chiffre d'affaires et adaptez vos factures à votre statut TVA.",
     ],

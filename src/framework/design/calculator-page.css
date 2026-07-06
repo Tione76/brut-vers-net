@@ -320,3 +320,27 @@
   color: var(--ds-brand-hover, #153d66);
   text-decoration-color: currentColor;
 }
+
+.faq-item__body a {
+  color: var(--ds-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: rgba(26, 75, 124, 0.35);
+}
+
+.faq-item__body a:hover {
+  color: var(--ds-brand-hover, #153d66);
+  text-decoration-color: currentColor;
+}
+
+.home-editorial__updated {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--ds-border);
+  font-size: 0.8125rem;
+  color: var(--ds-text-muted);
+}
+
+.home-editorial__updated time {
+  font-style: normal;
+}

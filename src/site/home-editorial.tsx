@@ -54,8 +54,12 @@ export function HomeEditorial() {
           </ul>
           <p>
             Le calculateur HT vers TTC applique automatiquement ces formules selon le sens choisi
-            et le taux sélectionné. Vous n&apos;avez rien à retenir : saisissez votre montant,
-            cliquez sur Calculer, le résultat s&apos;affiche instantanément.
+            et le taux sélectionné. Saisissez votre montant&nbsp;: le résultat se met à jour
+            instantanément.
+          </p>
+          <p>
+            Les montants affichés font l&apos;objet d&apos;un arrondi arithmétique au centime
+            d&apos;euro, conformément aux pratiques habituelles de facturation.
           </p>
 
           <h2>Différence entre HT, TVA et TTC</h2>
@@ -64,9 +68,9 @@ export function HomeEditorial() {
             la TVA. C&apos;est la base sur laquelle repose tout calcul HT vers TTC.
           </p>
           <p>
-            La <strong>TVA</strong> est la taxe collectée par l&apos;entreprise et reversée à
-            l&apos;État. Son montant dépend du taux applicable. Pour en savoir plus sur la TVA
-            collectée et la TVA déductible, consultez notre{" "}
+            La <strong>TVA</strong> est la taxe collectée par l&apos;entreprise assujettie et
+            reversée au Trésor public. Son montant dépend du taux applicable. Pour en savoir plus
+            sur la TVA collectée et la TVA déductible, consultez notre{" "}
             <Link href={GUIDE_DEDUCTIBLE}>guide TVA déductible et TVA collectée</Link>.
           </p>
           <p>
@@ -84,10 +88,10 @@ export function HomeEditorial() {
             </p>
           </aside>
 
-          <h2>Les principaux taux de TVA en France</h2>
+          <h2>Les principaux taux de TVA en France métropolitaine</h2>
           <p>
             Le taux choisi conditionne tout calcul HT vers TTC. En France métropolitaine, les
-            taux les plus utilisés sont :
+            taux les plus utilisés sont&nbsp;:
           </p>
           <table>
             <thead>
@@ -103,7 +107,7 @@ export function HomeEditorial() {
               </tr>
               <tr>
                 <td>10&nbsp;%</td>
-                <td>Restauration, travaux de rénovation, transports de voyageurs…</td>
+                <td>Restauration sur place, certains travaux de rénovation, transports de voyageurs…</td>
               </tr>
               <tr>
                 <td>5,5&nbsp;%</td>
@@ -111,20 +115,21 @@ export function HomeEditorial() {
               </tr>
               <tr>
                 <td>2,1&nbsp;%</td>
-                <td>Médicaments remboursables, presse, licences audiovisuelles…</td>
+                <td>Médicaments remboursables par la Sécurité sociale, presse, licences audiovisuelles…</td>
               </tr>
             </tbody>
           </table>
           <p>
-            Chaque activité a son taux : se tromper fausse le calcul HT vers TTC. Le{" "}
-            <Link href={GUIDE_TAUX}>guide complet sur les taux de TVA en France</Link> recense
-            les cas par métier et par territoire.
+            La Corse et certains territoires d&apos;outre-mer (DOM) disposent de régimes et de
+            taux spécifiques. Pour les identifier selon votre territoire et votre activité,
+            consultez le{" "}
+            <Link href={GUIDE_TAUX}>guide sur les taux de TVA en France</Link>.
           </p>
 
           <h2>Exemples de conversion HT vers TTC</h2>
           <p>
-            Voici des conversions rapides à 20&nbsp;% (taux normal) pour visualiser un calcul HT
-            vers TTC courant :
+            Voici des conversions à 20&nbsp;% (taux normal en France métropolitaine) pour
+            visualiser un calcul HT vers TTC courant&nbsp;:
           </p>
           <table>
             <thead>
@@ -137,25 +142,26 @@ export function HomeEditorial() {
             <tbody>
               <tr>
                 <td>100&nbsp;€</td>
-                <td>20&nbsp;€</td>
-                <td>120&nbsp;€</td>
+                <td>20,00&nbsp;€</td>
+                <td>120,00&nbsp;€</td>
               </tr>
               <tr>
                 <td>500&nbsp;€</td>
-                <td>100&nbsp;€</td>
-                <td>600&nbsp;€</td>
+                <td>100,00&nbsp;€</td>
+                <td>600,00&nbsp;€</td>
               </tr>
               <tr>
                 <td>1&nbsp;000&nbsp;€</td>
-                <td>200&nbsp;€</td>
-                <td>1&nbsp;200&nbsp;€</td>
+                <td>200,00&nbsp;€</td>
+                <td>1&nbsp;200,00&nbsp;€</td>
               </tr>
             </tbody>
           </table>
           <p>
-            Exemple inverse — calcul TTC vers HT à 20&nbsp;% : un prix TTC de 120&nbsp;€
-            correspond à 100&nbsp;€ HT (TVA : 20&nbsp;€). Utilisez le mode «&nbsp;TTC vers
-            HT&nbsp;» du calculateur pour convertir un montant TTC vers HT avec un autre taux.
+            Exemple inverse — calcul TTC vers HT à 20&nbsp;%&nbsp;: un prix TTC de 120,00&nbsp;€
+            correspond à 100,00&nbsp;€ HT (TVA&nbsp;: 20,00&nbsp;€). Utilisez le mode
+            «&nbsp;TTC vers HT&nbsp;» du calculateur pour convertir un montant avec un autre
+            taux.
           </p>
 
           <h2>Calcul TTC vers HT : l&apos;opération inverse</h2>
@@ -166,25 +172,23 @@ export function HomeEditorial() {
             facture fournisseur — et que vous devez retrouver le hors taxes.
           </p>
           <p>
-            Un calculateur TTC vers HT évite les erreurs d&apos;arrondi : diviser par 1,20 à la
-            main sur un montant TTC de 119,99&nbsp;€ peut sembler simple, mais la moindre
-            décimale mal placée fausse votre comptabilité. Le simulateur ci-dessus gère ces
-            arrondis pour vous.
+            Le calcul manuel sur des montants comme 119,99&nbsp;€ TTC expose à des erreurs
+            d&apos;arrondi au centime. Le simulateur ci-dessus applique la formule et l&apos;arrondi
+            de façon cohérente pour vous.
           </p>
 
           <h2>Pourquoi utiliser un calculateur HT vers TTC ?</h2>
           <ul>
             <li>
-              <strong>Gain de temps</strong> — convertir HT vers TTC ou TTC vers HT en un clic,
-              sans tableur ni calculatrice.
+              <strong>Gain de temps</strong> — conversion immédiate, sans tableur ni calculatrice.
             </li>
             <li>
               <strong>Fiabilité</strong> — la formule est appliquée correctement, quel que soit
               le taux (20&nbsp;%, 10&nbsp;%, 5,5&nbsp;% ou 2,1&nbsp;%).
             </li>
             <li>
-              <strong>Gratuité</strong> — aucune inscription, aucune donnée conservée : le
-              calcul TVA HT vers TTC reste privé.
+              <strong>Gratuité</strong> — aucune inscription, aucune donnée conservée&nbsp;: vos
+              calculs restent privés.
             </li>
             <li>
               <strong>Polyvalence</strong> — devis, facturation, négociation commerciale ou
@@ -192,28 +196,39 @@ export function HomeEditorial() {
             </li>
           </ul>
           <p>
-            Que vous cherchiez un calculateur HT vers TTC, un outil pour convertir un montant HT
-            vers TTC ou un calculateur TVA fiable, cette page centralise l&apos;essentiel. Les
-            sujets complexes — franchise, facturation, déclaration — sont traités dans nos guides
-            détaillés.
+            Cette page réunit l&apos;outil de conversion et les repères essentiels. Pour la
+            franchise, la facturation ou les déclarations, nos guides détaillés approfondissent
+            chaque sujet.
           </p>
 
-          <h2>Pour les entreprises et auto-entrepreneurs</h2>
+          <h2>Entreprises assujetties et franchise en base de TVA</h2>
           <p>
-            En activité, le passage HT vers TTC intervient à chaque devis et chaque facture.
-            Assurez-vous d&apos;appliquer le bon taux et de respecter les règles de facturation.
-            Les auto-entrepreneurs en franchise en base ne facturent pas la TVA : le calcul HT
-            vers TTC ne s&apos;applique alors pas de la même manière — renseignez-vous sur la{" "}
-            <Link href={GUIDE_FRANCHISE}>franchise en base de TVA</Link> et sur la{" "}
-            <Link href={GUIDE_AE}>TVA et l&apos;auto-entrepreneur</Link> avant de convertir vos
-            montants.
+            Le calcul HT vers TTC concerne les professionnels <strong>assujettis à la TVA</strong>{" "}
+            qui facturent la taxe sur leurs ventes. À l&apos;inverse, la{" "}
+            <strong>franchise en base de TVA</strong> (article&nbsp;293&nbsp;B du CGI) permet à
+            certaines entreprises — tant que leur chiffre d&apos;affaires reste sous les seuils
+            légaux — de ne pas facturer la TVA sur leurs prestations. Ce régime concerne de
+            nombreux micro-entrepreneurs, mais aussi d&apos;autres entreprises individuelles ou
+            sociétés qui remplissent les conditions. Dans ce cas, vos tarifs sont en principe
+            exprimés sans TVA distincte à ajouter. Consultez notre{" "}
+            <Link href={GUIDE_FRANCHISE}>guide franchise en base de TVA</Link> pour connaître les
+            seuils et les obligations.
           </p>
           <p>
-            Si vous êtes assujetti à la TVA, chaque vente génère de la TVA collectée ; vos achats
-            professionnels peuvent générer de la TVA déductible. Le calculateur HT vers TTC vous
-            aide à chiffrer vos ventes ; la déclaration et le suivi relèvent d&apos;une
-            comptabilité structurée — voir notre guide{" "}
+            Si vous exercez en micro-entreprise, le guide{" "}
+            <Link href={GUIDE_AE}>TVA et auto-entrepreneur</Link> précise les règles selon votre
+            activité.
+          </p>
+          <p>
+            Lorsque vous êtes assujetti, chaque vente génère de la TVA collectée&nbsp;; vos achats
+            professionnels peuvent donner lieu à de la TVA déductible. Le calculateur HT vers TTC
+            vous aide à chiffrer vos prix de vente&nbsp;; la déclaration et le suivi relèvent
+            d&apos;une comptabilité structurée — voir notre guide{" "}
             <Link href={GUIDE_DEDUCTIBLE}>TVA déductible et TVA collectée</Link>.
+          </p>
+
+          <p className="home-editorial__updated">
+            <time dateTime="2026-07-01">Dernière mise à jour : juillet 2026</time>
           </p>
         </div>
       </div>

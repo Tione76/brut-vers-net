@@ -29,7 +29,7 @@ export function AeFranchiseLimitsIllustration() {
 
       <rect x="48" y="230" width="624" height="48" rx="6" fill={c.brandLight} stroke={c.brandMuted} />
       <text x="360" y="252" textAnchor="middle" fill={c.text} fontSize="10" fontFamily={c.font}>
-        Services : 37 500 € / 41 250 € — Ventes : 85 800 € / 94 300 €
+        Services : 37 500 € / 41 250 € — Ventes : 85 000 € / 93 500 €
       </text>
       <text x="360" y="268" textAnchor="middle" fill={c.textMuted} fontSize="9" fontFamily={c.font}>
         Seuils TVA (art. 293 B) — distincts des plafonds micro-fiscal

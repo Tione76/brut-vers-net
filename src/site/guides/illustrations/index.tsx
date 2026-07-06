@@ -14,6 +14,7 @@ import { FranchiseThresholdsIllustration } from "./FranchiseThresholdsIllustrati
 import { InvoiceStructureIllustration } from "./InvoiceStructureIllustration";
 import { VatCalculationIllustration } from "./VatCalculationIllustration";
 import { VatDeclarationCycleIllustration } from "./VatDeclarationCycleIllustration";
+import { VatEnterpriseJourneyIllustration } from "./VatEnterpriseJourneyIllustration";
 import { VatFlowDiagramIllustration } from "./VatFlowDiagramIllustration";
 import { VatNetBalanceIllustration } from "./VatNetBalanceIllustration";
 import { VatB2bB2cIllustration } from "./VatB2bB2cIllustration";
@@ -51,6 +52,7 @@ const ILLUSTRATIONS: Record<GuideIllustrationId, React.ComponentType> = {
   "vat-flow-diagram": VatFlowDiagramIllustration,
   "vat-net-balance": VatNetBalanceIllustration,
   "vat-declaration-cycle": VatDeclarationCycleIllustration,
+  "vat-enterprise-journey": VatEnterpriseJourneyIllustration,
 };
 
 export function GuideIllustration({ id, caption }: { id: GuideIllustrationId; caption?: string }) {

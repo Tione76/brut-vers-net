@@ -22,7 +22,9 @@ export default function HomePage() {
     <>
       <JsonLd
         data={[
-          buildWebApplicationSchema(config, seoConfig.home.title, seoConfig.home.description),
+          buildWebApplicationSchema(config, seoConfig.home.title, seoConfig.home.description, {
+            dateModified: "2026-07-01",
+          }),
           buildOrganizationSchema(config),
           buildBreadcrumbSchema(config, [{ name: "Accueil", path: "/" }]),
           buildFaqSchema(config.faq),

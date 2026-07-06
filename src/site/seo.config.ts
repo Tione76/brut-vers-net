@@ -6,6 +6,9 @@ export const seoConfig = {
   defaultDescription:
     "Calculateur gratuit pour convertir un prix HT en TTC (ou l'inverse). Taux de TVA 20 %, 10 %, 5,5 % et 2,1 %. Résultat immédiat, sans inscription.",
   keywords: [
+    "HT vers TTC",
+    "calcul HT vers TTC",
+    "calculateur HT vers TTC",
     "prix HT",
     "prix TTC",
     "calcul TVA",
@@ -22,16 +25,16 @@ export const seoConfig = {
   home: {
     title: "Calculateur HT vers TTC — Prix TTC et montant de TVA",
     description:
-      "Calculez instantanément un prix TTC à partir d'un montant hors taxes. Choisissez le taux de TVA (20 %, 10 %, 5,5 % ou 2,1 %) et obtenez le montant de TVA. Calcul inverse TTC vers HT inclus. Gratuit et sans inscription.",
+      "Calculez instantanément un prix TTC à partir d'un montant hors taxes. Taux de TVA en France métropolitaine (20 %, 10 %, 5,5 % ou 2,1 %). Calcul inverse TTC vers HT, arrondi au centime. Gratuit et sans inscription.",
     ogImage: "/images/og/Calcul-HT-vers-TTC.webp",
   },
 
   calculators: {
     marginHtTtc: {
       path: "/calculateurs/calculateur-marge-ht-ttc",
-      title: "Calculateur de marge HT / TTC gratuit",
+      title: "Calculateur de marge HT / TTC — Calcul prix de vente",
       description:
-        "Calculez votre prix de vente HT, votre marge, votre taux de marque, votre TVA et votre prix TTC à partir d'un prix d'achat.",
+        "Calculez votre prix de vente HT et TTC à partir d'un coût d'achat. Marge commerciale, taux de marge, taux de marque, coefficient multiplicateur et TVA. Outil gratuit pour fixer vos tarifs de revente.",
       h1: "Calculateur de marge HT / TTC",
     },
   },
@@ -41,7 +44,11 @@ export const seoConfig = {
     privacy: { title: "Politique de confidentialité", description: "Informations sur vos données personnelles." },
     cookies: { title: "Politique de cookies", description: "Détail des cookies et gestion de vos préférences." },
     mentions: { title: "Mentions légales", description: "Informations légales sur l'éditeur et l'hébergeur." },
-    faq: { title: "Questions fréquentes", description: "Réponses aux questions les plus posées sur le calculateur HT / TTC." },
+    faq: {
+      title: "FAQ TVA",
+      description:
+        "Réponses aux questions fréquentes sur le calcul HT vers TTC, les taux de TVA, les factures et la franchise en base.",
+    },
     sitemap: { title: "Plan du site", description: "Liste de toutes les pages du site." },
     simulators: { title: "Tous les simulateurs", description: "Découvrez l'ensemble de nos outils en ligne." },
     cookiePrefs: { title: "Gestion des cookies", description: "Gérez vos préférences de cookies." },

@@ -40,7 +40,7 @@ export const guideTauxTva: Guide = {
     "Guide de référence sur les taux de TVA en France : 20 %, 10 %, 5,5 %, 2,1 %, taux par métier, DOM, calculs HT/TTC et choix du taux applicable.",
   subtitle:
     "Tous les taux en vigueur, leurs bases légales, les cas d'application par activité, les exemples de calcul et les réponses aux questions les plus fréquentes.",
-  updatedAt: "2026-07-05",
+  updatedAt: "2026-07-06",
   publishedAt: "2026-07-04",
   keywords: [
     "taux TVA",
@@ -268,8 +268,15 @@ export const guideTauxTva: Guide = {
               "Plombier — dépannage sur logement de plus de 2 ans",
               1800,
               10,
-              "Rénovation éligible — adresse du chantier obligatoire sur la facture.",
+              "Rénovation éligible — adresse du chantier obligatoire sur la facture. Attestation client requise selon les cas (art. 279 du CGI).",
             ),
+            {
+              type: "callout",
+              variant: "legal",
+              paragraphs: [
+                "Référence fiscale : l'application du taux de 10 % (ou du 5,5 % pour certains travaux d'amélioration énergétique) est subordonnée au respect des conditions prévues par la réglementation, notamment la remise par le client de l'attestation appropriée lorsque celle-ci est exigée.",
+              ],
+            },
           ],
         },
         {
@@ -278,15 +285,57 @@ export const guideTauxTva: Guide = {
           blocks: [
             {
               type: "paragraph",
-              text: "Au quotidien, un restaurateur jongle avec plusieurs taux : les prestations de restauration consommées sur place ou à emporter (sous conditions) sont taxées à 10 %, tandis que les boissons alcoolisées restent en principe à 20 %.",
+              text: "Non. Le critère déterminant n'est pas uniquement « sur place ou à emporter », mais la nature du produit et les conditions de consommation : consommation immédiate ou consommation différée (art. 279 et 278-0 bis du CGI). Un restaurateur peut ainsi appliquer 10 %, 5,5 % ou 20 % sur une même période.",
+            },
+            {
+              type: "table",
+              caption: "Restauration — consommation immédiate ou différée (synthèse)",
+              headers: ["Situation", "Type de consommation", "Taux en principe"],
+              rows: [
+                [
+                  "Repas servi sur place",
+                  "Immédiate",
+                  "10 % (prestation de restauration)",
+                ],
+                [
+                  "Plat préparé à emporter par un restaurant ou traiteur",
+                  "Immédiate (sous conditions)",
+                  "10 %",
+                ],
+                [
+                  "Produit alimentaire vendu en l'état (épicerie, rayon frais)",
+                  "Différée",
+                  "5,5 %",
+                ],
+                [
+                  "Produit emballé, destiné à une consommation ultérieure",
+                  "Différée",
+                  "5,5 %",
+                ],
+                [
+                  "Boisson alcoolisée",
+                  "Quel que soit le mode de vente",
+                  "20 %",
+                ],
+              ],
+            },
+            {
+              type: "paragraph",
+              text: "La frontière entre alimentaire à 5,5 % et restauration à 10 % repose sur le degré de transformation et le mode de consommation prévu, pas sur le libellé « restaurant » ou « commerce alimentaire ».",
             },
             {
               type: "callout",
               variant: "hint",
               paragraphs: [
-                "Astuce : la frontière entre alimentaire à 5,5 % et restauration à 10 % repose sur le degré de transformation et le mode de consommation (BOFiP, art. 279 du CGI). Les desserts et boissons non alcoolisées servis sur place suivent en principe le taux de la restauration.",
+                "Astuce : un plat chaud préparé pour être consommé dans la journée relève en principe de la restauration (10 %). Un produit alimentaire acheté pour être consommé plus tard à domicile relève en principe du taux alimentaire (5,5 %).",
               ],
             },
+            pc(
+              "Restaurant — repas consommés sur place",
+              85,
+              10,
+              "Prestation de restauration — consommation immédiate (art. 279 du CGI).",
+            ),
             pc(
               "Restaurant — livraison de repas à domicile",
               45,
@@ -297,8 +346,48 @@ export const guideTauxTva: Guide = {
               "Restaurant — bouteille de vin servie à table",
               32,
               20,
-              "Boisson alcoolisée — taux normal, même dans un établissement de restauration.",
+              "Boisson alcoolisée — taux normal (art. 278 du CGI), même en restauration.",
             ),
+          ],
+        },
+        {
+          id: "tva-boissons-non-alcoolisees",
+          title: "Quel taux pour les boissons non alcoolisées ?",
+          blocks: [
+            {
+              type: "paragraph",
+              text: "Les boissons sans alcool ne suivent pas un taux unique : le mode de vente et la consommation prévue font la différence.",
+            },
+            {
+              type: "table",
+              caption: "Boissons non alcoolisées — repères pratiques",
+              headers: ["Situation", "Taux en principe"],
+              rows: [
+                [
+                  "Boisson servie sur place avec un repas (restaurant, café)",
+                  "10 % — même taux que la prestation de restauration",
+                ],
+                [
+                  "Boisson prête à être consommée, vendue à emporter par un restaurateur",
+                  "10 % sous conditions (consommation immédiate)",
+                ],
+                [
+                  "Boisson vendue en grande surface pour consommation à domicile",
+                  "5,5 % — produit alimentaire à consommation différée",
+                ],
+                [
+                  "Eau, jus ou soda en bouteille (vente au détail)",
+                  "5,5 % en principe (hors cas spécifiques)",
+                ],
+              ],
+            },
+            {
+              type: "callout",
+              variant: "verify",
+              paragraphs: [
+                "À retenir : l'alcool reste toujours à 20 % (art. 278 du CGI). Pour les boissons non alcoolisées, qualifiez chaque ligne selon le lieu de vente et la consommation prévue — immédiate ou différée.",
+              ],
+            },
           ],
         },
       ],
@@ -480,13 +569,17 @@ export const guideTauxTva: Guide = {
           caption: "Récapitulatif — activité, taux en principe et point de vigilance",
           headers: ["Activité", "Taux en principe", "Point de vigilance"],
           rows: [
-            ["Prestation intellectuelle (consultant, dev, graphiste)", "20 %", "Vérifier si un produit livré change la qualification"],
-            ["Artisan en rénovation", "10 %", "Logement achevé depuis +2 ans, adresse du chantier"],
-            ["Restauration", "10 %", "Alcools à 20 %, ventilation obligatoire"],
-            ["Commerce alimentaire", "5,5 %", "Distinguer vente à emporter et restauration"],
-            ["Librairie / ebook", "5,5 %", "Ouvrages éligibles uniquement"],
-            ["Export hors UE", "0 % (exonération)", "Justificatifs de sortie du territoire"],
-            ["Prestation B2B en UE", "0 % (autoliquidation)", "N° TVA intracommunautaire du client"],
+            ["Prestation intellectuelle (consultant, dev, graphiste)", "20 %", "Art. 278 du CGI — vérifier si un produit livré change la qualification"],
+            ["Avocat", "20 %", "Honoraires — art. 278 ; autoliquidation UE possible (art. 259 B)"],
+            ["Coiffeur / esthétique", "20 %", "Prestation de service — art. 278 du CGI"],
+            ["Agence web", "20 %", "Création, maintenance, conseil digital — art. 278"],
+            ["Artisan en rénovation", "10 %", "Logement achevé depuis +2 ans, attestation si requise"],
+            ["Restauration", "10 %", "Consommation immédiate — alcools à 20 %, ventilation obligatoire"],
+            ["Commerce alimentaire", "5,5 %", "Consommation différée — distinguer de la restauration"],
+            ["VTC / taxi", "10 %", "Transport de voyageurs — art. 279 ; prestations annexes à 20 %"],
+            ["Librairie / ebook", "5,5 %", "Ouvrages éligibles — art. 278-0 bis du CGI"],
+            ["Export hors UE", "0 % (exonération)", "Art. 262, I du CGI — justificatifs de sortie"],
+            ["Prestation B2B en UE", "0 % (autoliquidation)", "Art. 259 B du CGI — n° TVA intracommunautaire"],
           ],
         },
         CTA_CALCULATOR,
@@ -549,6 +642,13 @@ export const guideTauxTva: Guide = {
             "En cas de doute persistant : avis de l'expert-comptable ou rescrit fiscal.",
           ],
         },
+        {
+          type: "callout",
+          variant: "legal",
+          paragraphs: [
+            "Opérations internationales : les ventes à l'export, les prestations intracommunautaires et les opérations avec des clients étrangers obéissent à des règles de territorialité spécifiques (art. 259 B, 262 et 283-2 du CGI). Les exemples ci-dessous ne constituent qu'un aperçu — un guide dédié à la TVA internationale et aux exportations complétera prochainement ces situations.",
+          ],
+        },
         pc(
           "Prestation B2B France — conseil en management",
           1500,
@@ -586,6 +686,16 @@ export const guideTauxTva: Guide = {
         {
           type: "paragraph",
           text: "Une erreur fréquente consiste à appliquer le taux « habituel » de son secteur sans vérifier l'opération — ces erreurs entraînent des redressements, le rejet de TVA déductible par les clients et des pénalités.",
+        },
+        {
+          type: "checklist",
+          title: "Les erreurs les plus fréquentes",
+          items: [
+            "Croire que toute la restauration est à 10 % — sans distinguer consommation immédiate et différée, ni ventiler les alcools à 20 %.",
+            "Oublier les conditions des travaux à taux réduit — logement de plus de deux ans, nature des travaux, attestation client lorsque requise (art. 279 du CGI).",
+            "Penser qu'un auto-entrepreneur ne facture jamais de TVA — en franchise en base (art. 293 B du CGI), oui ; assujetti ou au-delà des seuils, les taux ordinaires s'appliquent.",
+            "Confondre les taux entre eux (5,5 %, 10 %, 20 %) ou appliquer le taux le plus bas sans qualification juridique.",
+          ],
         },
         {
           type: "list",
@@ -675,6 +785,15 @@ export const guideTauxTva: Guide = {
           vat: "158,00 €",
           ttc: "1 738,00 €",
           note: "80 € HT déplacement + 1 200 € HT pose + 300 € HT robinetterie fournie, tous à 10 % (rénovation).",
+        },
+        {
+          type: "practical-case",
+          title: "Facture mixte restaurant — repas, alcool et livraison",
+          ht: "105,00 €",
+          rate: "10 % + 20 %",
+          vat: "14,00 €",
+          ttc: "119,00 €",
+          note: "70 € HT repas (10 %, TVA 7 €) + 25 € HT vin (20 %, TVA 5 €) + 10 € HT frais de livraison (20 %, TVA 2 €). Trois taux sur une même addition.",
         },
         {
           type: "practical-case",

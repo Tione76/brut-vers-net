@@ -23,7 +23,9 @@ export default function MarginCalculatorPage() {
     <>
       <JsonLd
         data={[
-          buildWebApplicationSchema(config, page.title, page.description),
+          buildWebApplicationSchema(config, page.title, page.description, {
+            dateModified: "2026-07-01",
+          }),
           buildBreadcrumbSchema(config, [
             { name: "Accueil", path: "/" },
             { name: page.h1, path: page.path },

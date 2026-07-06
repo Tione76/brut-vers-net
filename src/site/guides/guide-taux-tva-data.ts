@@ -55,6 +55,11 @@ export const PROFESSION_FAQ_ITEMS: { label: string; answer: string }[] = [
       "En principe, la séance photo, les retouches et la post-production relèvent du taux normal de 20 % (art. 278 du CGI). Les tirages, albums et supports imprimés sont en principe également à 20 % lorsqu'ils constituent une vente de biens distincte. La cession de droits d'auteur ou d'utilisation d'images est en principe taxée à 20 % en tant que prestation de service. La vente d'œuvres originales ou d'éditions limitées peut, selon leur qualification juridique, relever d'un autre régime — plusieurs taux peuvent coexister sur une même facture. Le métier de photographe n'impose pas un taux unique : chaque ligne doit être qualifiée selon la nature exacte de l'opération.",
   },
   {
+    label: "Coiffeur",
+    answer:
+      "Les prestations de coiffure, de soins capillaires et d'esthétique en salon relèvent en principe du taux normal de 20 % (art. 278 du CGI). La vente de produits cosmétiques ou de shampoings en annexe est en principe également à 20 % lorsqu'elle constitue une vente de biens distincte. Le métier de coiffeur n'ouvre aucun taux réduit automatique : chaque prestation et chaque produit vendu doit être qualifié selon sa nature.",
+  },
+  {
     label: "Consultant",
     answer:
       "Les prestations de conseil, d'audit et d'accompagnement stratégique sont en principe taxées à 20 % (art. 278 du CGI). C'est le cas pour le conseil en management, en organisation ou en transformation. Si le consultant vend en annexe des formations, des ouvrages ou des licences, chaque opération peut relever d'un taux différent. Le statut de consultant ne détermine pas automatiquement le taux : seule la nature juridique de chaque prestation facturée compte.",
@@ -107,7 +112,7 @@ export const PROFESSION_FAQ_ITEMS: { label: string; answer: string }[] = [
   {
     label: "Restaurateur",
     answer:
-      "Les prestations de restauration consommées sur place sont en principe à 10 % (art. 279 du CGI). Les plats à emporter peuvent relever de 10 % sous conditions, tandis que la livraison de repas peut être traitée différemment selon la qualification de l'opération. Les boissons alcoolisées relèvent en principe du taux normal de 20 %, tout comme certains desserts ou boissons non alcoolisées selon leur mode de service. Un restaurateur ventile donc souvent plusieurs taux sur une même addition — le métier n'impose pas un taux unique.",
+      "Les prestations de restauration à consommation immédiate sont en principe à 10 % (art. 279 du CGI) — sur place ou à emporter sous conditions. Les produits alimentaires à consommation différée relèvent en principe de 5,5 %. Les boissons alcoolisées sont à 20 % (art. 278 du CGI). Les boissons non alcoolisées suivent le taux de la prestation (10 % sur place, 5,5 % en vente au détail selon les cas). Un restaurateur ventile souvent plusieurs taux sur une même addition.",
   },
   {
     label: "Hôtel",
@@ -375,7 +380,12 @@ export const GUIDE_FAQ: FaqItem[] = [
   {
     question: "Quel taux de TVA en restauration ?",
     answer:
-      "Repas sur place et plats à emporter éligibles : en principe 10 % (art. 279 du CGI). Boissons alcoolisées : en principe 20 %. Livraison et certains desserts ou boissons peuvent relever de taux différents — ventilez l'addition.",
+      "Le critère n'est pas uniquement « sur place ou à emporter », mais la consommation immédiate ou différée. Repas et plats préparés à consommation immédiate : en principe 10 % (art. 279 du CGI). Boissons alcoolisées : en principe 20 %. Produits alimentaires à consommation différée : en principe 5,5 %. Ventilez chaque ligne de l'addition.",
+  },
+  {
+    question: "Quel taux pour les boissons non alcoolisées ?",
+    answer:
+      "Servies sur place avec un repas : en principe 10 % (restauration). Vendues en grande surface pour consommation à domicile : en principe 5,5 % (produit alimentaire). L'alcool reste toujours à 20 % (art. 278 du CGI). Le mode de vente et la consommation prévue déterminent le taux.",
   },
   {
     question: "TVA sur une formation ?",

@@ -51,7 +51,7 @@ function CalculatorHero({
         </div>
       </div>
       <p className="calc-disclaimer">
-        Estimation indicative — sans inscription ni conservation de données.
+        Montants arrondis au centime d&apos;euro. Sans inscription ni conservation de données.
       </p>
     </div>
   );

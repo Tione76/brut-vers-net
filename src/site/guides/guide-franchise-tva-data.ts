@@ -50,7 +50,7 @@ export const GUIDE_FAQ: FaqItem[] = [
   {
     question: "Peut-on récupérer la TVA sur ses achats en franchise ?",
     answer:
-      "Non, en principe. En franchise en base (art. 293 B du CGI), vous ne collectez pas la TVA et vous ne pouvez pas la déduire sur vos achats professionnels. La TVA payée constitue une charge intégrale.",
+      "Tant que vous êtes en franchise en base (art. 293 B du CGI), vous ne pouvez pas déduire la TVA sur vos achats professionnels — la taxe payée constitue une charge intégrale. Après sortie de franchise ou en cas d'option pour la TVA (art. 293 C), le droit à déduction peut s'ouvrir selon les règles applicables.",
   },
   {
     question: "Puis-je facturer de la TVA en franchise en base ?",
@@ -86,7 +86,7 @@ export const GUIDE_FAQ: FaqItem[] = [
   {
     question: "Comment rédiger une facture sans TVA en franchise ?",
     answer:
-      "En principe : indiquez un prix net unique (pas de ligne HT/TVA séparée), la mention « TVA non applicable, art. 293 B du CGI », votre identité (SIRET) et celle du client. Pas de numéro de TVA intracommunautaire.",
+      "En principe : indiquez un prix net unique (pas de ligne HT/TVA séparée), la mention « TVA non applicable, art. 293 B du CGI », votre identité (SIRET) et celle du client. Numéro de TVA intracommunautaire : non requis pour une facture française classique en franchise ; des règles spécifiques peuvent s'appliquer pour les échanges intracommunautaires.",
   },
   {
     question: "Quelle TVA pour un micro-entrepreneur ?",
@@ -146,7 +146,7 @@ export const GUIDE_FAQ: FaqItem[] = [
   {
     question: "Faut-il un numéro de TVA intracommunautaire en franchise ?",
     answer:
-      "Non, en principe. Les entreprises en franchise n'ont pas de numéro de TVA intracommunautaire. Le SIRET (ou SIREN) suffit sur les factures. Un numéro vous est attribué en cas d'assujettissement ou d'option (art. 293 C).",
+      "Non requis pour une facture française classique en franchise — le SIRET (ou SIREN) suffit en principe. Des règles spécifiques peuvent toutefois s'appliquer pour les échanges intracommunautaires. Un numéro vous est attribué en cas d'assujettissement ou d'option volontaire (art. 293 C du CGI).",
   },
   {
     question: "Le projet de seuil unique à 25 000 € est-il toujours d'actualité ?",
@@ -161,7 +161,7 @@ export const GUIDE_FAQ: FaqItem[] = [
   {
     question: "Comment gérer la franchise avec des activités mixtes (ventes et services) ?",
     answer:
-      `En principe, chaque catégorie de recettes est comparée à son propre seuil : ventes (${formatThreshold(ventesRow.base)} / ${formatThreshold(ventesRow.major)}) et services (${formatThreshold(servicesRow.base)} / ${formatThreshold(servicesRow.major)}). Un dépassement sur l'une des catégories peut entraîner l'assujettissement de l'ensemble de l'entreprise (art. 293 B du CGI).`,
+      `En cas d'activité mixte, chaque catégorie de recettes est comparée à son propre seuil : ventes, restauration et hébergement (${formatThreshold(ventesRow.base)} / ${formatThreshold(ventesRow.major)}) d'un côté, prestations de services (${formatThreshold(servicesRow.base)} / ${formatThreshold(servicesRow.major)}) de l'autre. Le seuil ventes ne couvre pas les prestations de services. Un dépassement sur l'une des catégories peut entraîner l'assujettissement de l'ensemble de l'entreprise (art. 293 B du CGI).`,
   },
   {
     question: "La franchise convient-elle aux clients B2B ?",
@@ -224,7 +224,7 @@ export const ELIGIBILITY_TABLE_ROWS: string[][] = [
     "SAS",
     "Oui",
     "PME sous les seuils — pas d'exclusion liée à la forme sociale",
-    "Agence SAS à 80 000 € HT (ventes)",
+    "Boutique en ligne SAS à 80 000 € HT (ventes)",
   ],
   [
     "SARL",
@@ -334,8 +334,8 @@ export const PRACTICAL_CASE_ROWS: string[][] = [
   [
     "Coach",
     "Coaching professionnel, BNC",
-    "42 000 € HT",
-    "Oui (proche du majoré)",
+    "38 000 € HT",
+    "Oui (sous majoré)",
     "Non",
     "Séance 150 € — art. 293 B",
   ],
@@ -357,9 +357,9 @@ export const PRACTICAL_CASE_ROWS: string[][] = [
   ],
   [
     "Agence web",
-    "Sites et maintenance, BIC",
-    "82 000 € HT",
-    "Oui (sous majoré ventes)",
+    "Sites et maintenance, BIC (prestations de services)",
+    "36 000 € HT",
+    "Oui",
     "Non",
     "Refonte site 4 500 € — art. 293 B du CGI",
   ],

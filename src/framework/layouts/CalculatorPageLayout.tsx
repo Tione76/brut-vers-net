@@ -9,6 +9,7 @@ import { HeaderCurveDown } from "@/framework/design/components/Curves";
 import { PageFooter } from "@/framework/design/PageFooter";
 import { HomePageSidebar } from "@/site/guides/GuidePageSidebar";
 import { HomeEditorial } from "@/site/home-editorial";
+import { HomeFaqContent } from "@/site/home-faq";
 import "@/framework/design/index.css";
 import "@/site/guides/guide-page.css";
 
@@ -32,13 +33,13 @@ function CalculatorHero({ Calculator }: { Calculator: ComponentType }) {
             <div className="result-primary">
               <p className="result-primary-label">En attente</p>
               <p className="result-primary-value">—</p>
-              <p className="result-details">Renseignez le formulaire et cliquez sur Calculer.</p>
+              <p className="result-details">Renseignez le formulaire pour voir les résultats.</p>
             </div>
           )}
         </div>
       </div>
       <p className="calc-disclaimer">
-        Estimation indicative — sans inscription ni conservation de données.
+        Montants arrondis au centime d&apos;euro. Sans inscription ni conservation de données.
       </p>
     </div>
   );
@@ -112,21 +113,7 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
           <div className="content-wrap">
             <p className="section-eyebrow section-eyebrow--dark">FAQ</p>
             <h2 className="section-title section-title--dark">Questions fréquentes</h2>
-            <div className="faq-list">
-              {site.faq.map((item) => (
-                <details key={item.question} className="faq-item">
-                  <summary className="faq-item__summary">
-                    <span>{item.question}</span>
-                    <span className="faq-chevron" aria-hidden="true">
-                      ▾
-                    </span>
-                  </summary>
-                  <div className="faq-item__body">
-                    <p>{item.answer}</p>
-                  </div>
-                </details>
-              ))}
-            </div>
+            <HomeFaqContent />
           </div>
         </section>
 

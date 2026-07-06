@@ -20,7 +20,7 @@ interface SiteFooterProps {
 
 export function SiteFooter({
   brandName,
-  siteName,
+  siteName: _siteName,
   footerDescription,
   tools,
   footerLinks,
@@ -77,7 +77,7 @@ export function SiteFooter({
         </nav>
 
         <p className="site-footer__copy">
-          © {year} {siteName} — Tous droits réservés.
+          © {year} {brandName} — Tous droits réservés.
         </p>
       </div>
     </footer>
