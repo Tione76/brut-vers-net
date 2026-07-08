@@ -1,6 +1,7 @@
 import { config, seoConfig } from "@/site";
 import { getAllCalculators } from "@/site/navigation/calculators-registry";
 import { GuidePageLayout, ToolsHubSidebar } from "@/site/guides";
+import { coverToOgInput, coverToSchemaImage, TOOLS_HUB_COVER } from "@/site/guides/covers";
 import { ToolListCard } from "@/site/tools/ToolListCard";
 import { ToolsHubEditorial } from "@/site/tools/tools-hub-editorial";
 import { ToolsHubPicker } from "@/site/tools/tools-hub-picker";
@@ -11,8 +12,8 @@ import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
 import {
   buildBreadcrumbSchema,
+  buildCollectionPageSchema,
   buildFaqSchema,
-  buildWebPageSchema,
 } from "@/framework/seo/json-ld";
 import "@/site/guides/guide-page.css";
 import "@/site/tools/tools-hub.css";
@@ -23,6 +24,7 @@ export const metadata = buildPageMetadata(config, seoConfig, {
   title: hub.title,
   description: hub.description,
   path: hub.path,
+  ogImage: coverToOgInput(TOOLS_HUB_COVER),
 });
 
 export default function ToolsHubPage() {
@@ -32,7 +34,13 @@ export default function ToolsHubPage() {
     <>
       <JsonLd
         data={[
-          buildWebPageSchema(config, hub.h1, hub.description, hub.path),
+          buildCollectionPageSchema(
+            config,
+            hub.title,
+            hub.description,
+            hub.path,
+            coverToSchemaImage(TOOLS_HUB_COVER),
+          ),
           buildBreadcrumbSchema(config, [
             { name: "Accueil", path: "/" },
             { name: hub.h1, path: hub.path },

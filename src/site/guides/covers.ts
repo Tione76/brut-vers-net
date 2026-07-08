@@ -9,7 +9,6 @@ export interface GuideCoverImage {
   /** Chemin public vers le fichier .webp (nom de fichier d'origine conservé) */
   src: string;
   alt: string;
-  title: string;
   width: number;
   height: number;
 }
@@ -21,8 +20,7 @@ function ogPath(...parts: string[]): string {
 /** Image de couverture : page d'accueil / calculateur */
 export const HOME_COVER: GuideCoverImage = {
   src: ogPath("Calcul-HT-vers-TTC.webp"),
-  alt: "Calculateur TVA HT vers TTC et TTC vers HT, conversion gratuite en ligne",
-  title: "Calcul HT vers TTC",
+  alt: "Conversion d'un montant HT en prix TTC",
   width: OG_IMAGE_WIDTH,
   height: OG_IMAGE_HEIGHT,
 };
@@ -30,8 +28,23 @@ export const HOME_COVER: GuideCoverImage = {
 /** Image de couverture officielle : calculateur de marge HT / TTC */
 export const MARGIN_CALCULATOR_COVER: GuideCoverImage = {
   src: ogPath("Calcul-marge-HT-TTC.webp"),
-  alt: "Calculateur de marge HT / TTC, prix de vente, marge, taux de marque et TVA",
-  title: "Calculateur de marge HT / TTC",
+  alt: "Calcul de la marge HT et TTC",
+  width: OG_IMAGE_WIDTH,
+  height: OG_IMAGE_HEIGHT,
+};
+
+/** Open Graph : hub /guides */
+export const GUIDES_HUB_COVER: GuideCoverImage = {
+  src: ogPath("Guides-TVA.webp"),
+  alt: "Guides TVA",
+  width: OG_IMAGE_WIDTH,
+  height: OG_IMAGE_HEIGHT,
+};
+
+/** Open Graph : hub /nos-outils */
+export const TOOLS_HUB_COVER: GuideCoverImage = {
+  src: ogPath("Outils-calcul-tva.webp"),
+  alt: "Outils de calcul TVA",
   width: OG_IMAGE_WIDTH,
   height: OG_IMAGE_HEIGHT,
 };
@@ -40,36 +53,31 @@ export const MARGIN_CALCULATOR_COVER: GuideCoverImage = {
 export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
   "quels-sont-les-taux-de-tva-en-france": {
     src: ogPath("guides", "Les taux de TVA en France.webp"),
-    alt: "Les taux de TVA en France, guide des taux 20 %, 10 %, 5,5 % et 2,1 %",
-    title: "Les taux de TVA en France",
+    alt: "Les taux de TVA en France",
     width: OG_IMAGE_WIDTH,
     height: OG_IMAGE_HEIGHT,
   },
   "franchise-en-base-de-tva": {
     src: ogPath("guides", "Franchise en base de TVA.webp"),
-    alt: "Franchise en base de TVA, guide complet article 293 B du CGI",
-    title: "Franchise en base de TVA",
+    alt: "Franchise en base de TVA",
     width: OG_IMAGE_WIDTH,
     height: OG_IMAGE_HEIGHT,
   },
   "comment-faire-une-facture-conforme": {
     src: ogPath("guides", "Rédiger une facture conforme.webp"),
-    alt: "Rédiger une facture conforme, mentions obligatoires et règles TVA",
-    title: "Rédiger une facture conforme",
+    alt: "Rédiger une facture conforme",
     width: OG_IMAGE_WIDTH,
     height: OG_IMAGE_HEIGHT,
   },
   "tva-et-auto-entrepreneur": {
     src: ogPath("guides", "TVA et auto-entrepreneur.webp"),
-    alt: "TVA et auto-entrepreneur, franchise en base, seuils et facturation",
-    title: "TVA et auto-entrepreneur",
+    alt: "TVA et auto-entrepreneur",
     width: OG_IMAGE_WIDTH,
     height: OG_IMAGE_HEIGHT,
   },
   "tva-deductible-et-tva-collectee": {
     src: ogPath("guides", "TVA déductible et TVA collectée.webp"),
-    alt: "TVA déductible et TVA collectée, comprendre la différence et la déclaration",
-    title: "TVA déductible et TVA collectée",
+    alt: "TVA déductible et TVA collectée",
     width: OG_IMAGE_WIDTH,
     height: OG_IMAGE_HEIGHT,
   },
@@ -102,5 +110,14 @@ export function coverToOgInput(cover: GuideCoverImage) {
     height: cover.height,
     alt: cover.alt,
     type: OG_IMAGE_TYPE,
+  };
+}
+
+export function coverToSchemaImage(cover: GuideCoverImage) {
+  return {
+    url: cover.src,
+    width: cover.width,
+    height: cover.height,
+    caption: cover.alt,
   };
 }

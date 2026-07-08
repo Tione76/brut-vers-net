@@ -9,10 +9,11 @@ import "@/site/guides/guide-page.css";
 
 const page = seoConfig.legal.cookies;
 const path = "/gestion-des-cookies";
+const metaDescription = page.metaDescription ?? page.description;
 
 export const metadata = buildPageMetadata(config, seoConfig, {
   title: page.title,
-  description: page.description,
+  description: metaDescription,
   path,
 });
 
@@ -21,7 +22,7 @@ export default function CookiePreferencesPage() {
     <>
       <JsonLd
         data={[
-          buildWebPageSchema(config, page.title, page.description, path),
+          buildWebPageSchema(config, page.title, metaDescription, path),
           buildBreadcrumbSchema(config, [
             { name: "Accueil", path: "/" },
             { name: page.title, path },

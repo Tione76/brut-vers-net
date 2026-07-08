@@ -10,10 +10,11 @@ import "@/site/guides/guide-page.css";
 
 const page = seoConfig.legal.sitemap;
 const path = "/plan-du-site";
+const metaDescription = page.metaDescription ?? page.description;
 
 export const metadata = buildPageMetadata(config, seoConfig, {
   title: page.title,
-  description: page.description,
+  description: metaDescription,
   path,
 });
 
@@ -24,7 +25,7 @@ export default function SitemapPage() {
     <>
       <JsonLd
         data={[
-          buildWebPageSchema(config, page.title, page.description, path),
+          buildWebPageSchema(config, page.title, metaDescription, path),
           buildBreadcrumbSchema(config, [
             { name: "Accueil", path: "/" },
             { name: page.title, path },

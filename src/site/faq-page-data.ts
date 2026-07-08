@@ -25,9 +25,9 @@ export const FAQ_PAGE_INTRO =
 export const FAQ_PAGE_UPDATED = "juillet 2026";
 
 export const FAQ_PAGE_META = {
-  title: "FAQ TVA : calcul HT TTC, taux de TVA et factures",
+  title: "Calcul TVA, HT et TTC : toutes les réponses à vos questions",
   description:
-    "Réponses simples aux questions fréquentes sur le calcul HT vers TTC, le TTC vers HT, les taux de TVA, les factures, la franchise en base et les auto-entrepreneurs.",
+    "Retrouvez des réponses claires sur le calcul de la TVA, le HT, le TTC, les taux, les factures, les entreprises et les principales règles fiscales.",
 };
 
 export const faqPageCategories: FaqPageCategory[] = [

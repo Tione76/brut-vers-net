@@ -9,17 +9,6 @@ export const guideFactureConforme: Guide = {
     "Toutes les règles, les mentions obligatoires, les exemples et les erreurs à éviter pour créer une facture conforme en France.",
   updatedAt: "2026-07-04",
   publishedAt: "2026-07-04",
-  keywords: [
-    "facture conforme",
-    "mentions obligatoires facture",
-    "faire une facture",
-    "modèle facture",
-    "TVA facture",
-    "numérotation facture",
-    "facture auto-entrepreneur",
-    "facture rectificative",
-    "facture freelance",
-  ],
 
   introduction: [
     "Une facture conforme regroupe toutes les mentions légales exigées par le Code de commerce et le Code général des impôts.",

@@ -9,18 +9,6 @@ export const guideTvaDeductibleCollectee: Guide = {
     "Collectée sur vos ventes, déductible sur vos achats : maîtrisez la mécanique de la TVA, calculez ce que vous devez et évitez les erreurs courantes.",
   updatedAt: "2026-07-06",
   publishedAt: "2026-07-04",
-  keywords: [
-    "TVA déductible",
-    "TVA collectée",
-    "TVA due",
-    "déclaration TVA CA3",
-    "calcul TVA",
-    "crédit de TVA",
-    "prorata de déduction",
-    "TVA achats",
-    "TVA ventes",
-    "assujetti TVA",
-  ],
 
   introduction: [
     "La TVA collectée est la taxe que vous facturez à vos clients ; la TVA déductible est celle que vous récupérez sur vos achats professionnels.",

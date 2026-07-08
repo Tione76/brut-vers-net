@@ -28,12 +28,6 @@ export const OFFICIAL_GUIDE_MODEL: Guide = {
     "[Sous-titre header, promesse éditoriale en une phrase, complète le H1 sans le répéter.]",
   updatedAt: "2026-01-01",
   publishedAt: "2026-01-01",
-  keywords: [
-    "[mot-clé primaire]",
-    "[mot-clé secondaire 1]",
-    "[mot-clé secondaire 2]",
-    "[expression longue traîne]",
-  ],
 
   // ── Introduction (sans H2) ─────────────────────────────────────────
   introduction: [

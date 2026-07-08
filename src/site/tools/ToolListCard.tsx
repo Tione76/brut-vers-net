@@ -17,6 +17,7 @@ export function ToolListCard({ tool }: ToolListCardProps) {
       <span className="tool-list-card__cover">
         <GuideCoverImage
           cover={tool.cover}
+          decorative
           className="tool-list-card__cover-img"
           sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 380px"
         />

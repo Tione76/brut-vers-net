@@ -36,7 +36,6 @@ export interface SiteSeoInput {
 export interface SeoDefaultsInput {
   titleTemplate: string;
   defaultDescription: string;
-  keywords: string[];
   twitterHandle?: string;
   home: { title: string; ogImage?: string | OgImageInput };
 }
@@ -65,6 +64,7 @@ export function buildPageMetadata(
 ): Metadata {
   const canonical = getCanonicalUrl(site.url, page.path);
   const { absoluteUrl, meta } = resolveOgImage(site, page.ogImage);
+  const isGuidesPage = page.path === "/guides" || page.path.startsWith("/guides/");
 
   const ogImageEntry = {
     url: absoluteUrl,
@@ -75,14 +75,13 @@ export function buildPageMetadata(
   };
 
   return {
-    title: page.title,
+    title: { absolute: page.title },
     description: page.description,
-    keywords: seo.keywords,
     authors: [{ name: site.author }],
     ...(page.robots && { robots: page.robots }),
     ...(!page.noCanonical && { alternates: { canonical } }),
     openGraph: {
-      type: "website",
+      type: isGuidesPage ? "article" : "website",
       locale: site.locale.replace("-", "_"),
       url: canonical,
       siteName: site.name,
@@ -111,8 +110,12 @@ export function buildRootMetadata(
     metadataBase: new URL(site.url),
     title: { default: seo.home.title, template: seo.titleTemplate },
     description: seo.defaultDescription,
-    keywords: seo.keywords,
     authors: [{ name: site.author }],
+    icons: {
+      icon: { url: site.favicon, rel: "icon", type: "image/png", sizes: "any" },
+      shortcut: { url: site.favicon, rel: "shortcut icon", type: "image/png", sizes: "any" },
+      apple: { url: "/apple-icon.png", rel: "apple-touch-icon", type: "image/png", sizes: "any" },
+    },
     manifest: "/manifest.webmanifest",
     ...(site.analytics.googleSearchConsoleId && {
       verification: { google: site.analytics.googleSearchConsoleId },

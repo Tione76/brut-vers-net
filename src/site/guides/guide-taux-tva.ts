@@ -42,20 +42,6 @@ export const guideTauxTva: Guide = {
     "Tous les taux en vigueur, leurs bases légales, les cas d'application par activité, les exemples de calcul et les réponses aux questions les plus fréquentes.",
   updatedAt: "2026-07-06",
   publishedAt: "2026-07-04",
-  keywords: [
-    "taux TVA",
-    "TVA France",
-    "TVA 20 %",
-    "TVA 10 %",
-    "TVA 5,5 %",
-    "TVA 2,1 %",
-    "taux TVA photographe",
-    "taux TVA artisan",
-    "taux TVA restauration",
-    "taux réduit TVA",
-    "TVA DOM",
-    "calcul TVA HT TTC",
-  ],
 
   introduction: [
     "En France métropolitaine, la TVA s'applique à quatre taux : 20 % (normal), 10 % (intermédiaire), 5,5 % (réduit) et 2,1 % (particulier).",

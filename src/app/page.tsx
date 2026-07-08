@@ -1,5 +1,5 @@
 import { config, seoConfig, Calculator } from "@/site";
-import { coverToOgInput, HOME_COVER } from "@/site/guides/covers";
+import { coverToOgInput, coverToSchemaImage, HOME_COVER } from "@/site/guides/covers";
 import { CalculatorPageLayout } from "@/framework/layouts/CalculatorPageLayout";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
@@ -24,6 +24,7 @@ export default function HomePage() {
         data={[
           buildWebApplicationSchema(config, seoConfig.home.title, seoConfig.home.description, {
             dateModified: "2026-07-01",
+            image: coverToSchemaImage(HOME_COVER),
           }),
           buildOrganizationSchema(config),
           buildBreadcrumbSchema(config, [{ name: "Accueil", path: "/" }]),

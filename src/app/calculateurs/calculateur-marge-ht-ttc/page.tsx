@@ -1,7 +1,7 @@
 import { config, seoConfig } from "@/site";
 import MarginCalculator from "@/site/margin-calculator";
 import { MarginCalculatorEditorial } from "@/site/margin-calculator-editorial";
-import { coverToOgInput, MARGIN_CALCULATOR_COVER } from "@/site/guides/covers";
+import { coverToOgInput, coverToSchemaImage, MARGIN_CALCULATOR_COVER } from "@/site/guides/covers";
 import { ToolPageSidebar } from "@/site/guides/GuidePageSidebar";
 import { ToolCalculatorPageLayout } from "@/framework/layouts/ToolCalculatorPageLayout";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
@@ -27,6 +27,7 @@ export default function MarginCalculatorPage() {
         data={[
           buildWebApplicationSchema(config, page.title, page.description, {
             dateModified: "2026-07-01",
+            image: coverToSchemaImage(MARGIN_CALCULATOR_COVER),
           }),
           buildBreadcrumbSchema(config, [
             { name: "Accueil", path: "/" },

@@ -9,11 +9,28 @@ export interface JsonLdSiteInput {
   contact: { email: string };
 }
 
+export interface SchemaImageInput {
+  url: string;
+  width?: number;
+  height?: number;
+  caption?: string;
+}
+
+function buildImageObject(site: JsonLdSiteInput, image: SchemaImageInput) {
+  return {
+    "@type": "ImageObject" as const,
+    url: image.url.startsWith("http") ? image.url : `${site.url}${image.url}`,
+    ...(image.width && { width: image.width }),
+    ...(image.height && { height: image.height }),
+    ...(image.caption && { caption: image.caption }),
+  };
+}
+
 export function buildWebApplicationSchema(
   site: JsonLdSiteInput,
   title: string,
   description: string,
-  options?: { dateModified?: string },
+  options?: { dateModified?: string; image?: SchemaImageInput },
 ) {
   return {
     "@context": "https://schema.org",
@@ -26,6 +43,7 @@ export function buildWebApplicationSchema(
     offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
     inLanguage: site.language,
     ...(options?.dateModified && { dateModified: options.dateModified }),
+    ...(options?.image && { image: buildImageObject(site, options.image) }),
   };
 }
 
@@ -78,6 +96,7 @@ export function buildWebPageSchema(
   title: string,
   description: string,
   path: string,
+  image?: SchemaImageInput,
 ) {
   return {
     "@context": "https://schema.org",
@@ -87,5 +106,26 @@ export function buildWebPageSchema(
     url: getCanonicalUrl(site.url, path),
     inLanguage: site.language,
     isPartOf: { "@type": "WebSite", name: site.name, url: site.url },
+    ...(image && { primaryImageOfPage: buildImageObject(site, image) }),
+  };
+}
+
+/** Pages listant des guides ou outils */
+export function buildCollectionPageSchema(
+  site: JsonLdSiteInput,
+  title: string,
+  description: string,
+  path: string,
+  image?: SchemaImageInput,
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: title,
+    description,
+    url: getCanonicalUrl(site.url, path),
+    inLanguage: site.language,
+    isPartOf: { "@type": "WebSite", name: site.name, url: site.url },
+    ...(image && { image: buildImageObject(site, image) }),
   };
 }

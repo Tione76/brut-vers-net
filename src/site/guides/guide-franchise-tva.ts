@@ -60,23 +60,6 @@ export const guideFranchiseTva: Guide = {
     "Définition, seuils officiels, obligations de facturation, sortie de franchise, avantages et inconvénients, cas pratiques par métier et 35 réponses aux questions les plus fréquentes.",
   updatedAt: "2026-07-06",
   publishedAt: "2026-07-04",
-  keywords: [
-    "franchise en base TVA",
-    "franchise en base de TVA",
-    "TVA non applicable article 293 B",
-    "article 293 B CGI",
-    "seuil franchise TVA",
-    "seuil TVA micro entreprise",
-    "micro entrepreneur TVA",
-    "dépasser seuil TVA",
-    "facture sans TVA",
-    "mention TVA non applicable",
-    "auto entrepreneur TVA",
-    "franchise TVA profession libérale",
-    "franchise TVA artisan",
-    "option TVA art 293 C",
-    "récupération TVA franchise",
-  ],
 
   introduction: [
     "La franchise en base de TVA est un régime fiscal qui permet aux très petites entreprises de ne pas facturer la TVA à leurs clients, tant que leur chiffre d'affaires reste sous des plafonds fixés par la loi (art. 293 B du CGI).",

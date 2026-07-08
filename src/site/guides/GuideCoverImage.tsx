@@ -5,6 +5,8 @@ interface GuideCoverImageProps {
   cover: GuideCoverImageType;
   /** true uniquement pour LCP / above-the-fold */
   priority?: boolean;
+  /** Carte avec titre et description : image décorative (alt vide) */
+  decorative?: boolean;
   className?: string;
   sizes?: string;
 }
@@ -13,14 +15,14 @@ interface GuideCoverImageProps {
 export function GuideCoverImage({
   cover,
   priority = false,
+  decorative = false,
   className,
   sizes = "(max-width: 1023px) 100vw, 280px",
 }: GuideCoverImageProps) {
   return (
     <Image
       src={cover.src}
-      alt={cover.alt}
-      title={cover.title}
+      alt={decorative ? "" : cover.alt}
       width={cover.width}
       height={cover.height}
       sizes={sizes}

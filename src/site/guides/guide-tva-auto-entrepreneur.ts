@@ -9,17 +9,6 @@ export const guideTvaAutoEntrepreneur: Guide = {
     "Franchise en base, seuils de chiffre d'affaires, facturation, option pour la TVA et passage au régime réel : toutes les règles applicables à l'auto-entrepreneur.",
   updatedAt: "2026-07-06",
   publishedAt: "2026-07-04",
-  keywords: [
-    "TVA auto-entrepreneur",
-    "franchise en base TVA",
-    "art 293 B CGI",
-    "art 293 C CGI",
-    "seuils TVA micro-entreprise",
-    "facture auto-entrepreneur",
-    "assujetti TVA",
-    "option TVA",
-    "micro-entreprise TVA",
-  ],
 
   introduction: [
     "Par défaut, l'auto-entrepreneur bénéficie de la franchise en base de TVA : il ne facture pas la taxe et ne la reverse pas à l'État.",

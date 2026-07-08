@@ -40,7 +40,6 @@ export function buildArticleSchema(site: ArticleSiteInput, guide: Guide, path: s
     },
     url,
     inLanguage: site.language,
-    keywords: guide.keywords.join(", "),
     ...(cover && {
       image: {
         "@type": "ImageObject",

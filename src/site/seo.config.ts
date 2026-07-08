@@ -5,37 +5,22 @@ export const seoConfig = {
   titleTemplate: "%s | Calculateur TVA",
   defaultDescription:
     "Calculateur gratuit pour convertir un prix HT en TTC (ou l'inverse). Taux de TVA 20 %, 10 %, 5,5 % et 2,1 %. Résultat immédiat, sans inscription.",
-  keywords: [
-    "HT vers TTC",
-    "calcul HT vers TTC",
-    "calculateur HT vers TTC",
-    "prix HT",
-    "prix TTC",
-    "calcul TVA",
-    "taux TVA",
-    "convertir HT en TTC",
-    "convertir TTC en HT",
-    "montant TVA",
-    "calculateur TVA",
-    "hors taxes",
-    "toutes taxes comprises",
-  ],
   twitterHandle: undefined as string | undefined,
 
   home: {
-    title: "Calculateur HT vers TTC : Prix TTC et montant de TVA",
+    title: "Calculer HT vers TTC gratuitement - TVA 20 %, 10 %, 5,5 % et 2,1 %",
     h1: "CALCULATEUR TVA : HT → TTC ET TTC → HT",
     description:
-      "Calculez instantanément un prix TTC à partir d'un montant hors taxes. Taux de TVA en France métropolitaine (20 %, 10 %, 5,5 % ou 2,1 %). Calcul inverse TTC vers HT, arrondi au centime. Gratuit et sans inscription.",
+      "Calculateur HT en TTC gratuit pour convertir vos prix, calculer la TVA et accéder à des guides fiables sur les taux de TVA, les factures et les entreprises.",
     ogImage: "/images/og/Calcul-HT-vers-TTC.webp",
   },
 
   calculators: {
     marginHtTtc: {
       path: "/calculateurs/calculateur-marge-ht-ttc",
-      title: "Calculateur de marge HT / TTC : Calcul prix de vente",
+      title: "Calcul marge HT / TTC gratuit - Prix de vente et TVA",
       description:
-        "Calculez votre prix de vente HT et TTC à partir d'un coût d'achat. Marge commerciale, taux de marge, taux de marque, coefficient multiplicateur et TVA. Outil gratuit pour fixer vos tarifs de revente.",
+        "Calculateur de marge HT / TTC gratuit pour calculer votre prix de vente, votre taux de marge, la TVA et optimiser la rentabilité de votre activité.",
       h1: "Calculateur de marge HT / TTC",
     },
   },
@@ -64,21 +49,39 @@ export const seoConfig = {
     contact: {
       title: "Contact",
       description:
-        "Contactez l'équipe de HT-VERS-TTC.FR pour signaler une erreur, proposer une amélioration ou poser une question.",
+        "Contactez HT-VERS-TTC.fr pour signaler une erreur, proposer une amélioration ou poser une question.",
     },
-    privacy: { title: "Politique de confidentialité", description: "Informations sur vos données personnelles." },
+    privacy: {
+      title: "Politique de confidentialité",
+      description:
+        "Découvrez comment HT-VERS-TTC.FR traite vos données personnelles : contact, cookies, Google Analytics et vos droits RGPD.",
+      metaDescription:
+        "Découvrez comment HT-VERS-TTC.fr collecte, utilise et protège vos données personnelles conformément au RGPD.",
+    },
     cookies: {
       title: "Gestion des cookies",
       description:
         "Découvrez les cookies utilisés sur HT-VERS-TTC.FR, gérez vos préférences et comprenez le fonctionnement du bandeau de consentement.",
+      metaDescription:
+        "Gérez vos préférences en matière de cookies et découvrez leur utilisation sur HT-VERS-TTC.fr.",
     },
-    mentions: { title: "Mentions légales", description: "Informations légales sur l'éditeur et l'hébergeur." },
+    mentions: {
+      title: "Mentions légales",
+      description: "Informations légales sur l'éditeur et l'hébergeur.",
+      metaDescription:
+        "Consultez les mentions légales de HT-VERS-TTC.fr : éditeur, hébergement, propriété intellectuelle et informations légales du site.",
+    },
     faq: {
       title: "FAQ TVA",
       description:
         "Réponses aux questions fréquentes sur le calcul HT vers TTC, les taux de TVA, les factures et la franchise en base.",
     },
-    sitemap: { title: "Plan du site", description: "Liste de toutes les pages du site." },
+    sitemap: {
+      title: "Plan du site",
+      description: "Liste de toutes les pages du site.",
+      metaDescription:
+        "Retrouvez l'ensemble des pages, guides et calculateurs disponibles sur HT-VERS-TTC.fr.",
+    },
     /** @deprecated Utiliser toolsHub : conservé pour compatibilité */
     simulators: { title: "Tous les simulateurs", description: "Découvrez l'ensemble de nos outils en ligne." },
     notFound: { title: "Page introuvable", description: "La page demandée n'existe pas ou a été déplacée." },

@@ -27,7 +27,12 @@ export const siteConfig = {
     error: "#ce0500",
   },
 
-  logo: { src: "/logo.png", alt: "Calculateur TVA", width: 800, height: 800 },
+  logo: {
+    src: "/logo.png",
+    alt: "Logo HT-VERS-TTC.fr",
+    width: 800,
+    height: 800,
+  },
   favicon: "/icon.png",
   ogImage: "/images/og/Calcul-HT-vers-TTC.webp",
 
@@ -89,12 +94,8 @@ export const siteConfig = {
 
   legal: {
     privacy: {
-      lastUpdated: "2026-01-01",
-      sections: [
-        { title: "Responsable du traitement", content: "Le responsable du traitement est l'éditeur du site." },
-        { title: "Données collectées", content: "Aucune donnée n'est collectée via le formulaire de simulation." },
-        { title: "Vos droits", content: "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et d'effacement." },
-      ],
+      lastUpdated: "2026-07-01",
+      sections: [],
     },
     cookies: {
       lastUpdated: "2026-07-01",

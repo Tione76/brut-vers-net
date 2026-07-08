@@ -19,6 +19,7 @@ export function GuideListCard({ guide }: GuideListCardProps) {
       <span className="guide-list-card__cover">
         <GuideCoverImage
           cover={cover}
+          decorative
           className="guide-list-card__cover-img"
           sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 320px"
         />

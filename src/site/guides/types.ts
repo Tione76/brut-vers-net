@@ -216,8 +216,6 @@ export interface Guide {
   updatedAt: string;
   /** Date ISO de première publication : Article JSON-LD (datePublished) */
   publishedAt: string;
-  /** Mots-clés SEO secondaires : complètent seoConfig.keywords globaux */
-  keywords: string[];
   /** Image Open Graph / couverture : renseignée via attachGuideCover() */
   coverImage?: GuideCoverImage;
   /** 2 à 3 phrases : réponse immédiate à la question principale, sans H2 */

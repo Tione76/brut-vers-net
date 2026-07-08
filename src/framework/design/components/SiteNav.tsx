@@ -62,7 +62,7 @@ export function SiteNav({ siteName, nav, logo, toolsNavigation, guidesNavigation
     <div className="site-header-bar">
       <div className="site-header__inner">
         <header className="site-header">
-          <Link href="/" className="site-brand" aria-label={siteName}>
+          <Link href="/" className="site-brand">
             {logo ? (
               <Image
                 src={logo.src}
@@ -71,6 +71,7 @@ export function SiteNav({ siteName, nav, logo, toolsNavigation, guidesNavigation
                 height={logo.height}
                 className="site-brand__logo"
                 sizes="(max-width: 639px) 115px, 138px"
+                decoding="async"
                 priority
               />
             ) : (

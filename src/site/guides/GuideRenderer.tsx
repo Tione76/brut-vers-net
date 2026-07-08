@@ -266,7 +266,7 @@ function GuideSidebarToolCard({ tool }: { tool: SidebarTool }) {
   return (
     <Link href={tool.href} className="guide-sidebar-card guide-sidebar-card--calculator">
       <span className="guide-sidebar-card__cover">
-        <GuideCoverImage cover={tool.cover} className="guide-sidebar-card__cover-img" />
+        <GuideCoverImage cover={tool.cover} decorative className="guide-sidebar-card__cover-img" />
       </span>
       <span className="guide-sidebar-card__body">
         <span className="guide-sidebar-card__calc-icon" aria-hidden="true">

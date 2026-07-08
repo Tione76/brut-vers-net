@@ -16,6 +16,7 @@ import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
 import { buildBreadcrumbSchema, buildFaqSchema } from "@/framework/seo/json-ld";
 import { coverToOgInput, resolveGuideCover } from "@/site/guides/covers";
+import { getGuideSeoMetadata } from "@/site/guides/guide-seo-metadata";
 import { formatDate } from "@/framework/utils";
 
 interface Props {
@@ -40,10 +41,11 @@ export async function generateMetadata({ params }: Props) {
   if (!guide) return {};
 
   const cover = guide.isTemplate ? undefined : resolveGuideCover(guide);
+  const seoMeta = getGuideSeoMetadata(slug);
 
   return buildPageMetadata(config, seoConfig, {
-    title: guide.isTemplate ? "Modèle officiel de guide" : guide.title,
-    description: guide.description,
+    title: guide.isTemplate ? "Modèle officiel de guide" : (seoMeta?.title ?? guide.title),
+    description: seoMeta?.description ?? guide.description,
     path: `/guides/${slug}`,
     ogImage: cover ? coverToOgInput(cover) : undefined,
     ...(guide.isTemplate && { robots: { index: false, follow: false } }),
