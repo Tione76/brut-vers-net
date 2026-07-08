@@ -13,7 +13,7 @@ export function CookiePolicyContent() {
           Cette page décrit comment <strong>HT-VERS-TTC.FR</strong> utilise les cookies et
           technologies similaires, et comment vous pouvez gérer vos préférences. Elle est rédigée
           en lien direct avec le bandeau de consentement affiché sur le site et avec les services
-          réellement utilisés (Google Analytics 4, Google AdSense, Google Consent Mode).
+          réellement utilisés (Google Analytics 4, Microsoft Clarity, Google AdSense, Google Consent Mode).
         </p>
       </div>
 
@@ -75,7 +75,7 @@ export function CookiePolicyContent() {
                 </tr>
                 <tr>
                   <td>Analytiques</td>
-                  <td>Mesure d&apos;audience via Google Analytics 4</td>
+                  <td>Mesure d&apos;audience via Google Analytics 4 et Microsoft Clarity</td>
                   <td>Oui</td>
                 </tr>
                 <tr>
@@ -116,15 +116,16 @@ export function CookiePolicyContent() {
           <h3>Cookies analytiques</h3>
           <p>
             Lorsque vous acceptez les cookies analytiques, le site peut charger{" "}
-            <strong>Google Analytics 4</strong> afin de mesurer l&apos;audience de manière
-            agrégée.
+            <strong>Google Analytics 4</strong> et <strong>Microsoft Clarity</strong> afin de
+            mesurer l&apos;audience de manière agrégée et d&apos;analyser l&apos;expérience de
+            navigation (cartes de chaleur, enregistrements de session anonymisés).
           </p>
           <aside className="prose-callout prose-callout--legal">
             <strong>Point important</strong>
             <br />
-            Google Analytics 4 n&apos;est jamais chargé sans votre accord. Tant que vous n&apos;avez
-            pas accepté les cookies analytiques, aucun script de mesure d&apos;audience n&apos;est
-            exécuté sur votre navigateur.
+            Google Analytics 4 et Microsoft Clarity ne sont jamais chargés sans votre accord. Tant
+            que vous n&apos;avez pas accepté les cookies analytiques, aucun script de mesure
+            d&apos;audience n&apos;est exécuté sur votre navigateur.
           </aside>
           <p>Ces cookies permettent notamment de :</p>
           <ul>

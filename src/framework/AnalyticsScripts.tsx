@@ -71,3 +71,45 @@ export function AdSenseLoader() {
     />
   );
 }
+
+/**
+ * Microsoft Clarity : chargé uniquement en production, après consentement analytique.
+ * Le script est importé dynamiquement pour ne pas impacter le bundle initial.
+ */
+export function ClarityLoader() {
+  const { analytics } = useSite();
+  const { preferences, status } = useConsent();
+  const projectId = analytics.microsoftClarityId;
+
+  useEffect(() => {
+    if (!IS_PRODUCTION || !projectId || status === "pending") return;
+
+    let cancelled = false;
+
+    void import("@microsoft/clarity").then(({ default: Clarity }) => {
+      if (cancelled) return;
+
+      if (preferences.analytics) {
+        Clarity.init(projectId);
+        Clarity.consentV2({
+          analytics_Storage: "granted",
+          ad_Storage: preferences.advertising ? "granted" : "denied",
+        });
+        return;
+      }
+
+      if (document.getElementById("clarity-script")) {
+        Clarity.consentV2({
+          analytics_Storage: "denied",
+          ad_Storage: "denied",
+        });
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId, preferences.analytics, preferences.advertising, status]);
+
+  return null;
+}

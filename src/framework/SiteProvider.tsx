@@ -18,7 +18,7 @@ import {
 } from "@/framework/consent/storage";
 import { initConsentModeDefault, updateConsentMode } from "@/framework/consent/consent-mode";
 import { CookieBanner } from "@/framework/CookieBanner";
-import { AnalyticsScripts, AdSenseLoader } from "@/framework/AnalyticsScripts";
+import { AnalyticsScripts, AdSenseLoader, ClarityLoader } from "@/framework/AnalyticsScripts";
 import type { config } from "@/site";
 
 export type SiteConfig = typeof config;
@@ -129,6 +129,7 @@ export function SiteProvider({ config, children }: { config: SiteConfig; childre
         {children}
         <CookieBanner />
         <AnalyticsScripts />
+        <ClarityLoader />
         <AdSenseLoader />
       </ConsentContext.Provider>
     </SiteContext.Provider>

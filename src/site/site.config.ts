@@ -129,6 +129,10 @@ export const siteConfig = {
       process.env.NODE_ENV === "production"
         ? (process.env.NEXT_PUBLIC_GA_ID ?? "G-5886CNKJNM")
         : undefined,
+    microsoftClarityId:
+      process.env.NODE_ENV === "production"
+        ? (process.env.NEXT_PUBLIC_CLARITY_ID ?? "xjfu8c3z5p")
+        : undefined,
     googleSearchConsoleId: process.env.NEXT_PUBLIC_GSC_ID,
     googleAdsenseClientId: process.env.NEXT_PUBLIC_ADSENSE_ID,
   },
