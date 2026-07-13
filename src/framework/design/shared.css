@@ -257,7 +257,7 @@
 }
 
 .site-nav__dropdown-link--active {
-  background: #eef4fa;
+  background: var(--ds-brand-light);
   color: var(--ds-brand) !important;
   font-weight: 600;
 }
@@ -338,7 +338,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(238, 246, 252, 0.7);
+  color: var(--ds-on-brand-muted);
   margin-bottom: 8px;
 }
 
@@ -372,7 +372,7 @@
 
 .section-intro {
   font-size: 0.875rem;
-  color: rgba(238, 246, 252, 0.8);
+  color: var(--ds-on-brand-strong);
   margin-bottom: 32px;
   max-width: 36rem;
   line-height: 1.55;
@@ -520,7 +520,7 @@
   color: var(--ds-brand);
   text-decoration: underline;
   text-underline-offset: 2px;
-  text-decoration-color: rgba(26, 75, 124, 0.35);
+  text-decoration-color: rgba(var(--ds-brand-rgb), 0.35);
 }
 
 .faq-page a:hover {
@@ -561,7 +561,7 @@
 
 .tool-card--content:hover {
   border-color: var(--ds-brand);
-  background: #f6f9fc;
+  background: var(--ds-brand-light);
 }
 
 .tool-card--content .tool-card__icon {
@@ -626,7 +626,7 @@
 
 .site-footer__desc {
   font-size: 0.75rem;
-  color: rgba(238, 246, 252, 0.72);
+  color: var(--ds-on-brand-soft);
   line-height: 1.45;
 }
 
@@ -639,7 +639,7 @@
   font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: rgba(238, 246, 252, 0.6);
+  color: var(--ds-on-brand-faint);
   margin-bottom: 8px;
 }
 
@@ -654,7 +654,7 @@
 
 .site-footer__tool-links a {
   font-size: 0.8125rem;
-  color: rgba(238, 246, 252, 0.88);
+  color: var(--ds-on-brand-strong);
   text-decoration: none;
   transition: color 0.15s ease;
 }
@@ -681,7 +681,7 @@
 .site-footer__legal a,
 .site-footer__legal button {
   font-size: 0.75rem;
-  color: rgba(238, 246, 252, 0.75);
+  color: var(--ds-on-brand-soft);
   text-decoration: none;
   background: none;
   border: none;
@@ -697,7 +697,7 @@
 
 .site-footer__sep {
   font-size: 0.625rem;
-  color: rgba(238, 246, 252, 0.35);
+  color: var(--ds-on-brand-dim);
   padding: 0 2px;
   user-select: none;
 }
@@ -706,7 +706,7 @@
   margin-top: 8px;
   text-align: center;
   font-size: 0.6875rem;
-  color: rgba(212, 230, 245, 0.5);
+  color: var(--ds-on-brand-separator);
 }
 
 .blog-grid {
@@ -729,7 +729,7 @@
 }
 
 .blog-card:hover {
-  border-color: #b8c5d4;
+  border-color: var(--ds-brand-muted);
 }
 
 .blog-card__thumb {

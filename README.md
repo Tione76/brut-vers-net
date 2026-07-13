@@ -56,7 +56,7 @@ Référence : `src/framework/templates.ts`.
 
 La couleur principale (`colors.primary`) alimente automatiquement le design system (`--ds-brand`).
 
-Valeur recommandée : `#1a4b7c`.
+Valeur officielle : `#f28539`.
 
 ---
 
@@ -64,7 +64,7 @@ Valeur recommandée : `#1a4b7c`.
 
 Éditez **`src/site/calculator.tsx`**. Utilisez les classes du design system :
 
-- `calc-field-label`, `calc-input`, champs sur fond bleu
+- `calc-field-label`, `calc-input`, champs sur fond brand
 - `calc-col-actions`, `calc-cta`, `calc-reset`, boutons
 - `ResultDisplay`, affichage du résultat
 

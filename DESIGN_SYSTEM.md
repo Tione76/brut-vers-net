@@ -22,13 +22,18 @@ Sélection automatique : voir `src/framework/templates.ts`.
 
 | Token | Valeur par défaut | Usage |
 |-------|-------------------|-------|
-| `--ds-brand` | `#1a4b7c` | Header, footer, liens, boutons |
-| `--ds-brand-dark` | `#153d66` | Hover boutons, bannières |
+| `--ds-brand` | `#f28539` | Header, footer, liens, boutons |
+| `--ds-brand-dark` | `#da7830` | Hover boutons, bannières |
+| `--ds-brand-active` | `#c66f28` | État actif des boutons |
+| `--ds-brand-light` | `#fff4ed` | Fonds légers, états actifs nav |
+| `--ds-brand-muted` | `#f2d5bc` | Bordures brand atténuées |
+| `--ds-label-on-brand` | `#fff6f0` | Labels sur fond brand |
+| `--ds-text-on-brand` | `#fff1e8` | Texte sur fond brand |
 | `--ds-text` | `#161616` | Texte principal |
 | `--ds-text-muted` | `#6b7280` | Texte secondaire |
 | `--ds-border` | `#e4e8ed` | Bordures, séparateurs |
 | `--ds-border-light` | `#dde3ea` | Bordures cartes |
-| `--ds-input-border` | `#b8c9d9` | Champs formulaire |
+| `--ds-input-border` | `#e3cbb9` | Champs formulaire |
 | `--ds-surface` | `#ffffff` | Fond pages |
 | `--ds-surface-alt` | `#f7f9fb` | Encadrés, sidebar |
 
@@ -96,7 +101,7 @@ Classes : `content-wrap`, `content-wrap--wide`.
 
 ### Pages intérieures (`article-header`)
 - Hauteur : ~200px
-- Même bleu, même menu, même vague
+- Même brand, même menu, même vague
 - Meta + titre + sous-titre
 
 **Ne jamais modifier** ces hauteurs ni la couleur de fond.
@@ -123,13 +128,13 @@ Classes partagées (`forms.css`) :
 | Classe | Contexte |
 |--------|----------|
 | `ds-field-label` | Label sur fond clair |
-| `calc-field-label` | Label sur fond bleu (simulateur) |
+| `calc-field-label` | Label sur fond brand (simulateur) |
 | `ds-input` / `ds-select` / `ds-textarea` | Champs sur fond clair (40px) |
-| `calc-input` | Champs simulateur sur fond bleu |
+| `calc-input` | Champs simulateur sur fond brand |
 | `ds-btn ds-btn--primary` | Bouton sur fond clair |
-| `calc-cta` | Bouton blanc sur fond bleu |
+| `calc-cta` | Bouton blanc sur fond brand |
 
-Focus : bordure brand + ombre `rgba(26, 75, 124, 0.15)`.
+Focus : bordure brand + ombre `rgba(var(--ds-brand-rgb), 0.15)`.
 Radius : `4px` partout.
 
 ---
@@ -157,7 +162,7 @@ Transitions : `0.15s ease` uniquement.
 | `faq-item` | Questions FAQ |
 
 Bordure : `1px solid var(--ds-border-light)`, radius `4px`.
-Hover : bordure brand ou fond `#f6f9fc`.
+Hover : bordure brand ou fond `var(--ds-brand-light)`.
 
 ---
 
@@ -204,7 +209,7 @@ Classe `faq-item` + `details/summary`, même composant sur accueil et page `/faq
 
 ## Éléments à ne jamais modifier
 
-1. Couleur brand `#1a4b7c` (sauf via `site.config.ts`)
+1. Couleur brand `#f28539` (sauf via `site.config.ts`)
 2. Hauteurs des headers (600px simulateur, 200px compact)
 3. Structure footer (courbe + 3 zones)
 4. Grille 8 px

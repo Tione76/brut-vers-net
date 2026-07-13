@@ -16,9 +16,9 @@
   margin-bottom: 8px;
 }
 
-/* Labels sur fond bleu (header calculateur) */
+/* Labels sur fond brand (header calculateur) */
 .ds-field-label--on-brand {
-  color: var(--ds-label-on-blue);
+  color: var(--ds-label-on-brand);
 }
 
 .ds-input,
@@ -56,10 +56,10 @@
 .ds-select:focus {
   outline: none;
   border-color: var(--ds-brand);
-  box-shadow: 0 0 0 2px rgba(26, 75, 124, 0.15);
+  box-shadow: 0 0 0 2px rgba(var(--ds-brand-rgb), 0.15);
 }
 
-/* Focus sur fond bleu (simulateur) */
+/* Focus sur fond brand (simulateur) */
 .ds-input--on-brand:focus,
 .ds-textarea--on-brand:focus,
 .ds-select--on-brand:focus {
@@ -96,11 +96,11 @@
 }
 
 .ds-btn--primary:active {
-  background: #123456;
-  border-color: #123456;
+  background: var(--ds-brand-active);
+  border-color: var(--ds-brand-active);
 }
 
-/* Bouton sur fond bleu (simulateur : calc-cta) */
+/* Bouton sur fond brand (simulateur : calc-cta) */
 .ds-btn--on-brand {
   color: var(--ds-brand);
   background: #ffffff;
@@ -108,13 +108,13 @@
 }
 
 .ds-btn--on-brand:hover {
-  background: #eef4fa;
-  border-color: #eef4fa;
+  background: var(--ds-brand-light);
+  border-color: var(--ds-brand-light);
 }
 
 .ds-btn--on-brand:active {
-  background: #e2ebf4;
-  border-color: #e2ebf4;
+  background: #ffe5d0;
+  border-color: #ffe5d0;
 }
 
 .ds-form-trust {

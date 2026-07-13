@@ -1,0 +1,360 @@
+/* Disposition et typographie du calculateur salaire (page d'accueil uniquement) */
+
+.salary-calc.calc-fields {
+  --salary-calc-gap: 11px;
+  --salary-calc-input-height: 40px;
+  gap: var(--salary-calc-gap);
+  max-width: 44rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.salary-calc .calc-field-label,
+.salary-calc__section-label {
+  font-size: var(--ds-font-size-lg);
+  margin-bottom: 7px;
+}
+
+.salary-calc__matrix {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.salary-calc__matrix-head,
+.salary-calc__matrix-row {
+  display: grid;
+  grid-template-columns: minmax(5rem, 6rem) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px 14px;
+  align-items: center;
+}
+
+.salary-calc__col-head {
+  margin-bottom: 0;
+  text-align: center;
+  font-size: var(--ds-font-size-lg);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.salary-calc__row-label {
+  font-size: var(--ds-font-size-lg);
+  font-weight: 600;
+  color: var(--ds-label-on-brand);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.salary-calc__cell {
+  min-width: 0;
+}
+
+.salary-calc__cell .calc-input,
+.salary-calc__param .calc-input,
+.salary-calc__output {
+  height: var(--salary-calc-input-height);
+  padding: 0 14px;
+  font-size: var(--ds-font-size-xl);
+  font-weight: 500;
+}
+
+.salary-calc__cell .calc-input::placeholder,
+.salary-calc__param .calc-input::placeholder {
+  color: var(--ds-text-muted);
+  opacity: 1;
+  font-size: var(--ds-font-size-lg);
+  font-weight: 400;
+}
+
+.salary-calc__cell .calc-input:not(:placeholder-shown),
+.salary-calc__param .calc-input:not(:placeholder-shown) {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.salary-calc__cell .calc-input:focus,
+.salary-calc__param .calc-input:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6), 0 0 0 4px rgba(var(--ds-brand-rgb), 0.22);
+}
+
+.salary-calc__cell .calc-field-error {
+  margin-top: 4px;
+  font-size: var(--ds-font-size-base);
+}
+
+.salary-calc__param {
+  margin: 0;
+}
+
+.salary-calc__param .calc-range {
+  margin-top: 4px;
+}
+
+.salary-calc__after-tax {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 520px) {
+  .salary-calc__after-tax {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
+
+.salary-calc__after-tax-field .calc-field-label {
+  margin-bottom: 7px;
+  font-size: var(--ds-font-size-lg);
+}
+
+.salary-calc__output {
+  cursor: default;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.salary-calc__output:placeholder-shown {
+  text-align: center;
+  font-size: var(--ds-font-size-lg);
+  font-weight: 400;
+  font-style: normal;
+}
+
+.salary-calc__output::placeholder {
+  color: var(--ds-text-muted);
+  opacity: 1;
+  font-weight: 400;
+  font-size: var(--ds-font-size-lg);
+}
+
+.salary-calc__output:not(:placeholder-shown) {
+  text-align: left;
+  font-size: var(--ds-font-size-xl);
+  font-weight: 700;
+  color: var(--ds-text);
+}
+
+/* Groupes d'options sélectionnables */
+.selectable-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.selectable-option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  min-width: 2.75rem;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: var(--ds-radius);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ds-text);
+  font-size: var(--ds-font-size-md);
+  font-weight: 500;
+  line-height: 1.3;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition:
+    background-color var(--ds-transition),
+    border-color var(--ds-transition),
+    color var(--ds-transition),
+    box-shadow var(--ds-transition),
+    transform var(--ds-transition);
+  user-select: none;
+}
+
+.selectable-option--compact {
+  min-height: 36px;
+  padding: 7px 12px;
+}
+
+.selectable-option:hover {
+  border-color: rgba(255, 255, 255, 0.75);
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.selectable-option--selected {
+  background: #ffffff;
+  border: 2px solid var(--ds-brand-active);
+  color: var(--ds-text);
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+  transform: translateY(-1px);
+}
+
+.selectable-option--selected:hover {
+  background: #ffffff;
+  border-color: var(--ds-brand-active);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.16);
+}
+
+.selectable-option:active {
+  transform: translateY(0);
+}
+
+.selectable-option--selected:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.selectable-option__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.selectable-option:has(.selectable-option__input:focus-visible) {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.selectable-option__indicator {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ds-brand-active);
+  color: #ffffff;
+}
+
+.selectable-option__label {
+  pointer-events: none;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.salary-calc__hint {
+  margin: 6px 0 0;
+  font-size: var(--ds-font-size-sm);
+  line-height: 1.45;
+  color: var(--ds-on-brand-soft);
+}
+
+.salary-calc__hint--secondary {
+  margin-top: 4px;
+  color: var(--ds-on-brand-muted);
+}
+
+.salary-calc__link-action {
+  margin-top: 6px;
+  padding: 0;
+  font-family: inherit;
+  font-size: var(--ds-font-size-sm);
+  font-weight: 600;
+  color: #ffffff;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: color var(--ds-transition), text-decoration-color var(--ds-transition);
+}
+
+.salary-calc__link-action:hover {
+  color: #ffffff;
+  text-decoration-color: rgba(255, 255, 255, 0.85);
+}
+
+.salary-calc__link-action:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.salary-calc__actions {
+  margin-top: 2px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  justify-content: center;
+}
+
+.salary-calc__reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 22px;
+  font-family: inherit;
+  font-size: var(--ds-font-size-md);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: var(--ds-radius);
+  cursor: pointer;
+  transition:
+    background-color var(--ds-transition),
+    border-color var(--ds-transition),
+    color var(--ds-transition),
+    box-shadow var(--ds-transition);
+}
+
+.salary-calc__reset:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.72);
+  color: #ffffff;
+}
+
+.salary-calc__reset:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.salary-calc__reset:active {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.salary-calc__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tool-header--salary-compact {
+  min-height: 0;
+}
+
+.tool-header--salary-compact .tool-header__title--sentence {
+  font-size: clamp(1.625rem, 1.235rem + 2.08vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.32;
+}
+
+.tool-header--salary-compact .calc-tool {
+  min-height: 0;
+}
+
+.tool-header--salary-compact .calc-tool--salary {
+  min-height: 0;
+}
+
+.tool-header--salary-compact .calc-disclaimer {
+  margin-top: 10px;
+  padding-top: 10px;
+  font-size: var(--ds-font-size-sm);
+  line-height: 1.45;
+}

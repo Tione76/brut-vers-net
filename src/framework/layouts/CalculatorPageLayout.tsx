@@ -2,7 +2,7 @@
 
 import type { ComponentType } from "react";
 import Link from "next/link";
-import { useSite, CalculatorProvider, useCalculatorSlot } from "@/framework/SiteProvider";
+import { useSite, CalculatorProvider } from "@/framework/SiteProvider";
 import { AdSlot } from "@/framework/AdSlot";
 import { SiteNav } from "@/framework/design/components/SiteNav";
 import { HeaderCurveDown } from "@/framework/design/components/Curves";
@@ -19,28 +19,12 @@ interface CalculatorPageLayoutProps {
 }
 
 function CalculatorHero({ Calculator }: { Calculator: ComponentType }) {
-  const { result } = useCalculatorSlot();
-
   return (
-    <div className="calc-tool">
-      <div className="calc-columns">
-        <div className="calc-col calc-col--inputs">
-          <p className="calc-col-title">Vos données</p>
-          <Calculator />
-        </div>
-        <div className="calc-col calc-col--results" id="resultat" aria-live="polite" aria-atomic="true">
-          <p className="calc-col-title">Résultats</p>
-          {result ?? (
-            <div className="result-primary">
-              <p className="result-primary-label">En attente</p>
-              <p className="result-primary-value">-</p>
-              <p className="result-details">Renseignez le formulaire pour voir les résultats.</p>
-            </div>
-          )}
-        </div>
-      </div>
+    <div className="calc-tool calc-tool--salary">
+      <Calculator />
       <p className="calc-disclaimer">
-        Le calculateur est actuellement en cours de développement.
+        Cette simulation fournit une estimation indicative. Le montant réel peut varier selon votre
+        situation, votre contrat, votre régime et les retenues appliquées.
       </p>
     </div>
   );
@@ -52,7 +36,7 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
 
   return (
     <>
-      <section className="tool-header">
+      <section className="tool-header tool-header--salary-compact">
         <SiteNav
           siteName={site.name}
           nav={site.navigation.header}
@@ -61,7 +45,7 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
           toolsNavigation={site.toolsNavigation}
         />
         <div className="tool-header__inner">
-          <h1 className="tool-header__title">{site.home.h1}</h1>
+          <h1 className="tool-header__title tool-header__title--sentence">{site.home.h1}</h1>
           <div className="calc-stage">
             <CalculatorHero Calculator={Calculator} />
           </div>
@@ -115,7 +99,9 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
         <section id="faq" className="content-section content-section--border">
           <div className="content-wrap">
             <p className="section-eyebrow section-eyebrow--dark">FAQ</p>
-            <h2 className="section-title section-title--dark">Questions fréquentes</h2>
+            <h2 className="section-title section-title--dark">
+              Questions fréquentes sur le salaire Brut vers Net
+            </h2>
             <HomeFaqContent />
           </div>
         </section>

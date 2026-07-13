@@ -10,6 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint src",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "convert:og-images": "node scripts/convert-og-images.mjs",
     "indexnow:generate-key": "node scripts/generate-indexnow-key.mjs",
     "indexnow:notify": "node scripts/notify-indexnow.mjs"
@@ -31,6 +33,7 @@
     "eslint-config-next": "^15.5.20",
     "sharp": "^0.35.3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.10"
   }
 }

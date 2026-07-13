@@ -27,9 +27,9 @@ export const siteConfig = {
   locale: "fr-FR",
 
   colors: {
-    primary: "#1a4b7c",
-    primaryHover: "#153d66",
-    primaryLight: "#f7f9fb",
+    primary: "#f28539",
+    primaryHover: "#da7830",
+    primaryLight: "#fff4ed",
     accent: "#e1000f",
     background: "#ffffff",
     surface: "#f7f9fb",
@@ -37,26 +37,26 @@ export const siteConfig = {
     text: "#161616",
     textMuted: "#6b7280",
     textInverse: "#ffffff",
-    focus: "#1a4b7c",
+    focus: "#f28539",
     success: "#18753c",
     error: "#ce0500",
   },
 
   logo: {
-    src: "/logo.png",
+    src: "/logo.png?v=2",
     alt: "Logo Brut vers Net",
     width: 800,
     height: 800,
   },
-  favicon: "/icon.png",
-  ogImage: "/logo.png",
+  favicon: "/logo-icon.png?v=2",
+  ogImage: "/logo.png?v=2",
 
   footerBrandName: "BRUT-VERS-NET.FR",
   footerDescription:
     "Calculateur Brut vers Net pour estimer prochainement votre salaire net à partir de votre salaire brut.",
 
   home: {
-    h1: "Calculateur Brut vers Net",
+    h1: "Calculez votre salaire Brut vers Net",
     intro: [
       "Estimez prochainement votre salaire net à partir de votre salaire brut.",
     ] as [string, string?],

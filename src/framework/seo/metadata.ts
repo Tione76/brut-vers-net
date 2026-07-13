@@ -114,7 +114,7 @@ export function buildRootMetadata(
     icons: {
       icon: { url: site.favicon, rel: "icon", type: "image/png", sizes: "any" },
       shortcut: { url: site.favicon, rel: "shortcut icon", type: "image/png", sizes: "any" },
-      apple: { url: "/apple-icon.png", rel: "apple-touch-icon", type: "image/png", sizes: "any" },
+      apple: { url: "/logo-icon@2x.png?v=2", rel: "apple-touch-icon", type: "image/png", sizes: "any" },
     },
     manifest: "/manifest.webmanifest",
     ...(site.analytics.googleSearchConsoleId && {

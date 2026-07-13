@@ -47,12 +47,12 @@
 }
 
 .tool-list-card--featured {
-  box-shadow: 0 2px 12px rgba(26, 75, 124, 0.06);
+  box-shadow: 0 2px 12px rgba(var(--ds-brand-rgb), 0.06);
 }
 
 .tool-list-card--featured:hover {
   border-color: var(--ds-brand);
-  box-shadow: 0 8px 28px rgba(26, 75, 124, 0.14);
+  box-shadow: 0 8px 28px rgba(var(--ds-brand-rgb), 0.14);
   transform: translateY(-3px);
 }
 
@@ -68,7 +68,7 @@
   text-transform: uppercase;
   color: var(--ds-brand);
   background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(26, 75, 124, 0.15);
+  border: 1px solid rgba(var(--ds-brand-rgb), 0.15);
   border-radius: 4px;
 }
 
@@ -129,7 +129,7 @@
 }
 
 .tool-list-card:hover .tool-list-card__cta {
-  background: var(--ds-primary-hover, #153d66);
+  background: var(--ds-brand-dark);
   text-decoration: none;
 }
 
@@ -161,7 +161,7 @@
   font-size: 0.6875rem;
   font-weight: 700;
   color: var(--ds-brand);
-  background: rgba(26, 75, 124, 0.08);
+  background: rgba(var(--ds-brand-rgb), 0.08);
   border-radius: 50%;
 }
 
@@ -222,7 +222,7 @@
 
 .tools-hub-picker__card:hover {
   border-color: var(--ds-brand);
-  box-shadow: 0 4px 16px rgba(26, 75, 124, 0.08);
+  box-shadow: 0 4px 16px rgba(var(--ds-brand-rgb), 0.08);
 }
 
 .tools-hub-picker__icon {
@@ -271,9 +271,9 @@
   margin-left: -24px;
   margin-right: -24px;
   padding: 36px 24px;
-  background: linear-gradient(180deg, rgba(26, 75, 124, 0.04) 0%, rgba(26, 75, 124, 0.07) 100%);
-  border-top: 1px solid rgba(26, 75, 124, 0.08);
-  border-bottom: 1px solid rgba(26, 75, 124, 0.08);
+  background: linear-gradient(180deg, rgba(var(--ds-brand-rgb), 0.04) 0%, rgba(var(--ds-brand-rgb), 0.07) 100%);
+  border-top: 1px solid rgba(var(--ds-brand-rgb), 0.08);
+  border-bottom: 1px solid rgba(var(--ds-brand-rgb), 0.08);
 }
 
 @media (min-width: 768px) {
@@ -281,7 +281,7 @@
     margin-left: 0;
     margin-right: 0;
     padding: 40px 32px;
-    border: 1px solid rgba(26, 75, 124, 0.1);
+    border: 1px solid rgba(var(--ds-brand-rgb), 0.1);
     border-radius: var(--ds-radius);
   }
 
@@ -344,15 +344,15 @@
   align-items: center;
   padding: 10px 16px;
   font-size: 0.875rem;
-  background: rgba(26, 75, 124, 0.06);
-  border: 1px solid rgba(26, 75, 124, 0.18);
+  background: rgba(var(--ds-brand-rgb), 0.06);
+  border: 1px solid rgba(var(--ds-brand-rgb), 0.18);
   border-radius: 6px;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .tools-hub-cta--button:hover {
   text-decoration: none;
-  background: rgba(26, 75, 124, 0.1);
+  background: rgba(var(--ds-brand-rgb), 0.1);
   border-color: var(--ds-brand);
 }
 
