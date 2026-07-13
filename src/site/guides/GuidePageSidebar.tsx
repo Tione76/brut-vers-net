@@ -2,6 +2,7 @@ import { GuideSidebar } from "./GuideRenderer";
 import {
   getSidebarGuides,
   getSidebarTools,
+  hasSidebarContent,
   type SidebarPageType,
 } from "./sidebar";
 
@@ -20,18 +21,22 @@ export function SiteSidebar({ pageType, currentPath, currentGuideSlug }: SiteSid
       ? []
       : getSidebarGuides(context);
   const showTools = tools.length > 0;
+
+  if (!hasSidebarContent(context)) return null;
   const guidesSectionTitle =
     pageType === "home" || pageType === "tools-hub" ? "Nos guides" : "À lire aussi";
   const guidesBlockVariant = pageType === "home" || pageType === "tools-hub" ? "guides" : "also-read";
 
   return (
-    <GuideSidebar
-      tools={tools}
-      guides={guides}
-      guidesSectionTitle={guidesSectionTitle}
-      guidesBlockVariant={guidesBlockVariant}
-      showTools={showTools}
-    />
+    <aside className="article-sidebar" aria-label="Maillage interne">
+      <GuideSidebar
+        tools={tools}
+        guides={guides}
+        guidesSectionTitle={guidesSectionTitle}
+        guidesBlockVariant={guidesBlockVariant}
+        showTools={showTools}
+      />
+    </aside>
   );
 }
 
@@ -66,7 +71,7 @@ export function ToolPageSidebar({ currentPath }: { currentPath: string }) {
   return <SiteSidebar pageType="calculator" currentPath={currentPath} />;
 }
 
-/** Sidebar page d'accueil : autres outils + guides (sans le calculateur HT → TTC) */
+/** Sidebar page d'accueil : autres outils + guides */
 export function HomePageSidebar() {
   return <SiteSidebar pageType="home" currentPath="/" />;
 }

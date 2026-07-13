@@ -8,7 +8,7 @@ export function PrivacyPolicyContent() {
     <>
       <div className="guide-intro">
         <p>
-          La présente politique de confidentialité explique comment <strong>HT-VERS-TTC.FR</strong>{" "}
+          La présente politique de confidentialité explique comment <strong>BRUT-VERS-NET.FR</strong>{" "}
           traite les données personnelles des visiteurs et des personnes qui nous contactent. Elle
           est rédigée en lien avec le fonctionnement réel du site : calculateurs gratuits, guides
           pratiques, formulaire de contact, mesure d&apos;audience et outils d&apos;analyse SEO
@@ -22,14 +22,14 @@ export function PrivacyPolicyContent() {
         <h2>Responsable du traitement</h2>
         <p>
           Le responsable du traitement des données personnelles collectées via le site{" "}
-          <strong>HT-VERS-TTC.FR</strong> est :
+          <strong>BRUT-VERS-NET.FR</strong> est :
         </p>
         <p>
           <strong>Antoine Denis</strong>
           <br />
           Particulier, éditeur du site
           <br />
-          <a href="mailto:contact@ht-vers-ttc.fr">contact@ht-vers-ttc.fr</a>
+          <a href="mailto:contact@brut-vers-net.fr">contact@brut-vers-net.fr</a>
         </p>
         <p>
           Pour les coordonnées complètes de l&apos;éditeur, vous pouvez consulter nos{" "}
@@ -58,9 +58,9 @@ export function PrivacyPolicyContent() {
           </li>
         </ul>
         <p>
-          Les calculateurs du site (conversion HT/TTC, calcul de TVA, marge commerciale, etc.)
-          fonctionnent localement dans votre navigateur. Ils ne nécessitent pas de création de
-          compte et ne collectent pas les montants que vous saisissez à des fins de profilage.
+          Les calculateurs du site fonctionnent localement dans votre navigateur. Ils ne
+          nécessitent pas de création de compte et ne collectent pas les montants que vous saisissez
+          à des fins de profilage.
         </p>
       </section>
 
@@ -74,7 +74,7 @@ export function PrivacyPolicyContent() {
         <p>
           L&apos;envoi du message s&apos;effectue via une route sécurisée du site, qui fait appel au
           service <strong>Resend</strong> pour la délivrance de l&apos;e-mail à l&apos;adresse{" "}
-          <strong>contact@ht-vers-ttc.fr</strong>. Resend agit en tant que sous-traitant technique
+          <strong>contact@brut-vers-net.fr</strong>. Resend agit en tant que sous-traitant technique
           pour l&apos;acheminement du message. La clé d&apos;API utilisée pour cet envoi est stockée
           côté serveur et n&apos;est jamais exposée dans le navigateur.
         </p>
@@ -223,7 +223,7 @@ export function PrivacyPolicyContent() {
       <section id="hebergement" className="guide-section">
         <h2>Hébergement du site</h2>
         <p>
-          Le site <strong>HT-VERS-TTC.FR</strong> est hébergé par <strong>Vercel Inc.</strong>,
+          Le site <strong>BRUT-VERS-NET.FR</strong> est hébergé par <strong>Vercel Inc.</strong>,
           440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis.
         </p>
         <p>
@@ -270,7 +270,7 @@ export function PrivacyPolicyContent() {
           Cet outil est utilisé <strong>uniquement par l&apos;éditeur</strong> dans un cadre
           d&apos;administration et d&apos;optimisation éditoriale. Il ne dépose{" "}
           <strong>aucun cookie</strong> sur le navigateur des visiteurs de{" "}
-          <strong>HT-VERS-TTC.FR</strong> et ne constitue pas un traceur au sens de la navigation
+          <strong>BRUT-VERS-NET.FR</strong> et ne constitue pas un traceur au sens de la navigation
           sur le site.
         </p>
       </section>
@@ -287,7 +287,7 @@ export function PrivacyPolicyContent() {
           Comme Google Search Console, cet outil sert exclusivement à l&apos;éditeur pour piloter la
           stratégie éditoriale et technique du site. Il ne dépose{" "}
           <strong>aucun cookie</strong> chez les visiteurs et n&apos;interagit pas directement avec
-          leur navigation sur <strong>HT-VERS-TTC.FR</strong>.
+          leur navigation sur <strong>BRUT-VERS-NET.FR</strong>.
         </p>
       </section>
 
@@ -346,8 +346,8 @@ export function PrivacyPolicyContent() {
           droits, vous pouvez contacter l&apos;éditeur :
         </p>
         <p>
-          <a href="mailto:contact@ht-vers-ttc.fr">
-            <strong>contact@ht-vers-ttc.fr</strong>
+          <a href="mailto:contact@brut-vers-net.fr">
+            <strong>contact@brut-vers-net.fr</strong>
           </a>
         </p>
         <p>

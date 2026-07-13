@@ -11,7 +11,6 @@ export interface SiteTool {
 
 interface SiteFooterProps {
   brandName: string;
-  siteName: string;
   footerDescription: string;
   tools: SiteTool[];
   footerLinks: NavLink[];
@@ -19,7 +18,6 @@ interface SiteFooterProps {
 
 export function SiteFooter({
   brandName,
-  siteName: _siteName,
   footerDescription,
   tools,
   footerLinks,

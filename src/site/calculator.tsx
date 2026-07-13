@@ -1,42 +1,12 @@
 "use client";
 
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, type ReactNode } from "react";
 import { useCalculatorSlot } from "@/framework/SiteProvider";
 
-const VAT_RATES = [
-  { value: "20", label: "20 %, taux normal" },
-  { value: "10", label: "10 %, taux intermédiaire" },
-  { value: "5.5", label: "5,5 %, taux réduit" },
-  { value: "2.1", label: "2,1 %, taux super-réduit" },
-] as const;
-
-const ZERO_EUR = "0,00 €";
 const VALUE_TRANSITION = "color 175ms ease, opacity 175ms ease";
 const MUTED_VALUE_COLOR = "#9eb4c8";
-
-const currencyFormatter = new Intl.NumberFormat("fr-FR", {
-  style: "currency",
-  currency: "EUR",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-});
-
-function parseAmount(raw: string): number | null {
-  const normalized = raw.trim().replace(/\s/g, "").replace(",", ".");
-  if (!normalized) return null;
-  const value = Number.parseFloat(normalized);
-  if (!Number.isFinite(value) || value < 0) return null;
-  return value;
-}
-
-function formatRate(rate: string): string {
-  return rate.replace(".", ",");
-}
-
-/** Arrondi arithmétique au centime d'euro */
-function roundCent(value: number): number {
-  return Math.round(value * 100) / 100;
-}
+const PLACEHOLDER_VALUE = "—";
+const PLACEHOLDER_DETAILS = "À définir";
 
 function ResultCard({
   label,
@@ -68,101 +38,20 @@ function ResultCard({
   );
 }
 
-function buildResults(
-  amount: string,
-  direction: "ht-to-ttc" | "ttc-to-ht",
-  vatRate: string,
-) {
-  const rateLabel = formatRate(vatRate);
-  const parsed = parseAmount(amount);
-  const isEmpty = amount.trim() === "";
-
-  if (isEmpty) {
-    return (
-      <>
-        <ResultCard
-          label={direction === "ht-to-ttc" ? "Prix TTC" : "Prix HT"}
-          value={ZERO_EUR}
-          details={
-            direction === "ht-to-ttc"
-              ? "Entrez un montant HT pour commencer."
-              : "Entrez un montant TTC pour commencer."
-          }
-          muted
-        />
-        <ResultCard
-          label="Montant de TVA"
-          value={ZERO_EUR}
-          details="Choisissez un taux de TVA."
-          muted
-        />
-      </>
-    );
-  }
-
-  if (parsed === null) {
-    return (
-      <>
-        <ResultCard
-          label={direction === "ht-to-ttc" ? "Prix TTC" : "Prix HT"}
-          value={ZERO_EUR}
-          details="Saisissez un montant valide (nombre positif)."
-          muted
-        />
-        <ResultCard label="Montant de TVA" value={ZERO_EUR} details={`Taux sélectionné : ${rateLabel} %.`} muted />
-      </>
-    );
-  }
-
-  const rate = Number.parseFloat(vatRate);
-  let ht: number;
-  let ttc: number;
-  let tva: number;
-
-  if (direction === "ht-to-ttc") {
-    ht = parsed;
-    tva = roundCent(ht * (rate / 100));
-    ttc = roundCent(ht + tva);
-
-    const muted = ttc === 0;
-
-    return (
-      <>
-        <ResultCard
-          label="Prix TTC"
-          value={currencyFormatter.format(ttc)}
-          details={`Montant HT : ${currencyFormatter.format(ht)} · Taux de TVA : ${rateLabel} %`}
-          muted={muted}
-        />
-        <ResultCard
-          label="Montant de TVA"
-          value={currencyFormatter.format(tva)}
-          details={`Soit ${rateLabel} % du montant hors taxes.`}
-          muted={muted}
-        />
-      </>
-    );
-  }
-
-  ttc = parsed;
-  ht = roundCent(ttc / (1 + rate / 100));
-  tva = roundCent(ttc - ht);
-
-  const muted = ht === 0;
-
+function buildPlaceholderResults(): ReactNode {
   return (
     <>
       <ResultCard
-        label="Prix HT"
-        value={currencyFormatter.format(ht)}
-        details={`Montant TTC saisi : ${currencyFormatter.format(ttc)} · Taux de TVA : ${rateLabel} %`}
-        muted={muted}
+        label="Salaire net estimé"
+        value={PLACEHOLDER_VALUE}
+        details={PLACEHOLDER_DETAILS}
+        muted
       />
       <ResultCard
-        label="Montant de TVA"
-        value={currencyFormatter.format(tva)}
-        details={`Différence entre le TTC et le HT au taux de ${rateLabel} %.`}
-        muted={muted}
+        label="Cotisations estimées"
+        value={PLACEHOLDER_VALUE}
+        details={PLACEHOLDER_DETAILS}
+        muted
       />
     </>
   );
@@ -170,64 +59,61 @@ function buildResults(
 
 export default function Calculator() {
   const { setResult } = useCalculatorSlot();
-  const [amount, setAmount] = useState("");
-  const [direction, setDirection] = useState<"ht-to-ttc" | "ttc-to-ht">("ht-to-ttc");
-  const [vatRate, setVatRate] = useState("20");
+  const [grossSalary, setGrossSalary] = useState("");
+  const [periodicity, setPeriodicity] = useState<"monthly" | "annual">("monthly");
+  const [status, setStatus] = useState<"non-cadre" | "cadre">("non-cadre");
 
   useLayoutEffect(() => {
-    setResult(buildResults(amount, direction, vatRate));
-  }, [amount, direction, vatRate, setResult]);
+    setResult(buildPlaceholderResults());
+  }, [grossSalary, periodicity, status, setResult]);
 
   return (
     <div className="calc-fields">
       <div>
-        <label htmlFor="direction" className="calc-field-label">
-          Sens du calcul
-        </label>
-        <select
-          id="direction"
-          name="direction"
-          value={direction}
-          onChange={(e) => setDirection(e.target.value as "ht-to-ttc" | "ttc-to-ht")}
-          className="calc-input"
-        >
-          <option value="ht-to-ttc">HT vers TTC</option>
-          <option value="ttc-to-ht">TTC vers HT</option>
-        </select>
-      </div>
-
-      <div>
-        <label htmlFor="amount" className="calc-field-label">
-          {direction === "ht-to-ttc" ? "Montant HT" : "Montant TTC"}
+        <label htmlFor="grossSalary" className="calc-field-label">
+          Salaire brut
         </label>
         <input
-          id="amount"
-          name="amount"
+          id="grossSalary"
+          name="grossSalary"
           type="text"
           inputMode="decimal"
-          placeholder={direction === "ht-to-ttc" ? "Ex. : 100" : "Ex. : 120"}
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          placeholder="Ex. : 2 500"
+          value={grossSalary}
+          onChange={(e) => setGrossSalary(e.target.value)}
           className="calc-input"
         />
       </div>
 
       <div>
-        <label htmlFor="vatRate" className="calc-field-label">
-          Taux de TVA
+        <label htmlFor="periodicity" className="calc-field-label">
+          Périodicité
         </label>
         <select
-          id="vatRate"
-          name="vatRate"
-          value={vatRate}
-          onChange={(e) => setVatRate(e.target.value)}
+          id="periodicity"
+          name="periodicity"
+          value={periodicity}
+          onChange={(e) => setPeriodicity(e.target.value as "monthly" | "annual")}
           className="calc-input"
         >
-          {VAT_RATES.map((rate) => (
-            <option key={rate.value} value={rate.value}>
-              {rate.label}
-            </option>
-          ))}
+          <option value="monthly">Mensuel</option>
+          <option value="annual">Annuel</option>
+        </select>
+      </div>
+
+      <div>
+        <label htmlFor="status" className="calc-field-label">
+          Statut
+        </label>
+        <select
+          id="status"
+          name="status"
+          value={status}
+          onChange={(e) => setStatus(e.target.value as "non-cadre" | "cadre")}
+          className="calc-input"
+        >
+          <option value="non-cadre">Non-cadre</option>
+          <option value="cadre">Cadre</option>
         </select>
       </div>
     </div>

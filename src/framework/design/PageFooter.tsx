@@ -13,7 +13,6 @@ export function PageFooter() {
       <FooterCurveUp />
       <SiteFooter
         brandName={site.footerBrandName}
-        siteName={site.name}
         footerDescription={site.footerDescription}
         tools={site.tools}
         footerLinks={site.navigation.footer}

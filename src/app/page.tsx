@@ -28,7 +28,7 @@ export default function HomePage() {
           }),
           buildOrganizationSchema(config),
           buildBreadcrumbSchema(config, [{ name: "Accueil", path: "/" }]),
-          buildFaqSchema(config.faq),
+          ...(config.faq.length > 0 ? [buildFaqSchema(config.faq)] : []),
         ]}
       />
       <CalculatorPageLayout Calculator={Calculator} />

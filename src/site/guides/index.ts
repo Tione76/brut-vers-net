@@ -16,12 +16,6 @@ export type {
 } from "./types";
 
 export { GUIDE_CALLOUT_LABELS } from "./types";
-export { OFFICIAL_GUIDE_MODEL } from "./template";
-export { guideFactureConforme } from "./guide-facture-conforme";
-export { guideTauxTva } from "./guide-taux-tva";
-export { guideFranchiseTva } from "./guide-franchise-tva";
-export { guideTvaAutoEntrepreneur } from "./guide-tva-auto-entrepreneur";
-export { guideTvaDeductibleCollectee } from "./guide-tva-deductible-collectee";
 export {
   guides,
   GUIDE_MODEL_SLUG,
@@ -38,7 +32,6 @@ export {
   getGuideCoverByHref,
   GUIDE_COVERS,
   HOME_COVER,
-  MARGIN_CALCULATOR_COVER,
   resolveGuideCover,
 } from "./covers";
 export type { GuideCoverImage } from "./covers";
@@ -58,6 +51,7 @@ export {
   getSidebarTools,
   getGuidesSidebarLinks,
   getRelatedGuidesForSlug,
+  hasSidebarContent,
   SIDEBAR_CALCULATOR,
   SIDEBAR_LIMITS,
   SIDEBAR_TOOLS,
@@ -67,5 +61,4 @@ export { GuideCoverImage as GuideCoverImageComponent } from "./GuideCoverImage";
 export { GuideListCard } from "./GuideListCard";
 export { GuidesHubEditorial } from "./guides-hub-editorial";
 export { GuidesHubPicker } from "./guides-hub-picker";
-export { getGuideHubTeaser, GUIDE_HUB_TEASERS } from "./guides-hub-data";
 export { GuidePageLayout } from "./GuidePageLayout";

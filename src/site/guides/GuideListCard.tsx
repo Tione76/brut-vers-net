@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Guide } from "./types";
 import { GuideCoverImage } from "./GuideCoverImage";
-import { getGuideHubTeaser } from "./guides-hub-data";
 
 interface GuideListCardProps {
   guide: Guide;
@@ -12,7 +11,7 @@ export function GuideListCard({ guide }: GuideListCardProps) {
   const cover = guide.coverImage;
   if (!cover) return null;
 
-  const teaser = getGuideHubTeaser(guide.slug);
+  const teaser = guide.description;
 
   return (
     <Link href={`/guides/${guide.slug}`} className="guide-list-card">

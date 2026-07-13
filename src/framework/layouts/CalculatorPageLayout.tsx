@@ -8,6 +8,7 @@ import { SiteNav } from "@/framework/design/components/SiteNav";
 import { HeaderCurveDown } from "@/framework/design/components/Curves";
 import { PageFooter } from "@/framework/design/PageFooter";
 import { HomePageSidebar } from "@/site/guides/GuidePageSidebar";
+import { hasSidebarContent } from "@/site/guides/sidebar";
 import { HomeEditorial } from "@/site/home-editorial";
 import { HomeFaqContent } from "@/site/home-faq";
 import "@/framework/design/index.css";
@@ -39,7 +40,7 @@ function CalculatorHero({ Calculator }: { Calculator: ComponentType }) {
         </div>
       </div>
       <p className="calc-disclaimer">
-        Montants arrondis au centime d&apos;euro. Sans inscription ni conservation de données.
+        Le calculateur est actuellement en cours de développement.
       </p>
     </div>
   );
@@ -47,6 +48,7 @@ function CalculatorHero({ Calculator }: { Calculator: ComponentType }) {
 
 function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
   const site = useSite();
+  const showSidebar = hasSidebarContent({ pageType: "home", currentPath: "/" });
 
   return (
     <>
@@ -69,7 +71,7 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
 
       <main id="main-content" className="content-main">
         <div className="content-wrap content-wrap--wide home-with-sidebar">
-          <div className="article-layout">
+          <div className={`article-layout${showSidebar ? "" : " article-layout--single"}`}>
             <div className="home-with-sidebar__main">
               <HomeEditorial />
 
@@ -141,9 +143,7 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
           </section>
         )}
             </div>
-            <aside className="article-sidebar" aria-label="Guides">
-              <HomePageSidebar />
-            </aside>
+            {showSidebar && <HomePageSidebar />}
           </div>
         </div>
       </main>

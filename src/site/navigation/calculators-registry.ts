@@ -1,5 +1,5 @@
 import { seoConfig } from "../seo.config";
-import { HOME_COVER, MARGIN_CALCULATOR_COVER, type GuideCoverImage } from "../guides/covers";
+import { HOME_COVER, type GuideCoverImage } from "../guides/covers";
 
 /** Entrée calculateur : source unique pour menu, sidebar, sitemap et page Nos outils */
 export interface CalculatorEntry {
@@ -13,16 +13,12 @@ export interface CalculatorEntry {
   icon: string;
 }
 
-const CALCULATOR_COVERS: Record<string, GuideCoverImage> = {
-  marginHtTtc: MARGIN_CALCULATOR_COVER,
-};
-
 function getHomeCalculator(): CalculatorEntry {
   return {
-    id: "ht-ttc",
+    id: "brut-vers-net",
     path: "/",
     title: seoConfig.home.title,
-    shortTitle: "Calculateur HT → TTC",
+    shortTitle: "Calculateur Brut vers Net",
     description: seoConfig.home.description,
     h1: seoConfig.home.h1,
     cover: HOME_COVER,
@@ -43,7 +39,7 @@ export function getAllCalculators(): CalculatorEntry[] {
     shortTitle: calc.h1,
     description: calc.description,
     h1: calc.h1,
-    cover: CALCULATOR_COVERS[id] ?? HOME_COVER,
+    cover: HOME_COVER,
     icon: "€",
   }));
   return [home, ...secondary];

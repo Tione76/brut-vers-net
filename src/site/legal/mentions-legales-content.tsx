@@ -7,10 +7,10 @@ export function MentionsLegalesContent() {
       <section className="guide-section">
         <h2>Éditeur du site</h2>
         <p>
-          Le site <strong>HT-VERS-TTC.FR</strong>, accessible à l&apos;adresse :
+          Le site <strong>BRUT-VERS-NET.FR</strong>, accessible à l&apos;adresse :
         </p>
         <p>
-          <a href="https://ht-vers-ttc.fr">https://ht-vers-ttc.fr</a>
+          <a href="https://brut-vers-net.fr">https://brut-vers-net.fr</a>
         </p>
         <p>est édité par :</p>
         <p>
@@ -19,8 +19,8 @@ export function MentionsLegalesContent() {
         <p>Statut : Particulier</p>
         <p>Adresse électronique :</p>
         <p>
-          <a href="mailto:contact@ht-vers-ttc.fr">
-            <strong>contact@ht-vers-ttc.fr</strong>
+          <a href="mailto:contact@brut-vers-net.fr">
+            <strong>contact@brut-vers-net.fr</strong>
           </a>
         </p>
         <p>Une page Contact est disponible à l&apos;adresse :</p>
@@ -75,9 +75,8 @@ export function MentionsLegalesContent() {
       <section className="guide-section">
         <h2>Objet du site</h2>
         <p>
-          HT-VERS-TTC.FR met gratuitement à disposition des calculateurs et des guides pratiques
-          consacrés à la TVA, aux calculs HT et TTC, aux marges commerciales, à la facturation et
-          aux principales règles fiscales françaises.
+          BRUT-VERS-NET.FR met gratuitement à disposition d&apos;outils et de contenus
+          pédagogiques consacrés au salaire brut et au salaire net.
         </p>
         <p>Les contenus publiés ont une vocation pédagogique et informative.</p>
       </section>
@@ -103,9 +102,8 @@ export function MentionsLegalesContent() {
         <h2>Calculateurs</h2>
         <p>Les calculateurs proposés sur le site permettent notamment :</p>
         <ul>
-          <li>de convertir un montant HT en TTC ;</li>
-          <li>de calculer un montant de TVA ;</li>
-          <li>d&apos;estimer une marge commerciale.</li>
+          <li>d&apos;estimer un salaire net à partir d&apos;un salaire brut ;</li>
+          <li>de comparer des scénarios de rémunération.</li>
         </ul>
         <p>
           Les résultats sont calculés automatiquement à partir des informations saisies par
@@ -187,7 +185,7 @@ export function MentionsLegalesContent() {
         <h2>Contact</h2>
         <p>Pour toute question concernant le site :</p>
         <p>
-          <a href="mailto:contact@ht-vers-ttc.fr">contact@ht-vers-ttc.fr</a>
+          <a href="mailto:contact@brut-vers-net.fr">contact@brut-vers-net.fr</a>
         </p>
         <p>ou via la page :</p>
         <p>

@@ -152,33 +152,6 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
         </div>
       );
 
-    case "practical-case":
-      return (
-        <aside className="guide-practical-case">
-          <p className="guide-practical-case__label">Cas pratique</p>
-          <p className="guide-practical-case__title">{block.title}</p>
-          <dl className="guide-practical-case__grid">
-            <div className="guide-practical-case__item">
-              <dt>Montant HT</dt>
-              <dd>{block.ht}</dd>
-            </div>
-            <div className="guide-practical-case__item">
-              <dt>Taux applicable</dt>
-              <dd>{block.rate}</dd>
-            </div>
-            <div className="guide-practical-case__item">
-              <dt>TVA</dt>
-              <dd>{block.vat}</dd>
-            </div>
-            <div className="guide-practical-case__item guide-practical-case__item--highlight">
-              <dt>Montant TTC</dt>
-              <dd>{block.ttc}</dd>
-            </div>
-          </dl>
-          {block.note && <p className="guide-practical-case__note">{block.note}</p>}
-        </aside>
-      );
-
     case "contextual-cta":
       if (isTemplate || isPlaceholderHref(block.href)) {
         return (

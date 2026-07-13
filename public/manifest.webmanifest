@@ -1,7 +1,7 @@
 {
-  "name": "Calculateur TVA",
-  "short_name": "Calculateur TVA",
-  "description": "Calculateur en ligne gratuit pour convertir un prix hors taxes en TTC et obtenir le montant de la TVA.",
+  "name": "Brut vers Net",
+  "short_name": "Brut vers Net",
+  "description": "Estimez prochainement votre salaire net à partir de votre salaire brut grâce au calculateur Brut vers Net.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

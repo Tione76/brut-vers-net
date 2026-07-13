@@ -14,16 +14,6 @@ export type GuideCalloutVariant =
   | "legal"
   | "verify";
 
-export interface GuidePracticalCase {
-  type: "practical-case";
-  title: string;
-  ht: string;
-  rate: string;
-  vat: string;
-  ttc: string;
-  note?: string;
-}
-
 export interface GuideContextualCta {
   type: "contextual-cta";
   text: string;
@@ -70,34 +60,8 @@ export interface GuideTable {
   rows: string[][];
 }
 
-/** Identifiants des illustrations vectorielles disponibles */
-export type GuideIllustrationId =
-  | "invoice-structure"
-  | "example-invoice-service"
-  | "vat-calculation"
-  | "credit-note"
-  | "vat-rates-pyramid"
-  | "vat-rates-dom"
-  | "vat-rate-selection"
-  | "vat-invoice-annotated"
-  | "vat-territory-flow"
-  | "vat-rate-timeline"
-  | "vat-mixed-invoice"
-  | "vat-b2b-b2c"
-  | "franchise-thresholds"
-  | "franchise-comparison"
-  | "franchise-exit-flow"
-  | "franchise-how-it-works"
-  | "franchise-decision-tree"
-  | "franchise-invoice-annotated"
-  | "franchise-checklist"
-  | "ae-vat-status"
-  | "ae-franchise-limits"
-  | "ae-invoice-comparison"
-  | "vat-flow-diagram"
-  | "vat-net-balance"
-  | "vat-declaration-cycle"
-  | "vat-enterprise-journey";
+/** Identifiant d'illustration vectorielle (réservé aux futurs guides) */
+export type GuideIllustrationId = string;
 
 export interface GuideIllustration {
   type: "illustration";
@@ -147,7 +111,6 @@ export type GuideBlock =
   | GuideImagePlaceholder
   | GuideInternalLink
   | GuideProfessionFaq
-  | GuidePracticalCase
   | GuideContextualCta;
 
 export interface GuideSubsection {

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { config } from "@/site";
 
 const ALLOWED_SUBJECTS = [
   "Signaler une erreur",
@@ -43,7 +44,7 @@ function parseRecipientList(value: string): string[] {
 function normalizeFromAddress(value: string): string {
   const trimmed = value.trim().replace(/^["']|["']$/g, "");
   if (/<[^>]+>/.test(trimmed)) return trimmed;
-  if (EMAIL_PATTERN.test(trimmed)) return `HT-VERS-TTC.FR <${trimmed}>`;
+  if (EMAIL_PATTERN.test(trimmed)) return `${config.footerBrandName} <${trimmed}>`;
   return trimmed;
 }
 
@@ -81,7 +82,7 @@ export async function POST(request: Request) {
   if (!apiKey) {
     console.error("[contact] RESEND_API_KEY manquante");
     return NextResponse.json(
-      { error: "Le service d'envoi n'est pas configuré. Écrivez-nous à contact@ht-vers-ttc.fr." },
+      { error: `Le service d'envoi n'est pas configuré. Écrivez-nous à ${config.contact.email}.` },
       { status: 503 },
     );
   }
@@ -103,9 +104,9 @@ export async function POST(request: Request) {
   }
 
   const { name, email, subject, message } = validated;
-  const to = parseRecipientList(readEnv("CONTACT_TO_EMAIL", "contact@ht-vers-ttc.fr"));
+  const to = parseRecipientList(readEnv("CONTACT_TO_EMAIL", config.contact.email));
   const from = normalizeFromAddress(
-    readEnv("CONTACT_FROM_EMAIL", "HT-VERS-TTC.FR <noreply@ht-vers-ttc.fr>"),
+    readEnv("CONTACT_FROM_EMAIL", `${config.footerBrandName} <noreply@${config.domain}>`),
   );
 
   if (to.length === 0) {
@@ -113,7 +114,7 @@ export async function POST(request: Request) {
       contactToEmail: readEnv("CONTACT_TO_EMAIL"),
     });
     return NextResponse.json(
-      { error: "Configuration destinataire invalide. Écrivez-nous à contact@ht-vers-ttc.fr." },
+      { error: `Configuration destinataire invalide. Écrivez-nous à ${config.contact.email}.` },
       { status: 500 },
     );
   }
@@ -122,7 +123,7 @@ export async function POST(request: Request) {
     from,
     to,
     reply_to: [email],
-    subject: `[Contact HT-VERS-TTC.FR] ${subject}`,
+    subject: `[Contact ${config.footerBrandName}] ${subject}`,
     text: [`Nom : ${name}`, `E-mail : ${email}`, `Sujet : ${subject}`, "", message].join("\n"),
   };
 

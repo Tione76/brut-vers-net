@@ -3,10 +3,25 @@
  */
 import { guidesNavigation } from "./guides/navigation";
 
+function readOptionalEnv(key: string): string | undefined {
+  const value = process.env[key]?.trim();
+  return value || undefined;
+}
+
+const googleAnalyticsId =
+  process.env.NODE_ENV === "production" ? readOptionalEnv("NEXT_PUBLIC_GA_ID") : undefined;
+const microsoftClarityId =
+  process.env.NODE_ENV === "production" ? readOptionalEnv("NEXT_PUBLIC_CLARITY_ID") : undefined;
+const googleSearchConsoleId = readOptionalEnv("NEXT_PUBLIC_GSC_ID");
+const googleAdsenseClientId = readOptionalEnv("NEXT_PUBLIC_ADSENSE_ID");
+const adSlotAfterResult = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_AFTER_RESULT");
+const adSlotBeforeFooter = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_BEFORE_FOOTER");
+const adSlotUnderH1 = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_UNDER_H1");
+
 export const siteConfig = {
-  name: "Calculateur TVA",
-  domain: "ht-vers-ttc.fr",
-  url: "https://ht-vers-ttc.fr",
+  name: "Brut vers Net",
+  domain: "brut-vers-net.fr",
+  url: "https://brut-vers-net.fr",
   author: "Éditeur du site",
   language: "fr",
   locale: "fr-FR",
@@ -29,22 +44,21 @@ export const siteConfig = {
 
   logo: {
     src: "/logo.png",
-    alt: "Logo HT-VERS-TTC.fr",
+    alt: "Logo Brut vers Net",
     width: 800,
     height: 800,
   },
   favicon: "/icon.png",
-  ogImage: "/images/og/Calcul-HT-vers-TTC.webp",
+  ogImage: "/logo.png",
 
-  footerBrandName: "HT-VERS-TTC.FR",
+  footerBrandName: "BRUT-VERS-NET.FR",
   footerDescription:
-    "Calculateurs de TVA gratuits et guides pratiques pour tout comprendre sur la TVA, les prix HT, les prix TTC et la facturation.",
+    "Calculateur Brut vers Net pour estimer prochainement votre salaire net à partir de votre salaire brut.",
 
   home: {
-    h1: "CALCULATEUR TVA : HT → TTC ET TTC → HT",
+    h1: "Calculateur Brut vers Net",
     intro: [
-      "Saisissez votre montant hors taxes, choisissez le taux de TVA applicable et obtenez instantanément le prix TTC ainsi que le montant de la taxe.",
-      "Le calcul inverse (TTC vers HT) est également disponible.",
+      "Estimez prochainement votre salaire net à partir de votre salaire brut.",
     ] as [string, string?],
   },
 
@@ -72,7 +86,7 @@ export const siteConfig = {
   },
 
   contact: {
-    email: "contact@ht-vers-ttc.fr",
+    email: "contact@brut-vers-net.fr",
     companyName: "[Raison sociale]",
     address: "[Adresse complète]",
     intro:
@@ -112,7 +126,9 @@ export const siteConfig = {
 
   navigation: {
     header: [
-      { label: "Calcul HT → TTC", href: "/" },
+      { label: "Calculateur", href: "/" },
+      { label: "Outils", href: "/nos-outils" },
+      { label: "Guides", href: "/guides" },
       { label: "FAQ", href: "/faq" },
     ],
     footer: [
@@ -125,23 +141,29 @@ export const siteConfig = {
   },
 
   analytics: {
-    googleAnalyticsId:
-      process.env.NODE_ENV === "production"
-        ? (process.env.NEXT_PUBLIC_GA_ID ?? "G-5886CNKJNM")
-        : undefined,
-    microsoftClarityId:
-      process.env.NODE_ENV === "production"
-        ? (process.env.NEXT_PUBLIC_CLARITY_ID ?? "xjfu8c3z5p")
-        : undefined,
-    googleSearchConsoleId: process.env.NEXT_PUBLIC_GSC_ID,
-    googleAdsenseClientId: process.env.NEXT_PUBLIC_ADSENSE_ID,
+    googleAnalyticsId,
+    microsoftClarityId,
+    googleSearchConsoleId,
+    googleAdsenseClientId,
   },
 
   ads: {
     slots: {
-      "under-h1": { enabled: false, adSlot: process.env.NEXT_PUBLIC_AD_SLOT_UNDER_H1 ?? "", format: "horizontal" as const },
-      "after-result": { enabled: true, adSlot: process.env.NEXT_PUBLIC_AD_SLOT_AFTER_RESULT ?? "", format: "auto" as const },
-      "before-footer": { enabled: true, adSlot: process.env.NEXT_PUBLIC_AD_SLOT_BEFORE_FOOTER ?? "", format: "horizontal" as const },
+      "under-h1": {
+        enabled: Boolean(googleAdsenseClientId && adSlotUnderH1),
+        adSlot: adSlotUnderH1 ?? "",
+        format: "horizontal" as const,
+      },
+      "after-result": {
+        enabled: Boolean(googleAdsenseClientId && adSlotAfterResult),
+        adSlot: adSlotAfterResult ?? "",
+        format: "auto" as const,
+      },
+      "before-footer": {
+        enabled: Boolean(googleAdsenseClientId && adSlotBeforeFooter),
+        adSlot: adSlotBeforeFooter ?? "",
+        format: "horizontal" as const,
+      },
     },
   },
 };

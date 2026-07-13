@@ -65,22 +65,8 @@ function transformLine(line, filePath) {
     [/Exemple numérique — /g, "Exemple numérique : "],
     [/Cas pratiques — /g, "Cas pratiques : "],
     [/Erreurs fréquentes — /g, "Erreurs fréquentes : "],
-    [/Correspondance simplifiée CA3 — /g, "Correspondance simplifiée CA3 : "],
-    [/Mois type — /g, "Mois type : "],
-    [/Chantier rénovation — /g, "Chantier rénovation : "],
-    [/Quel taux appliquer \? — /g, "Quel taux appliquer ? "],
-    [/Territoire d'imposition — /g, "Territoire d'imposition : "],
-    [/Reversement à l'administration — ou/g, "Reversement à l'administration, ou"],
-    [/Annulation — /g, "Annulation : "],
-    [/Mission conseil stratégique — /g, "Mission conseil stratégique, "],
-    [/Accompagnement stratégique — /g, "Accompagnement stratégique, "],
     [/Illustration à ajouter — /g, "Illustration à ajouter : "],
-    [/Seuils de franchise en base de TVA — /g, "Seuils de franchise en base de TVA : "],
-    [/Comparatif TVA métropole vs DOM — /g, "Comparatif TVA métropole vs DOM : "],
-    [/Flux territorial — /g, "Flux territorial : "],
-    [/Flux TVA collectée \/ déductible — /g, "Flux TVA collectée / déductible : "],
     [/Arbre de décision — /g, "Arbre de décision : "],
-    [/Facture réaliste — /g, "Facture réaliste : "],
   ];
   for (const [pat, repl] of captionPatterns) {
     result = result.replace(pat, repl);
@@ -95,32 +81,14 @@ function transformLine(line, filePath) {
   // Listes à puces éditoriales **Label** —
   result = result.replace(/\*\*([^*]+)\*\* — /g, "**$1** : ");
 
-  // Coordonnées facture (nom — SIRET / adresse)
+  // Coordonnées (nom — SIRET / adresse)
   result = result.replace(
-    /([A-Za-zÀ-ÿ0-9 ]+) — (SIRET|TVA FR|10 rue)/g,
+    /([A-Za-zÀ-ÿ0-9 ]+) — (SIRET|10 rue)/g,
     "$1, $2",
   );
 
-  // Mécanique complète — de ... à ... —
-  result = result.replace(
-    /mécanique complète — (de [^—]+) — avec/g,
-    "mécanique complète ($1), avec",
-  );
-
-  // formulaire CA3 — auprès
-  result = result.replace(/formulaire CA3 — auprès/g, "formulaire CA3, auprès");
-
-  // le formulaire CA3 —
-  result = result.replace(/CA3 — auprès/g, "CA3, auprès");
-
-  // déclaration périodique de TVA — le formulaire
-  result = result.replace(
-    /déclaration périodique de TVA — le formulaire/g,
-    "déclaration périodique de TVA (le formulaire",
-  );
-
-  // Collecter de la TVA en franchise (art. ...) —
-  result = result.replace(/\(art\. [^)]+\) — /g, (m) => m.replace(" — ", ", "));
+  // formulaire — auprès
+  result = result.replace(/formulaire — auprès/g, "formulaire, auprès");
 
   // Phrases courantes : suite en minuscule → virgule
   result = result.replace(/ — ([a-zàâäéèêëïîôùûüç«])/g, ", $1");

@@ -78,6 +78,10 @@
     grid-template-columns: minmax(0, 1fr) 300px;
     gap: 48px;
   }
+
+  .article-layout--single {
+    grid-template-columns: 1fr;
+  }
 }
 
 .article-body {

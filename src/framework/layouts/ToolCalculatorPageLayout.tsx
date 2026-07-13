@@ -52,7 +52,7 @@ function CalculatorHero({
         </div>
       </div>
       <p className="calc-disclaimer">
-        Montants arrondis au centime d&apos;euro. Sans inscription ni conservation de données.
+        Le calculateur est actuellement en cours de développement.
       </p>
     </div>
   );

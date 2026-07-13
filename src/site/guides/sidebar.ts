@@ -49,10 +49,9 @@ export function getAllSidebarTools(): SidebarTool[] {
 /** @deprecated Utiliser getAllSidebarTools() */
 export const SIDEBAR_TOOLS = getAllSidebarTools();
 
-/** @deprecated Utiliser getAllSidebarTools() */
 export const SIDEBAR_CALCULATOR = {
-  title: "Calculateur HT ↔ TTC",
-  description: "Calculez instantanément un prix HT, TTC et le montant de TVA.",
+  title: "Calculateur Brut vers Net",
+  description: "Estimez prochainement votre salaire net à partir de votre salaire brut.",
   href: "/",
 } as const;
 
@@ -101,4 +100,12 @@ export function getRelatedGuidesForSlug(currentSlug: string): GuideSidebarLink[]
     currentPath: `/guides/${currentSlug}`,
     currentGuideSlug: currentSlug,
   });
+}
+
+/** Vérifie si la sidebar affiche au moins un bloc outil ou guide */
+export function hasSidebarContent(context: SidebarContext): boolean {
+  const tools = getSidebarTools(context);
+  const guides =
+    context.pageType === "guides-hub" ? [] : getSidebarGuides(context);
+  return tools.length > 0 || guides.length > 0;
 }

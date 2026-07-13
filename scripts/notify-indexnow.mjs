@@ -3,8 +3,8 @@
  * Notifie IndexNow depuis la ligne de commande (CI, post-déploiement Vercel).
  *
  * Usage :
- *   INDEXNOW_KEY=... SITE_URL=https://ht-vers-ttc.fr node scripts/notify-indexnow.mjs /guides/foo
- *   INDEXNOW_KEY=... SITE_URL=https://ht-vers-ttc.fr node scripts/notify-indexnow.mjs --sitemap
+ *   INDEXNOW_KEY=... SITE_URL=https://brut-vers-net.fr node scripts/notify-indexnow.mjs /guides/foo
+ *   INDEXNOW_KEY=... SITE_URL=https://brut-vers-net.fr node scripts/notify-indexnow.mjs --sitemap
  */
 
 const INDEXNOW_API_URL = "https://api.indexnow.org/IndexNow";
@@ -17,7 +17,7 @@ function readEnv(key) {
 }
 
 function siteOriginFromEnv() {
-  const raw = readEnv("SITE_URL") || readEnv("NEXT_PUBLIC_SITE_URL") || "https://ht-vers-ttc.fr";
+  const raw = readEnv("SITE_URL") || readEnv("NEXT_PUBLIC_SITE_URL") || "https://brut-vers-net.fr";
   return raw.replace(/\/$/, "");
 }
 

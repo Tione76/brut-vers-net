@@ -45,13 +45,9 @@ export function GuidePageLayout({
 
       <main id="main-content" className="article-page">
         <div className="content-wrap content-wrap--wide">
-          <div className="article-layout">
+          <div className={`article-layout${sidebar ? "" : " article-layout--single"}`}>
             <div className={prose ? "article-body prose" : "article-body"}>{children}</div>
-            {sidebar && (
-              <aside className="article-sidebar" aria-label="Maillage interne">
-                {sidebar}
-              </aside>
-            )}
+            {sidebar}
           </div>
         </div>
       </main>

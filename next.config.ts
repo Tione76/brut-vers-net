@@ -20,11 +20,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/simulateurs",
-        destination: "/nos-outils",
-        permanent: true,
-      },
-      {
         source: "/politique-de-cookies",
         destination: "/gestion-des-cookies",
         permanent: true,

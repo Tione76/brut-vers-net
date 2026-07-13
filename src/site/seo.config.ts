@@ -2,88 +2,72 @@
  * SEO du site : titres, descriptions, pages supplémentaires.
  */
 export const seoConfig = {
-  titleTemplate: "%s | Calculateur TVA",
+  titleTemplate: "%s | Brut vers Net",
   defaultDescription:
-    "Calculateur gratuit pour convertir un prix HT en TTC (ou l'inverse). Taux de TVA 20 %, 10 %, 5,5 % et 2,1 %. Résultat immédiat, sans inscription.",
+    "Estimez prochainement votre salaire net à partir de votre salaire brut grâce au calculateur Brut vers Net.",
   twitterHandle: undefined as string | undefined,
 
   home: {
-    title: "Calculer HT vers TTC gratuitement - TVA 20 %, 10 %, 5,5 % et 2,1 %",
-    h1: "CALCULATEUR TVA : HT → TTC ET TTC → HT",
+    title: "Calculateur Brut vers Net",
+    h1: "Calculateur Brut vers Net",
     description:
-      "Calculateur HT en TTC gratuit pour convertir vos prix, calculer la TVA et accéder à des guides fiables sur les taux de TVA, les factures et les entreprises.",
-    ogImage: "/images/og/Calcul-HT-vers-TTC.webp",
+      "Estimez prochainement votre salaire net à partir de votre salaire brut grâce au calculateur Brut vers Net.",
   },
 
-  calculators: {
-    marginHtTtc: {
-      path: "/calculateurs/calculateur-marge-ht-ttc",
-      title: "Calcul marge HT / TTC gratuit - Prix de vente et TVA",
-      description:
-        "Calculateur de marge HT / TTC gratuit pour calculer votre prix de vente, votre taux de marge, la TVA et optimiser la rentabilité de votre activité.",
-      h1: "Calculateur de marge HT / TTC",
-    },
-  },
+  calculators: {} as Record<string, { path: string; title: string; description: string; h1: string }>,
 
   guidesHub: {
     path: "/guides",
-    title: "Guides TVA en France : calcul HT TTC, facturation et régimes",
-    h1: "Les guides indispensables pour comprendre la TVA",
-    description:
-      "Guides pratiques sur la TVA pour entreprises et auto-entrepreneurs : taux applicables, franchise en base, facture conforme, TVA déductible et collectée. Ressources fiables et gratuites.",
-    subtitle:
-      "Retrouvez tous nos guides pratiques sur la TVA, le HT, le TTC, la facturation et les entreprises. Des explications simples, des exemples concrets et des outils gratuits pour appliquer immédiatement les bonnes règles.",
+    title: "Guides Brut vers Net",
+    h1: "Guides",
+    description: "Guides Brut vers Net à venir.",
+    subtitle: "Contenu en cours de rédaction.",
   },
 
   toolsHub: {
     path: "/nos-outils",
-    title: "Calculateurs TVA gratuits : HT, TTC, marge et prix de vente",
-    h1: "Nos outils gratuits pour calculer la TVA",
-    description:
-      "Utilisez nos calculateurs TVA gratuits pour convertir HT en TTC, calculer un montant de TVA, estimer une marge et fixer votre prix de vente.",
-    subtitle:
-      "Retrouvez nos calculateurs gratuits pour convertir un prix HT en TTC, calculer la TVA et estimer une marge commerciale avec le prix de vente adapté.",
+    title: "Outils Brut vers Net",
+    h1: "Outils",
+    description: "Outils Brut vers Net à venir.",
+    subtitle: "Contenu en cours de rédaction.",
   },
 
   legal: {
     contact: {
       title: "Contact",
       description:
-        "Contactez HT-VERS-TTC.fr pour signaler une erreur, proposer une amélioration ou poser une question.",
+        "Contactez brut-vers-net.fr pour signaler une erreur, proposer une amélioration ou poser une question.",
     },
     privacy: {
       title: "Politique de confidentialité",
       description:
-        "Découvrez comment HT-VERS-TTC.FR traite vos données personnelles : contact, cookies, Google Analytics et vos droits RGPD.",
+        "Découvrez comment BRUT-VERS-NET.FR traite vos données personnelles : contact, cookies, Google Analytics et vos droits RGPD.",
       metaDescription:
-        "Découvrez comment HT-VERS-TTC.fr collecte, utilise et protège vos données personnelles conformément au RGPD.",
+        "Découvrez comment brut-vers-net.fr collecte, utilise et protège vos données personnelles conformément au RGPD.",
     },
     cookies: {
       title: "Gestion des cookies",
       description:
-        "Découvrez les cookies utilisés sur HT-VERS-TTC.FR, gérez vos préférences et comprenez le fonctionnement du bandeau de consentement.",
+        "Découvrez les cookies utilisés sur BRUT-VERS-NET.FR, gérez vos préférences et comprenez le fonctionnement du bandeau de consentement.",
       metaDescription:
-        "Gérez vos préférences en matière de cookies et découvrez leur utilisation sur HT-VERS-TTC.fr.",
+        "Gérez vos préférences en matière de cookies et découvrez leur utilisation sur brut-vers-net.fr.",
     },
     mentions: {
       title: "Mentions légales",
       description: "Informations légales sur l'éditeur et l'hébergeur.",
       metaDescription:
-        "Consultez les mentions légales de HT-VERS-TTC.fr : éditeur, hébergement, propriété intellectuelle et informations légales du site.",
+        "Consultez les mentions légales de brut-vers-net.fr : éditeur, hébergement, propriété intellectuelle et informations légales du site.",
     },
     faq: {
-      title: "FAQ TVA",
-      description:
-        "Réponses aux questions fréquentes sur le calcul HT vers TTC, les taux de TVA, les factures et la franchise en base.",
+      title: "FAQ Brut vers Net",
+      description: "FAQ Brut vers Net à venir.",
     },
     sitemap: {
       title: "Plan du site",
       description: "Liste de toutes les pages du site.",
       metaDescription:
-        "Retrouvez l'ensemble des pages, guides et calculateurs disponibles sur HT-VERS-TTC.fr.",
+        "Retrouvez l'ensemble des pages disponibles sur brut-vers-net.fr.",
     },
-    /** @deprecated Utiliser toolsHub : conservé pour compatibilité */
-    simulators: { title: "Tous les simulateurs", description: "Découvrez l'ensemble de nos outils en ligne." },
     notFound: { title: "Page introuvable", description: "La page demandée n'existe pas ou a été déplacée." },
     error: { title: "Erreur serveur", description: "Une erreur est survenue. Veuillez réessayer plus tard." },
   },

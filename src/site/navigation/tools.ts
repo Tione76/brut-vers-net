@@ -1,12 +1,11 @@
-import { getAllCalculators } from "./calculators-registry";
-
 /**
  * Menu « Nos outils » : dérivé automatiquement du registre des calculateurs.
+ * Vide en attendant les outils Brut vers Net (navigation par liens directs).
  */
-export const toolsNavigation = getAllCalculators().map((calc) => ({
-  href: calc.path,
-  shortTitle: calc.shortTitle,
-  title: calc.title,
-}));
+export type ToolNavItem = {
+  href: string;
+  shortTitle: string;
+  title: string;
+};
 
-export type ToolNavItem = (typeof toolsNavigation)[number];
+export const toolsNavigation: ToolNavItem[] = [];

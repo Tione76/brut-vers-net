@@ -7,9 +7,7 @@ export interface ExtraPage {
 
 export interface SeoConfigShape {
   extraPages: ExtraPage[];
-  calculators?: {
-    marginHtTtc: { path: string };
-  };
+  calculators?: Record<string, { path: string }>;
 }
 
 export interface SitemapEntry {

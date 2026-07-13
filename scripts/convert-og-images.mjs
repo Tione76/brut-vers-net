@@ -13,14 +13,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const INCOMING = path.join(ROOT, "public", "images", "og", "_incoming");
 const OUT_DIR = path.join(ROOT, "public", "images", "og");
-
-/** Fichiers à la racine de public/images/og/ (accueil, marge, hubs) */
-const ROOT_OG_STEMS = new Set([
-  "Calcul-HT-vers-TTC",
-  "Calcul-marge-HT-TTC",
-  "Guides-TVA",
-  "Outils-calcul-tva",
-]);
+const GUIDES_OUT_DIR = path.join(OUT_DIR, "guides");
 
 const IMAGE_EXT = /\.(jpe?g|png|webp)$/i;
 
@@ -42,7 +35,8 @@ async function main() {
   for (const file of sources) {
     const base = stem(file);
     const outputName = `${base}.webp`;
-    const outputDir = ROOT_OG_STEMS.has(base) ? OUT_DIR : path.join(OUT_DIR, "guides");
+    const useGuidesDir = process.argv.includes("--guides");
+    const outputDir = useGuidesDir ? GUIDES_OUT_DIR : OUT_DIR;
     const outputPath = path.join(outputDir, outputName);
 
     await mkdir(outputDir, { recursive: true });

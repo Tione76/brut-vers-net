@@ -1,9 +1,6 @@
 /**
  * Registre central des pages publiques indexables.
  * Source unique pour sitemap.xml et plan du site HTML.
- *
- * Ajouter un guide dans guides/registry.ts ou un calculateur dans seoConfig.calculators
- * suffit pour les intégrer automatiquement ici.
  */
 import type { SitemapEntry } from "@/framework/seo/pages";
 import { guides } from "./guides/registry";
@@ -21,6 +18,14 @@ export interface PublicPage {
   indexable: boolean;
 }
 
+/** Pages provisoires : présentes physiquement mais non indexées */
+const NOINDEX_PATHS = new Set([
+  "/faq",
+  "/nos-outils",
+  "/guides",
+  ...guides.map((guide) => `/guides/${guide.slug}`),
+]);
+
 function calculatorPages(): PublicPage[] {
   return getAllCalculators().map((calc) => ({
     path: calc.path,
@@ -28,7 +33,7 @@ function calculatorPages(): PublicPage[] {
     category: "tools" as const,
     changefreq: "monthly" as const,
     priority: calc.path === "/" ? 1 : 0.9,
-    indexable: true,
+    indexable: calc.path === "/",
   }));
 }
 
@@ -42,7 +47,7 @@ export function getAllPublicPages(): PublicPage[] {
     category: "guides",
     changefreq: "weekly",
     priority: 0.85,
-    indexable: true,
+    indexable: false,
   };
 
   const guidePages: PublicPage[] = guides.map((guide) => ({
@@ -51,7 +56,7 @@ export function getAllPublicPages(): PublicPage[] {
     category: "guides",
     changefreq: "monthly",
     priority: 0.8,
-    indexable: true,
+    indexable: false,
   }));
 
   const toolsHubPage: PublicPage = {
@@ -60,16 +65,16 @@ export function getAllPublicPages(): PublicPage[] {
     category: "tools",
     changefreq: "monthly",
     priority: 0.75,
-    indexable: true,
+    indexable: false,
   };
 
   const faqPage: PublicPage = {
     path: "/faq",
-    title: "FAQ TVA",
+    title: seoConfig.legal.faq.title,
     category: "faq",
     changefreq: "monthly",
     priority: 0.7,
-    indexable: true,
+    indexable: false,
   };
 
   const utilityPages: PublicPage[] = [
@@ -157,24 +162,10 @@ export function getPlanDuSiteSections(): PlanDuSiteSection[] {
   const toLink = (p: PublicPage) => ({ path: p.path, title: p.title });
   const byCategory = (cat: PublicPageCategory) => pages.filter((p) => p.category === cat).map(toLink);
 
-  const guideHub = pages.find((p) => p.path === seoConfig.guidesHub.path);
-  const guideArticles = pages
-    .filter((p) => p.category === "guides" && p.path !== seoConfig.guidesHub.path)
-    .map(toLink);
-
-  const toolsHubPath = seoConfig.toolsHub.path;
   const toolPages = pages.filter((p) => p.category === "tools").map(toLink);
-  const toolsOrdered = [
-    ...toolPages.filter((p) => p.path === toolsHubPath),
-    ...toolPages.filter((p) => p.path !== toolsHubPath),
-  ];
 
   return [
-    { title: "Outils gratuits", pages: toolsOrdered },
-    {
-      title: "Guides TVA",
-      pages: [...(guideHub ? [toLink(guideHub)] : []), ...guideArticles],
-    },
+    { title: "Outils", pages: toolPages },
     { title: "FAQ", pages: byCategory("faq") },
     { title: "Pages utiles", pages: byCategory("utility") },
   ].filter((section) => section.pages.length > 0);
@@ -183,7 +174,6 @@ export function getPlanDuSiteSections(): PlanDuSiteSection[] {
 /** Vérifie si une route doit être indexée */
 export function isPathIndexable(path: string): boolean {
   const normalized = path === "/" ? "/" : path.replace(/\/$/, "");
-  return getAllPublicPages().some(
-    (p) => p.path === normalized && p.indexable,
-  );
+  if (NOINDEX_PATHS.has(normalized)) return false;
+  return getAllPublicPages().some((p) => p.path === normalized && p.indexable);
 }

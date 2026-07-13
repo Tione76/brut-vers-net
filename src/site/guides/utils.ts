@@ -23,11 +23,6 @@ function countWordsInBlock(block: GuideBlock): number {
       return 0;
     case "profession-faq":
       return block.items.map((i) => i.answer).join(" ").split(/\s+/).filter(Boolean).length;
-    case "practical-case":
-      return [block.title, block.ht, block.rate, block.vat, block.ttc, block.note ?? ""]
-        .join(" ")
-        .split(/\s+/)
-        .filter(Boolean).length;
     case "contextual-cta":
       return `${block.text} ${block.label}`.split(/\s+/).filter(Boolean).length;
   }
