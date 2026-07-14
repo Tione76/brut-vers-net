@@ -1,7 +1,11 @@
 import type { Guide } from "./types";
+import { attachGuideCover } from "./covers";
+import { commentEstCalculeLeSalaireNetGuide } from "./data/comment-est-calcule-le-salaire-net";
 
-/** Guides publiés : vide en attendant le contenu Brut vers Net */
-export const guides: Guide[] = [];
+/** Guides publiés */
+export const guides: Guide[] = [
+  attachGuideCover(commentEstCalculeLeSalaireNetGuide),
+];
 
 export const GUIDE_MODEL_SLUG = "modele";
 

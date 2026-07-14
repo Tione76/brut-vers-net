@@ -52,6 +52,30 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
         </aside>
       );
 
+    case "mistakes":
+      return (
+        <aside className="guide-mistakes">
+          {block.title && <p className="guide-mistakes__title">{block.title}</p>}
+          <ul>
+            {block.items.map((item) => (
+              <li key={item}>
+                <span className="guide-mistakes__mark" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path
+                      d="M3.5 3.5l7 7M10.5 3.5l-7 7"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </aside>
+      );
+
     case "steps":
       return (
         <ol className="guide-steps">
@@ -173,10 +197,16 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
 }
 
 /** Sommaire inline : H2 uniquement */
-export function GuideInlineToc({ entries }: { entries: GuideTocEntry[] }) {
+export function GuideInlineToc({
+  entries,
+  title = "Dans ce guide",
+}: {
+  entries: GuideTocEntry[];
+  title?: string;
+}) {
   return (
-    <nav className="guide-toc" aria-label="Sommaire">
-      <p className="guide-toc__title">Sommaire</p>
+    <nav className="guide-toc" aria-label={title}>
+      <p className="guide-toc__title">{title}</p>
       <ol className="guide-toc__list">
         {entries.map((entry) => (
           <li key={entry.id}>
@@ -307,6 +337,36 @@ interface GuideArticleProps {
 }
 
 function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQuickSummary }) {
+  const isPipeline = summary.items.some((item) => item.kind);
+
+  if (isPipeline) {
+    return (
+      <aside className="guide-quick-summary guide-quick-summary--pipeline" aria-label={summary.title}>
+        <p className="guide-quick-summary__title">{summary.title}</p>
+        <div className="guide-quick-summary__pipeline">
+          {summary.items.map((item, index) =>
+            item.kind === "connector" ? (
+              <div
+                key={`${item.description}-${index}`}
+                className="guide-quick-summary__connector"
+                aria-hidden="true"
+              >
+                <span className="guide-quick-summary__connector-arrow">↓</span>
+                <span className="guide-quick-summary__connector-text">{item.description}</span>
+              </div>
+            ) : (
+              <div key={`${item.title ?? item.rate}-${index}`} className="guide-quick-summary__level">
+                <p className="guide-quick-summary__level-num">{item.rate}</p>
+                {item.title && <p className="guide-quick-summary__level-title">{item.title}</p>}
+                <p className="guide-quick-summary__level-desc">{item.description}</p>
+              </div>
+            ),
+          )}
+        </div>
+      </aside>
+    );
+  }
+
   return (
     <aside className="guide-quick-summary" aria-label={summary.title}>
       <p className="guide-quick-summary__title">{summary.title}</p>
@@ -340,9 +400,9 @@ export function GuideArticle({
         ))}
       </div>
 
-      {quickSummary && <GuideQuickSummaryBlock summary={quickSummary} />}
-
       <GuideInlineToc entries={toc} />
+
+      {quickSummary && <GuideQuickSummaryBlock summary={quickSummary} />}
 
       {sections.map((section) => (
         <section key={section.id} id={section.id} className="guide-section">

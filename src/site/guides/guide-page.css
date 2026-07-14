@@ -75,7 +75,7 @@
 
 /* Sommaire inline */
 .guide-toc {
-  margin: 40px 0 56px;
+  margin: 32px 0 28px;
   padding: 28px 32px;
   background: var(--ds-surface-alt);
   border: 1px solid var(--ds-border);
@@ -119,6 +119,17 @@
 .guide-toc__link:hover {
   color: var(--ds-brand);
   padding-left: 4px;
+}
+
+.guide-toc__link:focus-visible {
+  outline: 2px solid var(--ds-brand);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+#faq,
+#conclusion {
+  scroll-margin-top: 2.5rem;
 }
 
 /* Intro & sections */
@@ -198,6 +209,100 @@
   color: var(--ds-text-muted);
 }
 
+/* Schéma pipeline : 3 niveaux + connecteurs */
+.guide-quick-summary--pipeline {
+  margin: 28px 0 40px;
+}
+
+.guide-quick-summary__pipeline {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+.guide-quick-summary__level {
+  padding: 20px 18px;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border-light);
+  border-radius: var(--ds-radius);
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(var(--ds-brand-rgb), 0.06);
+}
+
+.guide-quick-summary__level-num {
+  margin: 0 0 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ds-brand);
+  text-transform: uppercase;
+}
+
+.guide-quick-summary__level-title {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ds-text);
+  line-height: 1.3;
+}
+
+.guide-quick-summary__level-desc {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--ds-text-muted);
+}
+
+.guide-quick-summary__connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.guide-quick-summary__connector-arrow {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ds-brand);
+  line-height: 1;
+}
+
+.guide-quick-summary__connector-text {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--ds-text-muted);
+  max-width: 22rem;
+}
+
+@media (min-width: 900px) {
+  .guide-quick-summary__pipeline {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .guide-quick-summary__level {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 14rem;
+  }
+
+  .guide-quick-summary__connector {
+    flex: 0 0 auto;
+    padding: 8px 4px;
+    max-width: 7.5rem;
+  }
+
+  .guide-quick-summary__connector-arrow {
+    transform: none;
+  }
+}
+
 .guide-profession-faq {
   margin-top: 8px;
 }
@@ -207,6 +312,7 @@
 }
 
 .prose .guide-section {
+  scroll-margin-top: 2.5rem;
   margin-top: 72px;
   padding-top: 8px;
 }
@@ -397,6 +503,55 @@
   font-weight: 700;
 }
 
+/* Liste d'erreurs fréquentes */
+.guide-mistakes {
+  margin: 32px 0;
+  padding: 24px 28px;
+  background: #fef9f0;
+  border: 1px solid #f0d9a8;
+  border-radius: var(--ds-radius);
+}
+
+.guide-mistakes__title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #9a6b12;
+  margin: 0 0 16px;
+}
+
+.guide-mistakes ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.guide-mistakes li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ds-text);
+}
+
+.guide-mistakes__mark {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.1em;
+  background: #fde8e8;
+  color: #b42318;
+  border-radius: 50%;
+}
+
 /* Steps timeline */
 .guide-steps {
   list-style: none;
@@ -471,7 +626,7 @@
 }
 
 .guide-table th {
-  padding: 14px 20px;
+  padding: 16px 20px;
   text-align: left;
   font-weight: 600;
   font-size: 0.75rem;
@@ -482,11 +637,11 @@
 }
 
 .guide-table td {
-  padding: 14px 20px;
+  padding: 16px 20px;
   color: #4a5568;
   border-bottom: 1px solid var(--ds-border-light);
   vertical-align: top;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .guide-table tbody tr:nth-child(even) {

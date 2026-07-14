@@ -22,8 +22,7 @@ export interface PublicPage {
 const NOINDEX_PATHS = new Set([
   "/faq",
   "/nos-outils",
-  "/guides",
-  ...guides.map((guide) => `/guides/${guide.slug}`),
+  ...guides.filter((guide) => guide.isTemplate).map((guide) => `/guides/${guide.slug}`),
 ]);
 
 function calculatorPages(): PublicPage[] {
@@ -47,7 +46,7 @@ export function getAllPublicPages(): PublicPage[] {
     category: "guides",
     changefreq: "weekly",
     priority: 0.85,
-    indexable: false,
+    indexable: guides.length > 0,
   };
 
   const guidePages: PublicPage[] = guides.map((guide) => ({
@@ -56,7 +55,7 @@ export function getAllPublicPages(): PublicPage[] {
     category: "guides",
     changefreq: "monthly",
     priority: 0.8,
-    indexable: false,
+    indexable: !guide.isTemplate,
   }));
 
   const toolsHubPage: PublicPage = {
@@ -166,6 +165,7 @@ export function getPlanDuSiteSections(): PlanDuSiteSection[] {
 
   return [
     { title: "Outils", pages: toolPages },
+    { title: "Guides", pages: byCategory("guides") },
     { title: "FAQ", pages: byCategory("faq") },
     { title: "Pages utiles", pages: byCategory("utility") },
   ].filter((section) => section.pages.length > 0);

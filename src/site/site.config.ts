@@ -128,7 +128,6 @@ export const siteConfig = {
     header: [
       { label: "Calculateur", href: "/" },
       { label: "Outils", href: "/nos-outils" },
-      { label: "Guides", href: "/guides" },
       { label: "FAQ", href: "/faq" },
     ],
     footer: [

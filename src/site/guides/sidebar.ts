@@ -51,7 +51,7 @@ export const SIDEBAR_TOOLS = getAllSidebarTools();
 
 export const SIDEBAR_CALCULATOR = {
   title: "Calculateur Brut vers Net",
-  description: "Estimez prochainement votre salaire net à partir de votre salaire brut.",
+  description: "Estimez votre salaire net à partir de votre salaire brut.",
   href: "/",
 } as const;
 

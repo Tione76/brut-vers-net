@@ -11,4 +11,10 @@ export interface GuideNavItem {
   title: string;
 }
 
-export const guidesNavigation: GuideNavItem[] = [];
+export const guidesNavigation: GuideNavItem[] = [
+  {
+    slug: "comment-est-calcule-le-salaire-net",
+    shortTitle: "Calcul du salaire net",
+    title: "Comment est calculé le salaire net ?",
+  },
+];

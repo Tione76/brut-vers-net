@@ -27,6 +27,12 @@ export interface GuideChecklist {
   items: string[];
 }
 
+export interface GuideMistakesList {
+  type: "mistakes";
+  title?: string;
+  items: string[];
+}
+
 export interface GuideSteps {
   type: "steps";
   items: { title: string; description: string }[];
@@ -93,6 +99,9 @@ export interface GuideProfessionFaq {
 export interface GuideQuickSummaryItem {
   rate: string;
   description: string;
+  /** Titre du niveau (schéma pipeline) */
+  title?: string;
+  kind?: "level" | "connector";
 }
 
 export interface GuideQuickSummary {
@@ -106,6 +115,7 @@ export type GuideBlock =
   | GuideCallout
   | GuideTable
   | GuideChecklist
+  | GuideMistakesList
   | GuideSteps
   | GuideIllustration
   | GuideImagePlaceholder
@@ -172,6 +182,8 @@ export interface GuideSidebarLinks {
 export interface Guide {
   slug: string;
   title: string;
+  /** Title balise <title> : optionnel, sinon title + suffixe site */
+  seoTitle?: string;
   description: string;
   /** Sous-titre affiché dans le header compact : reformulation de la promesse éditoriale */
   subtitle: string;

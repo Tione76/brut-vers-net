@@ -20,8 +20,9 @@ export const seoConfig = {
     path: "/guides",
     title: "Guides Brut vers Net",
     h1: "Guides",
-    description: "Guides Brut vers Net à venir.",
-    subtitle: "Contenu en cours de rédaction.",
+    description:
+      "Guides pratiques pour comprendre le salaire brut, le salaire net, les cotisations salariales et le calcul brut vers net.",
+    subtitle: "Comprendre la paie simplement, avec des explications claires et des exemples concrets.",
   },
 
   toolsHub: {

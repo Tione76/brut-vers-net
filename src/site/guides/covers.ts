@@ -38,8 +38,15 @@ export const TOOLS_HUB_COVER: GuideCoverImage = {
   height: OG_IMAGE_HEIGHT,
 };
 
-/** Couvertures par slug de guide : vide en attendant le contenu Brut vers Net */
-export const GUIDE_COVERS: Record<string, GuideCoverImage> = {};
+/** Couvertures par slug de guide */
+export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
+  "comment-est-calcule-le-salaire-net": {
+    src: siteConfig.ogImage,
+    alt: "Comment est calculé le salaire net ? Guide Brut vers Net",
+    width: OG_IMAGE_WIDTH,
+    height: OG_IMAGE_HEIGHT,
+  },
+};
 
 export function getGuideCover(slug: string): GuideCoverImage | undefined {
   return GUIDE_COVERS[slug];
