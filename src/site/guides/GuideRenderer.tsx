@@ -337,11 +337,16 @@ interface GuideArticleProps {
 }
 
 function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQuickSummary }) {
+  const isReadingOrder = summary.variant === "reading-order";
   const isPipeline = summary.items.some((item) => item.kind);
 
-  if (isPipeline) {
+  if (isReadingOrder || isPipeline) {
+    const modifier = isReadingOrder ? "reading-order" : "pipeline";
     return (
-      <aside className="guide-quick-summary guide-quick-summary--pipeline" aria-label={summary.title}>
+      <aside
+        className={`guide-quick-summary guide-quick-summary--${modifier}`}
+        aria-label={summary.title}
+      >
         <p className="guide-quick-summary__title">{summary.title}</p>
         <div className="guide-quick-summary__pipeline">
           {summary.items.map((item, index) =>
@@ -352,13 +357,17 @@ function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQ
                 aria-hidden="true"
               >
                 <span className="guide-quick-summary__connector-arrow">↓</span>
-                <span className="guide-quick-summary__connector-text">{item.description}</span>
+                {item.description && (
+                  <span className="guide-quick-summary__connector-text">{item.description}</span>
+                )}
               </div>
             ) : (
               <div key={`${item.title ?? item.rate}-${index}`} className="guide-quick-summary__level">
                 <p className="guide-quick-summary__level-num">{item.rate}</p>
                 {item.title && <p className="guide-quick-summary__level-title">{item.title}</p>}
-                <p className="guide-quick-summary__level-desc">{item.description}</p>
+                {item.description && (
+                  <p className="guide-quick-summary__level-desc">{item.description}</p>
+                )}
               </div>
             ),
           )}

@@ -17,4 +17,9 @@ export const guidesNavigation: GuideNavItem[] = [
     shortTitle: "Calcul du salaire net",
     title: "Comment est calculé le salaire net ?",
   },
+  {
+    slug: "comment-lire-une-fiche-de-paie",
+    shortTitle: "Lire une fiche de paie",
+    title: "Comment lire une fiche de paie ?",
+  },
 ];

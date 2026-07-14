@@ -107,6 +107,8 @@ export interface GuideQuickSummaryItem {
 export interface GuideQuickSummary {
   title: string;
   items: GuideQuickSummaryItem[];
+  /** pipeline : 3 niveaux horizontaux · reading-order : parcours vertical du haut vers le bas */
+  variant?: "pipeline" | "reading-order";
 }
 
 export type GuideBlock =

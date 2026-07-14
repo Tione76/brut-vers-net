@@ -46,6 +46,12 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     width: OG_IMAGE_WIDTH,
     height: OG_IMAGE_HEIGHT,
   },
+  "comment-lire-une-fiche-de-paie": {
+    src: siteConfig.ogImage,
+    alt: "Comment lire une fiche de paie ? Guide Brut vers Net",
+    width: OG_IMAGE_WIDTH,
+    height: OG_IMAGE_HEIGHT,
+  },
 };
 
 export function getGuideCover(slug: string): GuideCoverImage | undefined {
