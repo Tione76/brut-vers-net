@@ -147,6 +147,10 @@
   margin-top: 20px;
 }
 
+.prose .guide-intro-summary {
+  margin: 24px 0 28px;
+}
+
 /* Synthèse visuelle rapide (bloc optionnel des guides) */
 .guide-quick-summary {
   margin: 32px 0 40px;
@@ -207,6 +211,19 @@
   font-size: 0.8125rem;
   line-height: 1.45;
   color: var(--ds-text-muted);
+}
+
+.guide-quick-summary__synthesis {
+  margin: 20px auto 0;
+  max-width: 36rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ds-text);
+  text-align: left;
+}
+
+.guide-quick-summary__synthesis + .guide-quick-summary__synthesis {
+  margin-top: 12px;
 }
 
 /* Schéma pipeline : 3 niveaux + connecteurs */
@@ -381,6 +398,46 @@
     text-align: left;
     max-width: none;
   }
+}
+
+/* Chaîne de calcul sobre : libellés uniquement */
+.guide-quick-summary--formula {
+  margin: 24px 0 36px;
+  padding: 24px 28px;
+  background: linear-gradient(135deg, var(--ds-brand-light) 0%, var(--ds-surface-alt) 100%);
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius);
+}
+
+.guide-quick-summary--formula .guide-quick-summary__pipeline {
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.guide-quick-summary--formula .guide-quick-summary__level {
+  padding: 10px 16px;
+  text-align: center;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border-light);
+  border-radius: var(--ds-radius);
+  box-shadow: 0 1px 2px rgba(var(--ds-brand-rgb), 0.05);
+}
+
+.guide-quick-summary--formula .guide-quick-summary__level-title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ds-text);
+  line-height: 1.4;
+}
+
+.guide-quick-summary--formula .guide-quick-summary__connector {
+  padding: 6px 0;
+}
+
+.guide-quick-summary--formula .guide-quick-summary__connector-arrow {
+  font-size: 1.125rem;
+  color: var(--ds-brand);
 }
 
 .guide-profession-faq {

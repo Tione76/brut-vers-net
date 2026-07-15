@@ -1,8 +1,18 @@
 import type { ReactElement } from "react";
+import { CalculSalaireNetEtapesIllustration } from "./CalculSalaireNetEtapesIllustration";
+import { CalculSalaireNetSchemaIllustration } from "./CalculSalaireNetSchemaIllustration";
+import { CotisationsSalarialesDestinationsIllustration } from "./CotisationsSalarialesDestinationsIllustration";
 import { FicheDePaieZonesIllustration } from "./FicheDePaieZonesIllustration";
+import { PrelevementSourceFichePaieIllustration } from "./PrelevementSourceFichePaieIllustration";
+import { PrelevementSourceParcoursIllustration } from "./PrelevementSourceParcoursIllustration";
 
 const ILLUSTRATIONS: Record<string, () => ReactElement> = {
   "fiche-de-paie-zones": FicheDePaieZonesIllustration,
+  "calcul-salaire-net-schema": CalculSalaireNetSchemaIllustration,
+  "calcul-salaire-net-etapes": CalculSalaireNetEtapesIllustration,
+  "cotisations-salariales-destinations": CotisationsSalarialesDestinationsIllustration,
+  "prelevement-source-fiche-paie": PrelevementSourceFichePaieIllustration,
+  "prelevement-source-parcours": PrelevementSourceParcoursIllustration,
 };
 
 export function GuideIllustration({ id, caption }: { id: string; caption?: string }) {

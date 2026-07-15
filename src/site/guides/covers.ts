@@ -42,13 +42,31 @@ export const TOOLS_HUB_COVER: GuideCoverImage = {
 export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
   "comment-est-calcule-le-salaire-net": {
     src: siteConfig.ogImage,
-    alt: "Comment est calculé le salaire net ? Guide Brut vers Net",
+    alt: "Calcul salaire net : différence entre brut et net, guide Brut vers Net",
     width: OG_IMAGE_WIDTH,
     height: OG_IMAGE_HEIGHT,
   },
   "comment-lire-une-fiche-de-paie": {
     src: siteConfig.ogImage,
     alt: "Comment lire une fiche de paie ? Guide Brut vers Net",
+    width: OG_IMAGE_WIDTH,
+    height: OG_IMAGE_HEIGHT,
+  },
+  "comment-calculer-son-salaire-net": {
+    src: siteConfig.ogImage,
+    alt: "Comment calculer son salaire net ? Guide Brut vers Net",
+    width: OG_IMAGE_WIDTH,
+    height: OG_IMAGE_HEIGHT,
+  },
+  "cotisations-salariales-pourquoi-brut-plus-eleve-que-net": {
+    src: siteConfig.ogImage,
+    alt: "Cotisations salariales : pourquoi le salaire brut est plus élevé que le net, guide Brut vers Net",
+    width: OG_IMAGE_WIDTH,
+    height: OG_IMAGE_HEIGHT,
+  },
+  "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne": {
+    src: siteConfig.ogImage,
+    alt: "Prélèvement à la source : qu'est-ce que c'est et comment ça fonctionne, guide Brut vers Net",
     width: OG_IMAGE_WIDTH,
     height: OG_IMAGE_HEIGHT,
   },

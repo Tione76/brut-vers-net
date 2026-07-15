@@ -48,7 +48,7 @@ export const siteConfig = {
     width: 800,
     height: 800,
   },
-  favicon: "/logo-icon.png?v=2",
+  favicon: "/logo-icon.png?v=3",
   ogImage: "/logo.png?v=2",
 
   footerBrandName: "BRUT-VERS-NET.FR",

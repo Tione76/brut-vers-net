@@ -89,11 +89,13 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
         </p>
         <GuideArticle
           introduction={guide.introduction}
+          introSummary={guide.introSummary}
           quickSummary={guide.quickSummary}
           toc={toc}
           sections={guide.sections}
           faq={guide.faq}
           faqTitle={guide.faqTitle}
+          faqIntro={guide.faqIntro}
           conclusion={guide.conclusion}
         />
       </GuidePageLayout>

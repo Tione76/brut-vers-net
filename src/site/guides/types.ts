@@ -98,7 +98,7 @@ export interface GuideProfessionFaq {
 
 export interface GuideQuickSummaryItem {
   rate: string;
-  description: string;
+  description?: string;
   /** Titre du niveau (schéma pipeline) */
   title?: string;
   kind?: "level" | "connector";
@@ -107,8 +107,10 @@ export interface GuideQuickSummaryItem {
 export interface GuideQuickSummary {
   title: string;
   items: GuideQuickSummaryItem[];
-  /** pipeline : 3 niveaux horizontaux · reading-order : parcours vertical du haut vers le bas */
-  variant?: "pipeline" | "reading-order";
+  /** pipeline : 3 niveaux horizontaux · reading-order : parcours vertical · formula : chaîne sobre sans numéros */
+  variant?: "pipeline" | "reading-order" | "formula";
+  /** Synthèse optionnelle affichée sous le schéma */
+  synthesis?: string[];
 }
 
 export type GuideBlock =
@@ -197,12 +199,16 @@ export interface Guide {
   coverImage?: GuideCoverImage;
   /** 2 à 3 phrases : réponse immédiate à la question principale, sans H2 */
   introduction: string[];
+  /** Synthèse courte affichée entre l'introduction et le sommaire (optionnel) */
+  introSummary?: { title: string; items: string[] };
   /** Bloc visuel synthétique affiché juste après l'introduction (optionnel) */
   quickSummary?: GuideQuickSummary;
   sections: GuideSection[];
   faq: FaqItem[];
   /** Titre H2 de la section FAQ : adapté au sujet du guide */
   faqTitle?: string;
+  /** Paragraphe de transition affiché entre le titre FAQ et la liste de questions */
+  faqIntro?: string;
   conclusion: GuideConclusion;
   sidebar: GuideSidebarLinks;
   /** true uniquement pour le modèle de référence /modele : exclu du sitemap */

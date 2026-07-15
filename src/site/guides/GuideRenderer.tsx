@@ -155,7 +155,13 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
       return (
         <p className="guide-internal-link">
           {block.intro && <>{block.intro} </>}
-          <Link href={block.href}>{block.label}</Link>
+          {block.href.startsWith("http") ? (
+            <a href={block.href} rel="noopener noreferrer" target="_blank">
+              {block.label}
+            </a>
+          ) : (
+            <Link href={block.href}>{block.label}</Link>
+          )}
         </p>
       );
 
@@ -327,21 +333,24 @@ export function GuideSidebar({
 
 interface GuideArticleProps {
   introduction: string[];
+  introSummary?: import("./types").Guide["introSummary"];
   quickSummary?: import("./types").GuideQuickSummary;
   toc: GuideTocEntry[];
   sections: import("./types").Guide["sections"];
   faq: import("./types").Guide["faq"];
   faqTitle?: string;
+  faqIntro?: string;
   conclusion: import("./types").Guide["conclusion"];
   isTemplate?: boolean;
 }
 
 function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQuickSummary }) {
+  const isFormula = summary.variant === "formula";
   const isReadingOrder = summary.variant === "reading-order";
-  const isPipeline = summary.items.some((item) => item.kind);
+  const isPipeline = !isFormula && summary.items.some((item) => item.kind);
 
-  if (isReadingOrder || isPipeline) {
-    const modifier = isReadingOrder ? "reading-order" : "pipeline";
+  if (isFormula || isReadingOrder || isPipeline) {
+    const modifier = isFormula ? "formula" : isReadingOrder ? "reading-order" : "pipeline";
     return (
       <aside
         className={`guide-quick-summary guide-quick-summary--${modifier}`}
@@ -356,14 +365,16 @@ function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQ
                 className="guide-quick-summary__connector"
                 aria-hidden="true"
               >
-                <span className="guide-quick-summary__connector-arrow">↓</span>
+                <span className="guide-quick-summary__connector-arrow">
+                  {item.rate === "→" ? "→" : "↓"}
+                </span>
                 {item.description && (
                   <span className="guide-quick-summary__connector-text">{item.description}</span>
                 )}
               </div>
             ) : (
               <div key={`${item.title ?? item.rate}-${index}`} className="guide-quick-summary__level">
-                <p className="guide-quick-summary__level-num">{item.rate}</p>
+                {!isFormula && <p className="guide-quick-summary__level-num">{item.rate}</p>}
                 {item.title && <p className="guide-quick-summary__level-title">{item.title}</p>}
                 {item.description && (
                   <p className="guide-quick-summary__level-desc">{item.description}</p>
@@ -372,6 +383,11 @@ function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQ
             ),
           )}
         </div>
+        {summary.synthesis?.map((paragraph) => (
+          <p key={paragraph} className="guide-quick-summary__synthesis">
+            {paragraph}
+          </p>
+        ))}
       </aside>
     );
   }
@@ -387,17 +403,24 @@ function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQ
           </div>
         ))}
       </div>
+      {summary.synthesis?.map((paragraph) => (
+        <p key={paragraph} className="guide-quick-summary__synthesis">
+          {paragraph}
+        </p>
+      ))}
     </aside>
   );
 }
 
 export function GuideArticle({
   introduction,
+  introSummary,
   quickSummary,
   toc,
   sections,
   faq,
   faqTitle,
+  faqIntro,
   conclusion,
   isTemplate,
 }: GuideArticleProps) {
@@ -408,6 +431,20 @@ export function GuideArticle({
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
+
+      {introSummary ? (
+        <aside className="guide-checklist guide-intro-summary">
+          <p className="guide-checklist__title">{introSummary.title}</p>
+          <ul>
+            {introSummary.items.map((item) => (
+              <li key={item}>
+                <span className="guide-checklist__mark" aria-hidden="true">✓</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </aside>
+      ) : null}
 
       <GuideInlineToc entries={toc} />
 
@@ -440,6 +477,7 @@ export function GuideArticle({
 
       <section id="faq" className="guide-section">
         <h2>{faqTitle ?? "Questions fréquentes"}</h2>
+        {faqIntro ? <p>{faqIntro}</p> : null}
         <div className="faq-list">
           {faq.map((item) => (
             <details key={item.question} className="faq-item">

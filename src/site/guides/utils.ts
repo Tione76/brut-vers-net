@@ -36,9 +36,10 @@ export function computeReadingTime(guide: Guide): number {
   if (guide.quickSummary) {
     words += guide.quickSummary.title.split(/\s+/).length;
     words += guide.quickSummary.items
-      .map((i) => `${i.rate} ${i.description}`)
+      .map((i) => `${i.rate} ${i.title ?? ""} ${i.description ?? ""}`)
       .join(" ")
       .split(/\s+/).length;
+    words += (guide.quickSummary.synthesis ?? []).join(" ").split(/\s+/).filter(Boolean).length;
   }
   words += guide.conclusion.keyPoints.join(" ").split(/\s+/).filter(Boolean).length;
   words += guide.conclusion.closingText.split(/\s+/).filter(Boolean).length;
