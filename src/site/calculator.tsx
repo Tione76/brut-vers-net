@@ -287,7 +287,7 @@ export default function Calculator() {
     const errorId = `${field}-error`;
     const error = fieldErrors[field];
 
-    return (
+  return (
       <div className="salary-calc__cell">
         <label htmlFor={field} className="salary-calc__sr-only">
           {FIELD_LABELS[field]}

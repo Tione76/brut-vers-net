@@ -11,6 +11,8 @@ import "@/site/guides/guide-page.css";
 
 interface ToolCalculatorPageLayoutProps {
   h1: string;
+  subtitle?: string;
+  disclaimer?: string;
   Calculator: ComponentType;
   editorial: ReactNode;
   sidebar: ReactNode;
@@ -21,9 +23,11 @@ interface ToolCalculatorPageLayoutProps {
 function CalculatorHero({
   Calculator,
   variant,
+  disclaimer,
 }: {
   Calculator: ComponentType;
   variant?: "default" | "margin";
+  disclaimer?: string;
 }) {
   const { result } = useCalculatorSlot();
   const isMargin = variant === "margin";
@@ -52,13 +56,23 @@ function CalculatorHero({
         </div>
       </div>
       <p className="calc-disclaimer">
-        Le calculateur est actuellement en cours de développement.
+        {disclaimer ??
+          "Le calculateur est actuellement en cours de développement."}
       </p>
     </div>
   );
 }
 
-function ToolCalculatorPageInner({ h1, Calculator, editorial, sidebar, breadcrumb, variant = "default" }: ToolCalculatorPageLayoutProps) {
+function ToolCalculatorPageInner({
+  h1,
+  subtitle,
+  disclaimer,
+  Calculator,
+  editorial,
+  sidebar,
+  breadcrumb,
+  variant = "default",
+}: ToolCalculatorPageLayoutProps) {
   const site = useSite();
   const isMargin = variant === "margin";
 
@@ -74,8 +88,9 @@ function ToolCalculatorPageInner({ h1, Calculator, editorial, sidebar, breadcrum
         />
         <div className="tool-header__inner">
           <h1 className="tool-header__title tool-header__title--sentence">{h1}</h1>
-          <div className="calc-stage">
-            <CalculatorHero Calculator={Calculator} variant={variant} />
+          {subtitle ? <p className="tool-header__subtitle">{subtitle}</p> : null}
+          <div className="calc-stage" id="calculateur">
+            <CalculatorHero Calculator={Calculator} variant={variant} disclaimer={disclaimer} />
           </div>
         </div>
         <HeaderCurveDown />

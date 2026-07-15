@@ -702,6 +702,15 @@
   color: var(--ds-text);
 }
 
+.home-editorial__case-hint {
+  margin: 1rem 0 0;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--ds-border-light);
+  font-size: var(--ds-font-size-sm);
+  line-height: var(--editorial-line-height);
+  color: var(--ds-text-muted);
+}
+
 /* Tableaux */
 
 .home-editorial__table-wrap {

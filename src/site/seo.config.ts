@@ -14,7 +14,30 @@ export const seoConfig = {
       "Estimez prochainement votre salaire net à partir de votre salaire brut grâce au calculateur Brut vers Net.",
   },
 
-  calculators: {} as Record<string, { path: string; title: string; description: string; h1: string }>,
+  calculators: {
+    "augmentation-salaire": {
+      path: "/calculateurs/augmentation-salaire",
+      title: "Calculateur d'augmentation de salaire brut et net",
+      h1: "Calculateur d'augmentation de salaire",
+      subtitle:
+        "Estimez ce que votre augmentation brute représente réellement en net chaque mois et sur une année.",
+      description:
+        "Calculez l'impact d'une augmentation en euros ou en pourcentage sur votre salaire brut, votre salaire net mensuel et votre gain annuel.",
+      indexable: true,
+      navTitle: "Augmentation de salaire",
+    },
+  } as Record<
+    string,
+    {
+      path: string;
+      title: string;
+      description: string;
+      h1: string;
+      subtitle?: string;
+      indexable?: boolean;
+      navTitle?: string;
+    }
+  >,
 
   guidesHub: {
     path: "/guides",

@@ -3,6 +3,8 @@
 export const TOOL_HUB_TEASERS: Record<string, string> = {
   "brut-vers-net":
     "Estimez prochainement votre salaire net à partir de votre salaire brut.",
+  "augmentation-salaire":
+    "Estimez ce que votre augmentation brute représente réellement en net chaque mois et sur une année.",
 };
 
 export function getToolHubTeaser(id: string): string | undefined {

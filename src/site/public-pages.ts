@@ -26,14 +26,17 @@ const NOINDEX_PATHS = new Set([
 ]);
 
 function calculatorPages(): PublicPage[] {
-  return getAllCalculators().map((calc) => ({
-    path: calc.path,
-    title: calc.shortTitle,
-    category: "tools" as const,
-    changefreq: "monthly" as const,
-    priority: calc.path === "/" ? 1 : 0.9,
-    indexable: calc.path === "/",
-  }));
+  return getAllCalculators().map((calc) => {
+    const configEntry = Object.values(seoConfig.calculators).find((item) => item.path === calc.path);
+    return {
+      path: calc.path,
+      title: calc.shortTitle,
+      category: "tools" as const,
+      changefreq: "monthly" as const,
+      priority: calc.path === "/" ? 1 : 0.9,
+      indexable: calc.path === "/" ? true : Boolean(configEntry?.indexable),
+    };
+  });
 }
 
 /** Toutes les pages publiques connues du site (indexables et non indexables) */

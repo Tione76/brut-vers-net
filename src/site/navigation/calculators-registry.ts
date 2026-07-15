@@ -36,7 +36,7 @@ export function getAllCalculators(): CalculatorEntry[] {
     id,
     path: calc.path,
     title: calc.title,
-    shortTitle: calc.h1,
+    shortTitle: calc.navTitle ?? calc.h1,
     description: calc.description,
     h1: calc.h1,
     cover: HOME_COVER,

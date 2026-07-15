@@ -1,6 +1,7 @@
+import { getAllCalculators } from "./calculators-registry";
+
 /**
  * Menu « Nos outils » : dérivé automatiquement du registre des calculateurs.
- * Vide en attendant les outils Brut vers Net (navigation par liens directs).
  */
 export type ToolNavItem = {
   href: string;
@@ -8,4 +9,10 @@ export type ToolNavItem = {
   title: string;
 };
 
-export const toolsNavigation: ToolNavItem[] = [];
+export const toolsNavigation: ToolNavItem[] = getAllCalculators()
+  .filter((calc) => calc.path !== "/")
+  .map((calc) => ({
+    href: calc.path,
+    shortTitle: calc.shortTitle,
+    title: calc.title,
+  }));
