@@ -24,7 +24,18 @@ export const seoConfig = {
       description:
         "Calculez l'impact d'une augmentation en euros ou en pourcentage sur votre salaire brut, votre salaire net mensuel et votre gain annuel.",
       indexable: true,
-      navTitle: "Augmentation de salaire",
+      navTitle: "Simuler une augmentation de salaire",
+    },
+    "salaire-heures-supplementaires": {
+      path: "/calculateurs/salaire-heures-supplementaires",
+      title: "Calculateur d'heures supplémentaires : salaire brut et net",
+      h1: "Calculez votre salaire avec heures supplémentaires",
+      subtitle:
+        "Estimez ce que vos heures supplémentaires représentent en brut et en net, ainsi que votre nouveau salaire mensuel.",
+      description:
+        "Calculez le montant brut et net de vos heures supplémentaires à 25 %, 50 % ou selon le taux prévu par votre entreprise, puis estimez votre nouveau salaire.",
+      indexable: true,
+      navTitle: "Calculer les heures supplémentaires",
     },
   } as Record<
     string,

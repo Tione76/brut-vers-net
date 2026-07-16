@@ -126,8 +126,7 @@ export const siteConfig = {
 
   navigation: {
     header: [
-      { label: "Calculateur", href: "/" },
-      { label: "Outils", href: "/nos-outils" },
+      { label: "Calcul brut → net", href: "/" },
       { label: "FAQ", href: "/faq" },
     ],
     footer: [

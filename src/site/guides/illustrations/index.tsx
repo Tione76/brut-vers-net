@@ -3,6 +3,7 @@ import { CalculSalaireNetEtapesIllustration } from "./CalculSalaireNetEtapesIllu
 import { CalculSalaireNetSchemaIllustration } from "./CalculSalaireNetSchemaIllustration";
 import { CotisationsSalarialesDestinationsIllustration } from "./CotisationsSalarialesDestinationsIllustration";
 import { FicheDePaieZonesIllustration } from "./FicheDePaieZonesIllustration";
+import { HeuresSupplementairesFichePaieIllustration } from "./HeuresSupplementairesFichePaieIllustration";
 import { PrelevementSourceFichePaieIllustration } from "./PrelevementSourceFichePaieIllustration";
 import { PrelevementSourceParcoursIllustration } from "./PrelevementSourceParcoursIllustration";
 
@@ -13,6 +14,7 @@ const ILLUSTRATIONS: Record<string, () => ReactElement> = {
   "cotisations-salariales-destinations": CotisationsSalarialesDestinationsIllustration,
   "prelevement-source-fiche-paie": PrelevementSourceFichePaieIllustration,
   "prelevement-source-parcours": PrelevementSourceParcoursIllustration,
+  "heures-supplementaires-fiche-paie": HeuresSupplementairesFichePaieIllustration,
 };
 
 export function GuideIllustration({ id, caption }: { id: string; caption?: string }) {

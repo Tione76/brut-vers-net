@@ -1,0 +1,63 @@
+/* Ajustements minimes sur classes du calculateur d'augmentation */
+
+.pas-calc__mode {
+  margin: 0 0 18px;
+}
+
+.pas-calc__mode-hint {
+  margin: 10px 0 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--ds-muted, #5c6570);
+}
+
+.pas-calc__person-params {
+  display: grid;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.pas-calc__taxable-estimate {
+  margin-top: 10px;
+}
+
+.pas-calc__field-help {
+  margin: 8px 0 12px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--ds-muted, #5c6570);
+}
+
+.pas-calc__main-grid {
+  margin: 0 0 14px;
+}
+
+.pas-calc__net-after {
+  background: rgba(46, 125, 50, 0.14);
+  border-color: rgba(46, 125, 50, 0.28);
+}
+
+.pas-calc__item-hint {
+  display: block;
+  margin: 6px 0 0;
+}
+
+.pas-calc__summary {
+  margin-top: 4px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.pas-calc__tip-body {
+  margin: 0;
+}
+
+.pas-calc-editorial a {
+  color: var(--ds-brand);
+}
+
+.pas-calc-editorial a:hover {
+  color: var(--ds-brand-hover, #da7830);
+}

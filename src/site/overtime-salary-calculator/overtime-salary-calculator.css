@@ -1,0 +1,77 @@
+/* Libellés heures supplémentaires : périodicité secondaire */
+.overtime-hours-label__period {
+  font-size: 0.85em;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.overtime-hours-coherence {
+  margin: 6px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.overtime-rates-summary {
+  margin: 6px 0 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.overtime-results__hero-amount {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(2.0625rem, 1.35rem + 2.45vw, 2.8125rem);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.overtime-results__hero-amount .increase-calc__gain-value {
+  color: #8fe0a8;
+}
+
+.overtime-results__hero-label {
+  margin: 6px 0 0;
+  text-align: center;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #ffffff;
+}
+
+.overtime-results__secondary-amount {
+  margin: 14px 0 0;
+  text-align: center;
+  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.625rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+}
+
+.overtime-results__soit {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.overtime-results__secondary-amount .increase-calc__gain-value {
+  color: #8fe0a8;
+}
+
+.overtime-results__secondary-label {
+  margin: 4px 0 0;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.overtime-results__summary {
+  margin: 12px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+  text-align: center;
+}

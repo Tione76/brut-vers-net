@@ -5,6 +5,8 @@ export const TOOL_HUB_TEASERS: Record<string, string> = {
     "Estimez prochainement votre salaire net à partir de votre salaire brut.",
   "augmentation-salaire":
     "Estimez ce que votre augmentation brute représente réellement en net chaque mois et sur une année.",
+  "salaire-heures-supplementaires":
+    "Estimez le brut et le net de vos heures supplémentaires, puis votre nouveau salaire mensuel.",
 };
 
 export function getToolHubTeaser(id: string): string | undefined {
