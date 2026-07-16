@@ -8,6 +8,7 @@ import {
   FAQ_PAGE_SUBTITLE,
 } from "@/site/faq-page-data";
 import { FaqPageContent } from "@/site/FaqPageContent";
+import { coverToOgInput, coverToSchemaImage, FAQ_COVER } from "@/site/guides/covers";
 import { FaqPageSidebar, GuidePageLayout } from "@/site/guides";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import "@/site/guides/guide-page.css";
@@ -18,6 +19,7 @@ export const metadata = buildPageMetadata(config, seoConfig, {
   title: FAQ_PAGE_META.title,
   description: FAQ_PAGE_META.description,
   path: "/faq",
+  ogImage: coverToOgInput(FAQ_COVER),
   robots: NOINDEX,
 });
 
@@ -26,7 +28,13 @@ export default function FaqPage() {
     <>
       <JsonLd
         data={[
-          buildWebPageSchema(config, FAQ_PAGE_META.title, FAQ_PAGE_META.description, "/faq"),
+          buildWebPageSchema(
+            config,
+            FAQ_PAGE_META.title,
+            FAQ_PAGE_META.description,
+            "/faq",
+            coverToSchemaImage(FAQ_COVER),
+          ),
           buildBreadcrumbSchema(config, [
             { name: "Accueil", path: "/" },
             { name: "FAQ Brut vers Net", path: "/faq" },

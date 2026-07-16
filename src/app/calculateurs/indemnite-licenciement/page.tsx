@@ -1,6 +1,6 @@
 import { config, seoConfig } from "@/site";
 import { coverToOgInput, coverToSchemaImage, getCalculatorCover } from "@/site/guides/covers";
-import { SalaryIncreasePageSidebar } from "@/site/salary-increase-calculator/salary-increase-sidebar";
+import { DismissalCompensationPageSidebar } from "@/site/dismissal-compensation-calculator/dismissal-sidebar";
 import { ToolCalculatorPageLayout } from "@/framework/layouts/ToolCalculatorPageLayout";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
@@ -12,19 +12,19 @@ import {
 } from "@/framework/seo/json-ld";
 import { isPathIndexable } from "@/site/public-pages";
 import {
-  INCREASE_DISCLAIMER,
-  SALARY_INCREASE_PATH,
-} from "@/site/salary-increase-calculator/config";
-import SalaryIncreaseCalculator from "@/site/salary-increase-calculator/SalaryIncreaseCalculator";
+  DISMISSAL_DISCLAIMER,
+  DISMISSAL_PATH,
+} from "@/site/dismissal-compensation-calculator/config";
+import DismissalCompensationCalculator from "@/site/dismissal-compensation-calculator/DismissalCompensationCalculator";
 import {
-  SalaryIncreaseEditorial,
-  salaryIncreaseFaq,
-} from "@/site/salary-increase-calculator/salary-increase-editorial";
-import { SALARY_INCREASE_EDITORIAL_UPDATED_AT } from "@/site/salary-increase-calculator/salary-increase-editorial-data";
+  DismissalCompensationEditorial,
+  dismissalFaq,
+} from "@/site/dismissal-compensation-calculator/DismissalCompensationEditorial";
+import { DISMISSAL_EDITORIAL_UPDATED_AT } from "@/site/dismissal-compensation-calculator/dismissal-editorial-data";
 
-const calc = seoConfig.calculators["augmentation-salaire"];
-const path = SALARY_INCREASE_PATH;
-const cover = getCalculatorCover("augmentation-salaire");
+const calc = seoConfig.calculators["indemnite-licenciement"];
+const path = DISMISSAL_PATH;
+const cover = getCalculatorCover("indemnite-licenciement");
 
 export const metadata = buildPageMetadata(config, seoConfig, {
   title: calc.title,
@@ -34,13 +34,13 @@ export const metadata = buildPageMetadata(config, seoConfig, {
   robots: isPathIndexable(path) ? undefined : { index: false, follow: false },
 });
 
-export default function SalaryIncreaseCalculatorPage() {
+export default function DismissalCompensationCalculatorPage() {
   return (
     <>
       <JsonLd
         data={[
           buildWebApplicationSchema(config, calc.h1, calc.description, {
-            dateModified: SALARY_INCREASE_EDITORIAL_UPDATED_AT,
+            dateModified: DISMISSAL_EDITORIAL_UPDATED_AT,
             image: coverToSchemaImage(cover),
           }),
           buildBreadcrumbSchema(config, [
@@ -48,16 +48,16 @@ export default function SalaryIncreaseCalculatorPage() {
             { name: "Outils", path: seoConfig.toolsHub.path },
             { name: calc.h1, path },
           ]),
-          buildFaqSchema(salaryIncreaseFaq),
+          buildFaqSchema(dismissalFaq),
         ]}
       />
       <ToolCalculatorPageLayout
-        h1="Calculez votre augmentation de salaire"
+        h1="Calculez votre indemnité de licenciement"
         subtitle={calc.subtitle}
-        disclaimer={INCREASE_DISCLAIMER}
-        Calculator={SalaryIncreaseCalculator}
+        disclaimer={DISMISSAL_DISCLAIMER}
+        Calculator={DismissalCompensationCalculator}
         variant="margin"
-        sidebar={<SalaryIncreasePageSidebar />}
+        sidebar={<DismissalCompensationPageSidebar />}
         breadcrumb={
           <PageBreadcrumb
             items={[
@@ -67,7 +67,7 @@ export default function SalaryIncreaseCalculatorPage() {
             ]}
           />
         }
-        editorial={<SalaryIncreaseEditorial />}
+        editorial={<DismissalCompensationEditorial />}
       />
     </>
   );

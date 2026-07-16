@@ -2,6 +2,7 @@ import { getAllCalculators } from "./calculators-registry";
 
 /**
  * Menu « Nos outils » : dérivé automatiquement du registre des calculateurs.
+ * Libellés menu éventuellement distincts du shortTitle (hub, sidebar, plan du site).
  */
 export type ToolNavItem = {
   href: string;
@@ -9,10 +10,14 @@ export type ToolNavItem = {
   title: string;
 };
 
+const MENU_SHORT_TITLES: Record<string, string> = {
+  "salaire-heures-supplementaires": "Calculer un salaire avec heures sup",
+};
+
 export const toolsNavigation: ToolNavItem[] = getAllCalculators()
   .filter((calc) => calc.path !== "/")
   .map((calc) => ({
     href: calc.path,
-    shortTitle: calc.shortTitle,
+    shortTitle: MENU_SHORT_TITLES[calc.id] ?? calc.shortTitle,
     title: calc.title,
   }));

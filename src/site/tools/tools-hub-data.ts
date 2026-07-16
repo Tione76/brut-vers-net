@@ -7,6 +7,8 @@ export const TOOL_HUB_TEASERS: Record<string, string> = {
     "Estimez ce que votre augmentation brute représente réellement en net chaque mois et sur une année.",
   "salaire-heures-supplementaires":
     "Estimez le brut et le net de vos heures supplémentaires, puis votre nouveau salaire mensuel.",
+  "indemnite-licenciement":
+    "Estimez le montant minimal de votre indemnité légale selon votre salaire brut de référence et votre ancienneté.",
 };
 
 export function getToolHubTeaser(id: string): string | undefined {

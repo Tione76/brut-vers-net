@@ -18,14 +18,14 @@
 .salary-calc__matrix {
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 8px;
 }
 
 .salary-calc__matrix-head,
 .salary-calc__matrix-row {
   display: grid;
-  grid-template-columns: minmax(5rem, 6rem) minmax(0, 1fr) minmax(0, 1fr);
-  gap: 8px 14px;
+  grid-template-columns: minmax(4.75rem, 5.5rem) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px 12px;
   align-items: center;
 }
 
@@ -50,8 +50,7 @@
 }
 
 .salary-calc__cell .calc-input,
-.salary-calc__param .calc-input,
-.salary-calc__output {
+.salary-calc__param .calc-input {
   height: var(--salary-calc-input-height);
   padding: 0 14px;
   font-size: var(--ds-font-size-xl);
@@ -94,45 +93,52 @@
 .salary-calc__after-tax {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 4px;
 }
 
 @media (min-width: 520px) {
   .salary-calc__after-tax {
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 14px;
   }
 }
 
-.salary-calc__after-tax-field .calc-field-label {
-  margin-bottom: 7px;
+.salary-calc__result-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-height: 5.75rem;
+  padding: 16px 18px;
+  border-radius: var(--ds-radius);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.salary-calc__result-label {
+  margin: 0;
   font-size: var(--ds-font-size-lg);
-}
-
-.salary-calc__output {
-  cursor: default;
-  background: rgba(255, 255, 255, 0.96);
-}
-
-.salary-calc__output:placeholder-shown {
-  text-align: center;
-  font-size: var(--ds-font-size-lg);
-  font-weight: 400;
-  font-style: normal;
-}
-
-.salary-calc__output::placeholder {
-  color: var(--ds-text-muted);
-  opacity: 1;
-  font-weight: 400;
-  font-size: var(--ds-font-size-lg);
-}
-
-.salary-calc__output:not(:placeholder-shown) {
-  text-align: left;
-  font-size: var(--ds-font-size-xl);
   font-weight: 700;
-  color: var(--ds-text);
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.salary-calc__result-value {
+  margin: 0;
+  font-size: var(--ds-font-size-lg);
+  font-weight: 500;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.salary-calc__result-value--filled {
+  font-size: clamp(1.625rem, 1.25rem + 1.4vw, 2.125rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #8fe0a8;
 }
 
 /* Groupes d'options sélectionnables */

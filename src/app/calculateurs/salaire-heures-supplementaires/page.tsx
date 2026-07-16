@@ -1,5 +1,5 @@
 import { config, seoConfig } from "@/site";
-import { coverToOgInput, coverToSchemaImage, HOME_COVER } from "@/site/guides/covers";
+import { coverToOgInput, coverToSchemaImage, getCalculatorCover } from "@/site/guides/covers";
 import { OvertimeSalaryPageSidebar } from "@/site/overtime-salary-calculator/overtime-sidebar";
 import { ToolCalculatorPageLayout } from "@/framework/layouts/ToolCalculatorPageLayout";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
@@ -24,12 +24,13 @@ import { OVERTIME_EDITORIAL_UPDATED_AT } from "@/site/overtime-salary-calculator
 
 const calc = seoConfig.calculators["salaire-heures-supplementaires"];
 const path = OVERTIME_PATH;
+const cover = getCalculatorCover("salaire-heures-supplementaires");
 
 export const metadata = buildPageMetadata(config, seoConfig, {
   title: calc.title,
   description: calc.description,
   path,
-  ogImage: coverToOgInput(HOME_COVER),
+  ogImage: coverToOgInput(cover),
   robots: isPathIndexable(path) ? undefined : { index: false, follow: false },
 });
 
@@ -40,7 +41,7 @@ export default function OvertimeSalaryCalculatorPage() {
         data={[
           buildWebApplicationSchema(config, calc.h1, calc.description, {
             dateModified: OVERTIME_EDITORIAL_UPDATED_AT,
-            image: coverToSchemaImage(HOME_COVER),
+            image: coverToSchemaImage(cover),
           }),
           buildBreadcrumbSchema(config, [
             { name: "Accueil", path: "/" },

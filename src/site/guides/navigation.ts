@@ -24,12 +24,12 @@ export const guidesNavigation: GuideNavItem[] = [
   },
   {
     slug: "comment-lire-une-fiche-de-paie",
-    shortTitle: "Lire une fiche de paie",
+    shortTitle: "Comment lire une fiche de paie",
     title: "Comment lire une fiche de paie ?",
   },
   {
     slug: "cotisations-salariales-pourquoi-brut-plus-eleve-que-net",
-    shortTitle: "Cotisations salariales",
+    shortTitle: "Comprendre les cotisations salariales",
     title: "Cotisations salariales : pourquoi mon salaire brut est-il plus élevé que mon salaire net ?",
   },
   {

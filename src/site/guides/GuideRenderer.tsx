@@ -239,7 +239,7 @@ function GuideSidebarGuideCards({ guides }: { guides: GuideSidebarLink[] }) {
           >
             {cover && (
               <span className="guide-sidebar-card__cover">
-                <GuideCoverImage cover={cover} className="guide-sidebar-card__cover-img" />
+                <GuideCoverImage cover={cover} decorative className="guide-sidebar-card__cover-img" />
               </span>
             )}
             <span className="guide-sidebar-card__body">

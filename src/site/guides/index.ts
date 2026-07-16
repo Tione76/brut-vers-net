@@ -28,11 +28,18 @@ export { buildGuideToc, buildGuideTocH2, computeReadingTime } from "./utils";
 export {
   attachGuideCover,
   coverToOgInput,
+  coverToSchemaImage,
+  getCalculatorCover,
   getGuideCover,
   getGuideCoverByHref,
+  CALCULATOR_COVERS,
+  FAQ_COVER,
   GUIDE_COVERS,
+  GUIDES_HUB_COVER,
   HOME_COVER,
   resolveGuideCover,
+  TOOLS_HUB_COVER,
+  toAbsoluteAssetUrl,
 } from "./covers";
 export type { GuideCoverImage } from "./covers";
 export { GuideArticle, GuideInlineToc, GuideSidebar } from "./GuideRenderer";

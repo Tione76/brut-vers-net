@@ -44,6 +44,16 @@ export function getCanonicalUrl(url: string, path: string): string {
   return `${url}${path === "/" ? "" : path}`;
 }
 
+function toAbsoluteAssetUrl(siteUrl: string, assetPath: string): string {
+  if (/^https?:\/\//i.test(assetPath)) return assetPath;
+  const pathname = assetPath.startsWith("/") ? assetPath : `/${assetPath}`;
+  const encodedPath = pathname
+    .split("/")
+    .map((segment) => (segment === "" ? "" : encodeURIComponent(segment)))
+    .join("/");
+  return `${siteUrl.replace(/\/$/, "")}${encodedPath}`;
+}
+
 function resolveOgImage(
   site: SiteSeoInput,
   pageImage?: string | OgImageInput,
@@ -51,9 +61,7 @@ function resolveOgImage(
   const fallback = pageImage ?? site.ogImage;
   const resolved: OgImageInput =
     typeof fallback === "string" ? { url: fallback } : fallback;
-  const absoluteUrl = resolved.url.startsWith("http")
-    ? resolved.url
-    : `${site.url}${resolved.url}`;
+  const absoluteUrl = toAbsoluteAssetUrl(site.url, resolved.url);
   return { absoluteUrl, meta: { ...resolved, url: absoluteUrl } };
 }
 

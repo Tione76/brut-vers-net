@@ -41,7 +41,6 @@ const SALARY_MATRIX_ROWS: {
   gross: SalaryInputField;
   net: SalaryInputField;
 }[] = [
-  { rowLabel: "Horaire", gross: "grossHourly", net: "netHourly" },
   { rowLabel: "Mensuel", gross: "grossMonthly", net: "netMonthly" },
   { rowLabel: "Annuel", gross: "grossAnnual", net: "netAnnual" },
 ];
@@ -56,15 +55,13 @@ const FIELD_LABELS: Record<SalaryInputField, string> = {
 };
 
 const FIELD_PLACEHOLDERS: Record<SalaryInputField, string> = {
-  grossHourly: "Ex. : 16,50 €",
+  grossHourly: "",
   grossMonthly: "Ex. : 2 500 €",
   grossAnnual: "Ex. : 30 000 €",
-  netHourly: "Ex. : 12,87 €",
+  netHourly: "",
   netMonthly: "Ex. : 1 950 €",
   netAnnual: "Ex. : 23 400 €",
 };
-
-const AFTER_TAX_PLACEHOLDER = "Le résultat s'affichera ici";
 
 export default function Calculator() {
   const [salaryFields, setSalaryFields] = useState<SalaryFieldValues>(EMPTY_SALARY_FIELDS);
@@ -430,48 +427,34 @@ export default function Calculator() {
         ) : null}
       </div>
 
-      <div className="salary-calc__after-tax" role="group" aria-label="Salaire net après prélèvement à la source">
-        <div className="salary-calc__after-tax-field">
-          <label htmlFor="netAfterTaxMonthly" className="calc-field-label">
+      <div
+        className="salary-calc__after-tax"
+        role="group"
+        aria-label="Salaire net après prélèvement à la source"
+      >
+        <div className="salary-calc__result-card">
+          <p className="salary-calc__result-label" id="netAfterTaxMonthly-label">
             Net mensuel après impôt
-          </label>
-          <input
-            id="netAfterTaxMonthly"
-            name="netAfterTaxMonthly"
-            type="text"
-            readOnly
-            tabIndex={-1}
-            value={afterTaxMonthly}
-            placeholder={AFTER_TAX_PLACEHOLDER}
-            className="calc-input salary-calc__output"
-            aria-readonly="true"
-            aria-label={
-              afterTaxMonthly
-                ? `Net mensuel après impôt : ${afterTaxMonthly}`
-                : "Net mensuel après impôt, en attente de calcul"
-            }
-          />
+          </p>
+          <p
+            className={`salary-calc__result-value${afterTaxMonthly ? " salary-calc__result-value--filled" : ""}`}
+            aria-labelledby="netAfterTaxMonthly-label"
+            aria-live="polite"
+          >
+            {afterTaxMonthly || "Le résultat s'affichera ici"}
+          </p>
         </div>
-        <div className="salary-calc__after-tax-field">
-          <label htmlFor="netAfterTaxAnnual" className="calc-field-label">
+        <div className="salary-calc__result-card">
+          <p className="salary-calc__result-label" id="netAfterTaxAnnual-label">
             Net annuel après impôt
-          </label>
-          <input
-            id="netAfterTaxAnnual"
-            name="netAfterTaxAnnual"
-            type="text"
-            readOnly
-            tabIndex={-1}
-            value={afterTaxAnnual}
-            placeholder={AFTER_TAX_PLACEHOLDER}
-            className="calc-input salary-calc__output"
-            aria-readonly="true"
-            aria-label={
-              afterTaxAnnual
-                ? `Net annuel après impôt : ${afterTaxAnnual}`
-                : "Net annuel après impôt, en attente de calcul"
-            }
-          />
+          </p>
+          <p
+            className={`salary-calc__result-value${afterTaxAnnual ? " salary-calc__result-value--filled" : ""}`}
+            aria-labelledby="netAfterTaxAnnual-label"
+            aria-live="polite"
+          >
+            {afterTaxAnnual || "Le résultat s'affichera ici"}
+          </p>
         </div>
       </div>
 

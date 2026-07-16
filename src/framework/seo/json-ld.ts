@@ -16,10 +16,20 @@ export interface SchemaImageInput {
   caption?: string;
 }
 
+function toAbsoluteAssetUrl(siteUrl: string, assetPath: string): string {
+  if (/^https?:\/\//i.test(assetPath)) return assetPath;
+  const pathname = assetPath.startsWith("/") ? assetPath : `/${assetPath}`;
+  const encodedPath = pathname
+    .split("/")
+    .map((segment) => (segment === "" ? "" : encodeURIComponent(segment)))
+    .join("/");
+  return `${siteUrl.replace(/\/$/, "")}${encodedPath}`;
+}
+
 function buildImageObject(site: JsonLdSiteInput, image: SchemaImageInput) {
   return {
     "@type": "ImageObject" as const,
-    url: image.url.startsWith("http") ? image.url : `${site.url}${image.url}`,
+    url: toAbsoluteAssetUrl(site.url, image.url),
     ...(image.width && { width: image.width }),
     ...(image.height && { height: image.height }),
     ...(image.caption && { caption: image.caption }),

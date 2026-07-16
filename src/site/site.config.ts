@@ -49,11 +49,11 @@ export const siteConfig = {
     height: 800,
   },
   favicon: "/logo-icon.png?v=3",
-  ogImage: "/logo.png?v=2",
+  ogImage: "/images/og/Calculer-salaire-brut-vers-net.webp",
 
   footerBrandName: "BRUT-VERS-NET.FR",
   footerDescription:
-    "Calculateur Brut vers Net pour estimer prochainement votre salaire net à partir de votre salaire brut.",
+    "Outils et guides gratuits pour comprendre le salaire brut et le salaire net, les cotisations salariales, la fiche de paie, les heures supplémentaires, l'indemnité de licenciement et les principaux calculs liés à la rémunération.",
 
   home: {
     h1: "Calculez votre salaire Brut vers Net",
@@ -72,7 +72,14 @@ export const siteConfig = {
     href: string;
   }[],
 
-  tools: [] as {
+  tools: [
+    {
+      title: "Calculateur HT ↔ TTC",
+      description: "Convertir un montant hors taxes en TTC, et inversement.",
+      href: "https://ht-vers-ttc.fr",
+      icon: "",
+    },
+  ] as {
     title: string;
     description: string;
     href: string;

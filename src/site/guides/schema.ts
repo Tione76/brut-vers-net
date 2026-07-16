@@ -1,5 +1,5 @@
 import { getCanonicalUrl } from "@/framework/seo/metadata";
-import { resolveGuideCover } from "./covers";
+import { resolveGuideCover, toAbsoluteAssetUrl } from "./covers";
 import type { Guide } from "./types";
 
 interface ArticleSiteInput {
@@ -43,7 +43,7 @@ export function buildArticleSchema(site: ArticleSiteInput, guide: Guide, path: s
     ...(cover && {
       image: {
         "@type": "ImageObject",
-        url: `${site.url}${cover.src}`,
+        url: toAbsoluteAssetUrl(site.url, cover.src),
         width: cover.width,
         height: cover.height,
         caption: cover.alt,

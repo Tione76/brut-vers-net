@@ -16,6 +16,10 @@ interface SiteFooterProps {
   footerLinks: NavLink[];
 }
 
+function isExternalHref(href: string): boolean {
+  return /^https?:\/\//i.test(href);
+}
+
 export function SiteFooter({
   brandName,
   footerDescription,
@@ -36,11 +40,21 @@ export function SiteFooter({
 
           {tools.length > 0 && (
             <div className="site-footer__tools">
-              <p className="site-footer__heading">Autres simulateurs</p>
+              <p className="site-footer__heading">Autres ressources</p>
               <ul className="site-footer__tool-links">
                 {tools.map((tool) => (
-                  <li key={tool.title}>
-                    <Link href={tool.href}>{tool.title}</Link>
+                  <li key={tool.href}>
+                    {isExternalHref(tool.href) ? (
+                      <a
+                        href={tool.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {tool.title}
+                      </a>
+                    ) : (
+                      <Link href={tool.href}>{tool.title}</Link>
+                    )}
                   </li>
                 ))}
               </ul>

@@ -1,5 +1,5 @@
 import { seoConfig } from "../seo.config";
-import { HOME_COVER, type GuideCoverImage } from "../guides/covers";
+import { getCalculatorCover, type GuideCoverImage } from "../guides/covers";
 
 /** Entrée calculateur : source unique pour menu, sidebar, sitemap et page Nos outils */
 export interface CalculatorEntry {
@@ -21,14 +21,14 @@ function getHomeCalculator(): CalculatorEntry {
     shortTitle: "Calculateur Brut vers Net",
     description: "Estimez votre salaire net à partir de votre salaire brut.",
     h1: seoConfig.home.h1,
-    cover: HOME_COVER,
+    cover: getCalculatorCover("brut-vers-net"),
     icon: "€",
   };
 }
 
 /**
  * Tous les calculateurs publics du site.
- * Ajouter une entrée dans seoConfig.calculators suffit pour l'intégrer partout.
+ * Ajouter une entrée dans seoConfig.calculators + CALCULATOR_COVERS suffit pour l'intégrer partout.
  */
 export function getAllCalculators(): CalculatorEntry[] {
   const home = getHomeCalculator();
@@ -39,7 +39,7 @@ export function getAllCalculators(): CalculatorEntry[] {
     shortTitle: calc.navTitle ?? calc.h1,
     description: calc.description,
     h1: calc.h1,
-    cover: HOME_COVER,
+    cover: getCalculatorCover(id),
     icon: "€",
   }));
   return [home, ...secondary];

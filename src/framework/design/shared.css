@@ -614,7 +614,7 @@
 
 .site-footer__brand {
   flex: 1;
-  max-width: 360px;
+  max-width: 32rem;
 }
 
 .site-footer__name {
@@ -627,11 +627,13 @@
 .site-footer__desc {
   font-size: 0.75rem;
   color: var(--ds-on-brand-soft);
-  line-height: 1.45;
+  line-height: 1.5;
+  max-width: 36em;
 }
 
 .site-footer__tools {
   flex-shrink: 0;
+  max-width: 16rem;
 }
 
 .site-footer__heading {

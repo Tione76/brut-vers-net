@@ -37,6 +37,17 @@ export const seoConfig = {
       indexable: true,
       navTitle: "Calculer les heures supplémentaires",
     },
+    "indemnite-licenciement": {
+      path: "/calculateurs/indemnite-licenciement",
+      title: "Calcul indemnité de licenciement : simulateur gratuit",
+      h1: "Calculez votre indemnité de licenciement",
+      subtitle:
+        "Estimez le montant minimal de votre indemnité légale à partir de votre salaire brut de référence et de votre ancienneté.",
+      description:
+        "Estimez gratuitement votre indemnité légale de licenciement selon votre salaire brut de référence et votre ancienneté. Calcul simple et détaillé.",
+      indexable: true,
+      navTitle: "Calculer une indemnité de licenciement",
+    },
   } as Record<
     string,
     {
