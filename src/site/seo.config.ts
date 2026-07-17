@@ -8,16 +8,16 @@ export const seoConfig = {
   twitterHandle: undefined as string | undefined,
 
   home: {
-    title: "Calculateur Brut vers Net",
+    title: "Calcul du salaire Brut vers Net → gratuit et personnalisé",
     h1: "Calculateur Brut vers Net",
     description:
-      "Estimez prochainement votre salaire net à partir de votre salaire brut grâce au calculateur Brut vers Net.",
+      "Calculateur de salaire Brut vers Net gratuit. Simulez votre salaire avec précision et profitez de nos guides, outils et conseils d'experts sur la rémunération.",
   },
 
   calculators: {
     "augmentation-salaire": {
       path: "/calculateurs/augmentation-salaire",
-      title: "Calculateur d'augmentation de salaire brut et net",
+      title: "Calcul d'augmentation de salaire → gratuit et personnalisé",
       h1: "Calculateur d'augmentation de salaire",
       subtitle:
         "Estimez ce que votre augmentation brute représente réellement en net chaque mois et sur une année.",
@@ -28,23 +28,23 @@ export const seoConfig = {
     },
     "salaire-heures-supplementaires": {
       path: "/calculateurs/salaire-heures-supplementaires",
-      title: "Calculateur d'heures supplémentaires : salaire brut et net",
+      title: "Calcul du salaire avec heures supplémentaires → brut et net",
       h1: "Calculez votre salaire avec heures supplémentaires",
       subtitle:
         "Estimez ce que vos heures supplémentaires représentent en brut et en net, ainsi que votre nouveau salaire mensuel.",
       description:
-        "Calculez le montant brut et net de vos heures supplémentaires à 25 %, 50 % ou selon le taux prévu par votre entreprise, puis estimez votre nouveau salaire.",
+        "Calculateur de salaire avec heures supplémentaires brut et net gratuit. Estimez votre rémunération avec précision grâce à notre outil et nos guides d'experts.",
       indexable: true,
       navTitle: "Simulateur de salaire avec heures supplémentaires",
     },
     "indemnite-licenciement": {
       path: "/calculateurs/indemnite-licenciement",
-      title: "Calcul indemnité de licenciement : simulateur gratuit",
+      title: "Calcul indemnité de licenciement → simulateur gratuit",
       h1: "Calculez votre indemnité de licenciement",
       subtitle:
         "Estimez le montant minimal de votre indemnité légale à partir de votre salaire brut de référence et de votre ancienneté.",
       description:
-        "Estimez gratuitement votre indemnité légale de licenciement selon votre salaire brut de référence et votre ancienneté. Calcul simple et détaillé.",
+        "Calculateur d'indemnité de licenciement gratuit. Obtenez une estimation rapide de votre indemnité et consultez nos analyses et informations pratiques.",
       indexable: true,
       navTitle: "Simulateur d'indemnité de licenciement",
     },
@@ -72,9 +72,10 @@ export const seoConfig = {
 
   toolsHub: {
     path: "/nos-outils",
-    title: "Outils Brut vers Net",
+    title: "Calculateurs de salaire et impôts : tous nos outils",
     h1: "Outils",
-    description: "Outils Brut vers Net à venir.",
+    description:
+      "Découvrez tous nos calculateurs et simulateurs de salaire : brut vers net, prélèvement à la source, augmentation, heures supplémentaires et indemnité.",
     subtitle: "Contenu en cours de rédaction.",
   },
 
@@ -105,8 +106,9 @@ export const seoConfig = {
         "Consultez les mentions légales de brut-vers-net.fr : éditeur, hébergement, propriété intellectuelle et informations légales du site.",
     },
     faq: {
-      title: "FAQ Brut vers Net",
-      description: "FAQ Brut vers Net à venir.",
+      title: "Questions fréquentes sur le salaire et la rémunération",
+      description:
+        "Toutes les réponses à vos questions sur le salaire, la rémunération, les cotisations, la fiche de paie, le prélèvement à la source et bien plus.",
     },
     sitemap: {
       title: "Plan du site",

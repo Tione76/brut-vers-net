@@ -11,14 +11,12 @@ import "@/site/guides/guide-page.css";
 import "@/site/tools/tools-hub.css";
 
 const hub = seoConfig.toolsHub;
-const NOINDEX = { index: false, follow: false } as const;
 
 export const metadata = buildPageMetadata(config, seoConfig, {
   title: hub.title,
   description: hub.description,
   path: hub.path,
   ogImage: coverToOgInput(TOOLS_HUB_COVER),
-  robots: NOINDEX,
 });
 
 export default function ToolsHubPage() {

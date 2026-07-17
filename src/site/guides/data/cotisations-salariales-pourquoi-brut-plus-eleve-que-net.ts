@@ -12,7 +12,7 @@ export const cotisationsSalarialesGuide: Guide = {
   seoTitle:
     "Cotisations salariales : pourquoi le salaire brut est plus élevé que le net ?",
   description:
-    "Cotisations salariales : comprenez pourquoi votre salaire brut est supérieur à votre salaire net, à quoi servent ces retenues et où va l'argent prélevé sur votre paie.",
+    "Comprenez le rôle des cotisations salariales et pourquoi le salaire brut est plus élevé que le salaire net. Explications claires et exemples concrets.",
   subtitle:
     "Pourquoi votre salaire brut est supérieur à votre salaire net : maladie, retraite, CSG et le rôle des cotisations salariales expliqué simplement.",
   publishedAt: "2026-07-15",

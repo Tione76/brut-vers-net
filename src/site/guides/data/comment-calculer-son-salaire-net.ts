@@ -16,9 +16,9 @@ const LIRE_FICHE_PAIE_HREF = "/guides/comment-lire-une-fiche-de-paie";
 export const commentCalculerSonSalaireNetGuide: Guide = {
   slug: "comment-calculer-son-salaire-net",
   title: "Comment calculer son salaire net ?",
-  seoTitle: "Comment calculer son salaire net ? Guide pas à pas",
+  seoTitle: "Comment calculer son salaire net ? | Guide pas à pas",
   description:
-    "Apprenez à calculer votre salaire net à partir du brut : cotisations, net avant impôt, prélèvement à la source et net versé. Méthode pas à pas avec exemple.",
+    "Découvrez comment calculer votre salaire net étape par étape. Explications claires, exemples concrets, cotisations et passage du salaire brut au net.",
   subtitle:
     "Du salaire brut au net versé : calculez vous-même votre salaire net, étape par étape, puis vérifiez avec le simulateur.",
   publishedAt: "2026-07-15",

@@ -13,9 +13,9 @@ import { formatEditorialEuro } from "../../home-editorial-data";
 export const commentEstCalculeLeSalaireNetGuide: Guide = {
   slug: "comment-est-calcule-le-salaire-net",
   title: "Calcul du salaire net : comprendre la différence entre le salaire brut et le salaire net",
-  seoTitle: "Calcul salaire net : différence entre brut et net",
+  seoTitle: "Salaire : différences entre brut et net | GUIDE COMPLET",
   description:
-    "Pourquoi le salaire brut diffère du salaire net ? Cotisations, net avant impôt, net imposable et prélèvement à la source : comprenez le passage du brut au net.",
+    "Toutes les explications sur les différences entre le salaire brut et le salaire net. Comprenez les cotisations, le prélèvement à la source et le calcul du salaire.",
   subtitle:
     "Pourquoi 2 500 € brut ne deviennent jamais 2 500 € sur votre compte : cotisations, nets et prélèvement à la source expliqués.",
   publishedAt: "2026-07-14",

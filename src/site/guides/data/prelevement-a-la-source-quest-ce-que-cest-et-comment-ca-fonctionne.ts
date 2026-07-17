@@ -10,9 +10,9 @@ const COTISATIONS_HREF = "/guides/cotisations-salariales-pourquoi-brut-plus-elev
 export const prelevementALaSourceGuide: Guide = {
   slug: "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
   title: "Prélèvement à la source : qu'est-ce que c'est et comment ça fonctionne ?",
-  seoTitle: "Prélèvement à la source : qu'est-ce que c'est et comment ça marche ?",
+  seoTitle: "Prélèvement à la source : fonctionnement et calcul",
   description:
-    "Prélèvement à la source : définition, fonctionnement et taux sur le salaire. Où le repérer sur la fiche de paie et quel impact sur le salaire net versé.",
+    "Découvrez comment fonctionne le prélèvement à la source, comment il est calculé et son impact sur votre salaire et votre impôt sur le revenu.",
   subtitle:
     "Qu'est-ce que le prélèvement à la source, pourquoi apparaît-il sur votre fiche de paie et comment influence-t-il le salaire net versé ?",
   publishedAt: "2026-07-15",

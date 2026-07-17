@@ -14,6 +14,8 @@ export interface SitemapEntry {
   path: string;
   changefreq: "weekly" | "monthly" | "yearly";
   priority: number;
+  /** Date ISO (YYYY-MM-DD) de dernière modification significative. */
+  lastModified?: string;
 }
 
 /**

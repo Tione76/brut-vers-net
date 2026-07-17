@@ -6,6 +6,7 @@ import type { SitemapEntry } from "@/framework/seo/pages";
 import { guides } from "./guides/registry";
 import { getAllCalculators } from "./navigation/calculators-registry";
 import { seoConfig } from "./seo.config";
+import { siteConfig } from "./site.config";
 
 export type PublicPageCategory = "tools" | "guides" | "faq" | "utility";
 
@@ -16,14 +17,26 @@ export interface PublicPage {
   changefreq: SitemapEntry["changefreq"];
   priority: number;
   indexable: boolean;
+  /** Date ISO (YYYY-MM-DD) de dernière modification significative pour le sitemap. */
+  lastModified: string;
 }
 
-/** Pages provisoires : présentes physiquement mais non indexées */
+/** Dernière mise à jour SEO significative (titles / meta / indexation). */
+const SEO_CONTENT_UPDATED_AT = "2026-07-17";
+
+/** Pages encore non indexables (templates guides uniquement pour l'instant). */
 const NOINDEX_PATHS = new Set([
-  "/faq",
-  "/nos-outils",
   ...guides.filter((guide) => guide.isTemplate).map((guide) => `/guides/${guide.slug}`),
 ]);
+
+function legalLastUpdated(fallback = "2026-07-01"): string {
+  const candidates = [
+    siteConfig.legal?.privacy?.lastUpdated,
+    siteConfig.legal?.cookies?.lastUpdated,
+    siteConfig.legal?.mentions?.lastUpdated,
+  ].filter(Boolean) as string[];
+  return candidates[0] ?? fallback;
+}
 
 function calculatorPages(): PublicPage[] {
   return getAllCalculators().map((calc) => {
@@ -35,6 +48,7 @@ function calculatorPages(): PublicPage[] {
       changefreq: "monthly" as const,
       priority: calc.path === "/" ? 1 : 0.9,
       indexable: calc.path === "/" ? true : Boolean(configEntry?.indexable),
+      lastModified: SEO_CONTENT_UPDATED_AT,
     };
   });
 }
@@ -42,6 +56,7 @@ function calculatorPages(): PublicPage[] {
 /** Toutes les pages publiques connues du site (indexables et non indexables) */
 export function getAllPublicPages(): PublicPage[] {
   const { guidesHub, toolsHub, legal, extraPages } = seoConfig;
+  const legalUpdated = legalLastUpdated();
 
   const guideHubPage: PublicPage = {
     path: guidesHub.path,
@@ -50,6 +65,7 @@ export function getAllPublicPages(): PublicPage[] {
     changefreq: "weekly",
     priority: 0.85,
     indexable: guides.length > 0,
+    lastModified: legalUpdated,
   };
 
   const guidePages: PublicPage[] = guides.map((guide) => ({
@@ -59,6 +75,7 @@ export function getAllPublicPages(): PublicPage[] {
     changefreq: "monthly",
     priority: 0.8,
     indexable: !guide.isTemplate,
+    lastModified: SEO_CONTENT_UPDATED_AT,
   }));
 
   const toolsHubPage: PublicPage = {
@@ -67,7 +84,8 @@ export function getAllPublicPages(): PublicPage[] {
     category: "tools",
     changefreq: "monthly",
     priority: 0.75,
-    indexable: false,
+    indexable: true,
+    lastModified: SEO_CONTENT_UPDATED_AT,
   };
 
   const faqPage: PublicPage = {
@@ -76,7 +94,8 @@ export function getAllPublicPages(): PublicPage[] {
     category: "faq",
     changefreq: "monthly",
     priority: 0.7,
-    indexable: false,
+    indexable: true,
+    lastModified: SEO_CONTENT_UPDATED_AT,
   };
 
   const utilityPages: PublicPage[] = [
@@ -87,6 +106,7 @@ export function getAllPublicPages(): PublicPage[] {
       changefreq: "monthly",
       priority: 0.4,
       indexable: true,
+      lastModified: legalUpdated,
     },
     {
       path: "/contact",
@@ -95,6 +115,7 @@ export function getAllPublicPages(): PublicPage[] {
       changefreq: "monthly",
       priority: 0.5,
       indexable: true,
+      lastModified: legalUpdated,
     },
   ];
 
@@ -106,6 +127,7 @@ export function getAllPublicPages(): PublicPage[] {
       changefreq: "yearly",
       priority: 0.3,
       indexable: true,
+      lastModified: siteConfig.legal?.mentions?.lastUpdated ?? legalUpdated,
     },
     {
       path: "/politique-de-confidentialite",
@@ -114,6 +136,7 @@ export function getAllPublicPages(): PublicPage[] {
       changefreq: "yearly",
       priority: 0.3,
       indexable: true,
+      lastModified: siteConfig.legal?.privacy?.lastUpdated ?? legalUpdated,
     },
     {
       path: "/gestion-des-cookies",
@@ -122,6 +145,7 @@ export function getAllPublicPages(): PublicPage[] {
       changefreq: "yearly",
       priority: 0.3,
       indexable: true,
+      lastModified: siteConfig.legal?.cookies?.lastUpdated ?? legalUpdated,
     },
   ];
 
@@ -132,6 +156,7 @@ export function getAllPublicPages(): PublicPage[] {
     changefreq: "monthly",
     priority: 0.6,
     indexable: true,
+    lastModified: legalUpdated,
   }));
 
   return [
@@ -150,7 +175,12 @@ export function getAllPublicPages(): PublicPage[] {
 export function getSitemapEntries(): SitemapEntry[] {
   return getAllPublicPages()
     .filter((page) => page.indexable)
-    .map(({ path, changefreq, priority }) => ({ path, changefreq, priority }));
+    .map(({ path, changefreq, priority, lastModified }) => ({
+      path,
+      changefreq,
+      priority,
+      lastModified,
+    }));
 }
 
 export interface PlanDuSiteSection {

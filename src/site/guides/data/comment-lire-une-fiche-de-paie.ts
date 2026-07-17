@@ -7,9 +7,9 @@ const CALCUL_SALAIRE_NET_HREF = "/guides/comment-est-calcule-le-salaire-net";
 export const commentLireUneFicheDePaieGuide: Guide = {
   slug: "comment-lire-une-fiche-de-paie",
   title: "Comment lire une fiche de paie ?",
-  seoTitle: "Comment lire une fiche de paie ? Guide pratique",
+  seoTitle: "Comment lire une fiche de paie ? | Guide pratique",
   description:
-    "Apprenez à lire une fiche de paie : salaire brut, cotisations, net avant impôt, net imposable, prélèvement à la source et net versé.",
+    "Découvrez comment comprendre une fiche de paie avec des explications simples. Décryptez le salaire brut, le salaire net et les cotisations sociales.",
   subtitle:
     "Repérez les montants essentiels de votre bulletin de salaire en quelques minutes, sans jargon inutile.",
   publishedAt: "2026-07-14",
