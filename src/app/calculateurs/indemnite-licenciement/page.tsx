@@ -20,7 +20,7 @@ import {
   DismissalCompensationEditorial,
   dismissalFaq,
 } from "@/site/dismissal-compensation-calculator/DismissalCompensationEditorial";
-import { DISMISSAL_EDITORIAL_UPDATED_AT } from "@/site/dismissal-compensation-calculator/dismissal-editorial-data";
+import { DISMISSAL_CONTENT_REVIEW_DATE } from "@/site/dismissal-compensation-calculator/dismissal-editorial-data";
 
 const calc = seoConfig.calculators["indemnite-licenciement"];
 const path = DISMISSAL_PATH;
@@ -40,7 +40,7 @@ export default function DismissalCompensationCalculatorPage() {
       <JsonLd
         data={[
           buildWebApplicationSchema(config, calc.h1, calc.description, {
-            dateModified: DISMISSAL_EDITORIAL_UPDATED_AT,
+            dateModified: DISMISSAL_CONTENT_REVIEW_DATE,
             image: coverToSchemaImage(cover),
           }),
           buildBreadcrumbSchema(config, [

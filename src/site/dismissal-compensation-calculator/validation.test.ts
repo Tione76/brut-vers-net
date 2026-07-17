@@ -15,12 +15,11 @@ function baseInput(
     seniorityMonths: "0",
     average12Months: "2000",
     average3Months: "",
+    professionalUnfitnessAverage3Months: "",
     hasBonus: false,
     bonusAmount: "",
     bonusKind: "annual",
-    conventionKnowledge: "unknown",
-    conventionAmount: "",
-    mixedWorkTime: false,
+    specialSituations: [],
     ...overrides,
   };
 }
@@ -63,5 +62,16 @@ describe("getPrimaryValidationError", () => {
         }),
       ),
     ).toBeNull();
+  });
+
+  it("exige le salaire spécifique en inaptitude professionnelle", () => {
+    expect(
+      getPrimaryValidationError(
+        baseInput({
+          situation: "professionalUnfitness",
+          professionalUnfitnessAverage3Months: "",
+        }),
+      ),
+    ).toContain("3 derniers mois");
   });
 });

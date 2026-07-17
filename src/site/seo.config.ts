@@ -24,7 +24,7 @@ export const seoConfig = {
       description:
         "Calculez l'impact d'une augmentation en euros ou en pourcentage sur votre salaire brut, votre salaire net mensuel et votre gain annuel.",
       indexable: true,
-      navTitle: "Simuler une augmentation de salaire",
+      navTitle: "Simulateur d'augmentation de salaire",
     },
     "salaire-heures-supplementaires": {
       path: "/calculateurs/salaire-heures-supplementaires",
@@ -35,7 +35,7 @@ export const seoConfig = {
       description:
         "Calculez le montant brut et net de vos heures supplémentaires à 25 %, 50 % ou selon le taux prévu par votre entreprise, puis estimez votre nouveau salaire.",
       indexable: true,
-      navTitle: "Calculer les heures supplémentaires",
+      navTitle: "Simulateur de salaire avec heures supplémentaires",
     },
     "indemnite-licenciement": {
       path: "/calculateurs/indemnite-licenciement",
@@ -46,7 +46,7 @@ export const seoConfig = {
       description:
         "Estimez gratuitement votre indemnité légale de licenciement selon votre salaire brut de référence et votre ancienneté. Calcul simple et détaillé.",
       indexable: true,
-      navTitle: "Calculer une indemnité de licenciement",
+      navTitle: "Simulateur d'indemnité de licenciement",
     },
   } as Record<
     string,

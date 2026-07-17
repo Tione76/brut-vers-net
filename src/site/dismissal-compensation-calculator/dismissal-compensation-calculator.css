@@ -81,6 +81,19 @@
   margin-top: 8px;
 }
 
+.dismissal-special-section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.dismissal-special-section__title {
+  margin: 0 0 8px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
 .dismissal-checkbox {
   display: flex;
   align-items: flex-start;
@@ -97,4 +110,274 @@
   width: 1rem;
   height: 1rem;
   flex-shrink: 0;
+}
+
+.dismissal-special-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.dismissal-chip {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.75rem;
+  line-height: 1.25;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.dismissal-chip--selected {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.72);
+}
+
+.dismissal-results__special-breakdown {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.dismissal-results__special-breakdown p {
+  margin: 0 0 4px;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dismissal-results__special-breakdown p:last-child {
+  margin-bottom: 0;
+}
+
+.dismissal-results__special-caption {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.dismissal-results__warning {
+  margin: 10px 0;
+  padding: 14px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.dismissal-results__warning-title {
+  margin: 0 0 10px;
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
+}
+
+.dismissal-results__warning p {
+  margin: 0 0 8px;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.dismissal-results__warning p:last-child {
+  margin-bottom: 0;
+}
+
+.dismissal-results__warning-state {
+  font-weight: 700;
+}
+
+.dismissal-results__warning-bullets {
+  margin: 10px 0 0;
+  padding-left: 18px;
+}
+
+.dismissal-results__warning-bullets li {
+  margin: 0 0 6px;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.dismissal-results__warning-bullets li:last-child {
+  margin-bottom: 0;
+}
+
+.dismissal-results__verify-badge {
+  display: inline-block;
+  margin: 8px 0 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.dismissal-results__dimmed {
+  opacity: 0.32;
+  filter: grayscale(1) saturate(0.3) brightness(0.95);
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    filter 180ms ease;
+}
+
+.dismissal-results__dimmed .increase-calc__gain-value,
+.dismissal-results__dimmed .increase-calc__after-value {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+
+/* Étape 2 : aligner les inputs malgré un libellé sur deux lignes */
+@media (min-width: 640px) {
+  .increase-calc__salary-row:has(#dismissalYears) {
+    align-items: end;
+  }
+}
+
+/* Contenu éditorial : exemples et respiration */
+.dismissal-editorial .home-editorial__prose p + p {
+  margin-top: 0.875rem;
+}
+
+.dismissal-editorial .editorial-list {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.dismissal-editorial .editorial-list--limits li {
+  padding-left: 1.375rem;
+}
+
+.dismissal-editorial .editorial-list--limits li + li {
+  margin-top: 0.5rem;
+}
+
+.dismissal-editorial__sources {
+  font-size: 0.8125rem;
+  color: var(--ds-text-muted, #5c5c5c);
+}
+
+.dismissal-editorial-examples {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.dismissal-example-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  padding: 1.125rem 1.25rem 1rem;
+  border: 1px solid rgba(var(--ds-brand-rgb), 0.18);
+  border-radius: var(--ds-radius);
+  background: rgba(var(--ds-brand-rgb), 0.04);
+}
+
+.dismissal-example-card__heading {
+  margin: 0 0 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ds-text);
+}
+
+.dismissal-example-card__details {
+  display: grid;
+  gap: 0.625rem;
+  margin: 0;
+}
+
+.dismissal-example-card__details div {
+  display: grid;
+  gap: 0.125rem;
+}
+
+.dismissal-example-card__details dt {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ds-text-muted, #5c5c5c);
+}
+
+.dismissal-example-card__details dd {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--ds-text);
+}
+
+.dismissal-example-card__total {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: auto 0 0;
+  padding-top: 0.875rem;
+  margin-top: 0.875rem;
+  border-top: 1px solid rgba(var(--ds-brand-rgb), 0.16);
+}
+
+.dismissal-example-card__total span {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ds-text-muted, #5c5c5c);
+}
+
+.dismissal-example-card__total strong {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--ds-brand-dark, #c96a28);
+}
+
+.dismissal-editorial__examples-note {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--ds-text-muted, #5c5c5c);
+}
+
+@media (min-width: 768px) {
+  .dismissal-editorial-examples {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+}
+
+/* Sidebar : compacité légère sur la page indemnité */
+.dismissal-sidebar .guide-sidebar-cards,
+.dismissal-sidebar .guide-sidebar-tools-list {
+  gap: 8px;
+}
+
+.dismissal-sidebar .guide-sidebar-block + .guide-sidebar-block {
+  margin-top: 1rem;
+}
+
+.dismissal-sidebar .guide-sidebar-card__cover {
+  aspect-ratio: 21 / 9;
+}
+
+.dismissal-sidebar .guide-sidebar-card--cover .guide-sidebar-card__body,
+.dismissal-sidebar .guide-sidebar-card--calculator .guide-sidebar-card__body {
+  padding: 10px 12px 11px;
+}
+
+.dismissal-sidebar .guide-sidebar-card__subtitle {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.dismissal-sidebar .guide-sidebar-card__badge {
+  margin-top: 0.375rem;
+  font-size: 0.6875rem;
 }

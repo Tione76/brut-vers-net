@@ -18,7 +18,7 @@ function getHomeCalculator(): CalculatorEntry {
     id: "brut-vers-net",
     path: "/",
     title: seoConfig.home.title,
-    shortTitle: "Calculateur Brut vers Net",
+    shortTitle: "Calculateur salaire brut vers net",
     description: "Estimez votre salaire net à partir de votre salaire brut.",
     h1: seoConfig.home.h1,
     cover: getCalculatorCover("brut-vers-net"),

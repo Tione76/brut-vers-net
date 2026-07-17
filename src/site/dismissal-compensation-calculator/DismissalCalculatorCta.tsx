@@ -15,8 +15,8 @@ export function DismissalCalculatorCta() {
         Calculez gratuitement votre indemnité de licenciement
       </p>
       <p className="home-editorial__final-cta-text">
-        Obtenez immédiatement une estimation de votre indemnité légale minimale à partir de votre
-        salaire brut de référence et de votre ancienneté.
+        Obtenez immédiatement une estimation du minimum légal à partir de votre salaire brut de
+        référence, de votre ancienneté et de votre situation.
       </p>
       <button type="button" className="home-editorial__final-cta-btn" onClick={scrollToCalculator}>
         Calculer mon indemnité

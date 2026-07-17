@@ -11,13 +11,12 @@ export type ToolNavItem = {
 };
 
 const MENU_SHORT_TITLES: Record<string, string> = {
-  "salaire-heures-supplementaires": "Calculer un salaire avec heures sup",
+  "brut-vers-net": "Calculateur de salaire brut vers net",
+  "salaire-heures-supplementaires": "Calculateur de salaire avec heures sup",
 };
 
-export const toolsNavigation: ToolNavItem[] = getAllCalculators()
-  .filter((calc) => calc.path !== "/")
-  .map((calc) => ({
-    href: calc.path,
-    shortTitle: MENU_SHORT_TITLES[calc.id] ?? calc.shortTitle,
-    title: calc.title,
-  }));
+export const toolsNavigation: ToolNavItem[] = getAllCalculators().map((calc) => ({
+  href: calc.path,
+  shortTitle: MENU_SHORT_TITLES[calc.id] ?? calc.shortTitle,
+  title: calc.title,
+}));

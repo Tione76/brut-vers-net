@@ -105,29 +105,6 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
             <HomeFaqContent />
           </div>
         </section>
-
-        {site.tools.length > 0 && (
-          <section id="simulateurs" className="content-section content-section--border">
-            <div className="content-wrap">
-              <p className="section-eyebrow section-eyebrow--dark">Nos outils</p>
-              <h2 className="section-title section-title--dark">Autres simulateurs</h2>
-              {site.recommendedSites.description && (
-                <p className="section-intro section-intro--dark">{site.recommendedSites.description}</p>
-              )}
-              <div className="tools-grid">
-                {site.tools.map((tool) => (
-                  <Link key={tool.title} href={tool.href} className="tool-card tool-card--content">
-                    <span className="tool-card__icon" aria-hidden="true">
-                      {tool.icon}
-                    </span>
-                    <span className="tool-card__title">{tool.title}</span>
-                    <span className="tool-card__desc">{tool.description}</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
             </div>
             {showSidebar && <HomePageSidebar />}
           </div>

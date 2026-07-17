@@ -1,9 +1,12 @@
 /**
  * Paramètres métier de l'indemnité légale de licenciement (secteur privé, CDI).
  *
- * Sources principales :
- * - Code du travail (indemnité légale, ancienneté minimale, salaire de référence)
- * - Service-Public : indemnité de licenciement
+ * Sources juridiques officielles :
+ * - Code du travail, article L.1234-9 (droit à l'indemnité légale)
+ * - Code du travail, article R.1234-2 (formule 1/4 puis 1/3)
+ * - Code du travail, article L.1226-14 (inaptitude pro : indemnité spéciale doublée + somme équivalente au préavis)
+ * - Code du travail, article L.1226-16 (salaire de référence spécifique en inaptitude pro)
+ * - Service-Public : "Indemnité de licenciement du salarié en CDI"
  */
 
 export const DISMISSAL_PATH = "/calculateurs/indemnite-licenciement";

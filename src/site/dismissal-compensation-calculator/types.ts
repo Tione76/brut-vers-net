@@ -3,7 +3,11 @@ export type DismissalSituation =
   | "professionalUnfitness"
   | "grossMisconduct";
 
-export type ConventionKnowledge = "unknown" | "no" | "yes";
+export type SpecialSituationKey =
+  | "mixedWorkTime"
+  | "recentSickLeaveOrTherapeuticPartTime"
+  | "partTimeParentalLeave"
+  | "otherContractInterruption";
 
 export type BonusKind = "annual" | "exceptional";
 
@@ -14,16 +18,20 @@ export interface DismissalCompensationInput {
   /** Moyenne 12 mois, ou moyenne sur tous les mois travaillés si ancienneté < 12 mois. */
   average12Months: string;
   average3Months: string;
+  /** Salaire spécifique en inaptitude pro (article L.1226-16). */
+  professionalUnfitnessAverage3Months: string;
   hasBonus: boolean;
   bonusAmount: string;
   bonusKind: BonusKind;
-  conventionKnowledge: ConventionKnowledge;
-  conventionAmount: string;
-  /** Case secondaire : alternance temps plein / temps partiel. */
-  mixedWorkTime: boolean;
+  /** Parcours particulier : avertissement de fiabilité uniquement. */
+  specialSituations: SpecialSituationKey[];
 }
 
-export type ReferenceMethod = "average12" | "average3" | "averageWorked";
+export type ReferenceMethod =
+  | "average12"
+  | "average3"
+  | "averageWorked"
+  | "professionalUnfitnessAverage3";
 
 export interface DismissalCompensationResult {
   seniorityYears: number;
@@ -31,10 +39,13 @@ export interface DismissalCompensationResult {
   seniorityTotalMonths: number;
   seniorityInYears: number;
   eligible: boolean;
-  zeroReason: "belowMinSeniority" | "grossMisconduct" | "mixedWorkTime" | null;
+  zeroReason: "belowMinSeniority" | "grossMisconduct" | null;
+  hasSpecialSituationWarning: boolean;
+  selectedSpecialSituations: SpecialSituationKey[];
   average12: number | null;
   average3: number | null;
   average3BeforeBonus: number | null;
+  professionalUnfitnessAverage3: number | null;
   bonusMonthlyProration: number;
   referenceSalary: number;
   referenceMethod: ReferenceMethod;
@@ -46,9 +57,8 @@ export interface DismissalCompensationResult {
   legalBaseAmount: number;
   professionalUnfitnessApplied: boolean;
   legalAmount: number;
-  conventionAmount: number | null;
   retainedAmount: number;
-  retainedSource: "legal" | "convention";
+  retainedSource: "legal";
   resultLabel: string;
   summaryBrief: string;
 }

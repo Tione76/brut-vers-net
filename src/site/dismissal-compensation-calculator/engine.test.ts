@@ -17,12 +17,11 @@ function baseInput(
     seniorityMonths: "0",
     average12Months: "2000",
     average3Months: "",
+    professionalUnfitnessAverage3Months: "",
     hasBonus: false,
     bonusAmount: "",
     bonusKind: "annual",
-    conventionKnowledge: "unknown",
-    conventionAmount: "",
-    mixedWorkTime: false,
+    specialSituations: [],
     ...overrides,
   };
 }
@@ -151,18 +150,69 @@ describe("calculateDismissalCompensation", () => {
     expect(result?.retainedAmount).toBe(1312.5);
   });
 
+  it("calcule 10 ans exactement", () => {
+    const result = calculateDismissalCompensation(
+      baseInput({
+        seniorityYears: "10",
+        seniorityMonths: "0",
+        average12Months: "2400",
+      }),
+    );
+    expect(result?.retainedAmount).toBe(6000);
+  });
+
+  it("calcule 10 ans et 1 mois", () => {
+    const result = calculateDismissalCompensation(
+      baseInput({
+        seniorityYears: "10",
+        seniorityMonths: "1",
+        average12Months: "2400",
+      }),
+    );
+    expect(result?.retainedAmount).toBe(roundCent(2400 * ((10 * 1 / 4) + (1 / 12) * (1 / 3))));
+  });
+
+  it("compare bien 12 mois vs 3 mois", () => {
+    const result = calculateDismissalCompensation(
+      baseInput({
+        average12Months: "2400",
+        average3Months: "2700",
+      }),
+    );
+    expect(result?.referenceMethod).toBe("average3");
+    expect(result?.referenceSalary).toBe(2700);
+  });
+
+  it("proratise une prime annuelle dans la comparaison", () => {
+    const result = calculateDismissalCompensation(
+      baseInput({
+        average12Months: "2500",
+        average3Months: "2500",
+        hasBonus: true,
+        bonusAmount: "1200",
+        bonusKind: "annual",
+      }),
+    );
+    expect(result?.bonusMonthlyProration).toBe(100);
+    expect(result?.referenceMethod).toBe("average3");
+    expect(result?.referenceSalary).toBe(2600);
+  });
+
   it("double l'indemnité en inaptitude professionnelle", () => {
     const result = calculateDismissalCompensation(
       baseInput({
         situation: "professionalUnfitness",
         seniorityYears: "4",
         seniorityMonths: "0",
-        average12Months: "2000",
+        professionalUnfitnessAverage3Months: "2100",
       }),
     );
-    expect(result?.legalBaseAmount).toBe(2000);
-    expect(result?.retainedAmount).toBe(4000);
+    expect(result?.referenceMethod).toBe("professionalUnfitnessAverage3");
+    expect(result?.referenceSalary).toBe(2100);
+    expect(result?.legalBaseAmount).toBe(2100);
+    expect(result?.retainedAmount).toBe(4200);
     expect(result?.professionalUnfitnessApplied).toBe(true);
+    expect(result?.resultLabel).toBe("Minimum légal estimé en cas d'inaptitude d'origine professionnelle.");
   });
 
   it("neutralise le résultat en faute grave ou lourde", () => {
@@ -173,27 +223,30 @@ describe("calculateDismissalCompensation", () => {
     expect(result?.zeroReason).toBe("grossMisconduct");
   });
 
-  it("retient le montant conventionnel s'il est plus favorable", () => {
+  it("n'applique jamais la comparaison 12/3 en inaptitude professionnelle", () => {
     const result = calculateDismissalCompensation(
       baseInput({
-        seniorityYears: "10",
-        seniorityMonths: "0",
+        situation: "professionalUnfitness",
         average12Months: "3200",
-        conventionKnowledge: "yes",
-        conventionAmount: "10000",
+        average3Months: "4500",
+        professionalUnfitnessAverage3Months: "2500",
       }),
     );
-    expect(result?.legalAmount).toBe(8000);
-    expect(result?.retainedAmount).toBe(10000);
-    expect(result?.retainedSource).toBe("convention");
+    expect(result?.referenceSalary).toBe(2500);
+    expect(result?.average12).toBeNull();
+    expect(result?.average3).toBeNull();
   });
 
-  it("bloque le calcul simplifié en cas d'alternance temps plein / partiel", () => {
+  it("ne retourne jamais de montant négatif ni NaN avec situations particulières", () => {
     const result = calculateDismissalCompensation(
-      baseInput({ mixedWorkTime: true }),
+      baseInput({
+        specialSituations: ["mixedWorkTime", "recentSickLeaveOrTherapeuticPartTime"],
+      }),
     );
-    expect(result?.zeroReason).toBe("mixedWorkTime");
-    expect(result?.retainedAmount).toBe(0);
+    expect(result).not.toBeNull();
+    expect(result?.hasSpecialSituationWarning).toBe(true);
+    expect(Number.isFinite(result!.retainedAmount)).toBe(true);
+    expect(result!.retainedAmount).toBeGreaterThanOrEqual(0);
   });
 
   it("accepte la virgule française et ne produit pas NaN", () => {
@@ -217,5 +270,22 @@ describe("calculateDismissalCompensation", () => {
       expect(value).toBeGreaterThanOrEqual(0);
     });
     expect(result!.summaryBrief).toContain(formatCurrency(result!.retainedAmount));
+  });
+
+  it("change de mode sans conserver un salaire incompatible", () => {
+    const professional = calculateDismissalCompensation(
+      baseInput({
+        situation: "professionalUnfitness",
+        professionalUnfitnessAverage3Months: "2300",
+      }),
+    );
+    const standard = calculateDismissalCompensation(
+      baseInput({
+        situation: "standard",
+        average12Months: "2000",
+      }),
+    );
+    expect(professional?.referenceMethod).toBe("professionalUnfitnessAverage3");
+    expect(standard?.referenceMethod).not.toBe("professionalUnfitnessAverage3");
   });
 });

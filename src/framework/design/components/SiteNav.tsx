@@ -56,7 +56,6 @@ function NavItem({ link }: { link: NavLink }) {
 export function SiteNav({ siteName, nav, logo, toolsNavigation, guidesNavigation }: SiteNavProps) {
   const showTools = toolsNavigation && toolsNavigation.length > 0;
   const showGuides = guidesNavigation && guidesNavigation.length > 0;
-  const [primaryLink, ...secondaryLinks] = nav;
 
   return (
     <div className="site-header-bar">
@@ -80,10 +79,9 @@ export function SiteNav({ siteName, nav, logo, toolsNavigation, guidesNavigation
           </Link>
           <nav aria-label="Navigation principale" className="site-nav">
             <ul>
-              {primaryLink && <NavItem link={primaryLink} />}
               {showTools && <ToolsNavMenu key="tools-nav" items={toolsNavigation} />}
               {showGuides && <GuidesNavMenu key="guides-nav" items={guidesNavigation} />}
-              {secondaryLinks.map((link) => (
+              {nav.map((link) => (
                 <NavItem key={link.href} link={link} />
               ))}
             </ul>

@@ -133,7 +133,6 @@ export const siteConfig = {
 
   navigation: {
     header: [
-      { label: "Calcul brut → net", href: "/" },
       { label: "FAQ", href: "/faq" },
     ],
     footer: [

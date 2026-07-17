@@ -12,6 +12,15 @@ import {
   parseWholeNumber,
 } from "./validation";
 
+/**
+ * Références juridiques utilisées par ce moteur :
+ * - L.1234-9 (droit à l'indemnité légale, sous conditions)
+ * - R.1234-2 (formule 1/4 puis 1/3)
+ * - L.1226-14 (inaptitude d'origine professionnelle : indemnité spéciale = double)
+ * - L.1226-16 (base salariale spécifique en inaptitude d'origine professionnelle)
+ * - Service-Public : indemnité de licenciement du salarié en CDI
+ */
+
 export function seniorityToYears(years: number, months: number): number {
   return years + months / 12;
 }
@@ -33,6 +42,9 @@ export function formatSeniorityLabel(years: number, months: number): string {
 }
 
 function referenceMethodLabel(method: ReferenceMethod, totalMonths: number): string {
+  if (method === "professionalUnfitnessAverage3") {
+    return "salaire brut mensuel moyen des 3 derniers mois avant la suspension";
+  }
   if (method === "average3") {
     return "moyenne brute des 3 derniers mois";
   }
@@ -43,8 +55,11 @@ function referenceMethodLabel(method: ReferenceMethod, totalMonths: number): str
 }
 
 /**
- * Calcule l'indemnité légale de base (sans doublement inaptitude).
+ * Calcule l'indemnité légale de base (hors cas de faute grave/lourde).
  * Les tranches sont calculées avec précision, puis arrondies au centime.
+ *
+ * Source juridique officielle :
+ * - Code du travail, article R.1234-2 (1/4 puis 1/3 au-delà de 10 ans).
  */
 export function calculateLegalBaseAmount(
   referenceSalary: number,
@@ -114,7 +129,7 @@ function buildSummary(params: {
   retainedAmount: number;
   professionalUnfitnessApplied: boolean;
   zeroReason: DismissalCompensationResult["zeroReason"];
-  retainedSource: "legal" | "convention";
+  retainedSource: "legal";
 }): string {
   const seniorityLabel = formatSeniorityLabel(params.years, params.months);
 
@@ -128,12 +143,8 @@ function buildSummary(params: {
     return "Le calcul doit être ventilé selon les périodes travaillées à temps plein et à temps partiel. Cette version simple ne couvre pas encore cette situation.";
   }
 
-  if (params.retainedSource === "convention") {
-    return `Avec un salaire de référence de ${formatCurrency(params.referenceSalary)} brut par mois et une ancienneté de ${seniorityLabel}, le montant conventionnel saisi (${formatCurrency(params.retainedAmount)}) est plus favorable que l'indemnité légale minimale estimée.`;
-  }
-
   if (params.professionalUnfitnessApplied) {
-    return `Votre indemnité spéciale minimale, calculée sur la base du double de l'indemnité légale, est estimée à ${formatCurrency(params.retainedAmount)} pour un salaire de référence de ${formatCurrency(params.referenceSalary)} brut par mois et une ancienneté de ${seniorityLabel}.`;
+    return `Votre indemnité spéciale minimale est estimée à ${formatCurrency(params.retainedAmount)}, sur la base du double de l'indemnité légale pour une ancienneté de ${seniorityLabel}.`;
   }
 
   return `Avec un salaire de référence de ${formatCurrency(params.referenceSalary)} brut par mois et une ancienneté de ${seniorityLabel}, votre indemnité légale minimale est estimée à ${formatCurrency(params.retainedAmount)}.`;
@@ -142,45 +153,6 @@ function buildSummary(params: {
 export function calculateDismissalCompensation(
   input: DismissalCompensationInput,
 ): DismissalCompensationResult | null {
-  if (input.mixedWorkTime) {
-    return {
-      seniorityYears: 0,
-      seniorityMonths: 0,
-      seniorityTotalMonths: 0,
-      seniorityInYears: 0,
-      eligible: false,
-      zeroReason: "mixedWorkTime",
-      average12: null,
-      average3: null,
-      average3BeforeBonus: null,
-      bonusMonthlyProration: 0,
-      referenceSalary: 0,
-      referenceMethod: "average12",
-      referenceMethodLabel: "",
-      firstBracketYears: 0,
-      secondBracketYears: 0,
-      firstBracketAmount: 0,
-      secondBracketAmount: 0,
-      legalBaseAmount: 0,
-      professionalUnfitnessApplied: false,
-      legalAmount: 0,
-      conventionAmount: null,
-      retainedAmount: 0,
-      retainedSource: "legal",
-      resultLabel: "Indemnité minimale estimée",
-      summaryBrief: buildSummary({
-        situation: input.situation,
-        referenceSalary: 0,
-        years: 0,
-        months: 0,
-        retainedAmount: 0,
-        professionalUnfitnessApplied: false,
-        zeroReason: "mixedWorkTime",
-        retainedSource: "legal",
-      }),
-    };
-  }
-
   if (getPrimaryValidationError(input)) {
     return null;
   }
@@ -202,9 +174,12 @@ export function calculateDismissalCompensation(
       seniorityInYears,
       eligible: false,
       zeroReason: "grossMisconduct",
+      hasSpecialSituationWarning: input.specialSituations.length > 0,
+      selectedSpecialSituations: input.specialSituations,
       average12: null,
       average3: null,
       average3BeforeBonus: null,
+      professionalUnfitnessAverage3: null,
       bonusMonthlyProration: 0,
       referenceSalary: 0,
       referenceMethod: "average12",
@@ -216,7 +191,6 @@ export function calculateDismissalCompensation(
       legalBaseAmount: 0,
       professionalUnfitnessApplied: false,
       legalAmount: 0,
-      conventionAmount: null,
       retainedAmount: 0,
       retainedSource: "legal",
       resultLabel: "Indemnité légale estimée",
@@ -244,9 +218,12 @@ export function calculateDismissalCompensation(
       seniorityInYears,
       eligible: false,
       zeroReason: "belowMinSeniority",
+      hasSpecialSituationWarning: input.specialSituations.length > 0,
+      selectedSpecialSituations: input.specialSituations,
       average12: null,
       average3: null,
       average3BeforeBonus: null,
+      professionalUnfitnessAverage3: null,
       bonusMonthlyProration: 0,
       referenceSalary: 0,
       referenceMethod: "average12",
@@ -258,7 +235,6 @@ export function calculateDismissalCompensation(
       legalBaseAmount: 0,
       professionalUnfitnessApplied: false,
       legalAmount: 0,
-      conventionAmount: null,
       retainedAmount: 0,
       retainedSource: "legal",
       resultLabel: "Indemnité légale estimée",
@@ -275,53 +251,68 @@ export function calculateDismissalCompensation(
     };
   }
 
-  const average12 = parseRequiredSalary(input.average12Months);
-  if (average12 === null || average12 <= 0) {
-    return null;
-  }
+  const professionalUnfitnessApplied = input.situation === "professionalUnfitness";
+  const hasSpecialSituationWarning = input.specialSituations.length > 0;
 
-  const average3BeforeBonus = parseOptionalSalary(input.average3Months);
+  let average12: number | null = null;
+  let average3BeforeBonus: number | null = null;
+  let average3Effective: number | null = null;
   let bonusMonthlyProration = 0;
-  if (input.hasBonus) {
-    const bonus = parseRequiredSalary(input.bonusAmount);
-    if (bonus === null || bonus <= 0) {
+  let professionalUnfitnessAverage3: number | null = null;
+  let referenceSalary = 0;
+  let referenceMethod: ReferenceMethod = "average12";
+
+  if (professionalUnfitnessApplied) {
+    const professionalAverage = parseRequiredSalary(input.professionalUnfitnessAverage3Months);
+    if (professionalAverage === null || professionalAverage <= 0) {
       return null;
     }
-    bonusMonthlyProration =
-      input.bonusKind === "annual" ? roundCent(bonus / 12) : roundCent(bonus / 3);
+    professionalUnfitnessAverage3 = roundCent(professionalAverage);
+    referenceSalary = professionalUnfitnessAverage3;
+    referenceMethod = "professionalUnfitnessAverage3";
+  } else {
+    average12 = parseRequiredSalary(input.average12Months);
+    if (average12 === null || average12 <= 0) {
+      return null;
+    }
+
+    average3BeforeBonus = parseOptionalSalary(input.average3Months);
+    if (input.hasBonus) {
+      const bonus = parseRequiredSalary(input.bonusAmount);
+      if (bonus === null || bonus <= 0) {
+        return null;
+      }
+      bonusMonthlyProration =
+        input.bonusKind === "annual" ? roundCent(bonus / 12) : roundCent(bonus / 3);
+    }
+
+    const referenceResolution = resolveReferenceSalary({
+      average12: roundCent(average12),
+      average3: average3BeforeBonus === null ? null : roundCent(average3BeforeBonus),
+      bonusMonthlyProration,
+      totalMonths,
+    });
+    referenceSalary = referenceResolution.referenceSalary;
+    referenceMethod = referenceResolution.referenceMethod;
+    average3Effective = referenceResolution.average3Effective;
   }
 
-  const { referenceSalary, referenceMethod, average3Effective } = resolveReferenceSalary({
-    average12: roundCent(average12),
-    average3: average3BeforeBonus === null ? null : roundCent(average3BeforeBonus),
-    bonusMonthlyProration,
-    totalMonths,
-  });
-
   const brackets = calculateLegalBaseAmount(referenceSalary, seniorityInYears);
-  const professionalUnfitnessApplied = input.situation === "professionalUnfitness";
+
+  /**
+   * Source juridique officielle :
+   * - Code du travail, article L.1226-14 : indemnité spéciale = 2 x indemnité légale.
+   */
   const legalAmount = professionalUnfitnessApplied
     ? roundCent(brackets.legalBaseAmount * DISMISSAL_CONFIG.professionalUnfitnessMultiplier)
     : brackets.legalBaseAmount;
 
-  let conventionAmount: number | null = null;
-  if (input.conventionKnowledge === "yes" && input.conventionAmount.trim()) {
-    conventionAmount = parseOptionalSalary(input.conventionAmount);
-    if (conventionAmount !== null) {
-      conventionAmount = roundCent(conventionAmount);
-    }
-  }
-
-  const retainedSource =
-    conventionAmount !== null && conventionAmount > legalAmount ? "convention" : "legal";
-  const retainedAmount =
-    retainedSource === "convention" && conventionAmount !== null
-      ? conventionAmount
-      : legalAmount;
+  const retainedSource = "legal" as const;
+  const retainedAmount = legalAmount;
 
   const resultLabel = professionalUnfitnessApplied
-    ? "Indemnité spéciale minimale estimée"
-    : "Indemnité minimale estimée";
+    ? "Minimum légal estimé en cas d'inaptitude d'origine professionnelle."
+    : "Indemnité légale estimée";
 
   return {
     seniorityYears: years,
@@ -330,10 +321,13 @@ export function calculateDismissalCompensation(
     seniorityInYears,
     eligible: true,
     zeroReason: null,
-    average12: roundCent(average12),
+    hasSpecialSituationWarning,
+    selectedSpecialSituations: input.specialSituations,
+    average12: average12 === null ? null : roundCent(average12),
     average3: average3Effective,
     average3BeforeBonus:
       average3BeforeBonus === null ? null : roundCent(average3BeforeBonus),
+    professionalUnfitnessAverage3,
     bonusMonthlyProration,
     referenceSalary,
     referenceMethod,
@@ -345,7 +339,6 @@ export function calculateDismissalCompensation(
     legalBaseAmount: brackets.legalBaseAmount,
     professionalUnfitnessApplied,
     legalAmount,
-    conventionAmount,
     retainedAmount,
     retainedSource,
     resultLabel,

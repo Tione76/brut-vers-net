@@ -73,10 +73,6 @@ export function validateOptionalAmount(raw: string, fieldLabel: string): string 
 export function getPrimaryValidationError(
   input: DismissalCompensationInput,
 ): string | null {
-  if (input.mixedWorkTime) {
-    return null;
-  }
-
   const seniorityError = validateSeniority(input.seniorityYears, input.seniorityMonths);
   if (seniorityError) {
     return seniorityError;
@@ -94,17 +90,27 @@ export function getPrimaryValidationError(
     return null;
   }
 
+  if (input.situation === "professionalUnfitness") {
+    const professionalAverageError = validatePositiveSalary(
+      input.professionalUnfitnessAverage3Months,
+      "le salaire brut mensuel moyen que vous auriez perçu durant les 3 derniers mois",
+    );
+    if (professionalAverageError) {
+      return professionalAverageError;
+    }
+  }
+
   const avg12Error = validatePositiveSalary(
     input.average12Months,
     totalMonths < 12
       ? "le salaire brut moyen sur les mois travaillés"
       : "le salaire brut moyen des 12 derniers mois",
   );
-  if (avg12Error) {
+  if (avg12Error && input.situation !== "professionalUnfitness") {
     return avg12Error;
   }
 
-  if (input.average3Months.trim()) {
+  if (input.average3Months.trim() && input.situation !== "professionalUnfitness") {
     const avg3Error = validatePositiveSalary(
       input.average3Months,
       "le salaire brut moyen des 3 derniers mois",
@@ -121,16 +127,6 @@ export function getPrimaryValidationError(
     );
     if (bonusError) {
       return bonusError;
-    }
-  }
-
-  if (input.conventionKnowledge === "yes" && input.conventionAmount.trim()) {
-    const conventionError = validateOptionalAmount(
-      input.conventionAmount,
-      "un montant conventionnel",
-    );
-    if (conventionError) {
-      return conventionError;
     }
   }
 

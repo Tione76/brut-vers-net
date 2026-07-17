@@ -8,8 +8,8 @@ import { DismissalFormStep } from "./DismissalFormStep";
 import { DismissalCompensationResults } from "./DismissalCompensationResults";
 import type {
   BonusKind,
-  ConventionKnowledge,
   DismissalSituation,
+  SpecialSituationKey,
 } from "./types";
 import { getPrimaryValidationError, parseWholeNumber } from "./validation";
 import "@/site/salary-calculator-layout.css";
@@ -24,13 +24,12 @@ export default function DismissalCompensationCalculator() {
   const [seniorityMonths, setSeniorityMonths] = useState("");
   const [average12Months, setAverage12Months] = useState("");
   const [average3Months, setAverage3Months] = useState("");
+  const [professionalUnfitnessAverage3Months, setProfessionalUnfitnessAverage3Months] = useState("");
   const [hasBonus, setHasBonus] = useState(false);
   const [bonusAmount, setBonusAmount] = useState("");
   const [bonusKind, setBonusKind] = useState<BonusKind>("annual");
-  const [conventionKnowledge, setConventionKnowledge] =
-    useState<ConventionKnowledge>("unknown");
-  const [conventionAmount, setConventionAmount] = useState("");
-  const [mixedWorkTime, setMixedWorkTime] = useState(false);
+  const [showSpecialSituations, setShowSpecialSituations] = useState(false);
+  const [specialSituations, setSpecialSituations] = useState<SpecialSituationKey[]>([]);
 
   const calculatorInput = useMemo(
     () => ({
@@ -39,24 +38,22 @@ export default function DismissalCompensationCalculator() {
       seniorityMonths,
       average12Months,
       average3Months,
+      professionalUnfitnessAverage3Months,
       hasBonus,
       bonusAmount,
       bonusKind,
-      conventionKnowledge,
-      conventionAmount,
-      mixedWorkTime,
+      specialSituations,
     }),
     [
       average12Months,
       average3Months,
       bonusAmount,
       bonusKind,
-      conventionAmount,
-      conventionKnowledge,
       hasBonus,
-      mixedWorkTime,
+      professionalUnfitnessAverage3Months,
       seniorityMonths,
       seniorityYears,
+      specialSituations,
       situation,
     ],
   );
@@ -71,14 +68,12 @@ export default function DismissalCompensationCalculator() {
   }, [seniorityMonths, seniorityYears]);
 
   const hasSeniority = Boolean(seniorityYears.trim() || seniorityMonths.trim());
-  const hasSalaryInput = Boolean(average12Months.trim());
+  const hasSalaryInput =
+    situation === "professionalUnfitness"
+      ? Boolean(professionalUnfitnessAverage3Months.trim())
+      : Boolean(average12Months.trim());
   const opensWithoutSalary =
-    situation === "grossMisconduct" ||
-    mixedWorkTime ||
-    (hasSeniority &&
-      totalMonths !== null &&
-      totalMonths < 8 &&
-      situation === "standard");
+    situation === "grossMisconduct" || (hasSeniority && totalMonths !== null && totalMonths < 8);
 
   const hasInputs = hasSeniority && (hasSalaryInput || opensWithoutSalary);
 
@@ -88,6 +83,15 @@ export default function DismissalCompensationCalculator() {
     }
     return getPrimaryValidationError(calculatorInput);
   }, [calculatorInput, hasSeniority]);
+
+  useEffect(() => {
+    if (situation === "professionalUnfitness") {
+      setAverage12Months("");
+      setAverage3Months("");
+    } else {
+      setProfessionalUnfitnessAverage3Months("");
+    }
+  }, [situation]);
 
   const result = useMemo(() => {
     if (!hasInputs || validationError) {
@@ -106,10 +110,15 @@ export default function DismissalCompensationCalculator() {
     );
   }, [hasInputs, result, setResult, validationError]);
 
-  const average12Label =
-    totalMonths !== null && totalMonths < 12
-      ? "Salaire brut moyen sur tous les mois travaillés"
-      : "Salaire brut moyen des 12 derniers mois";
+  const average12Label = totalMonths !== null && totalMonths < 12
+    ? "Salaire brut moyen sur tous les mois travaillés"
+    : "Salaire brut moyen des 12 derniers mois";
+
+  const toggleSpecialSituation = (key: SpecialSituationKey) => {
+    setSpecialSituations((prev) =>
+      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key],
+    );
+  };
 
   return (
     <div className="increase-calc calc-fields" aria-live="polite" aria-atomic="true">
@@ -145,14 +154,14 @@ export default function DismissalCompensationCalculator() {
           </SelectableOptionGroup>
           {situation === "professionalUnfitness" ? (
             <p className="increase-calc__step-hint">
-              Accident du travail ou maladie professionnelle à l&apos;origine de l&apos;inaptitude.
-              Dans ce cas, le simulateur calcule au minimum le double de l&apos;indemnité légale.
+              Accident du travail ou maladie professionnelle.
             </p>
           ) : null}
           {situation === "grossMisconduct" ? (
             <p className="increase-calc__step-hint">
-              Dans le cas général, la faute grave ou la faute lourde prive le salarié de
-              l&apos;indemnité légale de licenciement.
+              Dans le cas général, une faute grave ou lourde prive le salarié de l&apos;indemnité
+              légale de licenciement. Une disposition conventionnelle plus favorable peut toutefois
+              exister.
             </p>
           ) : null}
         </DismissalFormStep>
@@ -160,7 +169,7 @@ export default function DismissalCompensationCalculator() {
         <DismissalFormStep
           step={2}
           title="Indiquez votre ancienneté"
-          hint="L'ancienneté servant au montant est généralement calculée jusqu'à la fin du préavis, même lorsqu'il n'est pas effectué dans certains cas."
+          hint="Indiquez l'ancienneté retenue jusqu'à la date effective de rupture, généralement à la fin du préavis. En cas de suspension ou d'interruption particulière, vérifiez la durée exacte à retenir."
           essential
         >
           <div className="increase-calc__salary-row" role="group" aria-label="Ancienneté">
@@ -202,62 +211,103 @@ export default function DismissalCompensationCalculator() {
         <DismissalFormStep
           step={3}
           title="Renseignez vos salaires bruts de référence"
-          hint="Le calculateur retiendra automatiquement la moyenne la plus avantageuse."
+          hint={
+            situation === "professionalUnfitness"
+              ? "Pour ce cas, le salaire de référence repose sur la moyenne que vous auriez perçue sur les 3 derniers mois avant la suspension."
+              : "Le calculateur retiendra automatiquement la moyenne la plus avantageuse."
+          }
           essential
         >
-          <div
-            className="increase-calc__salary-row"
-            role="group"
-            aria-label="Salaires bruts de référence"
-          >
+          {situation === "professionalUnfitness" ? (
             <div className="increase-calc__field">
-              <label htmlFor="dismissalAvg12" className="calc-field-label">
-                {average12Label}
+              <label htmlFor="dismissalProfessionalAvg3" className="calc-field-label">
+                Salaire brut mensuel moyen que vous auriez perçu durant les 3 derniers mois
               </label>
-              <span className="dismissal-field-caption">Brut mensuel moyen</span>
+              <span className="dismissal-field-caption">
+                Indiquez la rémunération moyenne que vous auriez normalement reçue à votre poste
+                avant l&apos;arrêt lié à l&apos;accident du travail ou à la maladie professionnelle,
+                en incluant les primes et avantages habituels.
+              </span>
               <input
-                id="dismissalAvg12"
-                name="dismissalAvg12"
-                type="text"
-                inputMode="decimal"
-                autoComplete="off"
-                placeholder="Ex. : 2 500 €"
-                value={average12Months}
-                onChange={(e) => setAverage12Months(e.target.value)}
-                className="calc-input"
-                disabled={situation === "grossMisconduct"}
-              />
-            </div>
-            <div className="increase-calc__field">
-              <label htmlFor="dismissalAvg3" className="calc-field-label">
-                Salaire brut moyen des 3 derniers mois
-              </label>
-              <span className="dismissal-field-caption">Brut mensuel moyen</span>
-              <input
-                id="dismissalAvg3"
-                name="dismissalAvg3"
+                id="dismissalProfessionalAvg3"
+                name="dismissalProfessionalAvg3"
                 type="text"
                 inputMode="decimal"
                 autoComplete="off"
                 placeholder="Ex. : 2 650 €"
-                value={average3Months}
-                onChange={(e) => setAverage3Months(e.target.value)}
+                value={professionalUnfitnessAverage3Months}
+                onChange={(e) => setProfessionalUnfitnessAverage3Months(e.target.value)}
                 className="calc-input"
-                disabled={situation === "grossMisconduct"}
               />
+              {!hasBonus ? (
+                <button
+                  type="button"
+                  className="salary-calc__link-action"
+                  onClick={() => setHasBonus(true)}
+                >
+                  Je souhaite détailler les primes et avantages
+                </button>
+              ) : null}
             </div>
-          </div>
-
-          {!hasBonus ? (
-            <button
-              type="button"
-              className="salary-calc__link-action"
-              onClick={() => setHasBonus(true)}
-              disabled={situation === "grossMisconduct"}
-            >
-              J&apos;ai perçu une prime annuelle ou exceptionnelle
-            </button>
           ) : (
+            <>
+              <div
+                className="increase-calc__salary-row"
+                role="group"
+                aria-label="Salaires bruts de référence"
+              >
+                <div className="increase-calc__field">
+                  <label htmlFor="dismissalAvg12" className="calc-field-label">
+                    {average12Label}
+                  </label>
+                  <span className="dismissal-field-caption">Brut mensuel moyen</span>
+                  <input
+                    id="dismissalAvg12"
+                    name="dismissalAvg12"
+                    type="text"
+                    inputMode="decimal"
+                    autoComplete="off"
+                    placeholder="Ex. : 2 500 €"
+                    value={average12Months}
+                    onChange={(e) => setAverage12Months(e.target.value)}
+                    className="calc-input"
+                    disabled={situation === "grossMisconduct"}
+                  />
+                </div>
+                <div className="increase-calc__field">
+                  <label htmlFor="dismissalAvg3" className="calc-field-label">
+                    Salaire brut moyen des 3 derniers mois
+                  </label>
+                  <span className="dismissal-field-caption">Brut mensuel moyen</span>
+                  <input
+                    id="dismissalAvg3"
+                    name="dismissalAvg3"
+                    type="text"
+                    inputMode="decimal"
+                    autoComplete="off"
+                    placeholder="Ex. : 2 650 €"
+                    value={average3Months}
+                    onChange={(e) => setAverage3Months(e.target.value)}
+                    className="calc-input"
+                    disabled={situation === "grossMisconduct"}
+                  />
+                </div>
+              </div>
+
+              {!hasBonus ? (
+                <button
+                  type="button"
+                  className="salary-calc__link-action"
+                  onClick={() => setHasBonus(true)}
+                  disabled={situation === "grossMisconduct"}
+                >
+                  J&apos;ai perçu une prime annuelle ou exceptionnelle
+                </button>
+              ) : null}
+            </>
+          )}
+
+          {hasBonus ? (
             <div className="dismissal-bonus-block">
               <div className="increase-calc__field">
                 <label htmlFor="dismissalBonus" className="calc-field-label">
@@ -275,10 +325,7 @@ export default function DismissalCompensationCalculator() {
                   className="calc-input"
                 />
               </div>
-              <SelectableOptionGroup
-                legend="Périodicité de la prime"
-                ariaLabel="Périodicité de la prime"
-              >
+              <SelectableOptionGroup legend="Périodicité de la prime" ariaLabel="Périodicité de la prime">
                 <SelectableOption
                   name="bonusKind"
                   value="annual"
@@ -305,78 +352,63 @@ export default function DismissalCompensationCalculator() {
                 Masquer la prime
               </button>
             </div>
-          )}
-        </DismissalFormStep>
-
-        <DismissalFormStep step={4} title="Vérification conventionnelle">
-          <SelectableOptionGroup
-            legend="Votre convention collective prévoit-elle un montant plus favorable ?"
-            ariaLabel="Convention collective"
-          >
-            <SelectableOption
-              name="conventionKnowledge"
-              value="unknown"
-              label="Je ne sais pas"
-              checked={conventionKnowledge === "unknown"}
-              onChange={() => setConventionKnowledge("unknown")}
-            />
-            <SelectableOption
-              name="conventionKnowledge"
-              value="no"
-              label="Non"
-              checked={conventionKnowledge === "no"}
-              onChange={() => setConventionKnowledge("no")}
-            />
-            <SelectableOption
-              name="conventionKnowledge"
-              value="yes"
-              label="Oui"
-              checked={conventionKnowledge === "yes"}
-              onChange={() => setConventionKnowledge("yes")}
-            />
-          </SelectableOptionGroup>
-
-          {conventionKnowledge === "unknown" ? (
-            <p className="increase-calc__step-hint">
-              Vérifiez votre convention collective : elle peut prévoir une indemnité plus élevée.
-            </p>
-          ) : null}
-
-          {conventionKnowledge === "yes" ? (
-            <div className="increase-calc__field">
-              <label htmlFor="conventionAmount" className="calc-field-label">
-                Montant conventionnel connu (facultatif)
-              </label>
-              <input
-                id="conventionAmount"
-                name="conventionAmount"
-                type="text"
-                inputMode="decimal"
-                autoComplete="off"
-                placeholder="Ex. : 10 000 €"
-                value={conventionAmount}
-                onChange={(e) => setConventionAmount(e.target.value)}
-                className="calc-input"
-              />
-            </div>
-          ) : null}
-
-          <label className="dismissal-checkbox">
-            <input
-              type="checkbox"
-              checked={mixedWorkTime}
-              onChange={(e) => setMixedWorkTime(e.target.checked)}
-            />
-            <span>J&apos;ai alterné temps plein et temps partiel</span>
-          </label>
-          {mixedWorkTime ? (
-            <p className="increase-calc__step-hint">
-              Le calcul doit être ventilé selon les périodes travaillées à temps plein et à temps
-              partiel. Cette version simple ne couvre pas encore cette situation.
-            </p>
           ) : null}
         </DismissalFormStep>
       </ol>
+      <section className="dismissal-special-section" aria-label="Situations particulières">
+        <p className="dismissal-special-section__title">
+          Votre parcours comporte-t-il une situation particulière ?
+        </p>
+        <label className="dismissal-checkbox">
+          <input
+            type="checkbox"
+            checked={showSpecialSituations}
+            onChange={(e) => {
+              const checked = e.target.checked;
+              setShowSpecialSituations(checked);
+              if (!checked) {
+                setSpecialSituations([]);
+              }
+            }}
+          />
+          <span>
+            J&apos;ai connu une interruption ou un changement important de situation au cours de mon
+            contrat
+          </span>
+        </label>
+        {showSpecialSituations ? (
+          <div className="dismissal-special-choices" role="group" aria-label="Situations particulières">
+            <button
+              type="button"
+              className={`dismissal-chip${specialSituations.includes("mixedWorkTime") ? " dismissal-chip--selected" : ""}`}
+              onClick={() => toggleSpecialSituation("mixedWorkTime")}
+            >
+              alternance entre temps plein et temps partiel
+            </button>
+            <button
+              type="button"
+              className={`dismissal-chip${specialSituations.includes("recentSickLeaveOrTherapeuticPartTime") ? " dismissal-chip--selected" : ""}`}
+              onClick={() => toggleSpecialSituation("recentSickLeaveOrTherapeuticPartTime")}
+            >
+              arrêt maladie ou temps partiel thérapeutique au cours des derniers mois
+            </button>
+            <button
+              type="button"
+              className={`dismissal-chip${specialSituations.includes("partTimeParentalLeave") ? " dismissal-chip--selected" : ""}`}
+              onClick={() => toggleSpecialSituation("partTimeParentalLeave")}
+            >
+              congé parental à temps partiel
+            </button>
+            <button
+              type="button"
+              className={`dismissal-chip${specialSituations.includes("otherContractInterruption") ? " dismissal-chip--selected" : ""}`}
+              onClick={() => toggleSpecialSituation("otherContractInterruption")}
+            >
+              autre suspension ou interruption du contrat
+            </button>
+          </div>
+        ) : null}
+      </section>
     </div>
   );
 }
