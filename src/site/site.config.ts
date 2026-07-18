@@ -12,7 +12,7 @@ const googleAnalyticsId =
   process.env.NODE_ENV === "production" ? readOptionalEnv("NEXT_PUBLIC_GA_ID") : undefined;
 const microsoftClarityId =
   process.env.NODE_ENV === "production" ? readOptionalEnv("NEXT_PUBLIC_CLARITY_ID") : undefined;
-const googleSearchConsoleId = readOptionalEnv("NEXT_PUBLIC_GSC_ID");
+const googleSearchConsoleId = "9nuZjW3-Co9y5HnEHO6pmgRJD0K-EBLnh3PHD3txmsw";
 const googleAdsenseClientId = readOptionalEnv("NEXT_PUBLIC_ADSENSE_ID");
 const adSlotAfterResult = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_AFTER_RESULT");
 const adSlotBeforeFooter = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_BEFORE_FOOTER");
