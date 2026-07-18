@@ -17,11 +17,12 @@ import {
   buildContactEmailContent,
   escapeHtml,
   isHoneypotFilled,
+  isTrustedContactOrigin,
   validateContactPayload,
 } from "@/site/contact/contact-mail";
 
-function makeRequest(body: unknown, headers?: HeadersInit) {
-  return new Request("https://brut-vers-net.fr/api/contact", {
+function makeRequest(body: unknown, headers?: HeadersInit, url = "https://brut-vers-net.fr/api/contact") {
+  return new Request(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -129,6 +130,43 @@ describe("POST /api/contact", () => {
     const data = await response.json();
     expect(data.success).toBe(true);
     expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("accepte Origin www même si l'URL API est en apex", async () => {
+    sendMock.mockResolvedValue({ data: { id: "msg_www" }, error: null });
+    const response = await POST(
+      makeRequest(validPayload, { Origin: "https://www.brut-vers-net.fr" }),
+    );
+    expect(response.status).toBe(200);
+    expect(sendMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("accepte Origin égal à l'hôte de la requête (preview Vercel)", async () => {
+    sendMock.mockResolvedValue({ data: { id: "msg_preview" }, error: null });
+    const response = await POST(
+      makeRequest(
+        validPayload,
+        { Origin: "https://brut-vers-net-git-main.vercel.app" },
+        "https://brut-vers-net-git-main.vercel.app/api/contact",
+      ),
+    );
+    expect(response.status).toBe(200);
+    expect(sendMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("refuse une Origin externe (403) avant tout appel Resend", async () => {
+    const response = await POST(
+      makeRequest(validPayload, { Origin: "https://evil.example" }),
+    );
+    expect(response.status).toBe(403);
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("isTrustedContactOrigin accepte apex et www", () => {
+    const apex = makeRequest(validPayload);
+    const www = makeRequest(validPayload, { Origin: "https://www.brut-vers-net.fr" });
+    expect(isTrustedContactOrigin(apex, "https://brut-vers-net.fr")).toBe(true);
+    expect(isTrustedContactOrigin(www, "https://brut-vers-net.fr")).toBe(true);
   });
 
   it("envoie un e-mail avec des données valides", async () => {

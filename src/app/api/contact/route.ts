@@ -14,7 +14,22 @@ import {
 } from "@/site/contact/contact-mail";
 
 export async function POST(request: Request) {
+  const originHeader = request.headers.get("origin");
+  const requestHost = (() => {
+    try {
+      return new URL(request.url).host;
+    } catch {
+      return null;
+    }
+  })();
+
   if (!isTrustedContactOrigin(request, siteConfig.url)) {
+    // Diagnostic temporaire (pas de données personnelles)
+    console.warn("[contact] Origine refusée", {
+      origin: originHeader,
+      requestHost,
+      siteUrl: siteConfig.url,
+    });
     return NextResponse.json({ error: CONTACT_ERROR_MESSAGE }, { status: 403 });
   }
 

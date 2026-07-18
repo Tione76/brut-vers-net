@@ -179,22 +179,68 @@ export function buildContactEmailContent(data: ValidatedContactPayload) {
   return { subject, text, html };
 }
 
-/** Vérifie Origin / Referer lorsque présents (requêtes cross-site). */
+/** Origins de confiance pour POST /api/contact. */
 export function isTrustedContactOrigin(request: Request, siteUrl: string): boolean {
-  const origin = request.headers.get("origin");
-  const referer = request.headers.get("referer");
+  const originHeader = request.headers.get("origin");
 
-  if (!origin && !referer) {
-    // Certains clients ommettent Origin ; on n'bloque pas systématiquement.
+  // Pas d'Origin : requête same-site classique ou outil sans Origin. Le honeypot reste en place.
+  if (!originHeader) {
     return true;
   }
 
-  const allowed = siteUrl.replace(/\/$/, "");
-  if (origin) {
-    return origin === allowed || origin.startsWith(`${allowed}/`);
+  let originHost: string;
+  try {
+    originHost = new URL(originHeader).host.toLowerCase();
+  } catch {
+    return false;
   }
-  if (referer) {
-    return referer.startsWith(allowed);
+
+  const trustedHosts = new Set<string>();
+
+  // Hôte réel de la requête (production, www, preview Vercel, localhost)
+  try {
+    trustedHosts.add(new URL(request.url).host.toLowerCase());
+  } catch {
+    // ignore
   }
-  return true;
+
+  // Domaine canonique du site + variante www
+  try {
+    const configuredHost = new URL(siteUrl).host.toLowerCase();
+    trustedHosts.add(configuredHost);
+    if (configuredHost.startsWith("www.")) {
+      trustedHosts.add(configuredHost.slice(4));
+    } else {
+      trustedHosts.add(`www.${configuredHost}`);
+    }
+  } catch {
+    // ignore
+  }
+
+  // Déploiements Vercel (Preview / Production URL système)
+  for (const envKey of ["VERCEL_URL", "VERCEL_BRANCH_URL", "VERCEL_PROJECT_PRODUCTION_URL"] as const) {
+    const raw = process.env[envKey]?.trim();
+    if (!raw) continue;
+    try {
+      const host = new URL(raw.includes("://") ? raw : `https://${raw}`).host.toLowerCase();
+      trustedHosts.add(host);
+    } catch {
+      // ignore
+    }
+  }
+
+  if (trustedHosts.has(originHost)) {
+    return true;
+  }
+
+  // Apex ↔ www pour le même domaine de second niveau
+  const stripWww = (host: string) => (host.startsWith("www.") ? host.slice(4) : host);
+  const originBase = stripWww(originHost);
+  for (const host of trustedHosts) {
+    if (stripWww(host) === originBase) {
+      return true;
+    }
+  }
+
+  return false;
 }
