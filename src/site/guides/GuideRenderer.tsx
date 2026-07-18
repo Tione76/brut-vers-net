@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getGuideCoverByHref } from "./covers";
 import { GuideCoverImage } from "./GuideCoverImage";
+import { CoverFigure } from "./CoverFigure";
 import type { GuideSidebarLink, SidebarTool } from "./sidebar";
 import type { GuideBlock, GuideTocEntry } from "./types";
 import { GUIDE_CALLOUT_LABELS } from "./types";
@@ -345,6 +346,7 @@ interface GuideArticleProps {
   faqIntro?: string;
   conclusion: import("./types").Guide["conclusion"];
   isTemplate?: boolean;
+  cover?: import("./covers").GuideCoverImage;
 }
 
 function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQuickSummary }) {
@@ -426,11 +428,16 @@ export function GuideArticle({
   faqIntro,
   conclusion,
   isTemplate,
+  cover,
 }: GuideArticleProps) {
+  const [firstParagraph, ...restIntroduction] = introduction;
+
   return (
     <>
       <div className="guide-intro">
-        {introduction.map((paragraph) => (
+        {firstParagraph ? <p>{firstParagraph}</p> : null}
+        {cover ? <CoverFigure cover={cover} priority /> : null}
+        {restIntroduction.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>

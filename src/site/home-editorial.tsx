@@ -8,6 +8,8 @@ import {
   HOME_EDITORIAL_UPDATED_AT,
 } from "./home-editorial-data";
 import { EditorialBenefitItem } from "./editorial-check-icon";
+import { CoverFigure } from "@/site/guides/CoverFigure";
+import { HOME_COVER } from "@/site/guides/covers";
 
 const conversionRows = buildConversionTableRows();
 const practicalCases = buildPracticalCases();
@@ -33,6 +35,8 @@ export function HomeEditorial() {
             source. Les résultats restent indicatifs, mais utiles pour comparer une offre,
             préparer un entretien ou situer un ordre de grandeur.
           </p>
+
+          <CoverFigure cover={HOME_COVER} priority />
 
           <nav className="home-editorial__toc home-editorial__prose" aria-label="Sommaire du guide">
             <p className="home-editorial__toc-title">Dans ce guide</p>

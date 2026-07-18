@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { CoverFigure } from "@/site/guides/CoverFigure";
+import { TOOLS_HUB_COVER } from "@/site/guides/covers";
 
 /** Introduction éditoriale du hub /nos-outils */
 export function ToolsHubEditorial() {
@@ -9,6 +11,9 @@ export function ToolsHubEditorial() {
           Tous nos simulateurs sont gratuits et accessibles sans création de compte. Vous pouvez
           lancer un calcul en quelques secondes, depuis un ordinateur ou un téléphone.
         </p>
+
+        <CoverFigure cover={TOOLS_HUB_COVER} priority />
+
         <p>
           Ils s&apos;adressent aux salariés, aux demandeurs d&apos;emploi et aux employeurs qui
           souhaitent mieux comprendre une rémunération, préparer une offre ou vérifier un ordre de

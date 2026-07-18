@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { CoverFigure } from "./CoverFigure";
+import { GUIDES_HUB_COVER } from "./covers";
 
 /** Introduction éditoriale du hub /guides */
 export function GuidesHubEditorial() {
@@ -13,6 +15,9 @@ export function GuidesHubEditorial() {
           liées au salaire et à la fiche de paie. L&apos;objectif est de clarifier chaque étape, du
           salaire brut au montant réellement perçu.
         </p>
+
+        <CoverFigure cover={GUIDES_HUB_COVER} priority />
+
         <p>
           Ils s&apos;adressent aux salariés, aux personnes qui recherchent un emploi, aux employeurs,
           aux étudiants, et plus largement à toute personne souhaitant mieux comprendre sa

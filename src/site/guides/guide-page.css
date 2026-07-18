@@ -1,5 +1,81 @@
 /* Guide Page : header hero, sommaire inline, espacement éditorial premium */
 
+/* Illustration article : crédit intégré en bande overlay */
+.cover-figure {
+  margin: 1.5rem 0 2rem;
+  max-width: 100%;
+}
+
+.cover-figure__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--ds-surface-alt);
+  line-height: 0;
+}
+
+.cover-figure__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.cover-figure__credit {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0.55rem 0.85rem;
+  /* Pas d'opacity ici : elle assombrirait aussi le texte. */
+  background: transparent;
+  color: inherit;
+}
+
+/* Annule .prose figcaption (couleur muted + margin) qui assombrissait le crédit. */
+.prose .cover-figure__credit {
+  margin-top: 0;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Bandeau uniquement : transparence via rgba, derrière le texte. */
+.cover-figure__credit-band {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: rgba(15, 23, 42, 0.58);
+  backdrop-filter: blur(2px);
+}
+
+/* Texte au-dessus du bandeau, gris clair opaque (non hérité de .prose figcaption). */
+.cover-figure__credit-text,
+.prose .cover-figure__credit-text {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: #e8eaed;
+}
+
+@media (min-width: 640px) {
+  .cover-figure__credit {
+    padding: 0.65rem 1rem;
+  }
+
+  .cover-figure__credit-text,
+  .prose .cover-figure__credit-text {
+    font-size: 0.8125rem;
+  }
+}
+
 .guide-header {
   position: relative;
   background: var(--ds-brand);

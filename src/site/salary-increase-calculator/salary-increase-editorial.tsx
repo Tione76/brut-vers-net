@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { EditorialBenefitItem } from "@/site/editorial-check-icon";
+import { CoverFigure } from "@/site/guides/CoverFigure";
+import { getCalculatorCover } from "@/site/guides/covers";
 import { IncreaseCalculatorCta } from "./IncreaseCalculatorCta";
 import {
   buildIncreasePracticalCases,
@@ -19,6 +21,7 @@ const ex200 = example200NonExecutive();
 const ex200Exec = example200Executive();
 const ex5 = example5PercentNonExecutive();
 const net200Range = format200EuroNetRange();
+const increaseCover = getCalculatorCover("augmentation-salaire");
 
 const revisedDateLabel = new Date(SALARY_INCREASE_EDITORIAL_UPDATED_AT).toLocaleDateString("fr-FR", {
   day: "numeric",
@@ -61,6 +64,8 @@ export function SalaryIncreaseEditorial() {
               et après prélèvement à la source, pour comprendre combien vous gagnerez vraiment en
               plus chaque mois et sur l&apos;année.
             </p>
+
+            <CoverFigure cover={increaseCover} priority />
 
             <nav className="home-editorial__toc home-editorial__prose" aria-label="Sommaire du guide">
               <p className="home-editorial__toc-title">Dans ce guide</p>

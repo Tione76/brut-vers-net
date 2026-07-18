@@ -1,91 +1,155 @@
+/**
+ * Registre central des illustrations du site (source unique de vérité).
+ * Chemins, alt SEO et crédits photographes : ne jamais les dupliquer dans les pages.
+ */
+
 import type { Guide } from "./types";
 
-/** Dimensions standard Open Graph (versions .webp générées) */
+export const COVER_IMAGE_TYPE = "image/webp";
+
+/** Dimensions Open Graph historiques (référence) */
 export const OG_IMAGE_WIDTH = 1200;
 export const OG_IMAGE_HEIGHT = 630;
-export const OG_IMAGE_TYPE = "image/webp";
+export const OG_IMAGE_TYPE = COVER_IMAGE_TYPE;
 
-const OG_DIR = "/images/og";
+export type CoverCreditSource = "Pexels" | "Unsplash";
+
+export type CoverCredit = {
+  photographer: string;
+  source: CoverCreditSource;
+};
 
 export interface GuideCoverImage {
   /** Chemin public vers l'image de couverture */
   src: string;
+  /** Texte alt SEO / accessibilité (sujet de la page, jamais le crédit) */
   alt: string;
   width: number;
   height: number;
+  credit: CoverCredit;
 }
 
-function ogCover(filename: string, alt: string): GuideCoverImage {
+const COVERS_ROOT = "/images/covers";
+
+function cover(
+  relativePath: string,
+  alt: string,
+  credit: CoverCredit,
+  width: number,
+  height: number,
+): GuideCoverImage {
   return {
-    src: `${OG_DIR}/${filename}`,
+    src: `${COVERS_ROOT}/${relativePath}`,
     alt,
-    width: OG_IMAGE_WIDTH,
-    height: OG_IMAGE_HEIGHT,
+    width,
+    height,
+    credit,
   };
 }
 
+/** Libellé affiché dans la bande crédit (overlay). */
+export function formatCoverCredit(credit: CoverCredit): string {
+  return `Photo de ${credit.photographer} via ${credit.source}`;
+}
+
 /** Image de couverture : page d'accueil / calculateur Brut vers Net */
-export const HOME_COVER: GuideCoverImage = ogCover(
-  "Calculer-salaire-brut-vers-net.webp",
-  "Calculateur de salaire brut vers net",
+export const HOME_COVER: GuideCoverImage = cover(
+  "calculateurs/Calculateur-brut-vers-net.webp",
+  "Personne consultant un calculateur de salaire brut vers net sur un ordinateur",
+  { photographer: "Kindel Media", source: "Pexels" },
+  1200,
+  900,
 );
 
-/** Open Graph + hub /guides */
-export const GUIDES_HUB_COVER: GuideCoverImage = ogCover(
-  "Guides.webp",
-  "Guides sur le salaire brut et le salaire net",
+/** Hub /guides */
+export const GUIDES_HUB_COVER: GuideCoverImage = cover(
+  "hubs/Guides-salaire-imôts.webp",
+  "Guides pour comprendre le salaire, la fiche de paie et la rémunération",
+  { photographer: "Pixabay", source: "Pexels" },
+  1200,
+  900,
 );
 
-/** Open Graph + hub /nos-outils */
-export const TOOLS_HUB_COVER: GuideCoverImage = ogCover(
-  "Nos outils.webp",
-  "Outils gratuits de calcul de salaire",
+/** Hub /nos-outils */
+export const TOOLS_HUB_COVER: GuideCoverImage = cover(
+  "hubs/Calculateurs-salaire.webp",
+  "Outils et simulateurs gratuits pour estimer un salaire et une rémunération",
+  { photographer: "Kindel Media", source: "Pexels" },
+  1200,
+  676,
 );
 
-/** Open Graph + page /faq */
-export const FAQ_COVER: GuideCoverImage = ogCover(
-  "FAQ.webp",
-  "Questions fréquentes sur le salaire",
+/** Page /faq */
+export const FAQ_COVER: GuideCoverImage = cover(
+  "hubs/Questions-sur-le-salaire.webp",
+  "Questions fréquentes sur le salaire brut, le salaire net et la rémunération",
+  { photographer: "www.kaboompics.com", source: "Pexels" },
+  6720,
+  4480,
 );
 
-/** Couvertures par identifiant de calculateur (hors page d'accueil) */
+/** Couvertures par identifiant de calculateur */
 export const CALCULATOR_COVERS: Record<string, GuideCoverImage> = {
   "brut-vers-net": HOME_COVER,
-  "augmentation-salaire": ogCover(
-    "calcul-augmentation-de-salaire.webp",
-    "Calculateur d'augmentation de salaire",
+  "augmentation-salaire": cover(
+    "calculateurs/Calculateur-augmentation-salaire.webp",
+    "Simulation d'une augmentation de salaire et de son impact sur le net",
+    { photographer: "MART PRODUCTION", source: "Pexels" },
+    1200,
+    800,
   ),
-  "salaire-heures-supplementaires": ogCover(
-    "Calcul-de-salaire-heures-supplémentaires.webp",
-    "Calcul des heures supplémentaires",
+  "salaire-heures-supplementaires": cover(
+    "calculateurs/Calculateur-salaire-avec-heures-supplémentaires.webp",
+    "Calcul du salaire avec heures supplémentaires en brut et en net",
+    { photographer: "Surja Raj", source: "Pexels" },
+    1200,
+    800,
   ),
-  "indemnite-licenciement": ogCover(
-    "Calcul-indemnité-de-licenciement.webp",
-    "Calculateur d'indemnité de licenciement",
+  "indemnite-licenciement": cover(
+    "calculateurs/Simulateur-indemnité-licenciement.webp",
+    "Estimation d'une indemnité de licenciement à partir du salaire de référence",
+    { photographer: "Tima Miroshnichenko", source: "Pexels" },
+    1200,
+    800,
   ),
 };
 
 /** Couvertures par slug de guide */
 export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
-  "comment-est-calcule-le-salaire-net": ogCover(
-    "Différence-entre-salaire-brut-et-net.webp",
-    "Différence entre salaire brut et salaire net",
+  "comment-est-calcule-le-salaire-net": cover(
+    "guides/Comment-calculer-salaire-net.webp",
+    "Explication de la différence entre salaire brut et salaire net",
+    { photographer: "Bia Limova", source: "Pexels" },
+    1200,
+    800,
   ),
-  "comment-lire-une-fiche-de-paie": ogCover(
-    "comment-lire-une-fiche-de-paie.webp",
-    "Comment lire une fiche de paie",
+  "comment-calculer-son-salaire-net": cover(
+    "guides/Comment-calculer-son-salaire-net.webp",
+    "Méthode pas à pas pour calculer son salaire net à partir du brut",
+    { photographer: "Polina Tankilevitch", source: "Pexels" },
+    1200,
+    800,
   ),
-  "comment-calculer-son-salaire-net": ogCover(
-    "comment-calculer-son-salaire-net.webp",
-    "Comment calculer son salaire net",
+  "comment-lire-une-fiche-de-paie": cover(
+    "guides/Comment-lire-fiche-de-paie.webp",
+    "Lecture d'une fiche de paie : brut, cotisations, net et prélèvement à la source",
+    { photographer: "Kampus Production", source: "Pexels" },
+    1200,
+    800,
   ),
-  "cotisations-salariales-pourquoi-brut-plus-eleve-que-net": ogCover(
-    "Les-cotisations-salariales.webp",
-    "Les cotisations salariales",
+  "cotisations-salariales-pourquoi-brut-plus-eleve-que-net": cover(
+    "guides/Comprendre-cotisations-salariales.webp",
+    "Comprendre les cotisations salariales et l'écart entre salaire brut et net",
+    { photographer: "RDNE Stock project", source: "Pexels" },
+    1200,
+    800,
   ),
-  "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne": ogCover(
-    "Le-prélèvement-à-la-source.webp",
-    "Le prélèvement à la source",
+  "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne": cover(
+    "guides/Prélèvement-à-la-source.webp",
+    "Fonctionnement du prélèvement à la source sur le salaire",
+    { photographer: "Polina Tankilevitch", source: "Pexels" },
+    1200,
+    800,
   ),
 };
 
@@ -103,14 +167,16 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   return getGuideCover(match[1]);
 }
 
-export function resolveGuideCover(guide: Pick<Guide, "slug" | "coverImage">): GuideCoverImage | undefined {
+export function resolveGuideCover(
+  guide: Pick<Guide, "slug" | "coverImage">,
+): GuideCoverImage | undefined {
   return guide.coverImage ?? getGuideCover(guide.slug);
 }
 
 /** Attache la couverture au guide (source unique pour tout le site) */
 export function attachGuideCover<T extends Guide>(guide: T): T {
-  const cover = getGuideCover(guide.slug);
-  return cover ? { ...guide, coverImage: cover } : guide;
+  const coverImage = getGuideCover(guide.slug);
+  return coverImage ? { ...guide, coverImage } : guide;
 }
 
 /** URL absolue production-safe (encodage accents / espaces, jamais localhost) */
@@ -130,7 +196,7 @@ export function coverToOgInput(cover: GuideCoverImage) {
     width: cover.width,
     height: cover.height,
     alt: cover.alt,
-    type: OG_IMAGE_TYPE,
+    type: COVER_IMAGE_TYPE,
   };
 }
 

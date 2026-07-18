@@ -1,4 +1,6 @@
 import { GuideInlineToc } from "@/site/guides";
+import { CoverFigure } from "@/site/guides/CoverFigure";
+import { FAQ_COVER } from "@/site/guides/covers";
 import {
   FAQ_PAGE_INTRO,
   FAQ_PAGE_OUTRO_SEGMENTS,
@@ -15,6 +17,7 @@ export function FaqPageContent() {
     <div className="faq-page">
       <div className="faq-page__header">
         <p className="faq-page__intro">{FAQ_PAGE_INTRO}</p>
+        <CoverFigure cover={FAQ_COVER} priority />
         <p className="faq-page__updated">Dernière mise à jour : {FAQ_PAGE_UPDATED}</p>
         <GuideInlineToc entries={toc} title="Sommaire" />
       </div>

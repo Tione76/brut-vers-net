@@ -97,6 +97,7 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
           faqTitle={guide.faqTitle}
           faqIntro={guide.faqIntro}
           conclusion={guide.conclusion}
+          cover={resolveGuideCover(guide)}
         />
       </GuidePageLayout>
     </>

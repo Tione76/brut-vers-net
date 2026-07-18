@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { EditorialBenefitItem } from "@/site/editorial-check-icon";
+import { CoverFigure } from "@/site/guides/CoverFigure";
+import { getCalculatorCover } from "@/site/guides/covers";
 import { GuideIllustration } from "@/site/guides/illustrations";
 import { OvertimeCalculatorCta } from "./OvertimeCalculatorCta";
 import {
@@ -26,6 +28,7 @@ const revisedDateLabel = new Date(OVERTIME_EDITORIAL_UPDATED_AT).toLocaleDateStr
 const oneHour = exampleOneHourAt25();
 const tenHours = exampleTenHoursNonExecutive();
 const practicalCases = buildOvertimePracticalCases();
+const overtimeCover = getCalculatorCover("salaire-heures-supplementaires");
 
 function OvertimeFaqContent() {
   return (
@@ -58,6 +61,9 @@ export function OvertimeSalaryEditorial() {
               réellement vous rapporter ? Ce calculateur d&apos;heures supplémentaires estime le
               montant brut et net de vos heures majorées, puis votre nouveau salaire mensuel.
             </p>
+
+            <CoverFigure cover={overtimeCover} priority />
+
             <p className="home-editorial__prose">
               La simulation s&apos;adresse aux salariés à temps plein du secteur privé sur une base
               de 35 heures. Le résultat reste indicatif : votre{" "}

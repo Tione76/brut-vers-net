@@ -1,6 +1,5 @@
 /**
- * Mapping couverture : route / identifiant → fichier OG
- * Garde les noms de fichiers d'origine (casse, accents, espaces).
+ * Mapping couverture : route / identifiant → fichier covers/
  */
 import { describe, expect, it } from "vitest";
 import {
@@ -10,25 +9,26 @@ import {
   GUIDES_HUB_COVER,
   HOME_COVER,
   TOOLS_HUB_COVER,
+  formatCoverCredit,
   getCalculatorCover,
   getGuideCover,
   toAbsoluteAssetUrl,
 } from "./covers";
 
 describe("covers registry", () => {
-  it("maps each calculator to a dedicated webp under /images/og/", () => {
+  it("maps each calculator to a dedicated webp under /images/covers/", () => {
     for (const [id, cover] of Object.entries(CALCULATOR_COVERS)) {
-      expect(cover.src.startsWith("/images/og/"), id).toBe(true);
+      expect(cover.src.startsWith("/images/covers/"), id).toBe(true);
       expect(cover.src.endsWith(".webp"), id).toBe(true);
-      expect(cover.width).toBe(1200);
-      expect(cover.height).toBe(630);
       expect(cover.alt.length).toBeGreaterThan(5);
+      expect(cover.credit.photographer.length).toBeGreaterThan(1);
+      expect(["Pexels", "Unsplash"]).toContain(cover.credit.source);
     }
     expect(getCalculatorCover("augmentation-salaire").src).toContain(
-      "calcul-augmentation-de-salaire.webp",
+      "Calculateur-augmentation-salaire.webp",
     );
     expect(getCalculatorCover("indemnite-licenciement").src).toContain(
-      "Calcul-indemnit",
+      "Simulateur-indemnit",
     );
   });
 
@@ -43,31 +43,24 @@ describe("covers registry", () => {
       ]),
     );
     expect(getGuideCover("comment-est-calcule-le-salaire-net")?.src).toContain(
-      "Diff",
+      "Comment-calculer-salaire-net.webp",
     );
   });
 
-  it("exposes hub and FAQ covers", () => {
-    expect(HOME_COVER.src).toContain("Calculer-salaire-brut-vers-net.webp");
-    expect(GUIDES_HUB_COVER.src).toContain("Guides.webp");
-    expect(TOOLS_HUB_COVER.src).toContain("Nos outils.webp");
-    expect(FAQ_COVER.src).toContain("FAQ.webp");
+  it("exposes hub and FAQ covers with credits", () => {
+    expect(HOME_COVER.src).toContain("Calculateur-brut-vers-net.webp");
+    expect(GUIDES_HUB_COVER.src).toContain("Guides-salaire-im");
+    expect(TOOLS_HUB_COVER.src).toContain("Calculateurs-salaire.webp");
+    expect(FAQ_COVER.src).toContain("Questions-sur-le-salaire.webp");
+    expect(formatCoverCredit(HOME_COVER.credit)).toBe("Photo de Kindel Media via Pexels");
   });
 
-  it("encodes accents and spaces in absolute asset URLs", () => {
+  it("encodes accents in absolute asset URLs", () => {
     const url = toAbsoluteAssetUrl(
       "https://brut-vers-net.fr",
-      "/images/og/Le-prélèvement-à-la-source.webp",
+      "/images/covers/guides/Prélèvement-à-la-source.webp",
     );
-    expect(url).toBe(
-      "https://brut-vers-net.fr/images/og/Le-pr%C3%A9l%C3%A8vement-%C3%A0-la-source.webp",
-    );
+    expect(url).toContain("Pr%C3%A9l%C3%A8vement-%C3%A0-la-source.webp");
     expect(url).not.toContain("localhost");
-
-    const spaced = toAbsoluteAssetUrl(
-      "https://brut-vers-net.fr",
-      "/images/og/Nos outils.webp",
-    );
-    expect(spaced).toContain("Nos%20outils.webp");
   });
 });

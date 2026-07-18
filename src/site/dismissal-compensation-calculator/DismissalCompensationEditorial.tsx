@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { EditorialBenefitItem } from "@/site/editorial-check-icon";
+import { CoverFigure } from "@/site/guides/CoverFigure";
+import { getCalculatorCover } from "@/site/guides/covers";
 import { DismissalCalculatorCta } from "./DismissalCalculatorCta";
 import {
   DISMISSAL_CONTENT_REVIEW_DATE,
@@ -16,6 +18,8 @@ const revisedDateLabel = new Date(DISMISSAL_CONTENT_REVIEW_DATE).toLocaleDateStr
   month: "long",
   year: "numeric",
 });
+
+const dismissalCover = getCalculatorCover("indemnite-licenciement");
 
 function DismissalFaqContent() {
   return (
@@ -47,6 +51,9 @@ export function DismissalCompensationEditorial() {
             estimation du minimum légal à partir de votre salaire brut de référence, de votre
             ancienneté et du motif de la rupture.
           </p>
+
+          <CoverFigure cover={dismissalCover} priority />
+
           <p className="home-editorial__prose">
             Il s&apos;adresse principalement aux salariés en CDI du secteur privé. Le résultat reste
             indicatif : votre convention collective, votre contrat de travail, certaines interruptions

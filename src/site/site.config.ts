@@ -50,7 +50,7 @@ export const siteConfig = {
     height: 800,
   },
   favicon: "/logo-icon.png?v=3",
-  ogImage: "/images/og/Calculer-salaire-brut-vers-net.webp",
+  ogImage: "/images/covers/calculateurs/Calculateur-brut-vers-net.webp",
 
   footerBrandName: "BRUT-VERS-NET.FR",
   footerDescription:

@@ -1,6 +1,6 @@
 /**
- * Convertit les images déposées dans public/images/og/_incoming/
- * en .webp (1200×630) en conservant le nom de fichier d'origine.
+ * Utilitaire legacy : conversion d'images déposées dans public/images/og/_incoming/
+ * Les illustrations de production vivent désormais dans public/images/covers/.
  *
  * Usage : npm run convert:og-images
  */
