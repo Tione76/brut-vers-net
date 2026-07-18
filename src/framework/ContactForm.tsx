@@ -1,6 +1,11 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import {
+  CONTACT_ERROR_MESSAGE,
+  CONTACT_LIMITS,
+  CONTACT_SUCCESS_MESSAGE,
+} from "@/site/contact/contact-mail";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -16,26 +21,55 @@ export function ContactForm({ subjects, trustNote }: ContactFormProps) {
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [website, setWebsite] = useState("");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const feedbackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if ((success || formError) && feedbackRef.current) {
+      feedbackRef.current.focus();
+    }
+  }, [success, formError]);
 
   function validate(): FieldErrors {
     const errors: FieldErrors = {};
-    if (!name.trim()) errors.name = "Le nom est obligatoire.";
-    if (!email.trim()) {
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+    const trimmedMessage = message.trim();
+
+    if (!trimmedName) errors.name = "Le nom est obligatoire.";
+    else if (trimmedName.length > CONTACT_LIMITS.name) {
+      errors.name = `Le nom ne doit pas dépasser ${CONTACT_LIMITS.name} caractères.`;
+    }
+
+    if (!trimmedEmail) {
       errors.email = "L'adresse e-mail est obligatoire.";
-    } else if (!EMAIL_PATTERN.test(email.trim())) {
+    } else if (trimmedEmail.length > CONTACT_LIMITS.email) {
+      errors.email = `L'adresse e-mail ne doit pas dépasser ${CONTACT_LIMITS.email} caractères.`;
+    } else if (!EMAIL_PATTERN.test(trimmedEmail)) {
       errors.email = "L'adresse e-mail n'est pas valide.";
     }
+
     if (!subject) errors.subject = "Veuillez choisir un sujet.";
-    if (!message.trim()) errors.message = "Le message est obligatoire.";
+    else if (subject.length > CONTACT_LIMITS.subject) {
+      errors.subject = `Le sujet ne doit pas dépasser ${CONTACT_LIMITS.subject} caractères.`;
+    }
+
+    if (!trimmedMessage) errors.message = "Le message est obligatoire.";
+    else if (trimmedMessage.length > CONTACT_LIMITS.message) {
+      errors.message = `Le message ne doit pas dépasser ${CONTACT_LIMITS.message} caractères.`;
+    }
+
     return errors;
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (submitting) return;
+
     setFormError(null);
     setSuccess(false);
 
@@ -53,13 +87,14 @@ export function ContactForm({ subjects, trustNote }: ContactFormProps) {
           email: email.trim(),
           subject,
           message: message.trim(),
+          website,
         }),
       });
 
-      const data = (await response.json()) as { error?: string };
+      const data = (await response.json()) as { error?: string; success?: boolean };
 
       if (!response.ok) {
-        setFormError(data.error ?? "L'envoi a échoué. Réessayez plus tard.");
+        setFormError(data.error ?? CONTACT_ERROR_MESSAGE);
         return;
       }
 
@@ -68,9 +103,10 @@ export function ContactForm({ subjects, trustNote }: ContactFormProps) {
       setEmail("");
       setSubject("");
       setMessage("");
+      setWebsite("");
       setFieldErrors({});
     } catch {
-      setFormError("L'envoi a échoué. Vérifiez votre connexion ou écrivez-nous directement par e-mail.");
+      setFormError(CONTACT_ERROR_MESSAGE);
     } finally {
       setSubmitting(false);
     }
@@ -78,19 +114,40 @@ export function ContactForm({ subjects, trustNote }: ContactFormProps) {
 
   return (
     <>
-      {success && (
-        <p className="ds-form-feedback ds-form-feedback--success" role="status">
-          Votre message a bien été envoyé. Nous vous répondrons dans les meilleurs délais.
-        </p>
-      )}
+      <div
+        ref={feedbackRef}
+        tabIndex={-1}
+        className="ds-form-feedback-region"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {success && (
+          <p className="ds-form-feedback ds-form-feedback--success" role="status">
+            {CONTACT_SUCCESS_MESSAGE}
+          </p>
+        )}
 
-      {formError && (
-        <p className="ds-form-feedback ds-form-feedback--error" role="alert">
-          {formError}
-        </p>
-      )}
+        {formError && (
+          <p className="ds-form-feedback ds-form-feedback--error" role="alert">
+            {formError}
+          </p>
+        )}
+      </div>
 
       <form className="ds-form" onSubmit={handleSubmit} noValidate>
+        <div className="ds-hp" aria-hidden="true">
+          <label htmlFor="contact-website">Site web</label>
+          <input
+            id="contact-website"
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+        </div>
+
         <div>
           <label htmlFor="contact-name" className="ds-field-label">
             Nom
@@ -101,6 +158,7 @@ export function ContactForm({ subjects, trustNote }: ContactFormProps) {
             name="name"
             autoComplete="name"
             required
+            maxLength={CONTACT_LIMITS.name}
             className="ds-input"
             placeholder="Votre nom"
             value={name}
@@ -125,6 +183,7 @@ export function ContactForm({ subjects, trustNote }: ContactFormProps) {
             name="email"
             autoComplete="email"
             required
+            maxLength={CONTACT_LIMITS.email}
             className="ds-input"
             placeholder="Votre adresse e-mail"
             value={email}
@@ -179,6 +238,7 @@ export function ContactForm({ subjects, trustNote }: ContactFormProps) {
             className="ds-textarea"
             placeholder="Décrivez votre demande"
             required
+            maxLength={CONTACT_LIMITS.message}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             aria-invalid={Boolean(fieldErrors.message)}
@@ -191,7 +251,13 @@ export function ContactForm({ subjects, trustNote }: ContactFormProps) {
           )}
         </div>
 
-        <button type="submit" className="ds-btn ds-btn--primary" disabled={submitting}>
+        <button
+          type="submit"
+          className="ds-btn ds-btn--primary"
+          disabled={submitting}
+          aria-disabled={submitting}
+          aria-busy={submitting}
+        >
           {submitting ? "Envoi en cours…" : "Envoyer"}
         </button>
       </form>

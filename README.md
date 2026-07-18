@@ -174,9 +174,14 @@ Variables `.env.local` :
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_GSC_ID=xxxxxxxxxxxxxxxx
 NEXT_PUBLIC_ADSENSE_ID=ca-pub-XXXXXXXXXX
+
+# Formulaire de contact (serveur uniquement)
+RESEND_API_KEY=
+CONTACT_EMAIL=contact@brut-vers-net.fr
+CONTACT_FROM_EMAIL=Formulaire Brut vers Net <contact@brut-vers-net.fr>
 ```
 
-Analytics et AdSense ne se chargent qu'**après consentement** (Google Consent Mode v2).
+Voir aussi `.env.example`. Analytics et AdSense ne se chargent qu'**après consentement** (Google Consent Mode v2).
 
 ---
 

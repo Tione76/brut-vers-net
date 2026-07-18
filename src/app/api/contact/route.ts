@@ -1,178 +1,81 @@
 import { NextResponse } from "next/server";
-import { config } from "@/site";
-
-const ALLOWED_SUBJECTS = [
-  "Signaler une erreur",
-  "Suggestion d'amélioration",
-  "Autre demande",
-] as const;
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-interface ContactPayload {
-  name?: string;
-  email?: string;
-  subject?: string;
-  message?: string;
-}
-
-interface ResendErrorBody {
-  statusCode?: number;
-  name?: string;
-  message?: string;
-}
-
-function readEnv(key: string, fallback?: string): string {
-  const raw = process.env[key] ?? fallback ?? "";
-  return raw.trim().replace(/^["']|["']$/g, "");
-}
-
-/** Extrait l'adresse d'un champ "Nom <email@domaine.fr>" ou renvoie la valeur telle quelle */
-function extractEmailAddress(value: string): string {
-  const trimmed = value.trim();
-  const match = trimmed.match(/<([^>]+)>/);
-  return (match ? match[1] : trimmed).trim();
-}
-
-function parseRecipientList(value: string): string[] {
-  return value
-    .split(",")
-    .map((entry) => extractEmailAddress(entry))
-    .filter((entry) => EMAIL_PATTERN.test(entry));
-}
-
-function normalizeFromAddress(value: string): string {
-  const trimmed = value.trim().replace(/^["']|["']$/g, "");
-  if (/<[^>]+>/.test(trimmed)) return trimmed;
-  if (EMAIL_PATTERN.test(trimmed)) return `${config.footerBrandName} <${trimmed}>`;
-  return trimmed;
-}
-
-function validatePayload(body: ContactPayload) {
-  const name = body.name?.trim() ?? "";
-  const email = body.email?.trim() ?? "";
-  const subject = body.subject?.trim() ?? "";
-  const message = body.message?.trim() ?? "";
-
-  if (!name) return { error: "Le nom est obligatoire." };
-  if (!email) return { error: "L'adresse e-mail est obligatoire." };
-  if (!EMAIL_PATTERN.test(email)) return { error: "L'adresse e-mail n'est pas valide." };
-  if (!subject || !ALLOWED_SUBJECTS.includes(subject as (typeof ALLOWED_SUBJECTS)[number])) {
-    return { error: "Veuillez choisir un sujet valide." };
-  }
-  if (!message) return { error: "Le message est obligatoire." };
-
-  return { name, email, subject, message };
-}
-
-async function readResendError(response: Response): Promise<ResendErrorBody & { raw?: string }> {
-  const raw = await response.text();
-  try {
-    return JSON.parse(raw) as ResendErrorBody;
-  } catch (parseError) {
-    return {
-      message: parseError instanceof Error ? parseError.message : "Réponse Resend illisible",
-      raw,
-    };
-  }
-}
+import { Resend } from "resend";
+import { siteConfig } from "@/site/site.config";
+import {
+  buildContactEmailContent,
+  CONTACT_ERROR_MESSAGE,
+  getContactFromAddress,
+  getContactRecipient,
+  getResendApiKey,
+  isHoneypotFilled,
+  isTrustedContactOrigin,
+  type ContactPayload,
+  validateContactPayload,
+} from "@/site/contact/contact-mail";
 
 export async function POST(request: Request) {
-  const apiKey = readEnv("RESEND_API_KEY");
+  if (!isTrustedContactOrigin(request, siteConfig.url)) {
+    return NextResponse.json({ error: CONTACT_ERROR_MESSAGE }, { status: 403 });
+  }
+
+  const apiKey = getResendApiKey();
   if (!apiKey) {
-    console.error("[contact] RESEND_API_KEY manquante");
-    return NextResponse.json(
-      { error: `Le service d'envoi n'est pas configuré. Écrivez-nous à ${config.contact.email}.` },
-      { status: 503 },
-    );
+    console.error("[contact] Configuration d'envoi manquante");
+    return NextResponse.json({ error: CONTACT_ERROR_MESSAGE }, { status: 500 });
   }
 
   let body: ContactPayload;
   try {
     body = (await request.json()) as ContactPayload;
-  } catch (error) {
-    console.error("[contact] Corps JSON invalide", {
-      message: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined,
-    });
+  } catch {
     return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
   }
 
-  const validated = validatePayload(body);
-  if ("error" in validated) {
+  // Honeypot : réponse générique de succès, sans envoi
+  if (isHoneypotFilled(body)) {
+    return NextResponse.json({ success: true });
+  }
+
+  const validated = validateContactPayload(body);
+  if (!validated.ok) {
     return NextResponse.json({ error: validated.error }, { status: 400 });
   }
 
-  const { name, email, subject, message } = validated;
-  const to = parseRecipientList(readEnv("CONTACT_TO_EMAIL", config.contact.email));
-  const from = normalizeFromAddress(
-    readEnv("CONTACT_FROM_EMAIL", `${config.footerBrandName} <noreply@${config.domain}>`),
-  );
+  const to = getContactRecipient();
+  const from = getContactFromAddress();
 
   if (to.length === 0) {
-    console.error("[contact] CONTACT_TO_EMAIL invalide", {
-      contactToEmail: readEnv("CONTACT_TO_EMAIL"),
-    });
-    return NextResponse.json(
-      { error: `Configuration destinataire invalide. Écrivez-nous à ${config.contact.email}.` },
-      { status: 500 },
-    );
+    console.error("[contact] Destinataire invalide");
+    return NextResponse.json({ error: CONTACT_ERROR_MESSAGE }, { status: 500 });
   }
 
-  const payload = {
-    from,
-    to,
-    reply_to: [email],
-    subject: `[Contact ${config.footerBrandName}] ${subject}`,
-    text: [`Nom : ${name}`, `E-mail : ${email}`, `Sujet : ${subject}`, "", message].join("\n"),
-  };
+  const emailContent = buildContactEmailContent(validated.data);
 
-  console.info("[contact] Envoi Resend", { from, to, replyTo: email, subject: payload.subject });
-
-  let response: Response;
   try {
-    response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
+    const resend = new Resend(apiKey);
+    const { data, error } = await resend.emails.send({
+      from,
+      to,
+      replyTo: validated.data.email,
+      subject: emailContent.subject,
+      text: emailContent.text,
+      html: emailContent.html,
     });
+
+    if (error) {
+      console.error("[contact] Échec d'envoi Resend", {
+        name: error.name,
+        message: error.message,
+      });
+      return NextResponse.json({ error: CONTACT_ERROR_MESSAGE }, { status: 500 });
+    }
+
+    console.info("[contact] E-mail envoyé", { id: data?.id ?? null });
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("[contact] Échec réseau vers Resend", {
-      message: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined,
-      from,
-      to,
+    console.error("[contact] Exception d'envoi", {
+      message: error instanceof Error ? error.message : "unknown",
     });
-    return NextResponse.json(
-      { error: "L'envoi a échoué. Réessayez plus tard ou écrivez-nous directement par e-mail." },
-      { status: 502 },
-    );
+    return NextResponse.json({ error: CONTACT_ERROR_MESSAGE }, { status: 500 });
   }
-
-  if (!response.ok) {
-    const resendError = await readResendError(response);
-    console.error("[contact] Erreur Resend", {
-      httpStatus: response.status,
-      httpStatusText: response.statusText,
-      from,
-      to,
-      resendStatusCode: resendError.statusCode,
-      resendName: resendError.name,
-      resendMessage: resendError.message,
-      resendRaw: resendError.raw,
-    });
-
-    return NextResponse.json(
-      { error: "L'envoi a échoué. Réessayez plus tard ou écrivez-nous directement par e-mail." },
-      { status: 502 },
-    );
-  }
-
-  const result = (await response.json()) as { id?: string };
-  console.info("[contact] E-mail envoyé", { id: result.id, to });
-
-  return NextResponse.json({ success: true });
 }

@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  position: relative;
 }
 
 .ds-field-label {
@@ -158,4 +159,24 @@
 .ds-btn:disabled {
   opacity: 0.65;
   cursor: not-allowed;
+}
+
+.ds-form-feedback-region:focus {
+  outline: none;
+}
+
+.ds-form-feedback-region:focus-visible {
+  outline: 2px solid var(--ds-brand);
+  outline-offset: 2px;
+  border-radius: var(--ds-radius);
+}
+
+/* Honeypot antispam : invisible aux utilisateurs, présent pour les bots */
+.ds-hp {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
