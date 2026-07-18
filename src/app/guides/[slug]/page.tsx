@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { config, seoConfig } from "@/site";
 import {
-  buildArticleSchema,
   buildGuideTocH2,
   computeReadingTime,
   getAllGuideSlugs,
@@ -15,7 +14,7 @@ import { coverToOgInput } from "@/site/guides/covers";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
-import { buildBreadcrumbSchema, buildFaqSchema } from "@/framework/seo/json-ld";
+import { buildGuideJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
 import "@/site/guides/guide-page.css";
 
@@ -50,23 +49,12 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
   const guide = getGuideBySlug(slug);
   if (!guide) notFound();
 
-  const path = `/guides/${slug}`;
   const readingTime = computeReadingTime(guide);
   const toc = buildGuideTocH2(guide);
 
   return (
     <>
-      <JsonLd
-        data={[
-          buildArticleSchema(config, guide, path),
-          buildBreadcrumbSchema(config, [
-            { name: "Accueil", path: "/" },
-            { name: seoConfig.guidesHub.h1, path: seoConfig.guidesHub.path },
-            { name: guide.title, path },
-          ]),
-          ...(guide.faq.length > 0 ? [buildFaqSchema(guide.faq)] : []),
-        ]}
-      />
+      <JsonLd data={buildGuideJsonLd(guide)} />
       <GuidePageLayout
         title={guide.title}
         subtitle={guide.subtitle}

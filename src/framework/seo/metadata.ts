@@ -46,12 +46,24 @@ export function getCanonicalUrl(url: string, path: string): string {
 
 function toAbsoluteAssetUrl(siteUrl: string, assetPath: string): string {
   if (/^https?:\/\//i.test(assetPath)) return assetPath;
-  const pathname = assetPath.startsWith("/") ? assetPath : `/${assetPath}`;
+  const raw = assetPath.startsWith("/") ? assetPath : `/${assetPath}`;
+  const queryIndex = raw.indexOf("?");
+  const hashIndex = raw.indexOf("#");
+  const cutAt =
+    queryIndex >= 0 && hashIndex >= 0
+      ? Math.min(queryIndex, hashIndex)
+      : queryIndex >= 0
+        ? queryIndex
+        : hashIndex >= 0
+          ? hashIndex
+          : -1;
+  const pathname = cutAt >= 0 ? raw.slice(0, cutAt) : raw;
+  const suffix = cutAt >= 0 ? raw.slice(cutAt) : "";
   const encodedPath = pathname
     .split("/")
     .map((segment) => (segment === "" ? "" : encodeURIComponent(segment)))
     .join("/");
-  return `${siteUrl.replace(/\/$/, "")}${encodedPath}`;
+  return `${siteUrl.replace(/\/$/, "")}${encodedPath}${suffix}`;
 }
 
 function resolveOgImage(

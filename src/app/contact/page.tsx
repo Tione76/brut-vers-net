@@ -4,7 +4,7 @@ import { ContactPageContent } from "@/site/contact/ContactPageContent";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
-import { buildBreadcrumbSchema, buildWebPageSchema } from "@/framework/seo/json-ld";
+import { buildWebPageJsonLd } from "@/site/schema";
 import "@/site/guides/guide-page.css";
 
 const page = seoConfig.legal.contact;
@@ -22,13 +22,15 @@ export default function ContactPage() {
   return (
     <>
       <JsonLd
-        data={[
-          buildWebPageSchema(config, page.title, page.description, path),
-          buildBreadcrumbSchema(config, [
+        data={buildWebPageJsonLd({
+          path,
+          name: page.title,
+          description: page.description,
+          breadcrumbs: [
             { name: "Accueil", path: "/" },
             { name: page.title, path },
-          ]),
-        ]}
+          ],
+        })}
       />
       <GuidePageLayout
         title={page.title}

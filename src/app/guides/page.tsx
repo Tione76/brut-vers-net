@@ -13,15 +13,11 @@ import {
   GUIDES_HUB_LIST_TITLE,
   GUIDES_HUB_PAGE_SUBTITLE,
 } from "@/site/guides/guides-hub-data";
-import { coverToOgInput, coverToSchemaImage, GUIDES_HUB_COVER } from "@/site/guides/covers";
+import { coverToOgInput, GUIDES_HUB_COVER } from "@/site/guides/covers";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
-import {
-  buildBreadcrumbSchema,
-  buildCollectionPageSchema,
-  buildFaqSchema,
-} from "@/framework/seo/json-ld";
+import { buildHubJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
 import "@/site/guides/guide-page.css";
 import "@/site/tools/tools-hub.css";
@@ -42,20 +38,14 @@ export default function GuidesHubPage() {
   return (
     <>
       <JsonLd
-        data={[
-          buildCollectionPageSchema(
-            config,
-            hub.title,
-            hub.description,
-            path,
-            coverToSchemaImage(GUIDES_HUB_COVER),
-          ),
-          buildBreadcrumbSchema(config, [
-            { name: "Accueil", path: "/" },
-            { name: hub.h1, path },
-          ]),
-          buildFaqSchema(GUIDES_HUB_FAQ),
-        ]}
+        data={buildHubJsonLd({
+          path,
+          name: hub.title,
+          description: hub.description,
+          hubLabel: hub.h1,
+          cover: GUIDES_HUB_COVER,
+          faq: GUIDES_HUB_FAQ,
+        })}
       />
       <GuidePageLayout
         title={hub.h1}

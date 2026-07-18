@@ -5,7 +5,7 @@ import { SitemapPageContent } from "@/site/sitemap/SitemapPageContent";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
-import { buildBreadcrumbSchema, buildWebPageSchema } from "@/framework/seo/json-ld";
+import { buildWebPageJsonLd } from "@/site/schema";
 import "@/site/guides/guide-page.css";
 
 const page = seoConfig.legal.sitemap;
@@ -24,13 +24,15 @@ export default function SitemapPage() {
   return (
     <>
       <JsonLd
-        data={[
-          buildWebPageSchema(config, page.title, metaDescription, path),
-          buildBreadcrumbSchema(config, [
+        data={buildWebPageJsonLd({
+          path,
+          name: page.title,
+          description: metaDescription,
+          breadcrumbs: [
             { name: "Accueil", path: "/" },
             { name: page.title, path },
-          ]),
-        ]}
+          ],
+        })}
       />
       <GuidePageLayout
         title={page.title}

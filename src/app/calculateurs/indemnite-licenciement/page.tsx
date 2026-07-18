@@ -1,15 +1,11 @@
 import { config, seoConfig } from "@/site";
-import { coverToOgInput, coverToSchemaImage, getCalculatorCover } from "@/site/guides/covers";
+import { coverToOgInput, getCalculatorCover } from "@/site/guides/covers";
 import { DismissalCompensationPageSidebar } from "@/site/dismissal-compensation-calculator/dismissal-sidebar";
 import { ToolCalculatorPageLayout } from "@/framework/layouts/ToolCalculatorPageLayout";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
-import {
-  buildBreadcrumbSchema,
-  buildFaqSchema,
-  buildWebApplicationSchema,
-} from "@/framework/seo/json-ld";
+import { buildCalculatorJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
 import {
   DISMISSAL_DISCLAIMER,
@@ -38,18 +34,14 @@ export default function DismissalCompensationCalculatorPage() {
   return (
     <>
       <JsonLd
-        data={[
-          buildWebApplicationSchema(config, calc.h1, calc.description, {
-            dateModified: DISMISSAL_CONTENT_REVIEW_DATE,
-            image: coverToSchemaImage(cover),
-          }),
-          buildBreadcrumbSchema(config, [
-            { name: "Accueil", path: "/" },
-            { name: "Outils", path: seoConfig.toolsHub.path },
-            { name: calc.h1, path },
-          ]),
-          buildFaqSchema(dismissalFaq),
-        ]}
+        data={buildCalculatorJsonLd({
+          path,
+          name: calc.h1,
+          description: calc.description,
+          cover,
+          faq: dismissalFaq,
+          dateModified: DISMISSAL_CONTENT_REVIEW_DATE,
+        })}
       />
       <ToolCalculatorPageLayout
         h1="Calculez votre indemnité de licenciement"

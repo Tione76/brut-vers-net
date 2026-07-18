@@ -1,15 +1,11 @@
 import { config, seoConfig } from "@/site";
-import { coverToOgInput, coverToSchemaImage, getCalculatorCover } from "@/site/guides/covers";
+import { coverToOgInput, getCalculatorCover } from "@/site/guides/covers";
 import { OvertimeSalaryPageSidebar } from "@/site/overtime-salary-calculator/overtime-sidebar";
 import { ToolCalculatorPageLayout } from "@/framework/layouts/ToolCalculatorPageLayout";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
-import {
-  buildBreadcrumbSchema,
-  buildFaqSchema,
-  buildWebApplicationSchema,
-} from "@/framework/seo/json-ld";
+import { buildCalculatorJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
 import {
   OVERTIME_DISCLAIMER,
@@ -38,18 +34,14 @@ export default function OvertimeSalaryCalculatorPage() {
   return (
     <>
       <JsonLd
-        data={[
-          buildWebApplicationSchema(config, calc.h1, calc.description, {
-            dateModified: OVERTIME_EDITORIAL_UPDATED_AT,
-            image: coverToSchemaImage(cover),
-          }),
-          buildBreadcrumbSchema(config, [
-            { name: "Accueil", path: "/" },
-            { name: "Outils", path: seoConfig.toolsHub.path },
-            { name: calc.h1, path },
-          ]),
-          buildFaqSchema(overtimeFaq),
-        ]}
+        data={buildCalculatorJsonLd({
+          path,
+          name: calc.h1,
+          description: calc.description,
+          cover,
+          faq: overtimeFaq,
+          dateModified: OVERTIME_EDITORIAL_UPDATED_AT,
+        })}
       />
       <ToolCalculatorPageLayout
         h1="Calculez votre salaire avec heures supplémentaires"

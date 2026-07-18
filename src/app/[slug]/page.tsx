@@ -4,7 +4,7 @@ import { ContentPageLayout } from "@/framework/layouts/ContentPageLayout";
 import { LegalContent } from "@/framework/LegalContent";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
-import { buildBreadcrumbSchema, buildWebPageSchema } from "@/framework/seo/json-ld";
+import { buildWebPageJsonLd } from "@/site/schema";
 import { getExtraPage, getExtraPageSlugs } from "@/framework/seo/pages";
 
 interface Props {
@@ -31,16 +31,20 @@ export default async function ExtraPage({ params }: Props) {
   const page = getExtraPage(seoConfig, slug);
   if (!page) notFound();
 
+  const path = `/${slug}`;
+
   return (
     <>
       <JsonLd
-        data={[
-          buildWebPageSchema(config, page.title, page.description, `/${slug}`),
-          buildBreadcrumbSchema(config, [
+        data={buildWebPageJsonLd({
+          path,
+          name: page.title,
+          description: page.description,
+          breadcrumbs: [
             { name: "Accueil", path: "/" },
-            { name: page.title, path: `/${slug}` },
-          ]),
-        ]}
+            { name: page.title, path },
+          ],
+        })}
       />
       <ContentPageLayout meta="Guide" title={page.title}>
         <LegalContent sections={page.sections} />

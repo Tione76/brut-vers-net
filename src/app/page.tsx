@@ -1,14 +1,10 @@
 import { config, seoConfig, Calculator } from "@/site";
-import { coverToOgInput, coverToSchemaImage, HOME_COVER } from "@/site/guides/covers";
+import { coverToOgInput, HOME_COVER } from "@/site/guides/covers";
 import { CalculatorPageLayout } from "@/framework/layouts/CalculatorPageLayout";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
-import {
-  buildBreadcrumbSchema,
-  buildFaqSchema,
-  buildOrganizationSchema,
-  buildWebApplicationSchema,
-} from "@/framework/seo/json-ld";
+import { buildHomeJsonLd } from "@/site/schema";
+import { HOME_EDITORIAL_UPDATED_AT } from "@/site/home-editorial-data";
 
 export const metadata = buildPageMetadata(config, seoConfig, {
   title: seoConfig.home.title,
@@ -21,15 +17,13 @@ export default function HomePage() {
   return (
     <>
       <JsonLd
-        data={[
-          buildWebApplicationSchema(config, seoConfig.home.title, seoConfig.home.description, {
-            dateModified: "2026-07-01",
-            image: coverToSchemaImage(HOME_COVER),
-          }),
-          buildOrganizationSchema(config),
-          buildBreadcrumbSchema(config, [{ name: "Accueil", path: "/" }]),
-          ...(config.faq.length > 0 ? [buildFaqSchema(config.faq)] : []),
-        ]}
+        data={buildHomeJsonLd({
+          name: seoConfig.home.title,
+          description: seoConfig.home.description,
+          cover: HOME_COVER,
+          faq: config.faq,
+          dateModified: HOME_EDITORIAL_UPDATED_AT,
+        })}
       />
       <CalculatorPageLayout Calculator={Calculator} />
     </>

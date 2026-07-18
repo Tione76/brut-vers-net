@@ -23,12 +23,10 @@ export {
   getGuideBySlug,
   getPublishedGuideSlugs,
 } from "./registry";
-export { buildArticleSchema } from "./schema";
 export { buildGuideToc, buildGuideTocH2, computeReadingTime } from "./utils";
 export {
   attachGuideCover,
   coverToOgInput,
-  coverToSchemaImage,
   getCalculatorCover,
   getGuideCover,
   getGuideCoverByHref,

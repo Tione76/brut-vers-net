@@ -1,7 +1,7 @@
 import { config, seoConfig } from "@/site";
 import { getAllCalculators } from "@/site/navigation/calculators-registry";
 import { GuidePageLayout, ToolsHubSidebar } from "@/site/guides";
-import { coverToOgInput, coverToSchemaImage, TOOLS_HUB_COVER } from "@/site/guides/covers";
+import { coverToOgInput, TOOLS_HUB_COVER } from "@/site/guides/covers";
 import { ToolListCard } from "@/site/tools/ToolListCard";
 import { ToolsHubEditorial, ToolsHubWhySection } from "@/site/tools/tools-hub-editorial";
 import { ToolsHubFaq } from "@/site/tools/tools-hub-faq";
@@ -16,11 +16,7 @@ import {
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
-import {
-  buildBreadcrumbSchema,
-  buildCollectionPageSchema,
-  buildFaqSchema,
-} from "@/framework/seo/json-ld";
+import { buildHubJsonLd } from "@/site/schema";
 import "@/site/guides/guide-page.css";
 import "@/site/tools/tools-hub.css";
 
@@ -39,20 +35,14 @@ export default function ToolsHubPage() {
   return (
     <>
       <JsonLd
-        data={[
-          buildCollectionPageSchema(
-            config,
-            hub.title,
-            hub.description,
-            hub.path,
-            coverToSchemaImage(TOOLS_HUB_COVER),
-          ),
-          buildBreadcrumbSchema(config, [
-            { name: "Accueil", path: "/" },
-            { name: hub.h1, path: hub.path },
-          ]),
-          buildFaqSchema(TOOL_HUB_FAQ),
-        ]}
+        data={buildHubJsonLd({
+          path: hub.path,
+          name: hub.title,
+          description: hub.description,
+          hubLabel: hub.h1,
+          cover: TOOLS_HUB_COVER,
+          faq: TOOL_HUB_FAQ,
+        })}
       />
       <GuidePageLayout
         title={TOOLS_HUB_PAGE_H1}

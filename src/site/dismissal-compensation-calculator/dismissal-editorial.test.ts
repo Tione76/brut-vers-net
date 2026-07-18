@@ -159,7 +159,8 @@ describe("contenu éditorial - indemnité de licenciement", () => {
   });
 
   it("aligne la FAQ visible et le JSON-LD sur la même source", () => {
-    expect(pageSource).toContain("buildFaqSchema(dismissalFaq)");
+    expect(pageSource).toContain("buildCalculatorJsonLd");
+    expect(pageSource).toContain("faq: dismissalFaq");
     expect(pageSource).toContain("from \"@/site/dismissal-compensation-calculator/DismissalCompensationEditorial\"");
     expect(dismissalFaq.length).toBe(16);
     expect(dismissalFaq.some((item) => item.question.includes("temps plein et à temps partiel"))).toBe(

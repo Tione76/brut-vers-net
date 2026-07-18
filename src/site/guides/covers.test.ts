@@ -63,4 +63,10 @@ describe("covers registry", () => {
     expect(url).toContain("Pr%C3%A9l%C3%A8vement-%C3%A0-la-source.webp");
     expect(url).not.toContain("localhost");
   });
+
+  it("preserves cache-busting query strings on absolute asset URLs", () => {
+    expect(toAbsoluteAssetUrl("https://brut-vers-net.fr", "/logo.png?v=2")).toBe(
+      "https://brut-vers-net.fr/logo.png?v=2",
+    );
+  });
 });
