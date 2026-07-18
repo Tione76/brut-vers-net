@@ -171,8 +171,7 @@ Build production : `npm run build` puis `npm start`.
 Variables `.env.local` :
 
 ```env
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
-NEXT_PUBLIC_GSC_ID=xxxxxxxxxxxxxxxx
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_ADSENSE_ID=ca-pub-XXXXXXXXXX
 
 # Formulaire de contact (serveur uniquement)
@@ -181,7 +180,7 @@ CONTACT_EMAIL=contact@brut-vers-net.fr
 CONTACT_FROM_EMAIL=Formulaire Brut vers Net <contact@brut-vers-net.fr>
 ```
 
-Voir aussi `.env.example`. Analytics et AdSense ne se chargent qu'**après consentement** (Google Consent Mode v2).
+Voir aussi `.env.example`. Google Analytics 4 (`@next/third-parties`) et AdSense ne se chargent qu'**après consentement** (Google Consent Mode v2).
 
 ---
 

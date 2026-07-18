@@ -244,6 +244,9 @@ function GuideSidebarGuideCards({ guides }: { guides: GuideSidebarLink[] }) {
             )}
             <span className="guide-sidebar-card__body">
               <span className="guide-sidebar-card__title">{guide.title}</span>
+              {guide.description ? (
+                <span className="guide-sidebar-card__desc">{guide.description}</span>
+              ) : null}
             </span>
           </Link>
         );

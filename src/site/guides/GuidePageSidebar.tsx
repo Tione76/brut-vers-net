@@ -1,10 +1,13 @@
+import Link from "next/link";
 import { GuideSidebar } from "./GuideRenderer";
 import {
   getSidebarGuides,
   getSidebarTools,
   hasSidebarContent,
+  type GuideSidebarLink,
   type SidebarPageType,
 } from "./sidebar";
+import { getGuideBySlug } from "./registry";
 
 export interface SiteSidebarProps {
   pageType: SidebarPageType;
@@ -45,9 +48,60 @@ export function GuidesHubSidebar() {
   return <SiteSidebar pageType="guides-hub" currentPath="/guides" />;
 }
 
-/** Sidebar page hub /nos-outils : guides uniquement */
+const TOOLS_HUB_FEATURED_GUIDES: {
+  slug: string;
+  title: string;
+}[] = [
+  { slug: "comment-lire-une-fiche-de-paie", title: "Comment lire une fiche de paie" },
+  {
+    slug: "cotisations-salariales-pourquoi-brut-plus-eleve-que-net",
+    title: "Comprendre les cotisations salariales",
+  },
+  {
+    slug: "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
+    title: "Comprendre le prélèvement à la source",
+  },
+  { slug: "comment-calculer-son-salaire-net", title: "Comment calculer son salaire net" },
+];
+
+function getToolsHubFeaturedGuides(): GuideSidebarLink[] {
+  return TOOLS_HUB_FEATURED_GUIDES.flatMap(({ slug, title }) => {
+    const guide = getGuideBySlug(slug);
+    if (!guide) return [];
+    return [
+      {
+        slug: guide.slug,
+        href: `/guides/${guide.slug}`,
+        title,
+        description: guide.subtitle || guide.description,
+      },
+    ];
+  });
+}
+
+/**
+ * Sidebar page hub /nos-outils : mêmes cartes cover que FAQ / guides,
+ * uniquement des guides (aucun calculateur).
+ */
 export function ToolsHubSidebar() {
-  return <SiteSidebar pageType="tools-hub" currentPath="/nos-outils" />;
+  const guides = getToolsHubFeaturedGuides();
+  if (guides.length === 0) return null;
+
+  return (
+    <aside className="article-sidebar" aria-label="Guides à découvrir">
+      <GuideSidebar
+        guides={guides}
+        guidesSectionTitle="Guides à découvrir"
+        guidesBlockVariant="guides"
+        showTools={false}
+      />
+      <p className="tools-hub-sidebar-footer">
+        <Link href="/guides" className="tools-hub-sidebar-footer__link">
+          Voir tous les guides
+        </Link>
+      </p>
+    </aside>
+  );
 }
 
 /** Sidebar standard : pages guides */

@@ -5,13 +5,26 @@ import {
   GuideListCard,
   GuidePageLayout,
 } from "@/site/guides";
+import { GuidesHubEditorial, GuidesHubWhySection } from "@/site/guides/guides-hub-editorial";
+import { GuidesHubFaq } from "@/site/guides/guides-hub-faq";
+import {
+  GUIDES_HUB_FAQ,
+  GUIDES_HUB_LIST_INTRO,
+  GUIDES_HUB_LIST_TITLE,
+  GUIDES_HUB_PAGE_SUBTITLE,
+} from "@/site/guides/guides-hub-data";
 import { coverToOgInput, coverToSchemaImage, GUIDES_HUB_COVER } from "@/site/guides/covers";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
-import { buildBreadcrumbSchema, buildCollectionPageSchema } from "@/framework/seo/json-ld";
+import {
+  buildBreadcrumbSchema,
+  buildCollectionPageSchema,
+  buildFaqSchema,
+} from "@/framework/seo/json-ld";
 import { isPathIndexable } from "@/site/public-pages";
 import "@/site/guides/guide-page.css";
+import "@/site/tools/tools-hub.css";
 
 const hub = seoConfig.guidesHub;
 const path = hub.path;
@@ -41,29 +54,37 @@ export default function GuidesHubPage() {
             { name: "Accueil", path: "/" },
             { name: hub.h1, path },
           ]),
+          buildFaqSchema(GUIDES_HUB_FAQ),
         ]}
       />
-      <GuidePageLayout title={hub.h1} subtitle={hub.subtitle} sidebar={<GuidesHubSidebar />}>
+      <GuidePageLayout
+        title={hub.h1}
+        subtitle={GUIDES_HUB_PAGE_SUBTITLE}
+        sidebar={<GuidesHubSidebar />}
+        prose={false}
+      >
         <PageBreadcrumb
           items={[
             { label: "Accueil", href: "/" },
             { label: "Guides" },
           ]}
         />
-        <div className="prose">
-          <p>
-            Nos guides vous aident à comprendre le salaire brut, le salaire net, les cotisations
-            salariales et le calcul brut vers net. Chaque article est rédigé pour être lu facilement,
-            même sans connaissance préalable de la paie.
-          </p>
-        </div>
+        <GuidesHubEditorial />
         {guides.length > 0 && (
-          <div className="guide-list-grid">
-            {guides.map((guide) => (
-              <GuideListCard key={guide.slug} guide={guide} />
-            ))}
-          </div>
+          <section className="guides-hub-list" aria-labelledby="guides-hub-list-title">
+            <h2 id="guides-hub-list-title" className="guides-hub-list__title">
+              {GUIDES_HUB_LIST_TITLE}
+            </h2>
+            <p className="guides-hub-list__intro">{GUIDES_HUB_LIST_INTRO}</p>
+            <div className="guide-list-grid">
+              {guides.map((guide) => (
+                <GuideListCard key={guide.slug} guide={guide} />
+              ))}
+            </div>
+          </section>
         )}
+        <GuidesHubWhySection />
+        <GuidesHubFaq />
       </GuidePageLayout>
     </>
   );

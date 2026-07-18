@@ -29,6 +29,8 @@ export interface GuideSidebarLink {
   title: string;
   href: string;
   slug: string;
+  /** Résumé optionnel (affiché sous le titre dans les cartes cover). */
+  description?: string;
 }
 
 const DEFAULT_TOOL_BADGE = "✓ Outil gratuit";

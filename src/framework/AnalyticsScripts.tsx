@@ -1,58 +1,27 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import Script from "next/script";
-import { usePathname, useSearchParams } from "next/navigation";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { useConsent, useSite } from "@/framework/SiteProvider";
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
+const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
 
-/** Envoie un page_view GA4 à chaque navigation App Router */
-function GoogleAnalyticsPageView({ gaId }: { gaId: string }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    if (typeof window.gtag !== "function") return;
-
-    const query = searchParams.toString();
-    const pagePath = query ? `${pathname}?${query}` : pathname;
-
-    window.gtag("event", "page_view", {
-      page_path: pagePath,
-      page_location: window.location.href,
-      page_title: document.title,
-      send_to: gaId,
-    });
-  }, [pathname, searchParams, gaId]);
-
-  return null;
-}
-
+/**
+ * Google Analytics 4 via @next/third-parties.
+ * Chargé une seule fois, uniquement après consentement analytique (bandeau cookies).
+ */
 export function AnalyticsScripts() {
   const { analytics } = useSite();
   const { preferences, status } = useConsent();
   const gaId = analytics.googleAnalyticsId;
 
-  if (!IS_PRODUCTION || !gaId || status === "pending" || !preferences.analytics) {
+  if (!gaId || status === "pending" || !preferences.analytics) {
     return null;
   }
 
-  return (
-    <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-        gtag('js',new Date());gtag('config','${gaId}',{send_page_view:false});`}
-      </Script>
-      <Suspense fallback={null}>
-        <GoogleAnalyticsPageView gaId={gaId} />
-      </Suspense>
-    </>
-  );
+  return <GoogleAnalytics gaId={gaId} debugMode={IS_DEVELOPMENT} />;
 }
 
 export function AdSenseLoader() {

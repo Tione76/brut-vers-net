@@ -2,7 +2,9 @@
 
 /* ── Hero calculateurs ── */
 .tools-hub-hero {
+  margin-top: 56px;
   margin-bottom: 8px;
+  padding-top: 8px;
 }
 
 .tools-hub-hero__title {
@@ -101,6 +103,7 @@
 
 .tool-list-card__title {
   display: block;
+  margin: 0;
   font-size: 1.0625rem;
   font-weight: 700;
   color: var(--ds-text);
@@ -119,13 +122,22 @@
   align-items: center;
   justify-content: center;
   margin-top: 6px;
-  padding: 11px 16px;
+  padding: 11px 14px;
   font-size: 0.875rem;
   font-weight: 600;
   color: #ffffff;
   background: var(--ds-brand);
   border-radius: 6px;
   transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+@media (max-width: 379px) {
+  .tool-list-card__cta {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+  }
 }
 
 .tool-list-card:hover .tool-list-card__cta {
@@ -250,6 +262,29 @@
   margin-top: 0;
 }
 
+.tools-hub-section--intro {
+  margin-bottom: 0;
+  max-width: 68ch;
+}
+
+.tools-hub-section--intro > p {
+  margin: 0;
+  max-width: 68ch;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--ds-text);
+}
+
+.tools-hub-section--intro > p + p {
+  margin-top: 1.35rem;
+}
+
+.tools-hub-section--intro a {
+  color: var(--ds-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .tools-hub-section {
   margin-bottom: 40px;
   padding: 0;
@@ -265,6 +300,22 @@
 
 .tools-hub-section h2 {
   margin-top: 0;
+}
+
+.tools-hub-sidebar-footer {
+  margin: 20px 0 0;
+}
+
+.tools-hub-sidebar-footer__link {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ds-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.tools-hub-sidebar-footer__link:hover {
+  text-decoration-thickness: 2px;
 }
 
 .tools-hub-section--tinted {
@@ -359,7 +410,35 @@
 .tools-hub-checklist,
 .tools-hub-errors,
 .tools-hub-benefits {
-  margin-top: 20px;
+  margin: 16px 0 20px;
+  padding-left: 1.5rem;
+  max-width: 68ch;
+  list-style-type: disc !important;
+  list-style-position: outside;
+}
+
+.tools-hub-benefits li {
+  display: list-item;
+  margin-bottom: 10px;
+  padding-left: 0.35rem;
+  line-height: 1.55;
+  color: var(--ds-text);
+}
+
+.tools-hub-benefits li::marker {
+  color: var(--ds-brand);
+}
+
+/* Colonne principale pleine largeur + ratio ~2/1 avec la sidebar */
+.article-layout:has(.tools-hub-hero) .article-body {
+  max-width: none;
+}
+
+@media (min-width: 1024px) {
+  .article-layout:has(.tools-hub-hero) {
+    grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+    gap: 40px;
+  }
 }
 
 .tools-hub-faq-transition {

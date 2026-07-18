@@ -1,15 +1,15 @@
-import { TOOL_HUB_FAQ } from "./tools-hub-data";
+import { GUIDES_HUB_FAQ } from "./guides-hub-data";
 
-/** FAQ courte du hub /nos-outils (accordéons accessibles) */
-export function ToolsHubFaq() {
+/** FAQ courte du hub /guides (même pattern d'accordéons que /nos-outils) */
+export function GuidesHubFaq() {
   return (
     <section
-      className="tools-hub-section tools-hub-section--faq"
-      aria-labelledby="tools-hub-faq-title"
+      className="guides-hub-section guides-hub-section--faq"
+      aria-labelledby="guides-hub-faq-title"
     >
-      <h2 id="tools-hub-faq-title">Questions fréquentes sur nos simulateurs</h2>
+      <h2 id="guides-hub-faq-title">Questions fréquentes sur nos guides</h2>
       <div className="faq-list faq-list--flush">
-        {TOOL_HUB_FAQ.map((item) => (
+        {GUIDES_HUB_FAQ.map((item) => (
           <details key={item.question} className="faq-item">
             <summary className="faq-item__summary">
               <span>{item.question}</span>

@@ -8,8 +8,9 @@ function readOptionalEnv(key: string): string | undefined {
   return value || undefined;
 }
 
+/** GA4 : NEXT_PUBLIC_GA_MEASUREMENT_ID (fallback legacy NEXT_PUBLIC_GA_ID). */
 const googleAnalyticsId =
-  process.env.NODE_ENV === "production" ? readOptionalEnv("NEXT_PUBLIC_GA_ID") : undefined;
+  readOptionalEnv("NEXT_PUBLIC_GA_MEASUREMENT_ID") ?? readOptionalEnv("NEXT_PUBLIC_GA_ID");
 const microsoftClarityId =
   process.env.NODE_ENV === "production" ? readOptionalEnv("NEXT_PUBLIC_CLARITY_ID") : undefined;
 const googleSearchConsoleId = "9nuZjW3-Co9y5HnEHO6pmgRJD0K-EBLnh3PHD3txmsw";
