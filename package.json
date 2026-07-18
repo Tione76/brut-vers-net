@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "convert:og-images": "node scripts/convert-og-images.mjs",
     "indexnow:generate-key": "node scripts/generate-indexnow-key.mjs",
-    "indexnow:notify": "node scripts/notify-indexnow.mjs"
+    "indexnow:notify": "node scripts/notify-indexnow.mjs --sitemap",
+    "indexnow:notify:dry": "node scripts/notify-indexnow.mjs --sitemap --dry-run"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

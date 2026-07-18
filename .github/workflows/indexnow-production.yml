@@ -1,0 +1,45 @@
+name: IndexNow after Vercel production
+
+# Unique point d'envoi IndexNow automatisé.
+# Se déclenche uniquement après un déploiement Vercel Production réussi
+# (jamais sur Preview).
+
+on:
+  deployment_status:
+
+concurrency:
+  group: indexnow-production
+  cancel-in-progress: true
+
+jobs:
+  notify-indexnow:
+    # Production réussie uniquement ; exclut Preview / preview.
+    if: >
+      github.event.deployment_status.state == 'success' &&
+      (
+        github.event.deployment_status.environment == 'Production' ||
+        github.event.deployment_status.environment == 'production' ||
+        startsWith(github.event.deployment_status.environment, 'Production')
+      ) &&
+      !contains(github.event.deployment_status.environment, 'Preview') &&
+      !contains(github.event.deployment_status.environment, 'preview')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Wait for production sitemap to be live
+        run: sleep 30
+
+      - name: Notify IndexNow (sitemap public canonique)
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          SITE_URL: https://brut-vers-net.fr
+        # Échoue explicitement si la réponse n'est pas HTTP 200 ou 202.
+        run: npm run indexnow:notify

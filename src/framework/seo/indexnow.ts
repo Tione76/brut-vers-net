@@ -118,7 +118,9 @@ export function normalizeIndexNowUrls(
 
 /**
  * Notifie IndexNow pour une ou plusieurs URLs (jusqu'à 10 000 par requête HTTP).
- * À appeler côté serveur (build, route API, script post-déploiement).
+ * À appeler côté serveur uniquement (CLI / CI).
+ * Automatisation : `.github/workflows/indexnow-production.yml`
+ * via `scripts/notify-indexnow.mjs` (pas de route API publique).
  */
 export async function notifyIndexNow(
   urls: string | readonly string[],

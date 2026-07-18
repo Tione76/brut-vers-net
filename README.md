@@ -182,6 +182,24 @@ CONTACT_FROM_EMAIL=Formulaire Brut vers Net <contact@brut-vers-net.fr>
 
 Voir aussi `.env.example`. Google Analytics 4 (`@next/third-parties`) et AdSense ne se chargent qu'**après consentement** (Google Consent Mode v2).
 
+### IndexNow
+
+Après chaque déploiement **Production** Vercel réussi, le workflow GitHub
+`.github/workflows/indexnow-production.yml` récupère le sitemap public et notifie IndexNow
+(URL indexables uniquement, dédupliquées, host canonique). Les Preview sont ignorés.
+
+```env
+INDEXNOW_KEY=votre-cle
+SITE_URL=https://brut-vers-net.fr
+```
+
+Ajoutez le secret GitHub `INDEXNOW_KEY`. Commandes manuelles :
+
+```bash
+npm run indexnow:notify          # sitemap live → IndexNow
+npm run indexnow:notify:dry      # liste les URL sans envoyer
+```
+
 ---
 
 ## Structure du projet
