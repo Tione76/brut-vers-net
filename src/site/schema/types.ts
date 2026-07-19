@@ -42,6 +42,16 @@ export function absoluteAsset(path: string): string {
   return toAbsoluteAssetUrl(config.url, path);
 }
 
+/**
+ * Normalise une date Schema.org en ISO 8601 complet (heure + fuseau).
+ * Accepte déjà un datetime complet, sinon complète YYYY-MM-DD à 09:00 Europe/Paris (UTC+2).
+ */
+export function toSchemaDateTime(value: string): string {
+  if (/^\d{4}-\d{2}-\d{2}T/.test(value)) return value;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return `${value}T09:00:00+02:00`;
+  return value;
+}
+
 export function ref(id: string): { "@id": string } {
   return { "@id": id };
 }

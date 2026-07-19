@@ -20,7 +20,7 @@ interface CalculatorPageLayoutProps {
 
 function CalculatorHero({ Calculator }: { Calculator: ComponentType }) {
   return (
-    <div className="calc-tool calc-tool--salary">
+    <div className="calc-tool calc-tool--salary" data-clarity-mask="true">
       <Calculator />
       <p className="calc-disclaimer">
         Cette simulation fournit une estimation indicative. Le montant réel peut varier selon votre

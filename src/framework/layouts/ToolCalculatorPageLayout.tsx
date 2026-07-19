@@ -35,7 +35,7 @@ function CalculatorHero({
   return (
     <div className={`calc-tool${isMargin ? " calc-tool--margin" : ""}`}>
       <div className="calc-columns">
-        <div className="calc-col calc-col--inputs">
+        <div className="calc-col calc-col--inputs" data-clarity-mask="true">
           <p className="calc-col-title">Vos données</p>
           <Calculator />
         </div>
@@ -44,6 +44,7 @@ function CalculatorHero({
           id="resultat"
           aria-live="polite"
           aria-atomic="true"
+          data-clarity-mask="true"
         >
           {!isMargin && <p className="calc-col-title">Résultats</p>}
           {result ?? (

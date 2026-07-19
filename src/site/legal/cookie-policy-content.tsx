@@ -135,10 +135,17 @@ export function CookiePolicyContent() {
             <li>améliorer progressivement les guides, les outils et l&apos;expérience utilisateur.</li>
           </ul>
           <p>
-            Le site utilise <strong>Google Consent Mode</strong> : les signaux de consentement sont
-            transmis à Google avant tout chargement des outils de mesure. Par défaut, le stockage
-            analytique est refusé. Il n&apos;est activé qu&apos;après votre acceptation explicite
-            via le bandeau ou le panneau de préférences.
+            Le site utilise <strong>Google Consent Mode</strong> pour transmettre vos choix à Google
+            avant tout chargement des outils Google de mesure. Par défaut, le stockage analytique
+            Google est refusé. Il n&apos;est activé qu&apos;après votre acceptation explicite via le
+            bandeau ou le panneau de préférences.
+          </p>
+          <p>
+            Pour <strong>Microsoft Clarity</strong>, le même choix analytique est transmis via la{" "}
+            <strong>Clarity Consent API V2</strong> (<code>analytics_Storage</code> /{" "}
+            <code>ad_Storage</code>). Google Consent Mode ne pilote pas Clarity automatiquement :
+            le site réutilise votre préférence analytique (et publicitaire le cas échéant) pour
+            envoyer le signal attendu par Microsoft.
           </p>
         </div>
 
@@ -284,6 +291,12 @@ export function CookiePolicyContent() {
                   <td>Oui</td>
                 </tr>
                 <tr>
+                  <td>Microsoft Clarity</td>
+                  <td>Analyse anonyme de l&apos;usage (cartes thermiques, sessions)</td>
+                  <td>Cookies Clarity (ex. <code>_clck</code>, <code>_clsk</code>)</td>
+                  <td>Oui</td>
+                </tr>
+                <tr>
                   <td>Google AdSense</td>
                   <td>Affichage de publicités, y compris personnalisées</td>
                   <td>Cookies publicitaires Google</td>
@@ -326,9 +339,9 @@ export function CookiePolicyContent() {
           à chaque visite.
         </p>
         <p>
-          Les cookies déposés par Google Analytics 4 ou Google AdSense, lorsqu&apos;ils sont
-          autorisés, suivent les durées définies par Google pour chaque cookie. Ces durées peuvent
-          évoluer ; nous vous invitons à consulter la documentation de Google pour le détail le plus
+          Les cookies déposés par Google Analytics 4, Microsoft Clarity ou Google AdSense,
+          lorsqu&apos;ils sont autorisés, suivent les durées définies par chaque éditeur. Ces durées
+          peuvent évoluer ; nous vous invitons à consulter leur documentation pour le détail le plus
           à jour.
         </p>
       </section>

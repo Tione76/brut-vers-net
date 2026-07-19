@@ -12,6 +12,7 @@ export const PRIVACY_POLICY_TOC: GuideTocEntry[] = [
   { id: "securite", title: "Sécurité des données", level: 2 },
   { id: "hebergement", title: "Hébergement du site", level: 2 },
   { id: "google-analytics", title: "Google Analytics", level: 2 },
+  { id: "microsoft-clarity", title: "Microsoft Clarity", level: 2 },
   { id: "google-search-console", title: "Google Search Console", level: 2 },
   { id: "ahrefs", title: "Ahrefs Webmaster Tools", level: 2 },
   { id: "cookies", title: "Cookies", level: 2 },

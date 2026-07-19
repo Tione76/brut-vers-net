@@ -11,8 +11,12 @@ function readOptionalEnv(key: string): string | undefined {
 /** GA4 : NEXT_PUBLIC_GA_MEASUREMENT_ID (fallback legacy NEXT_PUBLIC_GA_ID). */
 const googleAnalyticsId =
   readOptionalEnv("NEXT_PUBLIC_GA_MEASUREMENT_ID") ?? readOptionalEnv("NEXT_PUBLIC_GA_ID");
+/** Clarity : NEXT_PUBLIC_CLARITY_PROJECT_ID (fallback legacy NEXT_PUBLIC_CLARITY_ID). Production uniquement. */
 const microsoftClarityId =
-  process.env.NODE_ENV === "production" ? readOptionalEnv("NEXT_PUBLIC_CLARITY_ID") : undefined;
+  process.env.NODE_ENV === "production"
+    ? (readOptionalEnv("NEXT_PUBLIC_CLARITY_PROJECT_ID") ??
+      readOptionalEnv("NEXT_PUBLIC_CLARITY_ID"))
+    : undefined;
 const googleSearchConsoleId = "9nuZjW3-Co9y5HnEHO6pmgRJD0K-EBLnh3PHD3txmsw";
 const googleAdsenseClientId = readOptionalEnv("NEXT_PUBLIC_ADSENSE_ID");
 const adSlotAfterResult = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_AFTER_RESULT");
@@ -23,7 +27,7 @@ export const siteConfig = {
   name: "Brut vers Net",
   domain: "brut-vers-net.fr",
   url: "https://brut-vers-net.fr",
-  author: "Éditeur du site",
+  author: "Antoine",
   language: "fr",
   locale: "fr-FR",
 

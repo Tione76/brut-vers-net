@@ -134,7 +134,7 @@ export function ContactForm({ subjects, trustNote }: ContactFormProps) {
         )}
       </div>
 
-      <form className="ds-form" onSubmit={handleSubmit} noValidate>
+      <form className="ds-form" onSubmit={handleSubmit} noValidate data-clarity-mask="true">
         <div className="ds-hp" aria-hidden="true">
           <label htmlFor="contact-website">Site web</label>
           <input

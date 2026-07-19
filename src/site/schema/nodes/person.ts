@@ -4,7 +4,7 @@ import { schemaIds } from "../ids";
 
 /**
  * Auteur éditorial des articles.
- * Source unique : config.author (aucune duplication par guide).
+ * name = config.author ; @id stable réutilisé par tous les Article.
  */
 export function buildPersonNode(): JsonLdNode {
   return pruneEmpty({

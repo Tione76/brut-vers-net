@@ -8,6 +8,15 @@ import { useConsent, useSite } from "@/framework/SiteProvider";
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
 
+/** Évite un double Clarity.init() (Strict Mode / changements de préférences). */
+let clarityInitialized = false;
+
+type ClarityConsentState = "granted" | "denied";
+
+function toClarityConsent(enabled: boolean): ClarityConsentState {
+  return enabled ? "granted" : "denied";
+}
+
 /**
  * Google Analytics 4 via @next/third-parties.
  * Chargé une seule fois, uniquement après consentement analytique (bandeau cookies).
@@ -42,8 +51,11 @@ export function AdSenseLoader() {
 }
 
 /**
- * Microsoft Clarity : chargé uniquement en production, après consentement analytique.
- * Le script est importé dynamiquement pour ne pas impacter le bundle initial.
+ * Microsoft Clarity (Consent API V2).
+ * - Script chargé une seule fois (layout via SiteProvider, pas à chaque route).
+ * - Init uniquement après consentement analytique (pas de cookies Clarity avant accord).
+ * - Retrait du consentement : consentV2 transmis immédiatement.
+ * - Google Consent Mode ne pilote pas Clarity : on réutilise preferences.analytics / advertising.
  */
 export function ClarityLoader() {
   const { analytics } = useSite();
@@ -58,16 +70,22 @@ export function ClarityLoader() {
     void import("@microsoft/clarity").then(({ default: Clarity }) => {
       if (cancelled) return;
 
+      const consentOptions = {
+        analytics_Storage: toClarityConsent(preferences.analytics),
+        ad_Storage: toClarityConsent(preferences.advertising),
+      };
+
       if (preferences.analytics) {
-        Clarity.init(projectId);
-        Clarity.consentV2({
-          analytics_Storage: "granted",
-          ad_Storage: preferences.advertising ? "granted" : "denied",
-        });
+        if (!clarityInitialized) {
+          Clarity.init(projectId);
+          clarityInitialized = true;
+        }
+        Clarity.consentV2(consentOptions);
         return;
       }
 
-      if (document.getElementById("clarity-script")) {
+      // Refus ou retrait : signal explicite seulement si Clarity a déjà été initialisé
+      if (clarityInitialized || document.getElementById("clarity-script")) {
         Clarity.consentV2({
           analytics_Storage: "denied",
           ad_Storage: "denied",

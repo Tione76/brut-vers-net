@@ -1,6 +1,12 @@
 import { siteConfig as config } from "@/site/site.config";
 import { absoluteUrl, schemaIds } from "../ids";
-import { pruneEmpty, ref, type BreadcrumbItem, type JsonLdNode } from "../types";
+import {
+  pruneEmpty,
+  ref,
+  toSchemaDateTime,
+  type BreadcrumbItem,
+  type JsonLdNode,
+} from "../types";
 
 export function buildBreadcrumbNode(path: string, items: BreadcrumbItem[]): JsonLdNode {
   return pruneEmpty({
@@ -57,7 +63,7 @@ export function buildWebPageNode(options: WebPageOptions): JsonLdNode {
     ...(hasPartIds && hasPartIds.length > 0
       ? { hasPart: hasPartIds.map((id) => ref(id)) }
       : {}),
-    ...(datePublished ? { datePublished } : {}),
-    ...(dateModified ? { dateModified } : {}),
+    ...(datePublished ? { datePublished: toSchemaDateTime(datePublished) } : {}),
+    ...(dateModified ? { dateModified: toSchemaDateTime(dateModified) } : {}),
   });
 }

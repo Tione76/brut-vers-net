@@ -2,7 +2,7 @@ import type { Guide } from "@/site/guides/types";
 import { resolveGuideCover } from "@/site/guides/covers";
 import { siteConfig as config } from "@/site/site.config";
 import { absoluteUrl, schemaIds } from "../ids";
-import { pruneEmpty, ref, type JsonLdNode } from "../types";
+import { pruneEmpty, ref, toSchemaDateTime, type JsonLdNode } from "../types";
 
 /**
  * Article pour les guides publiés.
@@ -18,8 +18,8 @@ export function buildArticleNode(guide: Guide, path: string): JsonLdNode {
     description: guide.description,
     url: absoluteUrl(path),
     inLanguage: config.language,
-    datePublished: guide.publishedAt,
-    dateModified: guide.updatedAt,
+    datePublished: toSchemaDateTime(guide.publishedAt),
+    dateModified: toSchemaDateTime(guide.updatedAt),
     articleSection: "Guides",
     author: ref(schemaIds.person()),
     publisher: ref(schemaIds.organization()),

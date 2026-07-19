@@ -191,9 +191,9 @@ export interface Guide {
   description: string;
   /** Sous-titre affiché dans le header compact : reformulation de la promesse éditoriale */
   subtitle: string;
-  /** Date ISO (YYYY-MM-DD) : affichée et injectée dans Article JSON-LD (dateModified) */
+  /** Date calendaire (YYYY-MM-DD) : affichage page ; Schema.org la normalise en datetime ISO */
   updatedAt: string;
-  /** Date ISO de première publication : Article JSON-LD (datePublished) */
+  /** Date calendaire de première publication (YYYY-MM-DD) ; Schema.org → datetime ISO */
   publishedAt: string;
   /** Image Open Graph / couverture : renseignée via attachGuideCover() */
   coverImage?: GuideCoverImage;

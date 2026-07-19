@@ -259,6 +259,34 @@ export function PrivacyPolicyContent() {
         </p>
       </section>
 
+      <section id="microsoft-clarity" className="guide-section">
+        <h2>Microsoft Clarity</h2>
+        <p>
+          Le site peut utiliser <strong>Microsoft Clarity</strong> pour analyser de façon anonyme
+          l&apos;utilisation du site, notamment via des cartes thermiques et des enregistrements de
+          sessions. Ces informations aident à comprendre comment les pages et les outils sont
+          parcourus, afin d&apos;améliorer progressivement l&apos;expérience.
+        </p>
+        <aside className="prose-callout prose-callout--legal">
+          <strong>Point important</strong>
+          <br />
+          Microsoft Clarity n&apos;est chargé qu&apos;après votre acceptation des cookies
+          analytiques via le bandeau de consentement. Sans ce consentement, le service n&apos;est
+          pas activé sur votre navigateur. Les champs susceptibles de contenir des données
+          personnelles (formulaire de contact, montants saisis dans les calculateurs) sont masqués
+          dans les enregistrements.
+        </aside>
+        <p>
+          Microsoft peut traiter certaines données de navigation conformément à sa propre politique
+          de confidentialité. Le site lui transmet votre choix de consentement via l&apos;API de
+          consentement Clarity (Consent API V2), distincte de Google Consent Mode.
+        </p>
+        <p>
+          Pour le détail des cookies et des modalités de gestion, reportez-vous à la page{" "}
+          <Link href="/gestion-des-cookies">Gestion des cookies</Link>.
+        </p>
+      </section>
+
       <section id="google-search-console" className="guide-section">
         <h2>Google Search Console</h2>
         <p>
@@ -300,7 +328,8 @@ export function PrivacyPolicyContent() {
         </p>
         <p>
           L&apos;ensemble des informations relatives aux cookies, aux catégories concernées, aux
-          services tiers (Google Analytics 4, Google AdSense, Google Consent Mode) et aux modalités
+          services tiers (Google Analytics 4, Microsoft Clarity, Google AdSense, Google Consent Mode)
+          et aux modalités
           de gestion de votre consentement est détaillé sur la page dédiée :
         </p>
         <p>
