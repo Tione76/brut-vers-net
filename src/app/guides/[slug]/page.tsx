@@ -6,6 +6,7 @@ import {
   getAllGuideSlugs,
   getGuideBySlug,
   GuideArticle,
+  GuideAuthorMeta,
   GuidePageLayout,
   GuidePageSidebar,
   resolveGuideCover,
@@ -67,14 +68,7 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
             { label: guide.title },
           ]}
         />
-        <p className="guide-meta">
-          {readingTime} min de lecture · Mis à jour le{" "}
-          {new Date(guide.updatedAt).toLocaleDateString("fr-FR", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
-        </p>
+        <GuideAuthorMeta updatedAt={guide.updatedAt} readingTime={readingTime} />
         <GuideArticle
           introduction={guide.introduction}
           introSummary={guide.introSummary}

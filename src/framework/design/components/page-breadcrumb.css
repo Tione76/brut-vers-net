@@ -1,0 +1,67 @@
+/* Fil d'Ariane partagé : alignement horizontal stable (y compris dans .prose). */
+
+.guide-breadcrumb {
+  margin: 0 0 12px;
+}
+
+.guide-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.5rem;
+  row-gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--ds-text-muted);
+}
+
+/* Annule .prose ol { padding-left } et .prose li + li { margin-top }. */
+.prose .guide-breadcrumb ol,
+.article-body .guide-breadcrumb ol {
+  padding-left: 0;
+  margin: 0;
+}
+
+.guide-breadcrumb__item,
+.prose .guide-breadcrumb__item,
+.prose .guide-breadcrumb li + li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+}
+
+.guide-breadcrumb__sep {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+  font-size: 0.875em;
+  color: var(--ds-text-muted);
+}
+
+.guide-breadcrumb a,
+.guide-breadcrumb [aria-current="page"] {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+
+.guide-breadcrumb a {
+  color: var(--ds-brand);
+  text-decoration: none;
+}
+
+.guide-breadcrumb a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}

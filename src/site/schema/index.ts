@@ -8,6 +8,7 @@ export {
   buildHubJsonLd,
   buildCalculatorJsonLd,
   buildWebPageJsonLd,
+  buildAuthorJsonLd,
 } from "./pages";
 export { buildJsonLdGraph } from "./graph";
 export { schemaIds, absoluteUrl } from "./ids";

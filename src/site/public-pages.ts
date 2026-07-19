@@ -7,6 +7,7 @@ import { guides } from "./guides/registry";
 import { getAllCalculators } from "./navigation/calculators-registry";
 import { seoConfig } from "./seo.config";
 import { siteConfig } from "./site.config";
+import { SITE_AUTHOR } from "./author";
 
 export type PublicPageCategory = "tools" | "guides" | "faq" | "utility";
 
@@ -99,6 +100,15 @@ export function getAllPublicPages(): PublicPage[] {
   };
 
   const utilityPages: PublicPage[] = [
+    {
+      path: SITE_AUTHOR.path,
+      title: SITE_AUTHOR.name,
+      category: "utility",
+      changefreq: "yearly",
+      priority: 0.45,
+      indexable: true,
+      lastModified: SEO_CONTENT_UPDATED_AT,
+    },
     {
       path: "/plan-du-site",
       title: legal.sitemap.title,

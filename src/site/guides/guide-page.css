@@ -125,28 +125,16 @@
   color: var(--ds-text-muted);
 }
 
-.guide-breadcrumb {
-  margin-bottom: 12px;
-}
-
-.guide-breadcrumb ol {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-size: 0.8125rem;
-  color: var(--ds-text-muted);
-}
-
-.guide-breadcrumb a {
-  color: var(--ds-brand);
-  text-decoration: none;
-}
-
-.guide-breadcrumb a:hover {
+.guide-meta__author {
+  font-weight: 600;
+  color: var(--ds-text);
   text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+.guide-meta__author:hover {
+  color: var(--ds-brand);
 }
 
 /* Sommaire inline */

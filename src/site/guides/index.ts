@@ -65,6 +65,7 @@ export {
 export type { GuideSidebarLink, SidebarContext, SidebarPageType, SidebarTool } from "./sidebar";
 export { GuideCoverImage as GuideCoverImageComponent } from "./GuideCoverImage";
 export { CoverFigure } from "./CoverFigure";
+export { GuideAuthorMeta } from "./GuideAuthorMeta";
 export { GuideListCard } from "./GuideListCard";
 export { GuidesHubEditorial, GuidesHubWhySection } from "./guides-hub-editorial";
 export { GuidesHubFaq } from "./guides-hub-faq";
