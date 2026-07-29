@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import "@/site/salary-calculator-layout.css";
 import { SelectableOption, SelectableOptionGroup } from "@/site/components/SelectableOptionGroup";
 import {
@@ -71,6 +71,157 @@ const FIELD_PLACEHOLDERS: Record<SalaryInputField, string> = {
   netMonthly: "Ex. : 1 950 €",
   netAnnual: "Ex. : 23 400 €",
 };
+
+function HourlyModeInfoButton() {
+  const tooltipId = useId();
+  const rootRef = useRef<HTMLSpanElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const tipRef = useRef<HTMLSpanElement>(null);
+  const [open, setOpen] = useState(false);
+  const [placement, setPlacement] = useState({ top: 0, left: 0, width: 280 });
+
+  const updatePlacement = useCallback(() => {
+    const trigger = triggerRef.current;
+    const tip = tipRef.current;
+    if (!trigger || !tip) {
+      return;
+    }
+
+    const margin = 12;
+    const gap = 8;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const maxWidth = Math.min(320, viewportWidth - margin * 2);
+    const minWidth = Math.min(260, maxWidth);
+    const width = Math.max(minWidth, Math.min(maxWidth, tip.offsetWidth || minWidth));
+
+    tip.style.width = `${width}px`;
+
+    const triggerRect = trigger.getBoundingClientRect();
+    const tipHeight = tip.offsetHeight;
+    const tipWidth = tip.offsetWidth || width;
+
+    let left = triggerRect.left + triggerRect.width / 2 - tipWidth / 2;
+    left = Math.max(margin, Math.min(left, viewportWidth - tipWidth - margin));
+
+    let top = triggerRect.bottom + gap;
+    if (top + tipHeight > viewportHeight - margin) {
+      top = triggerRect.top - tipHeight - gap;
+    }
+    top = Math.max(margin, Math.min(top, viewportHeight - tipHeight - margin));
+
+    setPlacement({ top, left, width: tipWidth });
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    updatePlacement();
+    const frame = window.requestAnimationFrame(updatePlacement);
+
+    window.addEventListener("resize", updatePlacement);
+    window.addEventListener("scroll", updatePlacement, true);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("resize", updatePlacement);
+      window.removeEventListener("scroll", updatePlacement, true);
+    };
+  }, [open, updatePlacement]);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [open]);
+
+  const supportsHover = () =>
+    typeof window !== "undefined" &&
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  return (
+    <span
+      className="salary-calc__info"
+      ref={rootRef}
+      onMouseEnter={() => {
+        if (supportsHover()) {
+          setOpen(true);
+        }
+      }}
+      onMouseLeave={() => {
+        if (supportsHover() && document.activeElement !== triggerRef.current) {
+          setOpen(false);
+        }
+      }}
+    >
+      <button
+        ref={triggerRef}
+        type="button"
+        className="salary-calc__info-trigger"
+        aria-label="À propos du calcul à partir d'un taux horaire"
+        aria-expanded={open}
+        aria-controls={tooltipId}
+        onClick={() => setOpen((current) => !current)}
+        onFocus={() => setOpen(true)}
+        onBlur={() => {
+          requestAnimationFrame(() => {
+            if (!rootRef.current?.contains(document.activeElement)) {
+              setOpen(false);
+            }
+          });
+        }}
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5" />
+          <path
+            d="M8 7.25V11.5M8 5.25h.01"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </svg>
+      </button>
+      <span
+        ref={tipRef}
+        id={tooltipId}
+        role="tooltip"
+        className={`salary-calc__tooltip${open ? " salary-calc__tooltip--open" : ""}`}
+        style={
+          open
+            ? {
+                top: placement.top,
+                left: placement.left,
+                width: placement.width,
+              }
+            : undefined
+        }
+      >
+        Recommandé si vous êtes à <strong>temps partiel</strong> ou si vous connaissez uniquement
+        votre <strong>taux horaire</strong>.
+      </span>
+    </span>
+  );
+}
 
 export default function Calculator() {
   const [inputMode, setInputMode] = useState<SalaryInputMode>(DEFAULT_SALARY_INPUT_MODE);
@@ -462,24 +613,6 @@ export default function Calculator() {
 
   return (
     <div className="salary-calc calc-fields" aria-live="polite" aria-atomic="true">
-      <div className="salary-calc__hourly-toggle">
-        <label className="salary-calc__hourly-checkbox" htmlFor="hourlyInputMode">
-          <input
-            id="hourlyInputMode"
-            name="hourlyInputMode"
-            type="checkbox"
-            checked={isHourlyMode}
-            onChange={(e) => handleHourlyModeToggle(e.target.checked)}
-            aria-describedby="hourlyInputModeHelp"
-          />
-          <span>Calculer à partir d&apos;un taux horaire</span>
-        </label>
-        <p id="hourlyInputModeHelp" className="salary-calc__hourly-checkbox-hint">
-          Recommandé si vous êtes à <strong>temps partiel</strong> ou si vous connaissez uniquement
-          votre <strong>taux horaire</strong>.
-        </p>
-      </div>
-
       <div className="salary-calc__matrix" role="group" aria-label="Grille des salaires brut et net">
         <div className="salary-calc__matrix-head" aria-hidden="true">
           <span className="salary-calc__matrix-corner" />
@@ -487,10 +620,45 @@ export default function Calculator() {
           <span className="calc-field-label salary-calc__col-head">Salaire net</span>
         </div>
 
-        {isHourlyMode ? (
-          <div className="salary-calc__hourly-fields">
-            {renderMatrixRow(HOURLY_MATRIX_ROW)}
+        {PERIOD_MATRIX_ROWS.map((row) =>
+          renderMatrixRow(row, { readOnly: isHourlyMode }),
+        )}
 
+        {isHourlyMode ? (
+          <p className="salary-calc__hint salary-calc__hint--computed salary-calc__hourly-fields">
+            Ces montants sont calculés automatiquement à partir de votre taux horaire et de votre
+            temps de travail.
+          </p>
+        ) : null}
+
+        <div className="salary-calc__matrix-separator" role="separator" aria-hidden="true" />
+
+        <div className="salary-calc__matrix-row salary-calc__matrix-row--hourly">
+          <div className="salary-calc__row-heading">
+            <span className="salary-calc__row-label" id="hourly-row-label">
+              {HOURLY_MATRIX_ROW.rowLabel}
+            </span>
+            <HourlyModeInfoButton />
+            <input
+              id="hourlyInputMode"
+              name="hourlyInputMode"
+              type="checkbox"
+              className="salary-calc__hourly-check"
+              checked={isHourlyMode}
+              onChange={(e) => handleHourlyModeToggle(e.target.checked)}
+              aria-label="Calculer à partir d'un taux horaire"
+            />
+          </div>
+          {renderSalaryInput(HOURLY_MATRIX_ROW.gross, { readOnly: !isHourlyMode })}
+          {renderSalaryInput(HOURLY_MATRIX_ROW.net, { readOnly: !isHourlyMode })}
+        </div>
+
+        <div
+          className={`salary-calc__hourly-panel${isHourlyMode ? " salary-calc__hourly-panel--open" : ""}`}
+          inert={isHourlyMode ? undefined : true}
+          aria-hidden={isHourlyMode ? undefined : true}
+        >
+          <div className="salary-calc__hourly-panel-inner">
             <div className="salary-calc__param salary-calc__param--in-matrix">
               <div className="salary-calc__work-time-label">
                 <label htmlFor="workTimePercentInput" className="calc-field-label">
@@ -508,6 +676,7 @@ export default function Calculator() {
                   onBlur={handleWorkTimeDraftBlur}
                   aria-label="Temps de travail en pourcentage"
                   aria-describedby="workTimePercent"
+                  tabIndex={isHourlyMode ? undefined : -1}
                 />
                 <span className="salary-calc__work-time-suffix" aria-hidden="true">
                   %
@@ -527,22 +696,12 @@ export default function Calculator() {
                 aria-valuemax={WORK_TIME_PERCENT.max}
                 aria-valuenow={workTimePercent}
                 aria-label="Curseur du temps de travail"
+                tabIndex={isHourlyMode ? undefined : -1}
               />
             </div>
           </div>
-        ) : null}
-
-        {PERIOD_MATRIX_ROWS.map((row) =>
-          renderMatrixRow(row, { readOnly: isHourlyMode }),
-        )}
+        </div>
       </div>
-
-      {isHourlyMode ? (
-        <p className="salary-calc__hint salary-calc__hint--computed salary-calc__hourly-fields">
-          Ces montants sont calculés automatiquement à partir de votre taux horaire et de votre
-          temps de travail.
-        </p>
-      ) : null}
 
       <SelectableOptionGroup legend="Statut professionnel" ariaLabel="Statut professionnel">
         {EMPLOYMENT_PROFILES.map((item) => (
