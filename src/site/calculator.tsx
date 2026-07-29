@@ -664,22 +664,24 @@ export default function Calculator() {
                 <label htmlFor="workTimePercentInput" className="calc-field-label">
                   Temps de travail :
                 </label>
-                <input
-                  id="workTimePercentInput"
-                  name="workTimePercentInput"
-                  type="text"
-                  inputMode="numeric"
-                  autoComplete="off"
-                  className="calc-input salary-calc__work-time-input"
-                  value={workTimeDraft ?? String(workTimePercent)}
-                  onChange={(e) => handleWorkTimeDraftChange(e.target.value)}
-                  onBlur={handleWorkTimeDraftBlur}
-                  aria-label="Temps de travail en pourcentage"
-                  aria-describedby="workTimePercent"
-                  tabIndex={isHourlyMode ? undefined : -1}
-                />
-                <span className="salary-calc__work-time-suffix" aria-hidden="true">
-                  %
+                <span className="salary-calc__work-time-value">
+                  <input
+                    id="workTimePercentInput"
+                    name="workTimePercentInput"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    className="calc-input salary-calc__work-time-input"
+                    value={workTimeDraft ?? String(workTimePercent)}
+                    onChange={(e) => handleWorkTimeDraftChange(e.target.value)}
+                    onBlur={handleWorkTimeDraftBlur}
+                    aria-label="Temps de travail en pourcentage"
+                    aria-describedby="workTimePercent"
+                    tabIndex={isHourlyMode ? undefined : -1}
+                  />
+                  <span className="salary-calc__work-time-suffix" aria-hidden="true">
+                    %
+                  </span>
                 </span>
               </div>
               <input
