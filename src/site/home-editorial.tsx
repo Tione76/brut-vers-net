@@ -1,11 +1,15 @@
+import Link from "next/link";
 import {
   buildConversionTableRows,
+  buildMethodologyProfiles,
   buildPracticalCases,
   example15HourlyNonExecutive,
   example2500NonExecutive,
   example36000AnnualNonExecutive,
   formatEditorialEuro,
   HOME_EDITORIAL_UPDATED_AT,
+  METHODOLOGY_MONTHLY_HOURS_LABEL,
+  METHODOLOGY_SALARY_MONTHS,
 } from "./home-editorial-data";
 import { EditorialBenefitItem } from "./editorial-check-icon";
 import { CoverFigure } from "@/site/guides/CoverFigure";
@@ -13,6 +17,11 @@ import { HOME_COVER } from "@/site/guides/covers";
 
 const conversionRows = buildConversionTableRows();
 const practicalCases = buildPracticalCases();
+const methodologyProfiles = buildMethodologyProfiles();
+const salaryMonthsList = METHODOLOGY_SALARY_MONTHS.join(", ").replace(
+  /, (\d+)$/,
+  " ou $1",
+);
 const ex2500 = example2500NonExecutive();
 const ex36000 = example36000AnnualNonExecutive();
 const ex15 = example15HourlyNonExecutive();
@@ -58,6 +67,9 @@ export function HomeEditorial() {
               </li>
               <li>
                 <a href="#limites-utilite">Limites et utilité</a>
+              </li>
+              <li>
+                <a href="#methodologie">Méthode de calcul brut vers net</a>
               </li>
               <li>
                 <a href="#faq">FAQ</a>
@@ -396,6 +408,146 @@ export function HomeEditorial() {
               <p>
                 Les chiffres facilitent la comparaison et la préparation. Ils ne remplacent pas un
                 document officiel ni un conseil personnalisé pour une décision importante.
+              </p>
+            </aside>
+          </div>
+
+          <h2 id="methodologie">
+            Comment notre calculateur convertit le salaire brut en net&nbsp;?
+          </h2>
+          <div className="home-editorial__prose">
+            <p>
+              Cette page documente la méthode réellement utilisée par le simulateur : modes de
+              saisie, coefficients, temps de travail, mois rémunérés et estimation du prélèvement
+              à la source. L&apos;objectif est de rendre le résultat plus facile à comprendre et à
+              comparer.
+            </p>
+
+            <h3>Deux façons d&apos;utiliser le calculateur</h3>
+            <p>
+              Le simulateur propose deux modes. Dans les deux cas, un seul moteur produit le brut, le
+              net estimé avant impôt et le net après impôt.
+            </p>
+            <p>
+              <strong>Salaire mensuel ou annuel.</strong> Vous connaissez déjà votre{" "}
+              <Link href="/guides/comment-est-calcule-le-salaire-net">salaire brut</Link> ou votre
+              rémunération nette. Vous saisissez le montant mensuel ou annuel, choisissez votre
+              profil, puis le simulateur calcule automatiquement les équivalents (horaire, mensuel,
+              annuel) et le net après impôt.
+            </p>
+            <p>
+              <strong>Taux horaire.</strong> Vous renseignez votre{" "}
+              <Link href="/guides/comment-calculer-son-salaire-net">salaire horaire</Link>, votre
+              temps de travail et le nombre de mois rémunérés. Le simulateur convertit d&apos;abord
+              ce taux en montant mensuel équivalent, puis applique exactement les mêmes règles que
+              dans le premier mode. Utile en temps partiel ou lorsque vous ne disposez que d&apos;un
+              montant horaire.
+            </p>
+
+            <h3>Les coefficients utilisés</h3>
+            <p>
+              Après obtention d&apos;un brut mensuel, le simulateur applique un coefficient
+              indicatif selon le profil :
+            </p>
+            <ul className="editorial-list editorial-list--neutral">
+              {methodologyProfiles.map((profile) => (
+                <li key={profile.id}>
+                  <strong>{profile.label}</strong> : coefficient {profile.coefficientLabel}, soit
+                  environ {profile.contributionSharePercent}&nbsp;% de retenues
+                </li>
+              ))}
+            </ul>
+            <p>
+              Ces coefficients correspondent à une estimation moyenne des cotisations sociales selon
+              le profil choisi. Il s&apos;agit d&apos;une estimation générale, pas d&apos;une
+              reproduction exacte d&apos;un bulletin. Pour aller plus loin sur le{" "}
+              <Link href="/guides/cotisations-salariales-pourquoi-brut-plus-eleve-que-net">
+                pourcentage retiré du salaire brut
+              </Link>
+              , consultez le guide dédié.
+            </p>
+
+            <h3>Principe de calcul</h3>
+            <aside className="home-editorial__callout home-editorial__callout--example">
+              <strong>Formules simplifiées</strong>
+              <p>
+                Salaire net estimé avant impôt = salaire brut × coefficient du profil
+                <br />
+                Salaire net après impôt = salaire net estimé avant impôt − prélèvement à la source
+                <br />
+                Salaire brut estimé = salaire net avant impôt ÷ coefficient du profil
+              </p>
+            </aside>
+
+            <h3>Temps de travail</h3>
+            <p>
+              Le réglage du temps de travail apparaît uniquement en mode « Taux horaire ». Pour
+              convertir un taux horaire en montant mensuel estimé, le simulateur utilise cette base
+              :
+            </p>
+            <aside className="home-editorial__callout home-editorial__callout--example">
+              <strong>Conversion horaire du simulateur</strong>
+              <p>
+                Salaire mensuel brut = taux horaire brut × {METHODOLOGY_MONTHLY_HOURS_LABEL} heures ×
+                pourcentage de temps de travail
+              </p>
+            </aside>
+            <p>
+              Les {METHODOLOGY_MONTHLY_HOURS_LABEL}&nbsp;heures correspondent à la base mensuelle
+              retenue par le simulateur à temps plein. Ce n&apos;est pas une règle universelle de
+              fiche de paie : c&apos;est la référence interne utilisée ici pour produire un montant
+              mensuel cohérent, y compris en temps partiel. En mode mensuel ou annuel, le temps de
+              travail est fixé à 100&nbsp;% : le montant saisi correspond déjà au salaire à
+              convertir.
+            </p>
+
+            <h3>Nombre de mois rémunérés</h3>
+            <p>
+              Le salaire annuel dépend aussi du nombre de mois payés. Le simulateur permet de
+              comparer {salaryMonthsList}&nbsp;mois. Cette option multiplie (ou divise) le mensuel
+              pour obtenir l&apos;annuel : elle ne change pas le coefficient brut vers net appliqué
+              au mois.
+            </p>
+
+            <h3>Prélèvement à la source</h3>
+            <p>
+              Le simulateur estime d&apos;abord un net avant impôt, puis applique le taux de{" "}
+              <Link href="/guides/prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne">
+                prélèvement à la source
+              </Link>{" "}
+              sélectionné. Le taux proposé par défaut est une estimation (barème neutre indicatif)
+              à partir d&apos;une base imposable approximée. Vous pouvez saisir votre taux réel pour
+              rapprocher le net après impôt de votre situation.
+            </p>
+
+            <h3>Pourquoi les résultats restent indicatifs</h3>
+            <p>
+              Deux salariés au même brut peuvent toucher un net différent. Convention collective,
+              primes, avantages en nature, heures supplémentaires, cotisations particulières,
+              régime spécifique ou indemnités modifient le résultat réel. Le simulateur fournit une
+              estimation fiable pour la majorité des situations courantes, pas une reproduction
+              ligne à ligne de la{" "}
+              <Link href="/guides/comment-lire-une-fiche-de-paie">fiche de paie</Link>.
+            </p>
+
+            <h3>Sources et méthode</h3>
+            <p>
+              Les coefficients utilisés par ce simulateur correspondent à des estimations moyennes
+              de cotisations sociales pour les principaux profils proposés. Ils servent à fournir un
+              ordre de grandeur simple et cohérent, sans reproduire chaque ligne d&apos;un bulletin
+              de salaire. La méthode et les valeurs affichées sont alignées sur le moteur de calcul
+              actuellement utilisé par le site et sont vérifiées lors des mises à jour du
+              simulateur.
+            </p>
+
+            <aside className="home-editorial__callout home-editorial__callout--key">
+              <strong>À retenir</strong>
+              <p>
+                Un seul moteur de calcul est utilisé, quel que soit le mode choisi. En mode horaire,
+                un montant mensuel équivalent est d&apos;abord calculé (base{" "}
+                {METHODOLOGY_MONTHLY_HOURS_LABEL}&nbsp;heures à temps plein). Les coefficients
+                appliqués sont ceux actuellement utilisés par le simulateur. Le prélèvement à la
+                source est ensuite appliqué séparément.
               </p>
             </aside>
 

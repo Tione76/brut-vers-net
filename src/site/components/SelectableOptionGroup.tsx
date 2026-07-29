@@ -5,6 +5,7 @@ interface SelectableOptionGroupProps {
   ariaLabel: string;
   children: ReactNode;
   compact?: boolean;
+  stack?: boolean;
 }
 
 export function SelectableOptionGroup({
@@ -12,12 +13,13 @@ export function SelectableOptionGroup({
   ariaLabel,
   children,
   compact = false,
+  stack = false,
 }: SelectableOptionGroupProps) {
   return (
     <fieldset className="calc-fieldset salary-calc__param">
       <legend className="calc-field-label salary-calc__section-label">{legend}</legend>
       <div
-        className={`selectable-group${compact ? " selectable-group--compact" : ""}`}
+        className={`selectable-group${compact ? " selectable-group--compact" : ""}${stack ? " selectable-group--stack" : ""}`}
         role="radiogroup"
         aria-label={ariaLabel}
       >
@@ -34,6 +36,7 @@ interface SelectableOptionProps {
   checked: boolean;
   onChange: () => void;
   compact?: boolean;
+  stack?: boolean;
 }
 
 export function SelectableOption({
@@ -43,10 +46,11 @@ export function SelectableOption({
   checked,
   onChange,
   compact = false,
+  stack = false,
 }: SelectableOptionProps) {
   return (
     <label
-      className={`selectable-option${compact ? " selectable-option--compact" : ""}${checked ? " selectable-option--selected" : ""}`}
+      className={`selectable-option${compact ? " selectable-option--compact" : ""}${stack ? " selectable-option--stack" : ""}${checked ? " selectable-option--selected" : ""}`}
     >
       <input
         type="radio"

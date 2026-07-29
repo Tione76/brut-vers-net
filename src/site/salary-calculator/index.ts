@@ -4,5 +4,6 @@ export * from "./parsing";
 export * from "./conversions";
 export * from "./validation";
 export * from "./engine";
+export * from "./salary-input-mode";
 export * from "./tax";
 export * from "./taxable-income";

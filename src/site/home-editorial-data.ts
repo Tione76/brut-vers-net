@@ -1,7 +1,9 @@
 import {
   BASE_MONTHLY_HOURS_AT_FULL_TIME,
   DEFAULT_SALARY_MONTHS,
+  EMPLOYMENT_PROFILES,
   getProfileCoefficient,
+  SALARY_MONTHS_OPTIONS,
 } from "@/site/salary-calculator/config";
 import { hourlyToMonthly, roundCent } from "@/site/salary-calculator/conversions";
 import { formatCurrency } from "@/site/salary-calculator/parsing";
@@ -44,6 +46,48 @@ export function buildConversionTableRows(): ConversionTableRow[] {
 export function formatEditorialEuro(value: number): string {
   return formatCurrency(value);
 }
+
+export function formatEditorialCoefficient(coefficient: number): string {
+  return coefficient.toLocaleString("fr-FR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+export function formatEditorialHours(hours: number): string {
+  return hours.toLocaleString("fr-FR", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
+}
+
+/** Profils et coefficients lus depuis le moteur (documentation méthodologie). */
+export interface MethodologyProfileDoc {
+  id: EmploymentProfile;
+  label: string;
+  coefficient: number;
+  coefficientLabel: string;
+  contributionSharePercent: number;
+  description: string;
+}
+
+export function buildMethodologyProfiles(): MethodologyProfileDoc[] {
+  return EMPLOYMENT_PROFILES.map((profile) => ({
+    id: profile.id,
+    label: profile.label,
+    coefficient: profile.coefficient,
+    coefficientLabel: formatEditorialCoefficient(profile.coefficient),
+    contributionSharePercent: Math.round((1 - profile.coefficient) * 100),
+    description: profile.description,
+  }));
+}
+
+/** Constantes méthodologie alignées sur le moteur. */
+export const METHODOLOGY_MONTHLY_HOURS = BASE_MONTHLY_HOURS_AT_FULL_TIME;
+export const METHODOLOGY_SALARY_MONTHS = SALARY_MONTHS_OPTIONS;
+export const METHODOLOGY_MONTHLY_HOURS_LABEL = formatEditorialHours(
+  BASE_MONTHLY_HOURS_AT_FULL_TIME,
+);
 
 /** Exemple pédagogique : 2 500 € brut mensuels, non-cadre. */
 export function example2500NonExecutive() {

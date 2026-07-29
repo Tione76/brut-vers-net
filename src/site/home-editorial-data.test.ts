@@ -1,12 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { getProfileCoefficient } from "@/site/salary-calculator/config";
+import {
+  BASE_MONTHLY_HOURS_AT_FULL_TIME,
+  EMPLOYMENT_PROFILES,
+  getProfileCoefficient,
+  SALARY_MONTHS_OPTIONS,
+} from "@/site/salary-calculator/config";
 import {
   buildConversionTableRows,
+  buildMethodologyProfiles,
   CONVERSION_TABLE_GROSS_MONTHLY,
   estimateNetMonthlyFromGross,
   example15HourlyNonExecutive,
   example2500NonExecutive,
   example36000AnnualNonExecutive,
+  METHODOLOGY_MONTHLY_HOURS,
+  METHODOLOGY_SALARY_MONTHS,
 } from "./home-editorial-data";
 
 describe("home-editorial-data", () => {
@@ -64,5 +72,23 @@ describe("home-editorial-data", () => {
       expect(row.netNonExecutive).toBe(ref.nonExecutive);
       expect(row.netExecutive).toBe(ref.executive);
     }
+  });
+
+  it("documente les profils et constantes depuis le moteur (méthodologie)", () => {
+    const profiles = buildMethodologyProfiles();
+    expect(profiles).toHaveLength(EMPLOYMENT_PROFILES.length);
+
+    for (const profile of profiles) {
+      const source = EMPLOYMENT_PROFILES.find((item) => item.id === profile.id);
+      expect(source).toBeDefined();
+      expect(profile.coefficient).toBe(source!.coefficient);
+      expect(profile.label).toBe(source!.label);
+      expect(profile.contributionSharePercent).toBe(
+        Math.round((1 - source!.coefficient) * 100),
+      );
+    }
+
+    expect(METHODOLOGY_MONTHLY_HOURS).toBe(BASE_MONTHLY_HOURS_AT_FULL_TIME);
+    expect(METHODOLOGY_SALARY_MONTHS).toEqual(SALARY_MONTHS_OPTIONS);
   });
 });

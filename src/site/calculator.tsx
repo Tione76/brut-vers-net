@@ -5,6 +5,7 @@ import "@/site/salary-calculator-layout.css";
 import { SelectableOption, SelectableOptionGroup } from "@/site/components/SelectableOptionGroup";
 import {
   DEFAULT_PROFILE,
+  DEFAULT_SALARY_INPUT_MODE,
   DEFAULT_SALARY_MONTHS,
   EMPLOYMENT_PROFILES,
   SALARY_MONTHS_OPTIONS,
@@ -17,10 +18,12 @@ import {
   buildTaxableIncomeEstimate,
   formatAmountForInput,
   formatWithholdingRatePercent,
+  mapActiveInputForModeSwitch,
   resolveEffectiveWithholdingRate,
   type EmploymentProfile,
   type SalaryFieldValues,
   type SalaryInputField,
+  type SalaryInputMode,
   type SalaryMonths,
   type WithholdingRateMode,
   validateSalaryField,
@@ -36,7 +39,7 @@ const EMPTY_SALARY_FIELDS: SalaryFieldValues = {
   netAnnual: "",
 };
 
-const SALARY_MATRIX_ROWS: {
+const PERIOD_MATRIX_ROWS: {
   rowLabel: string;
   gross: SalaryInputField;
   net: SalaryInputField;
@@ -44,6 +47,12 @@ const SALARY_MATRIX_ROWS: {
   { rowLabel: "Mensuel", gross: "grossMonthly", net: "netMonthly" },
   { rowLabel: "Annuel", gross: "grossAnnual", net: "netAnnual" },
 ];
+
+const HOURLY_MATRIX_ROW = {
+  rowLabel: "Horaire",
+  gross: "grossHourly" as const,
+  net: "netHourly" as const,
+};
 
 const FIELD_LABELS: Record<SalaryInputField, string> = {
   grossHourly: "Salaire brut horaire",
@@ -55,23 +64,27 @@ const FIELD_LABELS: Record<SalaryInputField, string> = {
 };
 
 const FIELD_PLACEHOLDERS: Record<SalaryInputField, string> = {
-  grossHourly: "",
+  grossHourly: "Ex. : 15 €",
   grossMonthly: "Ex. : 2 500 €",
   grossAnnual: "Ex. : 30 000 €",
-  netHourly: "",
+  netHourly: "Ex. : 11,70 €",
   netMonthly: "Ex. : 1 950 €",
   netAnnual: "Ex. : 23 400 €",
 };
 
 export default function Calculator() {
+  const [inputMode, setInputMode] = useState<SalaryInputMode>(DEFAULT_SALARY_INPUT_MODE);
   const [salaryFields, setSalaryFields] = useState<SalaryFieldValues>(EMPTY_SALARY_FIELDS);
   const [activeInput, setActiveInput] = useState<SalaryInputField | null>(null);
   const [profile, setProfile] = useState<EmploymentProfile>(DEFAULT_PROFILE);
   const [workTimePercent, setWorkTimePercent] = useState<number>(WORK_TIME_PERCENT.default);
+  const [workTimeDraft, setWorkTimeDraft] = useState<string | null>(null);
   const [salaryMonths, setSalaryMonths] = useState<SalaryMonths>(DEFAULT_SALARY_MONTHS);
   const [withholdingRateMode, setWithholdingRateMode] = useState<WithholdingRateMode>("auto");
   const [manualWithholdingRate, setManualWithholdingRate] = useState<number>(WITHHOLDING_TAX.default);
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<SalaryInputField, string>>>({});
+
+  const isHourlyMode = inputMode === "hourly";
 
   const baseCalculation = useMemo(() => {
     const workTimeValidation = validateWorkTimePercent(workTimePercent);
@@ -227,6 +240,61 @@ export default function Calculator() {
     });
   };
 
+  const handleInputModeChange = (nextMode: SalaryInputMode) => {
+    if (nextMode === inputMode) {
+      return;
+    }
+
+    setInputMode(nextMode);
+    setFieldErrors({});
+
+    const nextActive = mapActiveInputForModeSwitch(nextMode, activeInput);
+    const nextWorkTime =
+      nextMode === "period" ? WORK_TIME_PERCENT.default : workTimePercent;
+
+    if (nextMode === "period") {
+      setWorkTimePercent(WORK_TIME_PERCENT.default);
+      setWorkTimeDraft(null);
+    }
+
+    if (nextActive && salaryFields[nextActive].trim()) {
+      setActiveInput(nextActive);
+      runCalculation(nextActive, salaryFields[nextActive], {
+        profile,
+        workTimePercent: nextWorkTime,
+        salaryMonths,
+      });
+      return;
+    }
+
+    // Valeurs dérivées déjà présentes : basculer sur le champ compatible
+    if (nextMode === "hourly" && salaryFields.grossHourly.trim()) {
+      setActiveInput("grossHourly");
+      runCalculation("grossHourly", salaryFields.grossHourly, {
+        profile,
+        workTimePercent: nextWorkTime,
+        salaryMonths,
+      });
+      return;
+    }
+
+    if (nextMode === "period" && salaryFields.grossMonthly.trim()) {
+      setActiveInput("grossMonthly");
+      runCalculation("grossMonthly", salaryFields.grossMonthly, {
+        profile,
+        workTimePercent: nextWorkTime,
+        salaryMonths,
+      });
+      return;
+    }
+
+    setActiveInput(nextActive);
+  };
+
+  const handleHourlyModeToggle = (checked: boolean) => {
+    handleInputModeChange(checked ? "hourly" : "period");
+  };
+
   const handleProfileChange = (nextProfile: EmploymentProfile) => {
     setProfile(nextProfile);
     if (activeInput && salaryFields[activeInput].trim()) {
@@ -240,6 +308,7 @@ export default function Calculator() {
 
   const handleWorkTimeChange = (value: number) => {
     setWorkTimePercent(value);
+    setWorkTimeDraft(null);
     if (activeInput && salaryFields[activeInput].trim()) {
       runCalculation(activeInput, salaryFields[activeInput], {
         profile,
@@ -247,6 +316,55 @@ export default function Calculator() {
         salaryMonths,
       });
     }
+  };
+
+  const applyWorkTimePercent = (value: number) => {
+    setWorkTimePercent(value);
+    if (activeInput && salaryFields[activeInput].trim()) {
+      runCalculation(activeInput, salaryFields[activeInput], {
+        profile,
+        workTimePercent: value,
+        salaryMonths,
+      });
+    }
+  };
+
+  const handleWorkTimeDraftChange = (raw: string) => {
+    const digitsOnly = raw.replace(/[^\d]/g, "");
+    setWorkTimeDraft(digitsOnly);
+
+    if (!digitsOnly) {
+      return;
+    }
+
+    const parsed = Number(digitsOnly);
+    if (validateWorkTimePercent(parsed) === null) {
+      applyWorkTimePercent(parsed);
+    }
+  };
+
+  const handleWorkTimeDraftBlur = () => {
+    if (workTimeDraft === null) {
+      return;
+    }
+
+    if (!workTimeDraft.trim()) {
+      setWorkTimeDraft(null);
+      return;
+    }
+
+    const parsed = Number(workTimeDraft);
+    const fallback = workTimePercent;
+    const rounded = Number.isFinite(parsed) ? Math.round(parsed) : fallback;
+    const clamped = Math.min(
+      WORK_TIME_PERCENT.max,
+      Math.max(WORK_TIME_PERCENT.min, rounded),
+    );
+
+    if (validateWorkTimePercent(clamped) === null) {
+      applyWorkTimePercent(clamped);
+    }
+    setWorkTimeDraft(null);
   };
 
   const handleSalaryMonthsChange = (months: SalaryMonths) => {
@@ -270,24 +388,28 @@ export default function Calculator() {
   };
 
   const handleReset = () => {
+    setInputMode(DEFAULT_SALARY_INPUT_MODE);
     setSalaryFields(EMPTY_SALARY_FIELDS);
     setActiveInput(null);
     setProfile(DEFAULT_PROFILE);
     setWorkTimePercent(WORK_TIME_PERCENT.default);
+    setWorkTimeDraft(null);
     setSalaryMonths(DEFAULT_SALARY_MONTHS);
     setWithholdingRateMode("auto");
     setManualWithholdingRate(WITHHOLDING_TAX.default);
     setFieldErrors({});
   };
 
-  const renderSalaryInput = (field: SalaryInputField) => {
+  const renderSalaryInput = (field: SalaryInputField, options?: { readOnly?: boolean }) => {
     const errorId = `${field}-error`;
     const error = fieldErrors[field];
+    const readOnly = Boolean(options?.readOnly);
 
-  return (
+    return (
       <div className="salary-calc__cell">
         <label htmlFor={field} className="salary-calc__sr-only">
           {FIELD_LABELS[field]}
+          {readOnly ? " (calculé automatiquement)" : ""}
         </label>
         <input
           id={field}
@@ -295,12 +417,15 @@ export default function Calculator() {
           type="text"
           inputMode="decimal"
           autoComplete="off"
-          placeholder={FIELD_PLACEHOLDERS[field]}
+          placeholder={readOnly ? undefined : FIELD_PLACEHOLDERS[field]}
           value={salaryFields[field]}
-          onChange={(e) => handleSalaryChange(field, e.target.value)}
-          className="calc-input"
+          readOnly={readOnly}
+          tabIndex={readOnly ? -1 : undefined}
+          onChange={readOnly ? undefined : (e) => handleSalaryChange(field, e.target.value)}
+          className={`calc-input${readOnly ? " calc-input--computed" : ""}`}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? errorId : undefined}
+          aria-readonly={readOnly ? true : undefined}
         />
         {error ? (
           <p id={errorId} className="calc-field-error" role="alert">
@@ -311,6 +436,17 @@ export default function Calculator() {
     );
   };
 
+  const renderMatrixRow = (
+    row: { rowLabel: string; gross: SalaryInputField; net: SalaryInputField },
+    options?: { readOnly?: boolean },
+  ) => (
+    <div key={row.rowLabel} className="salary-calc__matrix-row">
+      <span className="salary-calc__row-label">{row.rowLabel}</span>
+      {renderSalaryInput(row.gross, options)}
+      {renderSalaryInput(row.net, options)}
+    </div>
+  );
+
   const afterTaxMonthly = calculation
     ? formatAmountForInput(calculation.netAfterTaxMonthly)
     : "";
@@ -319,13 +455,31 @@ export default function Calculator() {
   const withholdingHelpId = "withholding-help";
   const withholdingHint =
     withholdingRateMode === "manual"
-      ? "Taux modifié manuellement."
+      ? "Taux fixé manuellement."
       : withholdingResolution.hasSalary
         ? "Taux neutre estimé automatiquement selon le revenu mensuel. Vous pouvez le modifier."
         : "Le taux estimé sera proposé après la saisie d'un salaire.";
 
   return (
     <div className="salary-calc calc-fields" aria-live="polite" aria-atomic="true">
+      <div className="salary-calc__hourly-toggle">
+        <label className="salary-calc__hourly-checkbox" htmlFor="hourlyInputMode">
+          <input
+            id="hourlyInputMode"
+            name="hourlyInputMode"
+            type="checkbox"
+            checked={isHourlyMode}
+            onChange={(e) => handleHourlyModeToggle(e.target.checked)}
+            aria-describedby="hourlyInputModeHelp"
+          />
+          <span>Calculer à partir d&apos;un taux horaire</span>
+        </label>
+        <p id="hourlyInputModeHelp" className="salary-calc__hourly-checkbox-hint">
+          Recommandé si vous êtes à <strong>temps partiel</strong> ou si vous connaissez uniquement
+          votre <strong>taux horaire</strong>.
+        </p>
+      </div>
+
       <div className="salary-calc__matrix" role="group" aria-label="Grille des salaires brut et net">
         <div className="salary-calc__matrix-head" aria-hidden="true">
           <span className="salary-calc__matrix-corner" />
@@ -333,14 +487,62 @@ export default function Calculator() {
           <span className="calc-field-label salary-calc__col-head">Salaire net</span>
         </div>
 
-        {SALARY_MATRIX_ROWS.map((row) => (
-          <div key={row.rowLabel} className="salary-calc__matrix-row">
-            <span className="salary-calc__row-label">{row.rowLabel}</span>
-            {renderSalaryInput(row.gross)}
-            {renderSalaryInput(row.net)}
+        {isHourlyMode ? (
+          <div className="salary-calc__hourly-fields">
+            {renderMatrixRow(HOURLY_MATRIX_ROW)}
+
+            <div className="salary-calc__param salary-calc__param--in-matrix">
+              <div className="salary-calc__work-time-label">
+                <label htmlFor="workTimePercentInput" className="calc-field-label">
+                  Temps de travail :
+                </label>
+                <input
+                  id="workTimePercentInput"
+                  name="workTimePercentInput"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  className="calc-input salary-calc__work-time-input"
+                  value={workTimeDraft ?? String(workTimePercent)}
+                  onChange={(e) => handleWorkTimeDraftChange(e.target.value)}
+                  onBlur={handleWorkTimeDraftBlur}
+                  aria-label="Temps de travail en pourcentage"
+                  aria-describedby="workTimePercent"
+                />
+                <span className="salary-calc__work-time-suffix" aria-hidden="true">
+                  %
+                </span>
+              </div>
+              <input
+                id="workTimePercent"
+                name="workTimePercent"
+                type="range"
+                min={WORK_TIME_PERCENT.min}
+                max={WORK_TIME_PERCENT.max}
+                step={1}
+                value={workTimePercent}
+                onChange={(e) => handleWorkTimeChange(Number(e.target.value))}
+                className="calc-range"
+                aria-valuemin={WORK_TIME_PERCENT.min}
+                aria-valuemax={WORK_TIME_PERCENT.max}
+                aria-valuenow={workTimePercent}
+                aria-label="Curseur du temps de travail"
+              />
+            </div>
           </div>
-        ))}
+        ) : null}
+
+        {PERIOD_MATRIX_ROWS.map((row) =>
+          renderMatrixRow(row, { readOnly: isHourlyMode }),
+        )}
       </div>
+
+      {isHourlyMode ? (
+        <p className="salary-calc__hint salary-calc__hint--computed salary-calc__hourly-fields">
+          Ces montants sont calculés automatiquement à partir de votre taux horaire et de votre
+          temps de travail.
+        </p>
+      ) : null}
 
       <SelectableOptionGroup legend="Statut professionnel" ariaLabel="Statut professionnel">
         {EMPLOYMENT_PROFILES.map((item) => (
@@ -354,26 +556,6 @@ export default function Calculator() {
           />
         ))}
       </SelectableOptionGroup>
-
-      <div className="salary-calc__param">
-        <label htmlFor="workTimePercent" className="calc-field-label">
-          Temps de travail : {workTimePercent} %
-        </label>
-        <input
-          id="workTimePercent"
-          name="workTimePercent"
-          type="range"
-          min={WORK_TIME_PERCENT.min}
-          max={WORK_TIME_PERCENT.max}
-          step={1}
-          value={workTimePercent}
-          onChange={(e) => handleWorkTimeChange(Number(e.target.value))}
-          className="calc-range"
-          aria-valuemin={WORK_TIME_PERCENT.min}
-          aria-valuemax={WORK_TIME_PERCENT.max}
-          aria-valuenow={workTimePercent}
-        />
-      </div>
 
       <SelectableOptionGroup
         legend="Nombre de mois de rémunération"

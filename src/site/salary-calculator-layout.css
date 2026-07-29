@@ -15,6 +15,85 @@
   margin-bottom: 7px;
 }
 
+.salary-calc__hourly-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 2px;
+}
+
+.salary-calc__hourly-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  font-size: var(--ds-font-size-lg);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ds-label-on-brand);
+  cursor: pointer;
+  user-select: none;
+}
+
+.salary-calc__hourly-checkbox input {
+  margin-top: 3px;
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+  accent-color: var(--ds-brand-active);
+  cursor: pointer;
+}
+
+.salary-calc__hourly-checkbox:has(input:focus-visible) {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.salary-calc__hourly-checkbox-hint {
+  margin: 0 0 0 1.7rem;
+  font-size: var(--ds-font-size-sm);
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--ds-on-brand-muted);
+}
+
+.salary-calc__hourly-checkbox-hint strong {
+  font-weight: 700;
+  color: var(--ds-on-brand-strong);
+}
+
+@keyframes salary-calc-hourly-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.salary-calc__hourly-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: salary-calc-hourly-enter 0.18s ease;
+}
+
+@media (max-width: 480px) {
+  .salary-calc__hourly-checkbox {
+    gap: 8px;
+    font-size: var(--ds-font-size-md);
+  }
+
+  .salary-calc__hourly-checkbox-hint {
+    margin-left: 1.55rem;
+    line-height: 1.5;
+  }
+}
+
 .salary-calc__matrix {
   display: flex;
   flex-direction: column;
@@ -75,6 +154,56 @@
 .salary-calc__param .calc-input:focus {
   border-color: #ffffff;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6), 0 0 0 4px rgba(var(--ds-brand-rgb), 0.22);
+}
+
+.salary-calc__cell .calc-input--computed,
+.salary-calc__cell .calc-input--computed:not(:placeholder-shown) {
+  background: rgba(255, 255, 255, 0.72);
+  color: #3f3f46;
+  font-weight: 600;
+  cursor: default;
+  opacity: 1;
+}
+
+.salary-calc__cell .calc-input--computed:focus {
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: none;
+}
+
+.salary-calc__param--in-matrix {
+  margin: 2px 0 4px;
+}
+
+.salary-calc__work-time-label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.salary-calc__work-time-label .calc-field-label {
+  margin-bottom: 0;
+}
+
+.salary-calc__work-time-input {
+  width: 3.25rem;
+  min-width: 3.25rem;
+  height: 32px !important;
+  padding: 0 8px !important;
+  text-align: center;
+  font-size: var(--ds-font-size-lg) !important;
+}
+
+.salary-calc__work-time-suffix {
+  font-size: var(--ds-font-size-lg);
+  font-weight: 600;
+  color: var(--ds-label-on-brand);
+}
+
+.salary-calc__hint--computed {
+  margin-top: -2px;
+  margin-bottom: 2px;
 }
 
 .salary-calc__cell .calc-field-error {
@@ -148,6 +277,11 @@
   gap: 7px;
 }
 
+.selectable-group--stack {
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
 .selectable-option {
   position: relative;
   display: inline-flex;
@@ -173,6 +307,19 @@
     box-shadow var(--ds-transition),
     transform var(--ds-transition);
   user-select: none;
+}
+
+.selectable-option--stack {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+  min-height: 42px;
+  padding: 10px 14px;
+}
+
+.selectable-option--stack .selectable-option__label {
+  text-align: left;
+  white-space: normal;
 }
 
 .selectable-option--compact {
