@@ -128,6 +128,7 @@ export function buildRootMetadata(
 ): Metadata {
   return {
     metadataBase: new URL(site.url),
+    applicationName: site.name,
     title: { default: seo.home.title, template: seo.titleTemplate },
     description: seo.defaultDescription,
     authors: [{ name: site.author }],
