@@ -2,14 +2,16 @@ import { config, seoConfig, Calculator } from "@/site";
 import { coverToOgInput, HOME_COVER } from "@/site/guides/covers";
 import { CalculatorPageLayout } from "@/framework/layouts/CalculatorPageLayout";
 import { JsonLd } from "@/framework/JsonLd";
-import { buildPageMetadata } from "@/framework/seo/metadata";
+import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { buildHomeJsonLd } from "@/site/schema";
 import { HOME_EDITORIAL_UPDATED_AT } from "@/site/home-editorial-data";
+
+const path = "/";
 
 export const metadata = buildPageMetadata(config, seoConfig, {
   title: seoConfig.home.title,
   description: seoConfig.home.description,
-  path: "/",
+  path,
   ogImage: coverToOgInput(HOME_COVER),
 });
 
@@ -25,7 +27,16 @@ export default function HomePage() {
           dateModified: HOME_EDITORIAL_UPDATED_AT,
         })}
       />
-      <CalculatorPageLayout Calculator={Calculator} />
+      <CalculatorPageLayout
+        Calculator={Calculator}
+        share={{
+          url: getCanonicalUrl(config.url, path),
+          title: seoConfig.home.title,
+          description: seoConfig.home.description,
+          heading: "Partager ce calculateur",
+          nativeLabel: "Partager ce calculateur",
+        }}
+      />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ShareBlock } from "@/framework/design/components/ShareBlock";
 import { getGuideCoverByHref } from "./covers";
 import { GuideCoverImage } from "./GuideCoverImage";
 import { CoverFigure } from "./CoverFigure";
@@ -347,6 +348,12 @@ interface GuideArticleProps {
   conclusion: import("./types").Guide["conclusion"];
   isTemplate?: boolean;
   cover?: import("./covers").GuideCoverImage;
+  /** Données de partage (URL canonique + titres SEO du guide). */
+  share: {
+    url: string;
+    title: string;
+    description?: string;
+  };
 }
 
 function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQuickSummary }) {
@@ -429,6 +436,7 @@ export function GuideArticle({
   conclusion,
   isTemplate,
   cover,
+  share,
 }: GuideArticleProps) {
   const [firstParagraph, ...restIntroduction] = introduction;
 
@@ -455,6 +463,14 @@ export function GuideArticle({
           </ul>
         </aside>
       ) : null}
+
+      <ShareBlock
+        url={share.url}
+        title={share.title}
+        description={share.description}
+        contentType="guide"
+        variant="onLight"
+      />
 
       <GuideInlineToc entries={toc} />
 
@@ -526,6 +542,14 @@ export function GuideArticle({
             </Link>
           ))}
       </section>
+
+      <ShareBlock
+        url={share.url}
+        title={share.title}
+        description={share.description}
+        contentType="guide"
+        variant="onLight"
+      />
     </>
   );
 }

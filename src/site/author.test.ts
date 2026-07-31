@@ -26,4 +26,14 @@ describe("auteur éditorial", () => {
     expect(source).toContain("GuideAuthorMeta");
     expect(source).toContain("updatedAt={guide.updatedAt}");
   });
+
+  it("affiche l'auteur sur la série net → brut sans temps de lecture", () => {
+    const source = readFileSync(
+      join(process.cwd(), "src/site/salaire-net-brut/page-1500.tsx"),
+      "utf8",
+    );
+    expect(source).toContain("GuideAuthorMeta");
+    expect(source).toContain("updatedAt={NET_TO_GROSS_UPDATED_AT}");
+    expect(source).not.toContain("readingTime");
+  });
 });

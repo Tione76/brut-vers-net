@@ -14,7 +14,7 @@ import {
 import { coverToOgInput } from "@/site/guides/covers";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
-import { buildPageMetadata } from "@/framework/seo/metadata";
+import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { buildGuideJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
 import "@/site/guides/guide-page.css";
@@ -52,6 +52,8 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
 
   const readingTime = computeReadingTime(guide);
   const toc = buildGuideTocH2(guide);
+  const path = `/guides/${slug}`;
+  const shareTitle = guide.seoTitle ?? guide.title;
 
   return (
     <>
@@ -80,6 +82,11 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
           faqIntro={guide.faqIntro}
           conclusion={guide.conclusion}
           cover={resolveGuideCover(guide)}
+          share={{
+            url: getCanonicalUrl(config.url, path),
+            title: shareTitle,
+            description: guide.description,
+          }}
         />
       </GuidePageLayout>
     </>

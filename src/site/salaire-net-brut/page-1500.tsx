@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
+import { ShareBlock } from "@/framework/design/components/ShareBlock";
+import { GuideAuthorMeta } from "@/site/guides";
 import {
   buildAllProfileEstimates,
   buildComparisonRows,
@@ -28,13 +30,21 @@ const CARD_TONE: Record<string, string> = {
 
 interface NetToGrossSeriesPageContentProps {
   netMonthly: number;
+  share: {
+    url: string;
+    title: string;
+    description?: string;
+  };
 }
 
 /**
  * Template de la série, calqué sur le modèle validé 1 500 €.
  * Seul le montant cible (et les calculs associés) change.
  */
-export function NetToGrossSeriesPageContent({ netMonthly }: NetToGrossSeriesPageContentProps) {
+export function NetToGrossSeriesPageContent({
+  netMonthly,
+  share,
+}: NetToGrossSeriesPageContentProps) {
   const estimates = buildAllProfileEstimates(netMonthly);
   const rows = buildComparisonRows(netMonthly);
   const faq = buildSeriesFaqItems(netMonthly, estimates);
@@ -61,6 +71,7 @@ export function NetToGrossSeriesPageContent({ netMonthly }: NetToGrossSeriesPage
           { label: seriesBreadcrumbLabel(netMonthly) },
         ]}
       />
+      <GuideAuthorMeta updatedAt={NET_TO_GROSS_UPDATED_AT} />
 
       <section className="net-gross-1500__hero" aria-labelledby={`${idPrefix}-answer`}>
         <h2 id={`${idPrefix}-answer`} className="net-gross-1500__answer-title">
@@ -95,6 +106,14 @@ export function NetToGrossSeriesPageContent({ netMonthly }: NetToGrossSeriesPage
       </section>
 
       <MiniCalculatorCta1500 defaultNetMonthly={netMonthly} />
+
+      <ShareBlock
+        url={share.url}
+        title={share.title}
+        description={share.description}
+        contentType="fiche"
+        variant="onLight"
+      />
 
       {editorialSections.map(({ id, title, paragraphs }) => (
         <section
@@ -204,11 +223,14 @@ export function NetToGrossSeriesPageContent({ netMonthly }: NetToGrossSeriesPage
         Contenu révisé le <time dateTime={NET_TO_GROSS_UPDATED_AT}>{revisedLabel}</time>. Chiffres
         alignés sur les coefficients du simulateur.
       </p>
+
+      <ShareBlock
+        url={share.url}
+        title={share.title}
+        description={share.description}
+        contentType="fiche"
+        variant="onLight"
+      />
     </div>
   );
-}
-
-/** Alias de compatibilité : page modèle 1 500 €. */
-export function NetToGrossPage1500Content() {
-  return <NetToGrossSeriesPageContent netMonthly={1500} />;
 }

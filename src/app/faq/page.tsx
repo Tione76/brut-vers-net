@@ -1,6 +1,6 @@
 import { config, seoConfig } from "@/site";
 import { JsonLd } from "@/framework/JsonLd";
-import { buildPageMetadata } from "@/framework/seo/metadata";
+import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import {
   FAQ_PAGE_H1,
   FAQ_PAGE_META,
@@ -14,10 +14,12 @@ import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { buildWebPageJsonLd } from "@/site/schema";
 import "@/site/guides/guide-page.css";
 
+const path = "/faq";
+
 export const metadata = buildPageMetadata(config, seoConfig, {
   title: FAQ_PAGE_META.title,
   description: FAQ_PAGE_META.description,
-  path: "/faq",
+  path,
   ogImage: coverToOgInput(FAQ_COVER),
 });
 
@@ -26,12 +28,12 @@ export default function FaqPage() {
     <>
       <JsonLd
         data={buildWebPageJsonLd({
-          path: "/faq",
+          path,
           name: FAQ_PAGE_META.title,
           description: FAQ_PAGE_META.description,
           breadcrumbs: [
             { name: "Accueil", path: "/" },
-            { name: "FAQ", path: "/faq" },
+            { name: "FAQ", path },
           ],
           cover: FAQ_COVER,
           faq: getFaqPageSchemaItems(),
@@ -49,7 +51,13 @@ export default function FaqPage() {
             { label: "FAQ" },
           ]}
         />
-        <FaqPageContent />
+        <FaqPageContent
+          share={{
+            url: getCanonicalUrl(config.url, path),
+            title: FAQ_PAGE_META.title,
+            description: FAQ_PAGE_META.description,
+          }}
+        />
       </GuidePageLayout>
     </>
   );

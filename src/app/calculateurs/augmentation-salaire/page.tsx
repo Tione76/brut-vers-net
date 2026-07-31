@@ -4,7 +4,7 @@ import { SalaryIncreasePageSidebar } from "@/site/salary-increase-calculator/sal
 import { ToolCalculatorPageLayout } from "@/framework/layouts/ToolCalculatorPageLayout";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
-import { buildPageMetadata } from "@/framework/seo/metadata";
+import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { buildCalculatorJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
 import {
@@ -60,6 +60,13 @@ export default function SalaryIncreaseCalculatorPage() {
           />
         }
         editorial={<SalaryIncreaseEditorial />}
+        share={{
+          url: getCanonicalUrl(config.url, path),
+          title: calc.title,
+          description: calc.description,
+          heading: "Partager ce calculateur",
+          nativeLabel: "Partager ce calculateur",
+        }}
       />
     </>
   );

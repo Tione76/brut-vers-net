@@ -6,6 +6,7 @@ import { useSite, CalculatorProvider } from "@/framework/SiteProvider";
 import { AdSlot } from "@/framework/AdSlot";
 import { SiteNav } from "@/framework/design/components/SiteNav";
 import { HeaderCurveDown } from "@/framework/design/components/Curves";
+import { ShareBlock, type ShareBlockProps } from "@/framework/design/components/ShareBlock";
 import { PageFooter } from "@/framework/design/PageFooter";
 import { HomePageSidebar } from "@/site/guides/GuidePageSidebar";
 import { hasSidebarContent } from "@/site/guides/sidebar";
@@ -16,9 +17,16 @@ import "@/site/guides/guide-page.css";
 
 interface CalculatorPageLayoutProps {
   Calculator: ComponentType;
+  share: ShareBlockProps;
 }
 
-function CalculatorHero({ Calculator }: { Calculator: ComponentType }) {
+function CalculatorHero({
+  Calculator,
+  share,
+}: {
+  Calculator: ComponentType;
+  share: ShareBlockProps;
+}) {
   return (
     <div className="calc-tool calc-tool--salary" data-clarity-mask="true">
       <Calculator />
@@ -26,11 +34,12 @@ function CalculatorHero({ Calculator }: { Calculator: ComponentType }) {
         Cette simulation fournit une estimation indicative. Le montant réel peut varier selon votre
         situation, votre contrat, votre régime et les retenues appliquées.
       </p>
+      <ShareBlock {...share} />
     </div>
   );
 }
 
-function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
+function CalculatorPageInner({ Calculator, share }: CalculatorPageLayoutProps) {
   const site = useSite();
   const showSidebar = hasSidebarContent({ pageType: "home", currentPath: "/" });
 
@@ -47,7 +56,7 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
         <div className="tool-header__inner">
           <h1 className="tool-header__title tool-header__title--sentence">{site.home.h1}</h1>
           <div className="calc-stage">
-            <CalculatorHero Calculator={Calculator} />
+            <CalculatorHero Calculator={Calculator} share={share} />
           </div>
         </div>
         <HeaderCurveDown />
@@ -105,6 +114,8 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
             <HomeFaqContent />
           </div>
         </section>
+
+              <ShareBlock {...share} variant="onLight" />
             </div>
             {showSidebar && <HomePageSidebar />}
           </div>
@@ -120,10 +131,10 @@ function CalculatorPageInner({ Calculator }: CalculatorPageLayoutProps) {
   );
 }
 
-export function CalculatorPageLayout({ Calculator }: CalculatorPageLayoutProps) {
+export function CalculatorPageLayout({ Calculator, share }: CalculatorPageLayoutProps) {
   return (
     <CalculatorProvider>
-      <CalculatorPageInner Calculator={Calculator} />
+      <CalculatorPageInner Calculator={Calculator} share={share} />
     </CalculatorProvider>
   );
 }

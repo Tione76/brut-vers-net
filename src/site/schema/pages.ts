@@ -25,19 +25,31 @@ type PageBaseInput = {
   breadcrumbs: BreadcrumbItem[];
   cover?: GuideCoverImage | null;
   faq?: FaqItem[];
+  /** Inclut Person (#author) et WebPage.author, comme Article.author sur les guides. */
+  withAuthor?: boolean;
   dateModified?: string;
   datePublished?: string;
 };
 
 /** Page générique (contact, légal, hubs, FAQ) : pas de WebApplication. */
 export function buildWebPageJsonLd(input: PageBaseInput): Record<string, unknown> {
-  const { path, name, description, breadcrumbs, cover, faq = [], dateModified, datePublished } =
-    input;
+  const {
+    path,
+    name,
+    description,
+    breadcrumbs,
+    cover,
+    faq = [],
+    withAuthor,
+    dateModified,
+    datePublished,
+  } = input;
   const faqNode = buildFaqPageNode(path, faq);
   const hasCover = Boolean(cover);
 
   return buildJsonLdGraph([
     ...sharedNodes(),
+    ...(withAuthor ? [buildPersonNode()] : []),
     ...(hasCover && cover ? [buildPrimaryImageNode(path, cover)] : []),
     buildBreadcrumbNode(path, breadcrumbs),
     buildWebPageNode({
@@ -46,6 +58,7 @@ export function buildWebPageJsonLd(input: PageBaseInput): Record<string, unknown
       description,
       hasPrimaryImage: hasCover,
       mainEntityId: faqNode ? schemaIds.faq(path) : undefined,
+      withAuthor,
       dateModified,
       datePublished,
     }),

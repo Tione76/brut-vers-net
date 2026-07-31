@@ -114,6 +114,26 @@ describe("WebApplication sur calculateurs interactifs", () => {
     const legalGraph = legal["@graph"] as Record<string, unknown>[];
     expect(legalGraph.some((n) => n["@type"] === "WebApplication")).toBe(false);
   });
+
+  it("relie WebPage.author au même Person #author que les guides quand withAuthor", () => {
+    const page = buildWebPageJsonLd({
+      path: "/combien-gagner-brut-mensuel-pour-1500-net",
+      name: "t",
+      description: "d",
+      breadcrumbs: [
+        { name: "Accueil", path: "/" },
+        { name: "1500", path: "/combien-gagner-brut-mensuel-pour-1500-net" },
+      ],
+      withAuthor: true,
+    });
+    const graph = page["@graph"] as Record<string, unknown>[];
+    const persons = graph.filter((n) => n["@type"] === "Person");
+    expect(persons).toHaveLength(1);
+    expect(persons[0]["@id"]).toBe("https://brut-vers-net.fr/#author");
+    expect(graph.find((n) => n["@type"] === "WebPage")?.author).toEqual({
+      "@id": "https://brut-vers-net.fr/#author",
+    });
+  });
 });
 
 describe("page auteur Schema.org", () => {

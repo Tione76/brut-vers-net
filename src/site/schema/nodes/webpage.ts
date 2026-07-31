@@ -32,6 +32,8 @@ type WebPageOptions = {
   mainEntityId?: string;
   /** Additional related entities (e.g. FAQ on an Article page) */
   hasPartIds?: string[];
+  /** Auteur éditorial (même @id Person que les guides). */
+  withAuthor?: boolean;
   dateModified?: string;
   datePublished?: string;
 };
@@ -44,6 +46,7 @@ export function buildWebPageNode(options: WebPageOptions): JsonLdNode {
     hasPrimaryImage,
     mainEntityId,
     hasPartIds,
+    withAuthor,
     dateModified,
     datePublished,
   } = options;
@@ -58,6 +61,7 @@ export function buildWebPageNode(options: WebPageOptions): JsonLdNode {
     isPartOf: ref(schemaIds.website()),
     about: ref(schemaIds.organization()),
     breadcrumb: ref(schemaIds.breadcrumb(path)),
+    ...(withAuthor ? { author: ref(schemaIds.person()) } : {}),
     ...(hasPrimaryImage ? { primaryImageOfPage: ref(schemaIds.primaryImage(path)) } : {}),
     ...(mainEntityId ? { mainEntity: ref(mainEntityId) } : {}),
     ...(hasPartIds && hasPartIds.length > 0

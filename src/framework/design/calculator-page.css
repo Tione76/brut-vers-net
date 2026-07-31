@@ -302,6 +302,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.18);
   font-size: var(--ds-font-size-xs);
   color: var(--ds-on-brand-disclaimer);
+  text-align: center;
 }
 
 /* Page d'accueil : colonne principale + sidebar guides */

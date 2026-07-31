@@ -30,5 +30,5 @@ export {
   getSeriesNearbyAmounts,
   seriesBreadcrumbLabel,
 } from "./page-1500-content";
-export { NetToGrossPage1500Content, NetToGrossSeriesPageContent } from "./page-1500";
+export { NetToGrossSeriesPageContent } from "./page-1500";
 export { NetToGrossPageSidebar } from "./sidebar";

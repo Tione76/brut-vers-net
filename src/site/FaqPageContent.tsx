@@ -1,3 +1,4 @@
+import { ShareBlock } from "@/framework/design/components/ShareBlock";
 import { GuideInlineToc } from "@/site/guides";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { FAQ_COVER } from "@/site/guides/covers";
@@ -10,7 +11,13 @@ import {
 } from "./faq-page-data";
 import { renderFaqAnswer } from "./faq-page-utils";
 
-export function FaqPageContent() {
+type FaqPageShare = {
+  url: string;
+  title: string;
+  description?: string;
+};
+
+export function FaqPageContent({ share }: { share: FaqPageShare }) {
   const toc = getFaqPageTocEntries();
 
   return (
@@ -18,8 +25,15 @@ export function FaqPageContent() {
       <div className="faq-page__header">
         <p className="faq-page__intro">{FAQ_PAGE_INTRO}</p>
         <CoverFigure cover={FAQ_COVER} priority />
-        <p className="faq-page__updated">Dernière mise à jour : {FAQ_PAGE_UPDATED}</p>
+        <ShareBlock
+          url={share.url}
+          title={share.title}
+          description={share.description}
+          contentType="faq"
+          variant="onLight"
+        />
         <GuideInlineToc entries={toc} title="Sommaire" />
+        <p className="faq-page__updated">Dernière mise à jour : {FAQ_PAGE_UPDATED}</p>
       </div>
 
       {faqPageCategories.map((category) => (
@@ -49,6 +63,14 @@ export function FaqPageContent() {
       ))}
 
       <div className="faq-page__outro">{renderFaqAnswer(FAQ_PAGE_OUTRO_SEGMENTS)}</div>
+
+      <ShareBlock
+        url={share.url}
+        title={share.title}
+        description={share.description}
+        contentType="faq"
+        variant="onLight"
+      />
     </div>
   );
 }

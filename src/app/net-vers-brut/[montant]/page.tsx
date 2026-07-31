@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { config, seoConfig } from "@/site";
 import { JsonLd } from "@/framework/JsonLd";
-import { buildPageMetadata } from "@/framework/seo/metadata";
+import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { GuidePageLayout } from "@/site/guides";
 import { coverToOgInput, HOME_COVER } from "@/site/guides/covers";
 import { isPathIndexable } from "@/site/public-pages";
@@ -81,6 +81,7 @@ export default async function NetToGrossAmountPage({ params }: PageProps) {
           ],
           cover: HOME_COVER,
           faq,
+          withAuthor: true,
           dateModified: NET_TO_GROSS_UPDATED_AT,
           datePublished: NET_TO_GROSS_UPDATED_AT,
         })}
@@ -91,7 +92,14 @@ export default async function NetToGrossAmountPage({ params }: PageProps) {
         prose={false}
         sidebar={<NetToGrossPageSidebar netMonthly={netMonthly} />}
       >
-        <NetToGrossSeriesPageContent netMonthly={netMonthly} />
+        <NetToGrossSeriesPageContent
+          netMonthly={netMonthly}
+          share={{
+            url: getCanonicalUrl(config.url, path),
+            title: seo.title,
+            description: seo.description,
+          }}
+        />
       </GuidePageLayout>
     </>
   );
