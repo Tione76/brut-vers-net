@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import "@/site/salary-calculator-layout.css";
 import { SelectableOption, SelectableOptionGroup } from "@/site/components/SelectableOptionGroup";
 import {
@@ -19,6 +20,7 @@ import {
   formatAmountForInput,
   formatWithholdingRatePercent,
   mapActiveInputForModeSwitch,
+  parseSalaryAmount,
   resolveEffectiveWithholdingRate,
   type EmploymentProfile,
   type SalaryFieldValues,
@@ -29,6 +31,11 @@ import {
   validateSalaryField,
   validateWorkTimePercent,
 } from "@/site/salary-calculator";
+
+import { CALCULATOR_NET_QUERY_PARAM, CALCULATOR_PROFILE_QUERY_PARAM, parseProfileQueryParam } from "@/site/salaire-net-brut/prefill";
+
+/** Préremplissage depuis les pages SEO (?brut=2135 ou ?net=1500&profil=non-cadre). */
+const GROSS_QUERY_PARAM = "brut";
 
 const EMPTY_SALARY_FIELDS: SalaryFieldValues = {
   grossHourly: "",
@@ -224,6 +231,34 @@ function HourlyModeInfoButton() {
 }
 
 export default function Calculator() {
+  return (
+    <Suspense fallback={<SalaryCalculator />}>
+      <SalaryCalculatorWithSearchParams />
+    </Suspense>
+  );
+}
+
+function SalaryCalculatorWithSearchParams() {
+  const searchParams = useSearchParams();
+  return (
+    <SalaryCalculator
+      prefillGrossRaw={searchParams.get(GROSS_QUERY_PARAM)}
+      prefillNetRaw={searchParams.get(CALCULATOR_NET_QUERY_PARAM)}
+      prefillProfileRaw={searchParams.get(CALCULATOR_PROFILE_QUERY_PARAM)}
+    />
+  );
+}
+
+function SalaryCalculator({
+  prefillGrossRaw = null,
+  prefillNetRaw = null,
+  prefillProfileRaw = null,
+}: {
+  prefillGrossRaw?: string | null;
+  prefillNetRaw?: string | null;
+  prefillProfileRaw?: string | null;
+}) {
+  const prefillAppliedRef = useRef(false);
   const [inputMode, setInputMode] = useState<SalaryInputMode>(DEFAULT_SALARY_INPUT_MODE);
   const [salaryFields, setSalaryFields] = useState<SalaryFieldValues>(EMPTY_SALARY_FIELDS);
   const [activeInput, setActiveInput] = useState<SalaryInputField | null>(null);
@@ -373,6 +408,53 @@ export default function Calculator() {
     },
     [syncDerivedFields],
   );
+
+  useEffect(() => {
+    if (prefillAppliedRef.current) {
+      return;
+    }
+
+    const profileFromQuery = parseProfileQueryParam(prefillProfileRaw);
+    const nextProfile = profileFromQuery ?? DEFAULT_PROFILE;
+
+    if (prefillNetRaw) {
+      const parsedNet = parseSalaryAmount(prefillNetRaw);
+      if (parsedNet === null || parsedNet <= 0) {
+        return;
+      }
+      prefillAppliedRef.current = true;
+      const formatted = formatAmountForInput(parsedNet);
+      setInputMode(DEFAULT_SALARY_INPUT_MODE);
+      setProfile(nextProfile);
+      setActiveInput("netMonthly");
+      runCalculation("netMonthly", formatted, {
+        profile: nextProfile,
+        workTimePercent: WORK_TIME_PERCENT.default,
+        salaryMonths: DEFAULT_SALARY_MONTHS,
+      });
+      return;
+    }
+
+    if (!prefillGrossRaw) {
+      return;
+    }
+
+    const parsedGross = parseSalaryAmount(prefillGrossRaw);
+    if (parsedGross === null || parsedGross <= 0) {
+      return;
+    }
+
+    prefillAppliedRef.current = true;
+    const formatted = formatAmountForInput(parsedGross);
+    setInputMode(DEFAULT_SALARY_INPUT_MODE);
+    setProfile(nextProfile);
+    setActiveInput("grossMonthly");
+    runCalculation("grossMonthly", formatted, {
+      profile: nextProfile,
+      workTimePercent: WORK_TIME_PERCENT.default,
+      salaryMonths: DEFAULT_SALARY_MONTHS,
+    });
+  }, [prefillGrossRaw, prefillNetRaw, prefillProfileRaw, runCalculation]);
 
   const handleSalaryChange = (field: SalaryInputField, value: string) => {
     setActiveInput(field);

@@ -24,6 +24,29 @@ const nextConfig: NextConfig = {
         destination: "/gestion-des-cookies",
         permanent: true,
       },
+      {
+        source: "/salaire-net-brut/:montant",
+        destination: "/combien-gagner-brut-mensuel-pour-:montant-net",
+        permanent: true,
+      },
+      {
+        source: "/net-vers-brut/:montant",
+        destination: "/combien-gagner-brut-mensuel-pour-:montant-net",
+        permanent: true,
+      },
+      {
+        source: "/combien-gagner-brut-pour-:montant-net",
+        destination: "/combien-gagner-brut-mensuel-pour-:montant-net",
+        permanent: true,
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/combien-gagner-brut-mensuel-pour-:montant(\\d+)-net",
+        destination: "/net-vers-brut/:montant",
+      },
     ];
   },
   headers: async () => [

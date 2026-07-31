@@ -8,6 +8,12 @@ import { getAllCalculators } from "./navigation/calculators-registry";
 import { seoConfig } from "./seo.config";
 import { siteConfig } from "./site.config";
 import { SITE_AUTHOR } from "./author";
+import {
+  NET_TO_GROSS_AMOUNTS,
+  NET_TO_GROSS_UPDATED_AT,
+  netToGrossPath,
+} from "./salaire-net-brut/config";
+import { buildSeriesSeoMeta } from "./salaire-net-brut/page-1500-content";
 
 export type PublicPageCategory = "tools" | "guides" | "faq" | "utility";
 
@@ -169,11 +175,22 @@ export function getAllPublicPages(): PublicPage[] {
     lastModified: legalUpdated,
   }));
 
+  const netToGrossPages: PublicPage[] = NET_TO_GROSS_AMOUNTS.map((amount) => ({
+    path: netToGrossPath(amount),
+    title: buildSeriesSeoMeta(amount).title,
+    category: "guides" as const,
+    changefreq: "monthly" as const,
+    priority: 0.72,
+    indexable: true,
+    lastModified: NET_TO_GROSS_UPDATED_AT,
+  }));
+
   return [
     ...calculatorPages(),
     toolsHubPage,
     guideHubPage,
     ...guidePages,
+    ...netToGrossPages,
     faqPage,
     ...utilityPages,
     ...legalPages,
