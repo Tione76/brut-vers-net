@@ -14,6 +14,18 @@ import {
   netToGrossPath,
 } from "./salaire-net-brut/config";
 import { buildSeriesSeoMeta } from "./salaire-net-brut/page-1500-content";
+import {
+  MONTHLY_INCREASE_AMOUNTS,
+  MONTHLY_INCREASE_UPDATED_AT,
+  monthlyIncreasePath,
+} from "./augmentation-salaire-mensuelle/config";
+import { buildMonthlyIncreaseSeoMeta } from "./augmentation-salaire-mensuelle/content";
+import {
+  GROSS_PRIME_AMOUNTS,
+  GROSS_PRIME_UPDATED_AT,
+  grossPrimePath,
+} from "./prime-brute-net/config";
+import { buildGrossPrimeSeoMeta } from "./prime-brute-net/content";
 
 export type PublicPageCategory = "tools" | "guides" | "faq" | "utility";
 
@@ -185,12 +197,37 @@ export function getAllPublicPages(): PublicPage[] {
     lastModified: NET_TO_GROSS_UPDATED_AT,
   }));
 
+  const monthlyIncreasePages: PublicPage[] = MONTHLY_INCREASE_AMOUNTS.map((amount) => ({
+    path: monthlyIncreasePath(amount),
+    title: buildMonthlyIncreaseSeoMeta(amount).title,
+    category: "guides" as const,
+    changefreq: "monthly" as const,
+    priority: 0.72,
+    indexable: true,
+    lastModified: MONTHLY_INCREASE_UPDATED_AT,
+  }));
+
+  const grossPrimePages: PublicPage[] = GROSS_PRIME_AMOUNTS.map((amount) => ({
+    path: grossPrimePath(amount),
+    title: buildGrossPrimeSeoMeta(amount).title,
+    category: "guides" as const,
+    changefreq: "monthly" as const,
+    priority: 0.72,
+    indexable: true,
+    lastModified: GROSS_PRIME_UPDATED_AT,
+  }));
+
+  // Série brut → net : non enregistrée ici tant que la fiche pilote n'est pas validée.
+  // La route SSG existe via generateStaticParams ; hors sitemap / plan du site / indexation.
+
   return [
     ...calculatorPages(),
     toolsHubPage,
     guideHubPage,
     ...guidePages,
     ...netToGrossPages,
+    ...monthlyIncreasePages,
+    ...grossPrimePages,
     faqPage,
     ...utilityPages,
     ...legalPages,

@@ -21,6 +21,8 @@ export interface SeoPageInput {
   robots?: SeoRobotsInput;
   /** Ne pas émettre de canonical (404, erreurs) */
   noCanonical?: boolean;
+  /** Type Open Graph (défaut : article pour /guides, sinon website). */
+  openGraphType?: "article" | "website";
 }
 
 export interface SiteSeoInput {
@@ -85,6 +87,7 @@ export function buildPageMetadata(
   const canonical = getCanonicalUrl(site.url, page.path);
   const { absoluteUrl, meta } = resolveOgImage(site, page.ogImage);
   const isGuidesPage = page.path === "/guides" || page.path.startsWith("/guides/");
+  const openGraphType = page.openGraphType ?? (isGuidesPage ? "article" : "website");
 
   const ogImageEntry = {
     url: absoluteUrl,
@@ -101,7 +104,7 @@ export function buildPageMetadata(
     ...(page.robots && { robots: page.robots }),
     ...(!page.noCanonical && { alternates: { canonical } }),
     openGraph: {
-      type: isGuidesPage ? "article" : "website",
+      type: openGraphType,
       locale: site.locale.replace("-", "_"),
       url: canonical,
       siteName: site.name,

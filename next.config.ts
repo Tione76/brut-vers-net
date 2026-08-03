@@ -47,6 +47,18 @@ const nextConfig: NextConfig = {
         source: "/combien-gagner-brut-mensuel-pour-:montant(\\d+)-net",
         destination: "/net-vers-brut/:montant",
       },
+      {
+        source: "/augmentation-salaire-mensuelle-:montant(\\d+)-euros-brut",
+        destination: "/augmentation-salaire-mensuelle/:montant",
+      },
+      {
+        source: "/quel-salaire-net-mensuel-pour-:montant(\\d+)-euros-brut",
+        destination: "/salaire-brut-net/:montant",
+      },
+      {
+        source: "/prime-brute-:montant(\\d+)-euros-en-net",
+        destination: "/prime-brute-net/:montant",
+      },
     ];
   },
   headers: async () => [

@@ -81,12 +81,15 @@ export function buildSeriesFaqItems(netMonthly: number, estimates: ProfileEstima
 }
 
 /**
- * Ordre de priorité des montants proches (modèle 1 500 €).
+ * Ordre de priorité des montants proches (modèle 1 500 € + jalons 3 100 → 6 000).
  * La page courante est exclue ; on complète ensuite avec le reste de la série.
+ * Aligné sur `FUTURE_NEARBY_PREFERRED` (anciens brouillons, désormais publiés).
  */
 const NEARBY_PREFERRED = [
   1600, 1700, 1800, 1900, 2000, 2500, 3000, 1500, 2100, 2200, 2300, 2400, 2600, 2700, 2800,
-  2900,
+  2900, 3500, 4000, 4500, 5000, 5500, 6000, 3100, 3200, 3300, 3400, 3600, 3700, 3800, 3900,
+  4100, 4200, 4300, 4400, 4600, 4700, 4800, 4900, 5100, 5200, 5300, 5400, 5600, 5700, 5800,
+  5900,
 ] as const;
 
 export function getSeriesNearbyAmounts(netMonthly: number): NetToGrossAmount[] {

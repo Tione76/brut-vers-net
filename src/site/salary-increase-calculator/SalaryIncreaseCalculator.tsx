@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useCalculatorSlot } from "@/framework/SiteProvider";
 import { SelectableOption, SelectableOptionGroup } from "@/site/components/SelectableOptionGroup";
 import {
@@ -26,6 +27,11 @@ import {
   type SalaryMonths,
   type WithholdingRateMode,
 } from "@/site/salary-calculator";
+import {
+  INCREASE_PROFILE_QUERY_PARAM,
+  INCREASE_QUERY_PARAM,
+  parseIncreaseProfileQueryParam,
+} from "@/site/augmentation-salaire-mensuelle/prefill";
 import { calculateSalaryIncrease, resolveCurrentGrossMonthly } from "./engine";
 import { IncreaseFormStep } from "./IncreaseFormStep";
 import { SalaryIncreaseResults } from "./SalaryIncreaseResults";
@@ -39,7 +45,32 @@ function formatGrossField(value: number): string {
 }
 
 export default function SalaryIncreaseCalculator() {
+  return (
+    <Suspense fallback={<SalaryIncreaseCalculatorForm />}>
+      <SalaryIncreaseCalculatorWithSearchParams />
+    </Suspense>
+  );
+}
+
+function SalaryIncreaseCalculatorWithSearchParams() {
+  const searchParams = useSearchParams();
+  return (
+    <SalaryIncreaseCalculatorForm
+      prefillIncreaseRaw={searchParams.get(INCREASE_QUERY_PARAM)}
+      prefillProfileRaw={searchParams.get(INCREASE_PROFILE_QUERY_PARAM)}
+    />
+  );
+}
+
+function SalaryIncreaseCalculatorForm({
+  prefillIncreaseRaw = null,
+  prefillProfileRaw = null,
+}: {
+  prefillIncreaseRaw?: string | null;
+  prefillProfileRaw?: string | null;
+}) {
   const { setResult } = useCalculatorSlot();
+  const prefillAppliedRef = useRef(false);
   const [grossMonthly, setGrossMonthly] = useState("");
   const [grossAnnual, setGrossAnnual] = useState("");
   const [netMonthly, setNetMonthly] = useState("");
@@ -330,6 +361,31 @@ export default function SalaryIncreaseCalculator() {
     },
     [syncFromIncreaseAnnual, syncFromIncreaseMonthly],
   );
+
+  useEffect(() => {
+    if (prefillAppliedRef.current) {
+      return;
+    }
+    const hasPrefill = Boolean(prefillIncreaseRaw?.trim() || prefillProfileRaw?.trim());
+    if (!hasPrefill) {
+      return;
+    }
+    prefillAppliedRef.current = true;
+
+    const parsedProfile = parseIncreaseProfileQueryParam(prefillProfileRaw);
+    if (parsedProfile) {
+      setProfile(parsedProfile);
+    }
+
+    const parsedIncrease = prefillIncreaseRaw ? parseSalaryAmount(prefillIncreaseRaw) : null;
+    if (parsedIncrease !== null && parsedIncrease > 0) {
+      const formatted = formatGrossField(parsedIncrease);
+      setIncreaseType("euros");
+      setIncreaseReferenceField("grossMonthlyIncrease");
+      setIncreasePercent("");
+      syncFromIncreaseMonthly(formatted);
+    }
+  }, [prefillIncreaseRaw, prefillProfileRaw, syncFromIncreaseMonthly]);
 
   const handleIncreaseMonthlyChange = (value: string) => {
     setIncreaseReferenceField(value.trim() ? "grossMonthlyIncrease" : null);

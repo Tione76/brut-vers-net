@@ -22,12 +22,18 @@ import {
 
 describe("salaire-net-brut série mensuelle", () => {
   it("utilise le format URL combien-gagner-brut-mensuel-pour-{n}-net pour toute la série", () => {
+    expect(NET_TO_GROSS_AMOUNTS).toHaveLength(46);
+    expect(NET_TO_GROSS_AMOUNTS[0]).toBe(1500);
+    expect(NET_TO_GROSS_AMOUNTS[45]).toBe(6000);
     for (const amount of NET_TO_GROSS_AMOUNTS) {
       expect(netToGrossPath(amount)).toBe(`/combien-gagner-brut-mensuel-pour-${amount}-net`);
     }
     expect(parseNetToGrossMontantParam("1500")).toBe(1500);
     expect(parseNetToGrossMontantParam("3000")).toBe(3000);
+    expect(parseNetToGrossMontantParam("3100")).toBe(3100);
+    expect(parseNetToGrossMontantParam("6000")).toBe(6000);
     expect(parseNetToGrossMontantParam("1499")).toBeNull();
+    expect(parseNetToGrossMontantParam("6050")).toBeNull();
   });
 
   it("préserve les montants proches validés de la page 1 500 €", () => {
@@ -43,7 +49,7 @@ describe("salaire-net-brut série mensuelle", () => {
     expect(nearby).toHaveLength(7);
   });
 
-  it("calcule les trois profils pour 1 500 € et 2 000 €", () => {
+  it("calcule les trois profils pour 1 500 €, 2 000 € et 4 000 €", () => {
     const e1500 = buildAllProfileEstimates(1500);
     expect(e1500.nonExecutive.grossMonthly).toBe(1923.08);
     expect(e1500.executive.grossMonthly).toBe(2000);
@@ -52,6 +58,11 @@ describe("salaire-net-brut série mensuelle", () => {
     const e2000 = buildAllProfileEstimates(2000);
     expect(e2000.nonExecutive.grossMonthly).toBe(roundCent(2000 / 0.78));
     expect(e2000.executive.grossMonthly).toBe(roundCent(2000 / 0.75));
+
+    const e4000 = buildAllProfileEstimates(4000);
+    expect(e4000.nonExecutive.grossMonthly).toBe(roundCent(4000 / 0.78));
+    expect(e4000.executive.grossMonthly).toBe(roundCent(4000 / 0.75));
+    expect(e4000.publicService.grossMonthly).toBe(roundCent(4000 / 0.81));
   });
 
   it("génère un tableau à trois colonnes autour du montant", () => {
@@ -62,12 +73,16 @@ describe("salaire-net-brut série mensuelle", () => {
       expect(row.executive).toBe(roundCent(row.netMonthly / getProfileCoefficient("executive")));
       expect(row.publicService).toBe(roundCent(row.netMonthly / 0.81));
     }
+
+    const rows5000 = buildComparisonRows(5000);
+    expect(rows5000.map((row) => row.netMonthly)).toEqual([4900, 4950, 5000, 5050, 5100]);
   });
 
   it("applique le SEO modèle sans tiret cadratin et sans 1 500 € sur les autres pages", () => {
     const seo1600 = buildSeriesSeoMeta(1600);
     const seo2000 = buildSeriesSeoMeta(2000);
     const seo3000 = buildSeriesSeoMeta(3000);
+    const seo6000 = buildSeriesSeoMeta(6000);
     const faq2000 = buildSeriesFaqItems(2000, buildAllProfileEstimates(2000));
     const editorial2000 = buildSeriesEditorial(2000, buildAllProfileEstimates(2000));
 
@@ -78,6 +93,8 @@ describe("salaire-net-brut série mensuelle", () => {
     expect(seo2000.description).toContain("2");
     expect(seo2000.description).not.toContain("non-cadre");
     expect(seo3000.title).not.toMatch(/1[\u00a0\u202f]500/);
+    expect(seo6000.h1).toContain("6");
+    expect(seo6000.title).not.toMatch(/1[\u00a0\u202f]500/);
 
     const blob = [
       seo2000.title,
