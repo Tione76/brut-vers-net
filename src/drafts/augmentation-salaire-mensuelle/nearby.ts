@@ -4,17 +4,13 @@ import {
   type MonthlyIncreaseAmount,
 } from "@/site/augmentation-salaire-mensuelle/config";
 import { formatIncreaseShort } from "@/site/augmentation-salaire-mensuelle/data";
-import {
-  DRAFT_MONTHLY_INCREASE_AMOUNTS,
-  type DraftMonthlyIncreaseAmount,
-} from "./amounts";
+import { DRAFT_MONTHLY_INCREASE_AMOUNTS } from "./amounts";
 
-export type FutureMonthlyIncreaseAmount = MonthlyIncreaseAmount | DraftMonthlyIncreaseAmount;
+export type FutureMonthlyIncreaseAmount = MonthlyIncreaseAmount;
 
 /**
- * Montants proches sur le catalogue futur (50 € publié + brouillons 60 → 500).
+ * Montants proches sur le catalogue publié (+ brouillons restants).
  * Priorité aux voisins les plus proches (ex. 180 → 170, 190, 160, 200…).
- * Données préparatoires uniquement : aucun maillage public.
  */
 export function getPreparedNearbyAmounts(
   grossMonthlyIncrease: number,

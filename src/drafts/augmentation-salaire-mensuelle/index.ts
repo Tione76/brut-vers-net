@@ -18,4 +18,8 @@ export {
   prepareDraftMonthlyIncreaseFiche,
   type PreparedDraftMonthlyIncreaseFiche,
 } from "./prepare";
-export { PUBLICATION_CHECKLIST, assertDraftsNotPublished } from "./publication";
+export {
+  PUBLICATION_CHECKLIST,
+  assertDraftsNotPublished,
+  assertExtendedSeriesPublished,
+} from "./publication";

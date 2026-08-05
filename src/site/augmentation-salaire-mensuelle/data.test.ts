@@ -20,18 +20,25 @@ import {
 } from "./content";
 import { buildIncreaseCalculatorPrefillHref } from "./prefill";
 
-describe("série augmentation mensuelle (pilote 50 €)", () => {
-  it("ne publie que le montant 50 €", () => {
-    expect(MONTHLY_INCREASE_AMOUNTS).toEqual([50]);
+describe("série augmentation mensuelle (50 → 500)", () => {
+  it("publie 46 montants de 50 € à 500 €", () => {
+    expect(MONTHLY_INCREASE_AMOUNTS).toHaveLength(46);
+    expect(MONTHLY_INCREASE_AMOUNTS[0]).toBe(50);
+    expect(MONTHLY_INCREASE_AMOUNTS[45]).toBe(500);
     expect(isMonthlyIncreaseAmount(50)).toBe(true);
-    expect(isMonthlyIncreaseAmount(100)).toBe(false);
+    expect(isMonthlyIncreaseAmount(100)).toBe(true);
+    expect(isMonthlyIncreaseAmount(500)).toBe(true);
+    expect(isMonthlyIncreaseAmount(55)).toBe(false);
     expect(parseMonthlyIncreaseMontantParam("50")).toBe(50);
-    expect(parseMonthlyIncreaseMontantParam("100")).toBeNull();
+    expect(parseMonthlyIncreaseMontantParam("100")).toBe(100);
+    expect(parseMonthlyIncreaseMontantParam("500")).toBe(500);
+    expect(parseMonthlyIncreaseMontantParam("55")).toBeNull();
     expect(monthlyIncreasePath(50)).toBe("/augmentation-salaire-mensuelle-50-euros-brut");
+    expect(monthlyIncreasePath(180)).toBe("/augmentation-salaire-mensuelle-180-euros-brut");
     expect(monthlyIncreasePath(50)).toContain("mensuelle");
   });
 
-  it("calcule les gains nets des trois profils pour +50 € brut", () => {
+  it("calcule les gains nets des trois profils pour +50 € et +180 € brut", () => {
     const estimates = buildAllProfileIncreaseEstimates(50);
     expect(estimates.nonExecutive.netMonthlyGain).toBe(roundCent(50 * 0.78));
     expect(estimates.executive.netMonthlyGain).toBe(
@@ -42,12 +49,19 @@ describe("série augmentation mensuelle (pilote 50 €)", () => {
       roundCent(estimates.nonExecutive.netMonthlyGain * 12),
     );
     expect(estimateNetMonthlyGainFromGrossIncrease(50)).toBe(39);
+
+    const e180 = buildAllProfileIncreaseEstimates(180);
+    expect(e180.nonExecutive.netMonthlyGain).toBe(roundCent(180 * 0.78));
+    expect(e180.executive.netMonthlyGain).toBe(roundCent(180 * 0.75));
   });
 
-  it("génère le tableau 25 / 50 / 75 / 100 autour de 50 € (sans 0 €)", () => {
-    const rows = buildIncreaseComparisonRows(50);
-    expect(rows.map((row) => row.grossMonthlyIncrease)).toEqual([25, 50, 75, 100]);
-    expect(rows.find((row) => row.isCurrent)?.grossMonthlyIncrease).toBe(50);
+  it("génère le tableau autour de 50 € et 300 € (sans 0 €)", () => {
+    const rows50 = buildIncreaseComparisonRows(50);
+    expect(rows50.map((row) => row.grossMonthlyIncrease)).toEqual([25, 50, 75, 100]);
+    expect(rows50.find((row) => row.isCurrent)?.grossMonthlyIncrease).toBe(50);
+
+    const rows300 = buildIncreaseComparisonRows(300);
+    expect(rows300.map((row) => row.grossMonthlyIncrease)).toEqual([250, 275, 300, 325, 350]);
   });
 
   it("applique le SEO pilote sans tiret cadratin et avec « mensuelle »", () => {
@@ -56,10 +70,13 @@ describe("série augmentation mensuelle (pilote 50 €)", () => {
     const faq = buildMonthlyIncreaseFaqItems(50, estimates);
     const editorial = buildMonthlyIncreaseEditorial(50, estimates);
 
-    expect(seo.h1).toMatch(/^Une augmentation mensuelle de 50[\u00a0\u202f ]€ brut : combien en net \?$/);
+    expect(seo.h1).toMatch(
+      /^Combien rapporte une augmentation mensuelle de 50[\u00a0\u202f ]€ brut \?$/,
+    );
     expect(seo.title).toMatch(
       /^Augmentation mensuelle de 50[\u00a0\u202f ]€ brut : combien en net \?$/,
     );
+    expect(seo.h1).not.toBe(seo.title);
     expect([...seo.title].length).toBeLessThanOrEqual(60);
     expect(seo.description).toMatch(/non-cadre, cadre ou fonction publique/);
     expect(seo.description).toMatch(/estimez gratuitement votre augmentation/);
@@ -91,8 +108,12 @@ describe("série augmentation mensuelle (pilote 50 €)", () => {
     expect(buildIncreaseCalculatorPrefillHref(75, "executive")).toContain("profil=cadre");
   });
 
-  it("prépare les montants proches sans lier de pages non publiées", () => {
-    expect(getNearbyMonthlyIncreaseAmounts(50)).toEqual([]);
-    expect(isMonthlyIncreaseAmount(100)).toBe(false);
+  it("propose 7 montants proches voisins sans auto-lien", () => {
+    expect(getNearbyMonthlyIncreaseAmounts(50)).toEqual([60, 70, 80, 90, 100, 110, 120]);
+    expect(getNearbyMonthlyIncreaseAmounts(180)).toEqual([170, 190, 160, 200, 150, 210, 140]);
+    expect(getNearbyMonthlyIncreaseAmounts(300)).toEqual([290, 310, 280, 320, 270, 330, 260]);
+    expect(getNearbyMonthlyIncreaseAmounts(490)).toEqual([480, 500, 470, 460, 450, 440, 430]);
+    expect(getNearbyMonthlyIncreaseAmounts(500)).toEqual([490, 480, 470, 460, 450, 440, 430]);
+    expect(isMonthlyIncreaseAmount(100)).toBe(true);
   });
 });

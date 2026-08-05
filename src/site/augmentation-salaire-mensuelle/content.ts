@@ -90,7 +90,7 @@ export function buildMonthlyIncreaseSeoMeta(grossMonthlyIncrease: number) {
   return {
     title: `Augmentation mensuelle de ${grossLabel} brut : combien en net ?`,
     description: `Combien rapporte une augmentation mensuelle de ${grossLabel} brut en net ? Découvrez immédiatement le gain selon votre statut (non-cadre, cadre ou fonction publique) et estimez gratuitement votre augmentation.`,
-    h1: `Une augmentation mensuelle de ${grossLabel} brut : combien en net ?`,
+    h1: `Combien rapporte une augmentation mensuelle de ${grossLabel} brut ?`,
     answerH2: `Combien rapporte une augmentation mensuelle de ${grossLabel} brut en net ?`,
   };
 }
@@ -100,32 +100,25 @@ export function monthlyIncreaseBreadcrumbLabel(grossMonthlyIncrease: number): st
 }
 
 /**
- * Ordre de priorité des montants proches (préparé pour la future série).
- * La page courante est exclue ; seuls les montants publiés sont liés.
+ * Montants proches : voisins les plus proches dans le catalogue publié (max 7, sans auto-lien).
+ * Même logique que `getPreparedNearbyAmounts` (brouillons, désormais alignés sur le publié).
  */
-const NEARBY_PREFERRED = [
-  100, 150, 200, 250, 300, 350, 400, 450, 500, 75, 25,
-] as const;
-
 export function getNearbyMonthlyIncreaseAmounts(
   grossMonthlyIncrease: number,
+  catalog: readonly number[] = MONTHLY_INCREASE_AMOUNTS,
 ): MonthlyIncreaseAmount[] {
-  const ordered: number[] = [];
-  for (const amount of NEARBY_PREFERRED) {
-    if (
-      amount !== grossMonthlyIncrease &&
-      isMonthlyIncreaseAmount(amount) &&
-      !ordered.includes(amount)
-    ) {
-      ordered.push(amount);
-    }
-  }
-  for (const amount of MONTHLY_INCREASE_AMOUNTS) {
-    if (amount !== grossMonthlyIncrease && !ordered.includes(amount)) {
-      ordered.push(amount);
-    }
-  }
-  return ordered.slice(0, 7) as MonthlyIncreaseAmount[];
+  return catalog
+    .filter((amount) => amount !== grossMonthlyIncrease && isMonthlyIncreaseAmount(amount))
+    .slice()
+    .sort((a, b) => {
+      const distanceA = Math.abs(a - grossMonthlyIncrease);
+      const distanceB = Math.abs(b - grossMonthlyIncrease);
+      if (distanceA !== distanceB) {
+        return distanceA - distanceB;
+      }
+      return a - b;
+    })
+    .slice(0, 7) as MonthlyIncreaseAmount[];
 }
 
 export function getNearbyMonthlyIncreaseLinks(grossMonthlyIncrease: number) {

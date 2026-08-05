@@ -3,10 +3,12 @@ import { coverToOgInput, getCalculatorCover } from "@/site/guides/covers";
 import { buildWebPageJsonLd } from "@/site/schema";
 import { siteConfig } from "@/site/site.config";
 import {
+  isMonthlyIncreaseAmount,
   MONTHLY_INCREASE_DEFAULT_PROFILE,
   MONTHLY_INCREASE_INTERNAL_BASE_PATH,
   MONTHLY_INCREASE_UPDATED_AT,
   monthlyIncreasePath,
+  type MonthlyIncreaseAmount,
 } from "@/site/augmentation-salaire-mensuelle/config";
 import {
   buildAllProfileIncreaseEstimates,
@@ -17,29 +19,24 @@ import {
   buildMonthlyIncreaseEditorial,
   buildMonthlyIncreaseFaqItems,
   buildMonthlyIncreaseSeoMeta,
+  getNearbyMonthlyIncreaseAmounts,
+  getNearbyMonthlyIncreaseLinks,
   monthlyIncreaseBreadcrumbLabel,
 } from "@/site/augmentation-salaire-mensuelle/content";
 import { buildIncreaseCalculatorPrefillHref } from "@/site/augmentation-salaire-mensuelle/prefill";
-import {
-  DRAFT_MONTHLY_INCREASE_AMOUNTS,
-  DRAFT_MONTHLY_INCREASE_STATUS,
-  isDraftMonthlyIncreaseAmount,
-  type DraftMonthlyIncreaseAmount,
-  type DraftMonthlyIncreaseStatus,
-} from "./amounts";
-import { getPreparedNearbyAmounts, getPreparedNearbyLinks } from "./nearby";
+import { DRAFT_MONTHLY_INCREASE_AMOUNTS } from "./amounts";
 
 const MINI_CALCULATOR_TITLE = "Vous souhaitez estimer une autre augmentation ?";
 const SHARE_LABEL = "Partager cette fiche";
 const SUBTITLE = "Réponse immédiate selon votre statut, avant prélèvement à la source.";
 
 /**
- * Prépare toutes les données d'une future fiche (modèle page 50 €).
- * Aucun rendu public : pure préparation de données.
+ * Instantané de données d'une fiche publiée (modèle page 50 €).
+ * Utile pour les tests de non-régression après publication des brouillons.
  */
-export function prepareDraftMonthlyIncreaseFiche(grossMonthlyIncrease: DraftMonthlyIncreaseAmount) {
-  if (!isDraftMonthlyIncreaseAmount(grossMonthlyIncrease)) {
-    throw new Error(`Montant hors brouillons augmentation mensuelle : ${grossMonthlyIncrease}`);
+export function prepareDraftMonthlyIncreaseFiche(grossMonthlyIncrease: MonthlyIncreaseAmount) {
+  if (!isMonthlyIncreaseAmount(grossMonthlyIncrease)) {
+    throw new Error(`Montant hors série augmentation mensuelle publiée : ${grossMonthlyIncrease}`);
   }
 
   const path = monthlyIncreasePath(grossMonthlyIncrease);
@@ -49,8 +46,8 @@ export function prepareDraftMonthlyIncreaseFiche(grossMonthlyIncrease: DraftMont
   const editorial = buildMonthlyIncreaseEditorial(grossMonthlyIncrease, estimates);
   const faq = buildMonthlyIncreaseFaqItems(grossMonthlyIncrease, estimates);
   const comparisonRows = buildIncreaseComparisonRows(grossMonthlyIncrease);
-  const nearbyAmounts = getPreparedNearbyAmounts(grossMonthlyIncrease);
-  const nearbyLinks = getPreparedNearbyLinks(grossMonthlyIncrease);
+  const nearbyAmounts = getNearbyMonthlyIncreaseAmounts(grossMonthlyIncrease);
+  const nearbyLinks = getNearbyMonthlyIncreaseLinks(grossMonthlyIncrease);
   const cover = getCalculatorCover("augmentation-salaire");
   const ogImage = coverToOgInput(cover);
   const breadcrumbLabel = monthlyIncreaseBreadcrumbLabel(grossMonthlyIncrease);
@@ -71,7 +68,7 @@ export function prepareDraftMonthlyIncreaseFiche(grossMonthlyIncrease: DraftMont
   });
 
   return {
-    status: DRAFT_MONTHLY_INCREASE_STATUS satisfies DraftMonthlyIncreaseStatus,
+    status: "published" as const,
     grossMonthlyIncrease,
     grossLabel: formatIncreaseShort(grossMonthlyIncrease),
     path,
@@ -154,6 +151,7 @@ export type PreparedDraftMonthlyIncreaseFiche = ReturnType<
   typeof prepareDraftMonthlyIncreaseFiche
 >;
 
+/** Plus de brouillons : retourne une liste vide. */
 export function prepareAllDraftMonthlyIncreaseFiches() {
   return DRAFT_MONTHLY_INCREASE_AMOUNTS.map((amount) =>
     prepareDraftMonthlyIncreaseFiche(amount),

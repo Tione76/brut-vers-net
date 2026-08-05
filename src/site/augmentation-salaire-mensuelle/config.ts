@@ -13,12 +13,16 @@ export const MONTHLY_INCREASE_PATH_SUFFIX = "-euros-brut";
 export const MONTHLY_INCREASE_INTERNAL_BASE_PATH = "/augmentation-salaire-mensuelle";
 
 /**
- * Montants publiés de la série.
- * Pilote : 50 € uniquement. Brouillons 60 → 500 € : `src/drafts/augmentation-salaire-mensuelle/`.
+ * Montants publiés : 50 € à 500 € bruts, par pas de 10 €.
+ * Ajouter un montant ici suffit à générer la page (SSG + sitemap + plan du site).
  */
-export const MONTHLY_INCREASE_AMOUNTS = [50] as const;
+export const MONTHLY_INCREASE_AMOUNTS = [
+  50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230,
+  240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340, 350, 360, 370, 380, 390, 400, 410,
+  420, 430, 440, 450, 460, 470, 480, 490, 500,
+] as const;
 
-/** Alias explicite : seuls ces montants sont publics (opposé aux brouillons). */
+/** Alias explicite : seuls ces montants sont publics. */
 export const PUBLISHED_MONTHLY_INCREASE_AMOUNTS = MONTHLY_INCREASE_AMOUNTS;
 
 export type MonthlyIncreaseAmount = (typeof MONTHLY_INCREASE_AMOUNTS)[number];
