@@ -1,13 +1,20 @@
 import Link from "next/link";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { ShareBlock } from "@/framework/design/components/ShareBlock";
-import { GuideAuthorMeta } from "@/site/guides";
+import { CoverFigure, GuideAuthorMeta } from "@/site/guides";
+import { NET_TO_GROSS_SERIES_COVER } from "@/site/guides/covers";
 import {
   buildAllProfileEstimates,
   buildComparisonRows,
   formatNetShort,
 } from "./data";
-import { netToGrossPath, NET_TO_GROSS_PROFILES, NET_TO_GROSS_UPDATED_AT } from "./config";
+import {
+  NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
+  NET_TO_GROSS_HUB_PATH,
+  NET_TO_GROSS_PROFILES,
+  NET_TO_GROSS_UPDATED_AT,
+  netToGrossPath,
+} from "./config";
 import { MiniCalculatorCta1500 } from "./mini-calculator-cta-1500";
 import {
   buildSeriesEditorial,
@@ -68,6 +75,10 @@ export function NetToGrossSeriesPageContent({
       <PageBreadcrumb
         items={[
           { label: "Accueil", href: "/" },
+          {
+            label: NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
+            href: NET_TO_GROSS_HUB_PATH,
+          },
           { label: seriesBreadcrumbLabel(netMonthly) },
         ]}
       />
@@ -113,6 +124,12 @@ export function NetToGrossSeriesPageContent({
         description={share.description}
         contentType="fiche"
         variant="onLight"
+      />
+
+      <CoverFigure
+        cover={NET_TO_GROSS_SERIES_COVER}
+        className="net-to-gross-series__cover"
+        sizes="(max-width: 768px) 100vw, (max-width: 1100px) 70vw, 720px"
       />
 
       {editorialSections.map(({ id, title, paragraphs }) => (

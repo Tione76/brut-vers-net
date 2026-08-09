@@ -1,10 +1,12 @@
 import { getCanonicalUrl } from "@/framework/seo/metadata";
-import { coverToOgInput, HOME_COVER } from "@/site/guides/covers";
+import { NET_TO_GROSS_SERIES_COVER } from "@/site/guides/covers";
 import { buildWebPageJsonLd } from "@/site/schema";
 import { siteConfig } from "@/site/site.config";
 import {
   isNetToGrossAmount,
   NET_TO_GROSS_DEFAULT_PROFILE,
+  NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
+  NET_TO_GROSS_HUB_PATH,
   NET_TO_GROSS_UPDATED_AT,
   netToGrossPath,
   type NetToGrossAmount,
@@ -20,6 +22,7 @@ import {
   buildSeriesSeoMeta,
   seriesBreadcrumbLabel,
 } from "@/site/salaire-net-brut/page-1500-content";
+import { buildNetToGrossOgImageInput } from "@/site/salaire-net-brut/og-image-meta";
 import { buildCalculatorNetPrefillHref } from "@/site/salaire-net-brut/prefill";
 import { DRAFT_NET_TO_GROSS_AMOUNTS } from "./amounts";
 import { getPreparedNearbyAmounts, getPreparedNearbyLinks } from "./nearby";
@@ -46,7 +49,7 @@ export function prepareDraftNetToGrossFiche(netMonthly: NetToGrossAmount) {
   const comparisonRows = buildComparisonRows(netMonthly);
   const nearbyAmounts = getPreparedNearbyAmounts(netMonthly);
   const nearbyLinks = getPreparedNearbyLinks(netMonthly);
-  const ogImage = coverToOgInput(HOME_COVER);
+  const ogImage = buildNetToGrossOgImageInput(netMonthly);
   const breadcrumbLabel = seriesBreadcrumbLabel(netMonthly);
 
   const jsonLd = buildWebPageJsonLd({
@@ -55,9 +58,13 @@ export function prepareDraftNetToGrossFiche(netMonthly: NetToGrossAmount) {
     description: seo.description,
     breadcrumbs: [
       { name: "Accueil", path: "/" },
+      {
+        name: NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
+        path: NET_TO_GROSS_HUB_PATH,
+      },
       { name: breadcrumbLabel, path },
     ],
-    cover: HOME_COVER,
+    cover: NET_TO_GROSS_SERIES_COVER,
     faq,
     withAuthor: true,
     dateModified: NET_TO_GROSS_UPDATED_AT,

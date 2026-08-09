@@ -100,6 +100,18 @@ export const GROSS_TO_NET_SERIES_COVER: GuideCoverImage = cover(
   800,
 );
 
+/**
+ * Image de référence de la série « Combien gagner brut pour X € net ? »
+ * Une seule source pour fiches, hub, index (publiés et futurs).
+ */
+export const NET_TO_GROSS_SERIES_COVER: GuideCoverImage = cover(
+  "series/correspondance-salaire-brut-en-net.webp",
+  "Vue de dessus d'une personne utilisant une calculatrice et un stylo sur des documents, avec des dossiers colorés sur un bureau en bois",
+  { photographer: "Mikhail Nilov", source: "Pexels" },
+  1200,
+  800,
+);
+
 /** Couvertures par identifiant de calculateur */
 export const CALCULATOR_COVERS: Record<string, GuideCoverImage> = {
   "brut-vers-net": HOME_COVER,

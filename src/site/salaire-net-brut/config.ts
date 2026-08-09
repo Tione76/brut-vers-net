@@ -14,6 +14,15 @@ export const NET_TO_GROSS_PATH_1500 = "/combien-gagner-brut-mensuel-pour-1500-ne
 /** Route App Router interne (génération statique). */
 export const NET_TO_GROSS_INTERNAL_BASE_PATH = "/net-vers-brut";
 
+/** Hub de la série (navigation / catalogue). */
+export const NET_TO_GROSS_HUB_PATH = "/salaire-net-mensuel-en-brut";
+
+/** Libellé court du Hub dans les breadcrumbs (fiches / index / Schema). */
+export const NET_TO_GROSS_HUB_BREADCRUMB_LABEL = "Salaire net en brut";
+
+/** Page index / tableau de la série. */
+export const NET_TO_GROSS_INDEX_PATH = "/tableau-salaire-net-mensuel-en-brut";
+
 /** Ancien préfixe (redirections permanentes). */
 export const NET_TO_GROSS_LEGACY_BASE_PATH = "/salaire-net-brut";
 

@@ -10,10 +10,14 @@ import { siteConfig } from "./site.config";
 import { SITE_AUTHOR } from "./author";
 import {
   NET_TO_GROSS_AMOUNTS,
+  NET_TO_GROSS_HUB_PATH,
+  NET_TO_GROSS_INDEX_PATH,
   NET_TO_GROSS_UPDATED_AT,
   netToGrossPath,
 } from "./salaire-net-brut/config";
 import { buildSeriesSeoMeta } from "./salaire-net-brut/page-1500-content";
+import { buildNetToGrossHubSeo } from "./salaire-net-brut/hub";
+import { buildNetToGrossIndexSeo } from "./salaire-net-brut/series-index";
 import {
   MONTHLY_INCREASE_AMOUNTS,
   MONTHLY_INCREASE_UPDATED_AT,
@@ -197,6 +201,26 @@ export function getAllPublicPages(): PublicPage[] {
     lastModified: legalUpdated,
   }));
 
+  const netToGrossHubPage: PublicPage = {
+    path: NET_TO_GROSS_HUB_PATH,
+    title: buildNetToGrossHubSeo().title,
+    category: "guides",
+    changefreq: "weekly",
+    priority: 0.8,
+    indexable: true,
+    lastModified: NET_TO_GROSS_UPDATED_AT,
+  };
+
+  const netToGrossIndexPage: PublicPage = {
+    path: NET_TO_GROSS_INDEX_PATH,
+    title: buildNetToGrossIndexSeo().title,
+    category: "guides",
+    changefreq: "weekly",
+    priority: 0.78,
+    indexable: true,
+    lastModified: NET_TO_GROSS_UPDATED_AT,
+  };
+
   const netToGrossPages: PublicPage[] = NET_TO_GROSS_AMOUNTS.map((amount) => ({
     path: netToGrossPath(amount),
     title: buildSeriesSeoMeta(amount).title,
@@ -262,6 +286,8 @@ export function getAllPublicPages(): PublicPage[] {
     toolsHubPage,
     guideHubPage,
     ...guidePages,
+    netToGrossHubPage,
+    netToGrossIndexPage,
     ...netToGrossPages,
     ...monthlyIncreasePages,
     ...grossPrimePages,

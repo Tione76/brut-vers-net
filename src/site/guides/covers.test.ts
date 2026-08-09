@@ -9,6 +9,7 @@ import {
   GUIDES_HUB_COVER,
   GROSS_TO_NET_SERIES_COVER,
   HOME_COVER,
+  NET_TO_GROSS_SERIES_COVER,
   TOOLS_HUB_COVER,
   formatCoverCredit,
   getCalculatorCover,
@@ -67,6 +68,19 @@ describe("covers registry", () => {
     );
     expect(GROSS_TO_NET_SERIES_COVER.alt).not.toMatch(/\d+\s*€/);
     expect(GROSS_TO_NET_SERIES_COVER.alt.length).toBeGreaterThan(20);
+  });
+
+  it("expose la cover unique de la série salaire net mensuel → brut", () => {
+    expect(NET_TO_GROSS_SERIES_COVER.src).toBe(
+      "/images/covers/series/correspondance-salaire-brut-en-net.webp",
+    );
+    expect(NET_TO_GROSS_SERIES_COVER.width).toBe(1200);
+    expect(NET_TO_GROSS_SERIES_COVER.height).toBe(800);
+    expect(formatCoverCredit(NET_TO_GROSS_SERIES_COVER.credit)).toBe(
+      "Photo de Mikhail Nilov via Pexels",
+    );
+    expect(NET_TO_GROSS_SERIES_COVER.alt).not.toMatch(/\d+\s*€/);
+    expect(NET_TO_GROSS_SERIES_COVER.alt.length).toBeGreaterThan(20);
   });
 
   it("encodes accents in absolute asset URLs", () => {

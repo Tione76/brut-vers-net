@@ -3,14 +3,17 @@ import { config, seoConfig } from "@/site";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { GuidePageLayout } from "@/site/guides";
-import { coverToOgInput, HOME_COVER } from "@/site/guides/covers";
+import { NET_TO_GROSS_SERIES_COVER } from "@/site/guides/covers";
 import { isPathIndexable } from "@/site/public-pages";
 import { buildWebPageJsonLd } from "@/site/schema";
 import {
   NET_TO_GROSS_AMOUNTS,
+  NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
+  NET_TO_GROSS_HUB_PATH,
   NET_TO_GROSS_UPDATED_AT,
   NetToGrossSeriesPageContent,
   NetToGrossPageSidebar,
+  buildNetToGrossOgImageInput,
   netToGrossPath,
   parseNetToGrossMontantParam,
 } from "@/site/salaire-net-brut";
@@ -50,7 +53,8 @@ export async function generateMetadata({ params }: PageProps) {
     title: seo.title,
     description: seo.description,
     path,
-    ogImage: coverToOgInput(HOME_COVER),
+    ogImage: buildNetToGrossOgImageInput(netMonthly),
+    openGraphType: "article",
     robots: isPathIndexable(path) ? undefined : { index: false, follow: false },
   });
 }
@@ -77,9 +81,13 @@ export default async function NetToGrossAmountPage({ params }: PageProps) {
           description: seo.description,
           breadcrumbs: [
             { name: "Accueil", path: "/" },
+            {
+              name: NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
+              path: NET_TO_GROSS_HUB_PATH,
+            },
             { name: seriesBreadcrumbLabel(netMonthly), path },
           ],
-          cover: HOME_COVER,
+          cover: NET_TO_GROSS_SERIES_COVER,
           faq,
           withAuthor: true,
           dateModified: NET_TO_GROSS_UPDATED_AT,
