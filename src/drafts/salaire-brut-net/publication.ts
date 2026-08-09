@@ -1,12 +1,6 @@
 /**
- * Publication future des brouillons 1 050 → 6 000 € (série brut mensuel → net).
- *
- * Source de vérité actuelle :
- * - SSG pilote : `GROSS_TO_NET_AMOUNTS` = [1000] dans `src/site/salaire-brut-net/config.ts`
- * - indexables : `PUBLISHED_GROSS_TO_NET_AMOUNTS` = [] (hors sitemap)
- * - brouillons : `DRAFT_GROSS_TO_NET_AMOUNTS` dans `./amounts.ts`
- *
- * Cette série n'est pas encore enregistrée dans `public-pages.ts`.
+ * Publication vague 1 effectuée (Hub + Index + 1 000 → 3 500).
+ * Vague 2 : fiches 3 550 → 6 000 encore en brouillon.
  */
 
 import {
@@ -48,28 +42,40 @@ export const PUBLICATION_CHECKLIST = [
   ...PUBLICATION_CHECKLIST_HALF_2,
 ] as const;
 
-/** Rappel : tant que les listes sont disjointes, rien n'est publié. */
-export function assertDraftsNotPublished(): void {
-  const ssg = new Set<number>(GROSS_TO_NET_AMOUNTS as readonly number[]);
-  const published = new Set<number>(PUBLISHED_GROSS_TO_NET_AMOUNTS as readonly number[]);
-
-  for (const amount of DRAFT_GROSS_TO_NET_AMOUNTS) {
-    if (ssg.has(amount)) {
-      throw new Error(`Le brouillon ${amount} est déjà dans GROSS_TO_NET_AMOUNTS.`);
-    }
-    if (published.has(amount)) {
-      throw new Error(`Le brouillon ${amount} est déjà dans PUBLISHED_GROSS_TO_NET_AMOUNTS.`);
-    }
-  }
-
-  if ((PUBLISHED_GROSS_TO_NET_AMOUNTS as readonly number[]).length > 0) {
+/** Vérifie que la vague 1 est publiée et que seule la moitié 2 reste en brouillon. */
+export function assertHalf1Published(): void {
+  if (PUBLISHED_GROSS_TO_NET_AMOUNTS !== GROSS_TO_NET_AMOUNTS) {
     throw new Error(
-      "PUBLISHED_GROSS_TO_NET_AMOUNTS doit rester vide tant que la série n'est pas publiée.",
+      "PUBLISHED_GROSS_TO_NET_AMOUNTS doit rester l'alias de GROSS_TO_NET_AMOUNTS.",
     );
   }
-
-  if (DRAFT_GROSS_TO_NET_AMOUNTS_HALF_1.length + DRAFT_GROSS_TO_NET_AMOUNTS_HALF_2.length !==
-    DRAFT_GROSS_TO_NET_AMOUNTS.length) {
-    throw new Error("Les moitiés de publication ne couvrent pas tous les brouillons.");
+  if (GROSS_TO_NET_AMOUNTS.length !== 51) {
+    throw new Error(
+      `Attendu 51 montants publiés (1 000 → 3 500), reçu ${GROSS_TO_NET_AMOUNTS.length}.`,
+    );
   }
+  if (GROSS_TO_NET_AMOUNTS[0] !== 1000 || GROSS_TO_NET_AMOUNTS[50] !== 3500) {
+    throw new Error("La vague 1 publiée doit aller de 1 000 € à 3 500 €.");
+  }
+  if (DRAFT_GROSS_TO_NET_AMOUNTS_HALF_1.length !== 0) {
+    throw new Error("DRAFT_GROSS_TO_NET_AMOUNTS_HALF_1 doit être vide après publication.");
+  }
+  if (DRAFT_GROSS_TO_NET_AMOUNTS.length !== 50 || DRAFT_GROSS_TO_NET_AMOUNTS_HALF_2.length !== 50) {
+    throw new Error("Il doit rester exactement 50 brouillons (3 550 → 6 000).");
+  }
+  if (DRAFT_GROSS_TO_NET_AMOUNTS[0] !== 3550 || DRAFT_GROSS_TO_NET_AMOUNTS[49] !== 6000) {
+    throw new Error("Les brouillons restants doivent aller de 3 550 € à 6 000 €.");
+  }
+
+  const published = new Set<number>(PUBLISHED_GROSS_TO_NET_AMOUNTS as readonly number[]);
+  for (const amount of DRAFT_GROSS_TO_NET_AMOUNTS) {
+    if (published.has(amount)) {
+      throw new Error(`Le brouillon ${amount} est déjà publié.`);
+    }
+  }
+}
+
+/** @deprecated Remplacé par assertHalf1Published après vague 1. */
+export function assertDraftsNotPublished(): void {
+  assertHalf1Published();
 }

@@ -88,6 +88,18 @@ export const FAQ_COVER: GuideCoverImage = cover(
   4480,
 );
 
+/**
+ * Image de référence de la série « Quel salaire net mensuel pour X € brut ? »
+ * Une seule source pour toutes les fiches (publiées et futures).
+ */
+export const GROSS_TO_NET_SERIES_COVER: GuideCoverImage = cover(
+  "series/Salaire-brut-mensuel-en-net.webp",
+  "Vue de dessus d'une main écrivant sur une feuille, près d'une calculatrice et d'une tablette sur un bureau en bois",
+  { photographer: "Mikhail Nilov", source: "Pexels" },
+  1200,
+  800,
+);
+
 /** Couvertures par identifiant de calculateur */
 export const CALCULATOR_COVERS: Record<string, GuideCoverImage> = {
   "brut-vers-net": HOME_COVER,

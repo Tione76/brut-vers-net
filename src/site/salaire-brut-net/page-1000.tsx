@@ -1,8 +1,14 @@
 import Link from "next/link";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { ShareBlock } from "@/framework/design/components/ShareBlock";
-import { GuideAuthorMeta } from "@/site/guides";
-import { GROSS_TO_NET_PROFILES, GROSS_TO_NET_UPDATED_AT } from "./config";
+import { CoverFigure, GuideAuthorMeta } from "@/site/guides";
+import { GROSS_TO_NET_SERIES_COVER } from "@/site/guides/covers";
+import {
+  GROSS_TO_NET_HUB_PATH,
+  GROSS_TO_NET_PROFILES,
+  GROSS_TO_NET_UPDATED_AT,
+} from "./config";
+import { getInverseNetToGrossLink } from "./cross-link";
 import {
   buildAllProfileNetEstimates,
   buildGrossToNetComparisonRows,
@@ -58,6 +64,7 @@ export function GrossToNetSeriesPageContent({
 
   const profileCards = GROSS_TO_NET_PROFILES.map((profile) => estimates[profile]);
   const nearby = getNearbyGrossToNetLinks(grossMonthly);
+  const inverseLink = getInverseNetToGrossLink(grossMonthly);
   const idPrefix = `gross-to-net-${grossMonthly}`;
 
   return (
@@ -65,6 +72,10 @@ export function GrossToNetSeriesPageContent({
       <PageBreadcrumb
         items={[
           { label: "Accueil", href: "/" },
+          {
+            label: "Tous les salaires bruts mensuels convertis en net",
+            href: GROSS_TO_NET_HUB_PATH,
+          },
           { label: grossToNetBreadcrumbLabel(grossMonthly) },
         ]}
       />
@@ -117,6 +128,12 @@ export function GrossToNetSeriesPageContent({
         description={share.description}
         contentType="fiche"
         variant="onLight"
+      />
+
+      <CoverFigure
+        cover={GROSS_TO_NET_SERIES_COVER}
+        className="gross-to-net-series__cover"
+        sizes="(max-width: 768px) 100vw, (max-width: 1100px) 70vw, 720px"
       />
 
       {editorialSections.map(({ id, title, paragraphs }) => (
@@ -222,6 +239,21 @@ export function GrossToNetSeriesPageContent({
               </li>
             ))}
           </ul>
+        </section>
+      ) : null}
+
+      {inverseLink ? (
+        <section
+          className="net-gross-1500__explain"
+          aria-labelledby={`${idPrefix}-inverse-title`}
+        >
+          <h2 id={`${idPrefix}-inverse-title`} className="net-gross-1500__h2">
+            Calculer l&apos;inverse : du net vers le brut
+          </h2>
+          <p>{inverseLink.teaser}</p>
+          <p>
+            <Link href={inverseLink.href}>{inverseLink.label}</Link>
+          </p>
         </section>
       ) : null}
 

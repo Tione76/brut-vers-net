@@ -1,5 +1,5 @@
 import { getCanonicalUrl } from "@/framework/seo/metadata";
-import { coverToOgInput, HOME_COVER } from "@/site/guides/covers";
+import { GROSS_TO_NET_SERIES_COVER } from "@/site/guides/covers";
 import { buildWebPageJsonLd } from "@/site/schema";
 import { siteConfig } from "@/site/site.config";
 import {
@@ -20,6 +20,7 @@ import {
   buildGrossToNetSeoMeta,
   grossToNetBreadcrumbLabel,
 } from "@/site/salaire-brut-net/content";
+import { buildGrossToNetOgImageInput } from "@/site/salaire-brut-net/og-image";
 import { buildCalculatorGrossPrefillHref } from "@/site/salaire-brut-net/prefill";
 import {
   DRAFT_GROSS_TO_NET_AMOUNTS,
@@ -56,7 +57,7 @@ export function prepareDraftGrossToNetFiche(grossMonthly: number) {
   const nearbyAmounts = getPreparedNearbyAmounts(grossMonthly);
   const nearbyLinks = getPreparedNearbyLinks(grossMonthly);
   const inverseLink = getInverseNetToGrossLink(grossMonthly);
-  const ogImage = coverToOgInput(HOME_COVER);
+  const ogImage = buildGrossToNetOgImageInput(grossMonthly);
   const breadcrumbLabel = grossToNetBreadcrumbLabel(grossMonthly);
 
   const jsonLd = buildWebPageJsonLd({
@@ -67,7 +68,7 @@ export function prepareDraftGrossToNetFiche(grossMonthly: number) {
       { name: "Accueil", path: "/" },
       { name: breadcrumbLabel, path },
     ],
-    cover: HOME_COVER,
+    cover: GROSS_TO_NET_SERIES_COVER,
     faq,
     withAuthor: true,
     dateModified: GROSS_TO_NET_UPDATED_AT,
@@ -167,13 +168,10 @@ export function prepareAllDraftGrossToNetFiches() {
 }
 
 export function prepareDraftGrossToNetFichesHalf1() {
-  return DRAFT_GROSS_TO_NET_AMOUNTS.filter((amount) => amount <= 3500).map((amount) =>
-    prepareDraftGrossToNetFiche(amount),
-  );
+  // Vague 1 déjà publiée : plus aucun brouillon half-1.
+  return [];
 }
 
 export function prepareDraftGrossToNetFichesHalf2() {
-  return DRAFT_GROSS_TO_NET_AMOUNTS.filter((amount) => amount > 3500).map((amount) =>
-    prepareDraftGrossToNetFiche(amount),
-  );
+  return DRAFT_GROSS_TO_NET_AMOUNTS.map((amount) => prepareDraftGrossToNetFiche(amount));
 }

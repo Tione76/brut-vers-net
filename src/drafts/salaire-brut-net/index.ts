@@ -56,4 +56,5 @@ export {
   PUBLICATION_CHECKLIST_HALF_1,
   PUBLICATION_CHECKLIST_HALF_2,
   assertDraftsNotPublished,
+  assertHalf1Published,
 } from "./publication";

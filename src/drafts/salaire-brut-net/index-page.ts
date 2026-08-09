@@ -1,103 +1,38 @@
 /**
- * Page index brouillon de la série (tableau automatique brut → net).
- * Données uniquement : aucune route App Router, aucun sitemap.
+ * Page index brouillon (compat) : délègue à la page index publiée + catalogue futur.
  */
 
-import { getCanonicalUrl } from "@/framework/seo/metadata";
-import { coverToOgInput, HOME_COVER } from "@/site/guides/covers";
-import { buildWebPageJsonLd } from "@/site/schema";
-import { siteConfig } from "@/site/site.config";
-import { GROSS_TO_NET_UPDATED_AT } from "@/site/salaire-brut-net/config";
-import { buildDraftGrossToNetIndexRows } from "./index-table";
+import {
+  GROSS_TO_NET_AMOUNTS,
+  GROSS_TO_NET_INDEX_PATH,
+} from "@/site/salaire-brut-net/config";
+import { buildGrossToNetIndexRows } from "@/site/salaire-brut-net/index-table";
+import {
+  buildGrossToNetIndexPayload,
+  buildGrossToNetIndexSeo,
+} from "@/site/salaire-brut-net/series-index";
+import { DRAFT_GROSS_TO_NET_AMOUNTS, buildFuturePublishedCatalog } from "./amounts";
 
-/** URL publique prévue pour le tableau index. */
-export const DRAFT_GROSS_TO_NET_INDEX_PATH = "/tableau-salaire-brut-mensuel-en-net";
+/** @deprecated Utiliser GROSS_TO_NET_INDEX_PATH (publié). */
+export const DRAFT_GROSS_TO_NET_INDEX_PATH = GROSS_TO_NET_INDEX_PATH;
 
 export const DRAFT_GROSS_TO_NET_INDEX_STATUS = "draft" as const;
 
-export function buildDraftGrossToNetIndexSeo() {
-  return {
-    title: "Tableau salaire brut mensuel en net",
-    description:
-      "Tableau des salaires bruts mensuels convertis en net (non-cadre). Parcourez tous les montants de la série, de 1 000 € à 6 000 €, puis ouvrez la fiche détaillée.",
-    h1: "Tableau : salaire brut mensuel en net",
-    subtitle:
-      "Estimations automatiques pour un salarié non-cadre, avant prélèvement à la source.",
-  };
-}
+export { buildGrossToNetIndexSeo as buildDraftGrossToNetIndexSeo };
 
-/**
- * Prépare la page index (tableau généré + SEO + JSON-LD).
- * Aucun rendu public.
- */
 export function prepareDraftGrossToNetIndexPage() {
-  const path = DRAFT_GROSS_TO_NET_INDEX_PATH;
-  const canonical = getCanonicalUrl(siteConfig.url, path);
-  const seo = buildDraftGrossToNetIndexSeo();
-  const rows = buildDraftGrossToNetIndexRows();
-  const ogImage = coverToOgInput(HOME_COVER);
-
-  const jsonLd = buildWebPageJsonLd({
-    path,
-    name: seo.title,
-    description: seo.description,
-    breadcrumbs: [
-      { name: "Accueil", path: "/" },
-      { name: "Tous les salaires bruts mensuels convertis en net", path: "/salaire-brut-mensuel-en-net" },
-      { name: "Tableau", path },
-    ],
-    cover: HOME_COVER,
-    withAuthor: true,
-    dateModified: GROSS_TO_NET_UPDATED_AT,
-    datePublished: GROSS_TO_NET_UPDATED_AT,
-  });
+  const published = buildGrossToNetIndexPayload();
+  const catalog = buildFuturePublishedCatalog(GROSS_TO_NET_AMOUNTS, DRAFT_GROSS_TO_NET_AMOUNTS);
+  const rows = buildGrossToNetIndexRows(catalog);
 
   return {
+    ...published,
     status: DRAFT_GROSS_TO_NET_INDEX_STATUS,
-    path,
-    canonical,
-    updatedAt: GROSS_TO_NET_UPDATED_AT,
-    openGraphType: "article" as const,
-    seo: {
-      ...seo,
-      openGraph: {
-        type: "article" as const,
-        title: seo.title,
-        description: seo.description,
-        url: canonical,
-        siteName: siteConfig.name,
-        images: [ogImage],
-      },
-      twitter: {
-        card: "summary_large_image" as const,
-        title: seo.title,
-        description: seo.description,
-        images: [ogImage],
-      },
-    },
-    page: {
-      title: seo.h1,
-      subtitle: seo.subtitle,
-      share: {
-        label: "Partager cette page",
-        url: canonical,
-        title: seo.title,
-        description: seo.description,
-      },
-      author: {
-        displayName: "Antoine",
-        withReadingTime: false,
-        updatedAt: GROSS_TO_NET_UPDATED_AT,
-      },
-    },
     table: {
-      columns: ["Salaire brut mensuel", "Salaire net estimé (non-cadre)"] as const,
+      ...published.table,
       rows,
-      footnote:
-        "Estimations mensuelles avant prélèvement à la source, calculées selon les coefficients du simulateur.",
     },
     rowCount: rows.length,
-    jsonLd,
   };
 }
 

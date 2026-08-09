@@ -7,6 +7,7 @@ import {
   FAQ_COVER,
   GUIDE_COVERS,
   GUIDES_HUB_COVER,
+  GROSS_TO_NET_SERIES_COVER,
   HOME_COVER,
   TOOLS_HUB_COVER,
   formatCoverCredit,
@@ -53,6 +54,19 @@ describe("covers registry", () => {
     expect(TOOLS_HUB_COVER.src).toContain("Calculateurs-salaire.webp");
     expect(FAQ_COVER.src).toContain("Questions-sur-le-salaire.webp");
     expect(formatCoverCredit(HOME_COVER.credit)).toBe("Photo de Kindel Media via Pexels");
+  });
+
+  it("expose la cover unique de la série salaire brut mensuel → net", () => {
+    expect(GROSS_TO_NET_SERIES_COVER.src).toBe(
+      "/images/covers/series/Salaire-brut-mensuel-en-net.webp",
+    );
+    expect(GROSS_TO_NET_SERIES_COVER.width).toBe(1200);
+    expect(GROSS_TO_NET_SERIES_COVER.height).toBe(800);
+    expect(formatCoverCredit(GROSS_TO_NET_SERIES_COVER.credit)).toBe(
+      "Photo de Mikhail Nilov via Pexels",
+    );
+    expect(GROSS_TO_NET_SERIES_COVER.alt).not.toMatch(/\d+\s*€/);
+    expect(GROSS_TO_NET_SERIES_COVER.alt.length).toBeGreaterThan(20);
   });
 
   it("encodes accents in absolute asset URLs", () => {

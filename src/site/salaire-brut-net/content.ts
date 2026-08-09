@@ -102,35 +102,25 @@ export function grossToNetBreadcrumbLabel(grossMonthly: number): string {
   return `${formatGrossShort(grossMonthly)} brut en net`;
 }
 
-function isPublishedGrossToNetAmount(value: number): boolean {
-  return (PUBLISHED_GROSS_TO_NET_AMOUNTS as readonly number[]).includes(value);
-}
-
 /**
- * Ordre de priorité des montants proches (préparé pour la future série par pas de 50 €).
- * La page courante est exclue ; seuls les montants publiés sont liés.
+ * Montants proches : voisins les plus proches dans le catalogue publié (max 7, sans auto-lien).
  */
-const NEARBY_PREFERRED = [
-  1050, 1100, 1150, 1200, 1250, 1300, 1500, 2000, 2500, 3000,
-] as const;
-
-export function getNearbyGrossToNetAmounts(grossMonthly: number): number[] {
-  const ordered: number[] = [];
-  for (const amount of NEARBY_PREFERRED) {
-    if (
-      amount !== grossMonthly &&
-      isPublishedGrossToNetAmount(amount) &&
-      !ordered.includes(amount)
-    ) {
-      ordered.push(amount);
-    }
-  }
-  for (const amount of PUBLISHED_GROSS_TO_NET_AMOUNTS) {
-    if (amount !== grossMonthly && !ordered.includes(amount)) {
-      ordered.push(amount);
-    }
-  }
-  return ordered.slice(0, 7);
+export function getNearbyGrossToNetAmounts(
+  grossMonthly: number,
+  catalog: readonly number[] = PUBLISHED_GROSS_TO_NET_AMOUNTS,
+): number[] {
+  return catalog
+    .filter((amount) => amount !== grossMonthly)
+    .slice()
+    .sort((a, b) => {
+      const distanceA = Math.abs(a - grossMonthly);
+      const distanceB = Math.abs(b - grossMonthly);
+      if (distanceA !== distanceB) {
+        return distanceA - distanceB;
+      }
+      return a - b;
+    })
+    .slice(0, 7);
 }
 
 export function getNearbyGrossToNetLinks(grossMonthly: number) {

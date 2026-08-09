@@ -1,0 +1,285 @@
+/**
+ * Styles dédiés à la page Index (tableau 4 colonnes).
+ * N'altère pas les tableaux 2/5 colonnes des fiches ou du Hub.
+ */
+
+.gross-to-net-index h2[id],
+.gross-to-net-index section[id] {
+  scroll-margin-top: 2.5rem;
+}
+
+.gross-to-net-index__toc {
+  margin: 0 0 1.35rem;
+  padding: 0.85rem 0 0;
+  border-top: 1px solid var(--ds-border);
+}
+
+.gross-to-net-index__toc-title {
+  margin: 0 0 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ds-text-muted);
+}
+
+.gross-to-net-index__toc-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gross-to-net-index__toc-list a {
+  color: var(--ds-text);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ds-brand, #c45c26) 40%, transparent);
+  text-underline-offset: 0.16em;
+}
+
+.gross-to-net-index__toc-list a:hover {
+  color: var(--ds-brand, #c45c26);
+}
+
+.gross-to-net-index__toc-list a:focus-visible {
+  outline: 2px solid var(--ds-brand, #c45c26);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.gross-to-net-index__search {
+  margin: 1.15rem 0 1rem;
+  max-width: 28rem;
+}
+
+.gross-to-net-index__search-title {
+  margin: 0 0 0.7rem;
+}
+
+.gross-to-net-index__search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.gross-to-net-index__search-input {
+  flex: 1 1 10rem;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--ds-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ds-text);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.gross-to-net-index__search-input:focus-visible {
+  outline: 2px solid var(--ds-brand, #c45c26);
+  outline-offset: 2px;
+}
+
+.gross-to-net-index__search-button {
+  min-height: 2.75rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--ds-brand, #c45c26);
+  border-radius: 8px;
+  background: var(--ds-brand, #c45c26);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.gross-to-net-index__search-button:hover {
+  filter: brightness(0.96);
+}
+
+.gross-to-net-index__search-button:focus-visible {
+  outline: 2px solid var(--ds-brand, #c45c26);
+  outline-offset: 2px;
+}
+
+.gross-to-net-index__search-status {
+  min-height: 1.25rem;
+  margin: 0.45rem 0 0;
+  color: var(--ds-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.gross-to-net-index__table {
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.gross-to-net-index__table th,
+.gross-to-net-index__table td {
+  padding: 0.72rem 0.85rem;
+  font-size: 1.02rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.gross-to-net-index__table thead th {
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-align: right;
+  line-height: 1.25;
+  vertical-align: bottom;
+}
+
+.gross-to-net-index__gross {
+  text-align: left !important;
+  font-weight: 700;
+  background: #fafafa;
+}
+
+.gross-to-net-index__table thead th:first-child {
+  text-align: left;
+}
+
+.gross-to-net-index__gross a {
+  color: var(--ds-text);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ds-brand, #c45c26) 45%, transparent);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.gross-to-net-index__gross a:hover {
+  color: var(--ds-brand, #c45c26);
+  text-decoration-color: var(--ds-brand, #c45c26);
+}
+
+.gross-to-net-index__table tbody tr:nth-child(even) td,
+.gross-to-net-index__table tbody tr:nth-child(even) .gross-to-net-index__gross {
+  background: #fcfcfc;
+}
+
+.gross-to-net-index__table tbody tr:nth-child(odd) .gross-to-net-index__gross {
+  background: #f7f7f7;
+}
+
+.gross-to-net-index__row--milestone td,
+.gross-to-net-index__row--milestone .gross-to-net-index__gross {
+  background: #f5f2ee !important;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ds-border) 80%, transparent);
+  font-weight: 700;
+}
+
+.gross-to-net-index__row--milestone .gross-to-net-index__gross {
+  font-weight: 800;
+}
+
+.gross-to-net-index__row--highlight td,
+.gross-to-net-index__row--highlight .gross-to-net-index__gross {
+  background: #fff3e8 !important;
+  box-shadow: inset 3px 0 0 var(--ds-brand, #c45c26);
+  outline: 2px solid color-mix(in srgb, var(--ds-brand, #c45c26) 35%, transparent);
+  outline-offset: -2px;
+}
+
+.gross-to-net-index__table tbody tr:focus-visible {
+  outline: 2px solid var(--ds-brand, #c45c26);
+  outline-offset: -2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gross-to-net-index__table tbody tr:hover td,
+  .gross-to-net-index__table tbody tr:hover .gross-to-net-index__gross {
+    background: #fff8f3;
+  }
+
+  .gross-to-net-index__table tbody tr.gross-to-net-index__row--milestone:hover td,
+  .gross-to-net-index__table
+    tbody
+    tr.gross-to-net-index__row--milestone:hover
+    .gross-to-net-index__gross {
+    background: #efeae4;
+  }
+}
+
+.gross-to-net-index__further .net-gross-1500__nearby-list a {
+  color: var(--ds-brand, #c45c26);
+  border-color: color-mix(in srgb, var(--ds-brand, #c45c26) 28%, var(--ds-border));
+}
+
+.gross-to-net-index__further .net-gross-1500__nearby-list a:hover {
+  color: var(--ds-brand-dark, #a34a1c);
+  border-color: var(--ds-brand, #c45c26);
+  background: #fffaf6;
+}
+
+.gross-to-net-index__th-short {
+  display: none;
+}
+
+.gross-to-net-index__th-full {
+  display: inline;
+}
+
+@media (max-width: 768px) {
+  .gross-to-net-index__search {
+    max-width: none;
+  }
+
+  .gross-to-net-index__search-button {
+    flex: 0 0 auto;
+  }
+
+  .gross-to-net-index__table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .gross-to-net-index__table {
+    width: 100%;
+    min-width: 28rem;
+  }
+
+  .gross-to-net-index__table th,
+  .gross-to-net-index__table td {
+    padding: 0.62rem 0.55rem;
+    font-size: 0.95rem;
+  }
+
+  .gross-to-net-index__th-full {
+    display: none;
+  }
+
+  .gross-to-net-index__th-short {
+    display: inline;
+  }
+
+  .gross-to-net-index__table thead th {
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .gross-to-net-index__toc-list {
+    gap: 0.3rem 0.7rem;
+  }
+
+  .gross-to-net-index__toc-list a {
+    font-size: 0.88rem;
+  }
+
+  .gross-to-net-index__table {
+    min-width: 26.5rem;
+  }
+
+  .gross-to-net-index__table th,
+  .gross-to-net-index__table td {
+    padding: 0.55rem 0.42rem;
+    font-size: 0.9rem;
+  }
+}

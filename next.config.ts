@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
+  // sharp doit rester externe (binaire natif) : sinon plantage win32 en dev sur opengraph-image.
+  serverExternalPackages: ["sharp"],
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 31536000,

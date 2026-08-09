@@ -26,6 +26,16 @@ import {
   grossPrimePath,
 } from "./prime-brute-net/config";
 import { buildGrossPrimeSeoMeta } from "./prime-brute-net/content";
+import {
+  GROSS_TO_NET_HUB_PATH,
+  GROSS_TO_NET_INDEX_PATH,
+  GROSS_TO_NET_UPDATED_AT,
+  PUBLISHED_GROSS_TO_NET_AMOUNTS,
+  grossToNetPath,
+} from "./salaire-brut-net/config";
+import { buildGrossToNetSeoMeta } from "./salaire-brut-net/content";
+import { buildGrossToNetHubSeo } from "./salaire-brut-net/hub";
+import { buildGrossToNetIndexSeo } from "./salaire-brut-net/series-index";
 
 export type PublicPageCategory = "tools" | "guides" | "faq" | "utility";
 
@@ -217,8 +227,35 @@ export function getAllPublicPages(): PublicPage[] {
     lastModified: GROSS_PRIME_UPDATED_AT,
   }));
 
-  // Série brut → net : non enregistrée ici tant que la fiche pilote n'est pas validée.
-  // La route SSG existe via generateStaticParams ; hors sitemap / plan du site / indexation.
+  const grossToNetHubPage: PublicPage = {
+    path: GROSS_TO_NET_HUB_PATH,
+    title: buildGrossToNetHubSeo().title,
+    category: "guides",
+    changefreq: "weekly",
+    priority: 0.8,
+    indexable: true,
+    lastModified: GROSS_TO_NET_UPDATED_AT,
+  };
+
+  const grossToNetIndexPage: PublicPage = {
+    path: GROSS_TO_NET_INDEX_PATH,
+    title: buildGrossToNetIndexSeo().title,
+    category: "guides",
+    changefreq: "weekly",
+    priority: 0.78,
+    indexable: true,
+    lastModified: GROSS_TO_NET_UPDATED_AT,
+  };
+
+  const grossToNetPages: PublicPage[] = PUBLISHED_GROSS_TO_NET_AMOUNTS.map((amount) => ({
+    path: grossToNetPath(amount),
+    title: buildGrossToNetSeoMeta(amount).title,
+    category: "guides" as const,
+    changefreq: "monthly" as const,
+    priority: 0.72,
+    indexable: true,
+    lastModified: GROSS_TO_NET_UPDATED_AT,
+  }));
 
   return [
     ...calculatorPages(),
@@ -228,6 +265,9 @@ export function getAllPublicPages(): PublicPage[] {
     ...netToGrossPages,
     ...monthlyIncreasePages,
     ...grossPrimePages,
+    grossToNetHubPage,
+    grossToNetIndexPage,
+    ...grossToNetPages,
     faqPage,
     ...utilityPages,
     ...legalPages,

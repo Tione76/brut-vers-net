@@ -3,6 +3,9 @@ import { getProfileCoefficient } from "@/site/salary-calculator/config";
 import { roundCent } from "@/site/salary-calculator/conversions";
 import {
   GROSS_TO_NET_AMOUNTS,
+  GROSS_TO_NET_HUB_PATH,
+  GROSS_TO_NET_INDEX_PATH,
+  PUBLISHED_GROSS_TO_NET_AMOUNTS,
   grossToNetPath,
   isGrossToNetAmount,
   parseGrossToNetMontantParam,
@@ -20,13 +23,19 @@ import {
 } from "./content";
 import { buildCalculatorGrossPrefillHref } from "./prefill";
 
-describe("série salaire brut mensuel → net (pilote 1 000 €)", () => {
-  it("ne publie que le montant 1 000 €", () => {
-    expect(GROSS_TO_NET_AMOUNTS).toEqual([1000]);
+describe("série salaire brut mensuel → net (vague 1 : 1 000 → 3 500)", () => {
+  it("publie 51 montants de 1 000 € à 3 500 € par pas de 50 €", () => {
+    expect(GROSS_TO_NET_AMOUNTS).toHaveLength(51);
+    expect(PUBLISHED_GROSS_TO_NET_AMOUNTS).toBe(GROSS_TO_NET_AMOUNTS);
+    expect(GROSS_TO_NET_AMOUNTS[0]).toBe(1000);
+    expect(GROSS_TO_NET_AMOUNTS[50]).toBe(3500);
     expect(isGrossToNetAmount(1000)).toBe(true);
-    expect(isGrossToNetAmount(1050)).toBe(false);
+    expect(isGrossToNetAmount(1050)).toBe(true);
+    expect(isGrossToNetAmount(3500)).toBe(true);
+    expect(isGrossToNetAmount(3550)).toBe(false);
     expect(parseGrossToNetMontantParam("1000")).toBe(1000);
-    expect(parseGrossToNetMontantParam("1050")).toBeNull();
+    expect(parseGrossToNetMontantParam("3500")).toBe(3500);
+    expect(parseGrossToNetMontantParam("3550")).toBeNull();
     expect(grossToNetPath(1000)).toBe("/quel-salaire-net-mensuel-pour-1000-euros-brut");
     expect(grossToNetPath(1000)).toContain("mensuel");
   });
@@ -92,18 +101,35 @@ describe("série salaire brut mensuel → net (pilote 1 000 €)", () => {
     expect(buildCalculatorGrossPrefillHref(1100, "executive")).toContain("profil=cadre");
   });
 
-  it("prépare les montants proches sans lier de pages non publiées", () => {
-    expect(getNearbyGrossToNetAmounts(1000)).toEqual([]);
-    expect(isGrossToNetAmount(1050)).toBe(false);
+  it("propose des montants proches publiés sans auto-lien", () => {
+    expect(getNearbyGrossToNetAmounts(1000)).toEqual([
+      1050, 1100, 1150, 1200, 1250, 1300, 1350,
+    ]);
+    expect(getNearbyGrossToNetAmounts(1000)).not.toContain(1000);
+    expect(getNearbyGrossToNetAmounts(3500)).not.toContain(3550);
   });
 
-  it("reste hors sitemap / pages publiques tant que la fiche est pilote", async () => {
+  it("indexe Hub, Index et fiches publiées dans sitemap / pages publiques", async () => {
     const { getAllPublicPages, getSitemapEntries, isPathIndexable } = await import(
       "@/site/public-pages"
     );
-    const path = grossToNetPath(1000);
-    expect(getAllPublicPages().some((page) => page.path === path)).toBe(false);
-    expect(getSitemapEntries().some((entry) => entry.path === path)).toBe(false);
-    expect(isPathIndexable(path)).toBe(false);
+    const publicPaths = new Set(getAllPublicPages().map((page) => page.path));
+    const sitemapPaths = new Set(getSitemapEntries().map((entry) => entry.path));
+
+    expect(publicPaths.has(GROSS_TO_NET_HUB_PATH)).toBe(true);
+    expect(publicPaths.has(GROSS_TO_NET_INDEX_PATH)).toBe(true);
+    expect(sitemapPaths.has(GROSS_TO_NET_HUB_PATH)).toBe(true);
+    expect(sitemapPaths.has(GROSS_TO_NET_INDEX_PATH)).toBe(true);
+    expect(isPathIndexable(GROSS_TO_NET_HUB_PATH)).toBe(true);
+    expect(isPathIndexable(GROSS_TO_NET_INDEX_PATH)).toBe(true);
+
+    for (const amount of [1000, 1050, 2000, 3500] as const) {
+      const path = grossToNetPath(amount);
+      expect(publicPaths.has(path)).toBe(true);
+      expect(sitemapPaths.has(path)).toBe(true);
+      expect(isPathIndexable(path)).toBe(true);
+    }
+
+    expect(isPathIndexable(grossToNetPath(3550))).toBe(false);
   });
 });

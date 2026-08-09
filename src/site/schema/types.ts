@@ -8,6 +8,11 @@ export type SchemaCoverInput = {
   alt: string;
   width: number;
   height: number;
+  /** Crédit photo du registre covers (optionnel). */
+  credit?: {
+    photographer: string;
+    source: string;
+  };
 };
 
 export type BreadcrumbItem = {

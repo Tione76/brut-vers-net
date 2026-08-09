@@ -3,7 +3,7 @@ import { config, seoConfig } from "@/site";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { GuidePageLayout } from "@/site/guides";
-import { coverToOgInput, HOME_COVER } from "@/site/guides/covers";
+import { GROSS_TO_NET_SERIES_COVER } from "@/site/guides/covers";
 import { isPathIndexable } from "@/site/public-pages";
 import { buildWebPageJsonLd } from "@/site/schema";
 import {
@@ -12,6 +12,7 @@ import {
   GrossToNetPageSidebar,
   GrossToNetSeriesPageContent,
   buildGrossToNetFaqItems,
+  buildGrossToNetOgImageInput,
   buildGrossToNetSeoMeta,
   grossToNetBreadcrumbLabel,
   grossToNetPath,
@@ -48,7 +49,7 @@ export async function generateMetadata({ params }: PageProps) {
     title: seo.title,
     description: seo.description,
     path,
-    ogImage: coverToOgInput(HOME_COVER),
+    ogImage: buildGrossToNetOgImageInput(grossMonthly),
     openGraphType: "article",
     robots: isPathIndexable(path) ? undefined : { index: false, follow: false },
   });
@@ -76,9 +77,13 @@ export default async function GrossToNetAmountPage({ params }: PageProps) {
           description: seo.description,
           breadcrumbs: [
             { name: "Accueil", path: "/" },
+            {
+              name: "Tous les salaires bruts mensuels convertis en net",
+              path: "/salaire-brut-mensuel-en-net",
+            },
             { name: grossToNetBreadcrumbLabel(grossMonthly), path },
           ],
-          cover: HOME_COVER,
+          cover: GROSS_TO_NET_SERIES_COVER,
           faq,
           withAuthor: true,
           dateModified: GROSS_TO_NET_UPDATED_AT,

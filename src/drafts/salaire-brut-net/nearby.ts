@@ -3,13 +3,10 @@ import {
   grossToNetPath,
 } from "@/site/salaire-brut-net/config";
 import { formatGrossShort } from "@/site/salaire-brut-net/data";
-import {
-  DRAFT_GROSS_TO_NET_AMOUNTS,
-} from "./amounts";
+import { DRAFT_GROSS_TO_NET_AMOUNTS } from "./amounts";
 
 /**
- * Montants proches sur le catalogue futur (1 000 € + brouillons 1 050 → 6 000).
- * Priorité aux voisins les plus proches. Données préparatoires uniquement.
+ * Montants proches sur le catalogue futur (publiés + brouillons restants).
  */
 export function getPreparedNearbyAmounts(
   grossMonthly: number,
