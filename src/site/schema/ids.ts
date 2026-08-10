@@ -15,6 +15,7 @@ export const schemaIds = {
   website: () => `${siteUrl()}/#website`,
   person: () => `${siteUrl()}/#author`,
   logo: () => `${siteUrl()}/#logo`,
+  organizationImage: () => `${siteUrl()}/#organization-image`,
   webpage: (path: string) => pageFragmentId(path, "webpage"),
   article: (path: string) => pageFragmentId(path, "article"),
   webApplication: (path: string) => pageFragmentId(path, "webapp"),

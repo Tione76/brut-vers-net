@@ -40,7 +40,7 @@ export {
   toAbsoluteAssetUrl,
 } from "./covers";
 export type { GuideCoverImage, CoverCredit, CoverCreditSource } from "./covers";
-export { formatCoverCredit } from "./covers";
+export { formatCoverCredit, getCoverLicenseUrl, PEXELS_LICENSE_URL } from "./covers";
 export { GuideArticle, GuideInlineToc, GuideSidebar } from "./GuideRenderer";
 export {
   SiteSidebar,

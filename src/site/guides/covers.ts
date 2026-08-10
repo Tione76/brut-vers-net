@@ -14,9 +14,30 @@ export const OG_IMAGE_TYPE = COVER_IMAGE_TYPE;
 
 export type CoverCreditSource = "Pexels" | "Unsplash";
 
+/** Licence officielle Pexels (source unique pour Schema.org `license`). */
+export const PEXELS_LICENSE_URL = "https://www.pexels.com/license/";
+
+/**
+ * Licences Schema connues par banque d'images.
+ * Unsplash : pas encore configuré (aucune URL inventée).
+ */
+const COVER_SOURCE_LICENSE_URL: Partial<Record<CoverCreditSource, string>> = {
+  Pexels: PEXELS_LICENSE_URL,
+};
+
 export type CoverCredit = {
   photographer: string;
   source: CoverCreditSource;
+  /**
+   * Page où l'utilisateur peut obtenir/licencier l'image (Schema acquireLicensePage).
+   * Uniquement si une URL réelle et pertinente est connue.
+   */
+  acquireLicensePage?: string;
+  /**
+   * Mention de copyright explicite (Schema copyrightNotice).
+   * Uniquement si le titulaire des droits est réellement connu.
+   */
+  copyrightNotice?: string;
 };
 
 export interface GuideCoverImage {
@@ -48,8 +69,16 @@ function cover(
 }
 
 /** Libellé affiché dans la bande crédit (overlay). */
-export function formatCoverCredit(credit: CoverCredit): string {
+export function formatCoverCredit(credit: {
+  photographer: string;
+  source: string;
+}): string {
   return `Photo de ${credit.photographer} via ${credit.source}`;
+}
+
+/** URL de licence Schema.org pour une source connue, sinon undefined. */
+export function getCoverLicenseUrl(credit: { source: string }): string | undefined {
+  return COVER_SOURCE_LICENSE_URL[credit.source as CoverCreditSource];
 }
 
 /** Image de couverture : page d'accueil / calculateur Brut vers Net */

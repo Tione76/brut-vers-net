@@ -10,9 +10,11 @@ import {
   GROSS_TO_NET_SERIES_COVER,
   HOME_COVER,
   NET_TO_GROSS_SERIES_COVER,
+  PEXELS_LICENSE_URL,
   TOOLS_HUB_COVER,
   formatCoverCredit,
   getCalculatorCover,
+  getCoverLicenseUrl,
   getGuideCover,
   toAbsoluteAssetUrl,
 } from "./covers";
@@ -68,6 +70,11 @@ describe("covers registry", () => {
     );
     expect(GROSS_TO_NET_SERIES_COVER.alt).not.toMatch(/\d+\s*€/);
     expect(GROSS_TO_NET_SERIES_COVER.alt.length).toBeGreaterThan(20);
+  });
+
+  it("résout la licence Pexels sans inventer d'autres sources", () => {
+    expect(getCoverLicenseUrl({ source: "Pexels" })).toBe(PEXELS_LICENSE_URL);
+    expect(getCoverLicenseUrl({ source: "Unsplash" })).toBeUndefined();
   });
 
   it("expose la cover unique de la série salaire net mensuel → brut", () => {

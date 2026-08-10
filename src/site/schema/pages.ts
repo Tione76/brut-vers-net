@@ -6,7 +6,7 @@ import type { GuideCoverImage } from "@/site/guides/covers";
 import { resolveGuideCover } from "@/site/guides/covers";
 import { buildJsonLdGraph } from "./graph";
 import { schemaIds } from "./ids";
-import { buildLogoImageNode, buildOrganizationNode } from "./nodes/organization";
+import { buildLogoImageNode, buildOrganizationGraphNodes } from "./nodes/organization";
 import { buildWebsiteNode } from "./nodes/website";
 import { buildPersonNode } from "./nodes/person";
 import { buildPrimaryImageNode } from "./nodes/image";
@@ -16,7 +16,7 @@ import { buildArticleNode } from "./nodes/article";
 import { buildWebApplicationNode } from "./nodes/webapplication";
 import type { BreadcrumbItem } from "./types";
 
-const sharedNodes = () => [buildLogoImageNode(), buildOrganizationNode(), buildWebsiteNode()];
+const sharedNodes = () => [buildLogoImageNode(), ...buildOrganizationGraphNodes(), buildWebsiteNode()];
 
 type PageBaseInput = {
   path: string;
