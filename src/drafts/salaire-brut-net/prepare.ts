@@ -173,5 +173,6 @@ export function prepareDraftGrossToNetFichesHalf1() {
 }
 
 export function prepareDraftGrossToNetFichesHalf2() {
-  return DRAFT_GROSS_TO_NET_AMOUNTS.map((amount) => prepareDraftGrossToNetFiche(amount));
+  // Vague 2 déjà publiée : plus aucun brouillon half-2.
+  return [];
 }

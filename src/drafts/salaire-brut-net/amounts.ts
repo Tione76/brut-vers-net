@@ -1,22 +1,20 @@
 /**
- * Brouillons restants de la série « salaire brut mensuel → net » : 3 550 € → 6 000 €.
- * Vague 1 (1 000 → 3 500) publiée dans GROSS_TO_NET_AMOUNTS / PUBLISHED_GROSS_TO_NET_AMOUNTS.
+ * Brouillons de la série « salaire brut mensuel → net ».
+ * Série complète publiée (1 000 → 6 000) dans GROSS_TO_NET_AMOUNTS.
+ * Liste volontairement vide après publication vague 2.
  */
 
 export const DRAFT_GROSS_TO_NET_STATUS = "draft" as const;
 
 export type DraftGrossToNetStatus = typeof DRAFT_GROSS_TO_NET_STATUS;
 
-/** Montants encore en brouillon (pas de 50 €). 3 550 → 6 000 = 50 fiches. */
-export const DRAFT_GROSS_TO_NET_AMOUNTS: readonly number[] = Array.from(
-  { length: (6000 - 3550) / 50 + 1 },
-  (_, index) => 3550 + index * 50,
-);
+/** Plus aucun montant en brouillon (série 1 000 → 6 000 publiée). */
+export const DRAFT_GROSS_TO_NET_AMOUNTS = [] as const;
 
 export type DraftGrossToNetAmount = (typeof DRAFT_GROSS_TO_NET_AMOUNTS)[number];
 
 export interface DraftGrossToNetEntry {
-  amount: number;
+  amount: DraftGrossToNetAmount;
   status: DraftGrossToNetStatus;
 }
 
@@ -26,12 +24,12 @@ export const DRAFT_GROSS_TO_NET_ENTRIES: readonly DraftGrossToNetEntry[] =
     status: DRAFT_GROSS_TO_NET_STATUS,
   }));
 
-export function isDraftGrossToNetAmount(value: number): boolean {
-  return DRAFT_GROSS_TO_NET_AMOUNTS.includes(value);
+export function isDraftGrossToNetAmount(value: number): value is DraftGrossToNetAmount {
+  return (DRAFT_GROSS_TO_NET_AMOUNTS as readonly number[]).includes(value);
 }
 
 /**
- * Catalogue futur après publication complète : publiés + brouillons restants.
+ * Catalogue futur après publication : publiés + brouillons restants.
  */
 export function buildFuturePublishedCatalog(
   published: readonly number[],
@@ -43,5 +41,5 @@ export function buildFuturePublishedCatalog(
 /** Première moitié : déjà publiée (vide volontairement). */
 export const DRAFT_GROSS_TO_NET_AMOUNTS_HALF_1: readonly number[] = [];
 
-/** Seconde moitié encore en brouillon : 3 550 → 6 000. */
-export const DRAFT_GROSS_TO_NET_AMOUNTS_HALF_2: readonly number[] = DRAFT_GROSS_TO_NET_AMOUNTS;
+/** Seconde moitié : publiée vague 2 (vide volontairement). */
+export const DRAFT_GROSS_TO_NET_AMOUNTS_HALF_2: readonly number[] = [];

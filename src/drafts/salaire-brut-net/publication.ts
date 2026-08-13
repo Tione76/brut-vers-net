@@ -1,6 +1,6 @@
 /**
- * Publication vague 1 effectuée (Hub + Index + 1 000 → 3 500).
- * Vague 2 : fiches 3 550 → 6 000 encore en brouillon.
+ * Publication vague 2 effectuée : fiches 3 550 → 6 000.
+ * Série complète : 1 000 → 6 000 (101 fiches) dans GROSS_TO_NET_AMOUNTS.
  */
 
 import {
@@ -42,40 +42,50 @@ export const PUBLICATION_CHECKLIST = [
   ...PUBLICATION_CHECKLIST_HALF_2,
 ] as const;
 
-/** Vérifie que la vague 1 est publiée et que seule la moitié 2 reste en brouillon. */
-export function assertHalf1Published(): void {
+/** Vérifie que la série complète 1 000 → 6 000 est publiée et que les brouillons sont vides. */
+export function assertSeriesFullyPublished(): void {
   if (PUBLISHED_GROSS_TO_NET_AMOUNTS !== GROSS_TO_NET_AMOUNTS) {
     throw new Error(
       "PUBLISHED_GROSS_TO_NET_AMOUNTS doit rester l'alias de GROSS_TO_NET_AMOUNTS.",
     );
   }
-  if (GROSS_TO_NET_AMOUNTS.length !== 51) {
+  if (GROSS_TO_NET_AMOUNTS.length !== 101) {
     throw new Error(
-      `Attendu 51 montants publiés (1 000 → 3 500), reçu ${GROSS_TO_NET_AMOUNTS.length}.`,
+      `Attendu 101 montants publiés (1 000 → 6 000), reçu ${GROSS_TO_NET_AMOUNTS.length}.`,
     );
   }
-  if (GROSS_TO_NET_AMOUNTS[0] !== 1000 || GROSS_TO_NET_AMOUNTS[50] !== 3500) {
-    throw new Error("La vague 1 publiée doit aller de 1 000 € à 3 500 €.");
+  if (GROSS_TO_NET_AMOUNTS[0] !== 1000 || GROSS_TO_NET_AMOUNTS[100] !== 6000) {
+    throw new Error("La série publiée doit aller de 1 000 € à 6 000 €.");
+  }
+  for (let i = 0; i < GROSS_TO_NET_AMOUNTS.length; i += 1) {
+    if (GROSS_TO_NET_AMOUNTS[i] !== 1000 + i * 50) {
+      throw new Error(`Montant inattendu à l'index ${i} : ${GROSS_TO_NET_AMOUNTS[i]}.`);
+    }
   }
   if (DRAFT_GROSS_TO_NET_AMOUNTS_HALF_1.length !== 0) {
     throw new Error("DRAFT_GROSS_TO_NET_AMOUNTS_HALF_1 doit être vide après publication.");
   }
-  if (DRAFT_GROSS_TO_NET_AMOUNTS.length !== 50 || DRAFT_GROSS_TO_NET_AMOUNTS_HALF_2.length !== 50) {
-    throw new Error("Il doit rester exactement 50 brouillons (3 550 → 6 000).");
+  if (DRAFT_GROSS_TO_NET_AMOUNTS_HALF_2.length !== 0) {
+    throw new Error("DRAFT_GROSS_TO_NET_AMOUNTS_HALF_2 doit être vide après publication.");
   }
-  if (DRAFT_GROSS_TO_NET_AMOUNTS[0] !== 3550 || DRAFT_GROSS_TO_NET_AMOUNTS[49] !== 6000) {
-    throw new Error("Les brouillons restants doivent aller de 3 550 € à 6 000 €.");
-  }
-
-  const published = new Set<number>(PUBLISHED_GROSS_TO_NET_AMOUNTS as readonly number[]);
-  for (const amount of DRAFT_GROSS_TO_NET_AMOUNTS) {
-    if (published.has(amount)) {
-      throw new Error(`Le brouillon ${amount} est déjà publié.`);
-    }
+  if (DRAFT_GROSS_TO_NET_AMOUNTS.length !== 0) {
+    throw new Error(
+      `Des brouillons restent non publiés : ${DRAFT_GROSS_TO_NET_AMOUNTS.join(", ")}.`,
+    );
   }
 }
 
-/** @deprecated Remplacé par assertHalf1Published après vague 1. */
+/** Alias explicite pour la vague 2. */
+export function assertHalf2Published(): void {
+  assertSeriesFullyPublished();
+}
+
+/** @deprecated Remplacé par assertSeriesFullyPublished après vague 2. */
+export function assertHalf1Published(): void {
+  assertSeriesFullyPublished();
+}
+
+/** @deprecated Remplacé par assertSeriesFullyPublished après vague 2. */
 export function assertDraftsNotPublished(): void {
-  assertHalf1Published();
+  assertSeriesFullyPublished();
 }

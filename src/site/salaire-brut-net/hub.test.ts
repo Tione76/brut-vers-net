@@ -54,20 +54,20 @@ describe("page Hub salaire brut mensuel en net", () => {
     expect(pageSource).not.toContain("<table");
     expect(pageSource).not.toContain("indexRows");
     expect(hub).not.toHaveProperty("indexRows");
-    expect(hub.ficheLinks).toHaveLength(51);
-    expect(hub.catalogCount).toBe(51);
+    expect(hub.ficheLinks).toHaveLength(101);
+    expect(hub.catalogCount).toBe(101);
 
     const amounts = hub.ficheLinks.map((link) => link.amount);
     expect(amounts).toEqual([...PUBLISHED_GROSS_TO_NET_AMOUNTS]);
-    expect(new Set(amounts).size).toBe(51);
+    expect(new Set(amounts).size).toBe(101);
 
     for (const link of hub.ficheLinks) {
       expect(link.href).toBe(grossToNetPath(link.amount));
-      expect(link.amount).toBeLessThanOrEqual(3500);
+      expect(link.amount).toBeLessThanOrEqual(6000);
     }
-    for (const draft of DRAFT_GROSS_TO_NET_AMOUNTS) {
-      expect(amounts).not.toContain(draft);
-    }
+    expect(amounts[0]).toBe(1000);
+    expect(amounts.at(-1)).toBe(6000);
+    expect(DRAFT_GROSS_TO_NET_AMOUNTS).toHaveLength(0);
   });
 
   it("regroupe les montants par tranches générées depuis le catalogue", () => {
@@ -78,11 +78,13 @@ describe("page Hub salaire brut mensuel en net", () => {
       [2050, 2500],
       [2550, 3000],
       [3050, 3500],
+      [3550, 4000],
+      [4050, 4500],
+      [4550, 5000],
+      [5050, 5500],
+      [5550, 6000],
     ]);
-    expect(ranges.reduce((sum, range) => sum + range.links.length, 0)).toBe(51);
-
-    const withFuture = buildGrossToNetHubRanges([...PUBLISHED_GROSS_TO_NET_AMOUNTS, 3550, 4000]);
-    expect(withFuture.at(-1)).toMatchObject({ from: 3550, to: 4000 });
+    expect(ranges.reduce((sum, range) => sum + range.links.length, 0)).toBe(101);
   });
 
   it("maille calculateur, Index et guides réels", () => {

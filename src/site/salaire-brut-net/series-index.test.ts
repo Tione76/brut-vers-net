@@ -28,7 +28,7 @@ import {
   buildGrossToNetIndexToc,
 } from "./series-index";
 
-const SAMPLE_AMOUNTS = [1000, 1500, 2000, 2500, 3000, 3500] as const;
+const SAMPLE_AMOUNTS = [1000, 1500, 2000, 2500, 3000, 3500, 4000, 5000, 6000] as const;
 
 describe("page Index tableau salaire brut mensuel en net", () => {
   it("construit exactement les montants publiés, sans brouillon ni doublon", () => {
@@ -36,15 +36,12 @@ describe("page Index tableau salaire brut mensuel en net", () => {
     const amounts = rows.map((row) => row.grossMonthly);
 
     expect(rows).toHaveLength(PUBLISHED_GROSS_TO_NET_AMOUNTS.length);
-    expect(rows).toHaveLength(51);
+    expect(rows).toHaveLength(101);
     expect(amounts).toEqual([...PUBLISHED_GROSS_TO_NET_AMOUNTS]);
     expect(new Set(amounts).size).toBe(amounts.length);
     expect(amounts[0]).toBe(1000);
-    expect(amounts.at(-1)).toBe(3500);
-
-    for (const draft of DRAFT_GROSS_TO_NET_AMOUNTS) {
-      expect(amounts).not.toContain(draft);
-    }
+    expect(amounts.at(-1)).toBe(6000);
+    expect(DRAFT_GROSS_TO_NET_AMOUNTS).toHaveLength(0);
   });
 
   it("calcule les trois nets via les estimateurs / coefficients du site", () => {
@@ -77,7 +74,8 @@ describe("page Index tableau salaire brut mensuel en net", () => {
     expect(isGrossToNetMilestoneAmount(1050)).toBe(false);
     expect(isGrossToNetMilestoneAmount(4000)).toBe(true);
     expect(rows.find((row) => row.grossMonthly === 1050)?.isMilestone).toBe(false);
-    expect(rows.some((row) => row.grossMonthly > 3500)).toBe(false);
+    expect(rows.find((row) => row.grossMonthly === 4000)?.isMilestone).toBe(true);
+    expect(rows.some((row) => row.grossMonthly > 6000)).toBe(false);
   });
 
   it("expose un mini-sommaire avec des ancres uniques", () => {
@@ -233,8 +231,9 @@ describe("page Index tableau salaire brut mensuel en net", () => {
 
     for (const row of page.table.rows) {
       expect(row.href).toBe(grossToNetPath(row.grossMonthly));
-      expect(row.grossMonthly).toBeLessThanOrEqual(3500);
-      expect(row.href).not.toContain("3550");
+      expect(row.grossMonthly).toBeLessThanOrEqual(6000);
     }
+    expect(page.table.rows.some((row) => row.grossMonthly === 3550)).toBe(true);
+    expect(page.table.rows.some((row) => row.grossMonthly === 6000)).toBe(true);
   });
 });

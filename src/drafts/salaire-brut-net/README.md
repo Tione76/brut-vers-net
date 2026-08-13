@@ -1,8 +1,9 @@
-# BROUILLONS — Salaire brut mensuel → net (1 050 € → 6 000 €)
+# BROUILLONS — Salaire brut mensuel → net
 
-Série préparée, **non publiée**.
+Série **complète publiée** (1 000 € → 6 000 €, pas de 50 €).
 
-Les fiches reprises strictement du modèle `/quel-salaire-net-mensuel-pour-1000-euros-brut` sont stockées ici sous forme de **données** uniquement.
+Les helpers de ce dossier restent disponibles pour l'historique et les tests anti-fuite.
+`DRAFT_GROSS_TO_NET_AMOUNTS` est volontairement vide.
 
 ## Emplacement
 
@@ -13,34 +14,29 @@ src/drafts/salaire-brut-net/
 ## Règles
 
 - Aucune route App Router ne doit importer ce dossier.
-- Aucune entrée sitemap / plan du site / navigation / Schema.org public.
-- Les montants restent hors de `GROSS_TO_NET_AMOUNTS` (`src/site/salaire-brut-net/config.ts`).
-- `generateStaticParams` ne doit pas les inclure tant qu'ils sont en `draft`.
-- La fiche pilote 1 000 € reste seule en SSG local ; `PUBLISHED_GROSS_TO_NET_AMOUNTS` reste vide.
+- Source de vérité publique : `GROSS_TO_NET_AMOUNTS` / `PUBLISHED_GROSS_TO_NET_AMOUNTS`
+  dans `src/site/salaire-brut-net/config.ts`.
 
 ## Source de vérité
 
 | Statut | Constante | Fichier |
 |--------|-----------|---------|
-| SSG pilote (hors sitemap) | `GROSS_TO_NET_AMOUNTS` = `[1000]` | `src/site/salaire-brut-net/config.ts` |
-| Indexable / sitemap | `PUBLISHED_GROSS_TO_NET_AMOUNTS` = `[]` | idem |
-| Brouillon | `DRAFT_GROSS_TO_NET_AMOUNTS` (1 050 → 6 000, pas 50) | `amounts.ts` |
-
-Préparation d'une fiche : `prepareDraftGrossToNetFiche(montant)`.
+| SSG + sitemap | `GROSS_TO_NET_AMOUNTS` = 1 000 → 6 000 (101) | `src/site/salaire-brut-net/config.ts` |
+| Indexable | `PUBLISHED_GROSS_TO_NET_AMOUNTS` = alias | idem |
+| Brouillon | `DRAFT_GROSS_TO_NET_AMOUNTS` = `[]` | `amounts.ts` |
 
 ## Contenu du dossier
 
 | Fichier | Rôle |
 |---------|------|
-| `amounts.ts` | Liste des 100 montants brouillon + moitiés de publication |
-| `prepare.ts` | Payload complet d'une fiche (modèle 1 000 €) |
-| `nearby.ts` | Montants proches (catalogue futur, top 7) |
+| `amounts.ts` | Liste brouillon (vide après vague 2) |
+| `prepare.ts` | Payload historique d'une fiche |
+| `nearby.ts` | Montants proches (catalogue futur) |
 | `cross-link.ts` | Maillage croisé vers / depuis net → brut |
-| `hub.ts` | Hub de série (brouillon) |
-| `index-page.ts` / `index-table.ts` | Page index + tableau automatique |
+| `hub.ts` / `index-page.ts` | Helpers brouillon Hub / Index |
 | `publication.ts` | Checklists moitié 1 / moitié 2 |
-| `PUBLICATION-PROMPTS.md` | Prompts prêts à coller dans Cursor |
+| `PUBLICATION-PROMPTS.md` | Prompts de publication |
 
-## Publication future
+## Publication
 
-Voir `PUBLICATION_CHECKLIST_HALF_1` / `_HALF_2` dans `publication.ts` et `PUBLICATION-PROMPTS.md`.
+Vague 1 et vague 2 effectuées. Voir `assertSeriesFullyPublished()` dans `publication.ts`.

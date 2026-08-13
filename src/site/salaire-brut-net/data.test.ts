@@ -23,19 +23,23 @@ import {
 } from "./content";
 import { buildCalculatorGrossPrefillHref } from "./prefill";
 
-describe("série salaire brut mensuel → net (vague 1 : 1 000 → 3 500)", () => {
-  it("publie 51 montants de 1 000 € à 3 500 € par pas de 50 €", () => {
-    expect(GROSS_TO_NET_AMOUNTS).toHaveLength(51);
+describe("série salaire brut mensuel → net (1 000 → 6 000)", () => {
+  it("publie 101 montants de 1 000 € à 6 000 € par pas de 50 €", () => {
+    expect(GROSS_TO_NET_AMOUNTS).toHaveLength(101);
     expect(PUBLISHED_GROSS_TO_NET_AMOUNTS).toBe(GROSS_TO_NET_AMOUNTS);
     expect(GROSS_TO_NET_AMOUNTS[0]).toBe(1000);
-    expect(GROSS_TO_NET_AMOUNTS[50]).toBe(3500);
+    expect(GROSS_TO_NET_AMOUNTS[100]).toBe(6000);
     expect(isGrossToNetAmount(1000)).toBe(true);
     expect(isGrossToNetAmount(1050)).toBe(true);
     expect(isGrossToNetAmount(3500)).toBe(true);
-    expect(isGrossToNetAmount(3550)).toBe(false);
+    expect(isGrossToNetAmount(3550)).toBe(true);
+    expect(isGrossToNetAmount(6000)).toBe(true);
+    expect(isGrossToNetAmount(6050)).toBe(false);
     expect(parseGrossToNetMontantParam("1000")).toBe(1000);
     expect(parseGrossToNetMontantParam("3500")).toBe(3500);
-    expect(parseGrossToNetMontantParam("3550")).toBeNull();
+    expect(parseGrossToNetMontantParam("3550")).toBe(3550);
+    expect(parseGrossToNetMontantParam("6000")).toBe(6000);
+    expect(parseGrossToNetMontantParam("6050")).toBeNull();
     expect(grossToNetPath(1000)).toBe("/quel-salaire-net-mensuel-pour-1000-euros-brut");
     expect(grossToNetPath(1000)).toContain("mensuel");
   });
@@ -106,7 +110,9 @@ describe("série salaire brut mensuel → net (vague 1 : 1 000 → 3 500)", () =
       1050, 1100, 1150, 1200, 1250, 1300, 1350,
     ]);
     expect(getNearbyGrossToNetAmounts(1000)).not.toContain(1000);
-    expect(getNearbyGrossToNetAmounts(3500)).not.toContain(3550);
+    expect(getNearbyGrossToNetAmounts(3500)).toContain(3550);
+    expect(getNearbyGrossToNetAmounts(6000)).not.toContain(6000);
+    expect(getNearbyGrossToNetAmounts(6000)).toHaveLength(7);
   });
 
   it("indexe Hub, Index et fiches publiées dans sitemap / pages publiques", async () => {
@@ -123,13 +129,13 @@ describe("série salaire brut mensuel → net (vague 1 : 1 000 → 3 500)", () =
     expect(isPathIndexable(GROSS_TO_NET_HUB_PATH)).toBe(true);
     expect(isPathIndexable(GROSS_TO_NET_INDEX_PATH)).toBe(true);
 
-    for (const amount of [1000, 1050, 2000, 3500] as const) {
+    for (const amount of [1000, 1050, 2000, 3500, 3550, 6000] as const) {
       const path = grossToNetPath(amount);
       expect(publicPaths.has(path)).toBe(true);
       expect(sitemapPaths.has(path)).toBe(true);
       expect(isPathIndexable(path)).toBe(true);
     }
 
-    expect(isPathIndexable(grossToNetPath(3550))).toBe(false);
+    expect(isPathIndexable(grossToNetPath(6050))).toBe(false);
   });
 });
