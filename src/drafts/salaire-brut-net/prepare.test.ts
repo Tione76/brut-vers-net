@@ -160,8 +160,8 @@ describe("publication vague 2 salaire brut mensuel → net (3 550 → 6 000)", (
 
     const mid = getInverseNetToGrossLink(2000);
     expect(mid).not.toBeNull();
-    expect(mid?.matchedNetMonthly).toBe(1600);
-    expect(mid?.href).toBe("/combien-gagner-brut-mensuel-pour-1600-net");
+    expect(mid?.matchedNetMonthly).toBe(1560);
+    expect(mid?.href).toBe("/combien-gagner-brut-mensuel-pour-1560-net");
     expect(mid?.teaser).toContain("inverse");
 
     const high = getInverseNetToGrossLink(6000);

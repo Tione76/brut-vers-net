@@ -1,49 +1,116 @@
-/**
- * Publication des fiches 3 100 → 6 000 € (effectuée).
- *
- * Source de vérité :
- * - publiés : `PUBLISHED_NET_TO_GROSS_AMOUNTS` / `NET_TO_GROSS_AMOUNTS`
- *   dans `src/site/salaire-net-brut/config.ts` (1 500 → 6 000)
- * - brouillons : `DRAFT_NET_TO_GROSS_AMOUNTS` dans `./amounts.ts` (vide)
- */
-
-import { NET_TO_GROSS_AMOUNTS, PUBLISHED_NET_TO_GROSS_AMOUNTS } from "@/site/salaire-net-brut/config";
-import { DRAFT_NET_TO_GROSS_AMOUNTS } from "./amounts";
-
-export const PUBLICATION_CHECKLIST = [
-  "Ajouter DRAFT_NET_TO_GROSS_AMOUNTS à NET_TO_GROSS_AMOUNTS (config.ts)",
-  "Vider DRAFT_NET_TO_GROSS_AMOUNTS (ou le marquer publié)",
-  "Étendre NEARBY_PREFERRED dans page-1500-content.ts avec le catalogue futur",
-  "Vérifier generateStaticParams / sitemap / plan du site (automatiques via la liste publiée)",
-  "Mettre à jour les tests de série (URLs, nearby, anti-fuite de montants)",
-  "Lancer lint, tests et build",
-] as const;
-
-/** Vérifie que la vague 3 100 → 6 000 est publiée et que les brouillons sont vides. */
-export function assertExtendedSeriesPublished(): void {
-  if (PUBLISHED_NET_TO_GROSS_AMOUNTS !== NET_TO_GROSS_AMOUNTS) {
-    throw new Error("PUBLISHED_NET_TO_GROSS_AMOUNTS doit rester l'alias de NET_TO_GROSS_AMOUNTS.");
-  }
-  if (DRAFT_NET_TO_GROSS_AMOUNTS.length !== 0) {
-    throw new Error(
-      `Des brouillons restent non publiés : ${DRAFT_NET_TO_GROSS_AMOUNTS.join(", ")}.`,
-    );
-  }
-  if (NET_TO_GROSS_AMOUNTS.length !== 46) {
-    throw new Error(`Attendu 46 montants publiés (1 500 → 6 000), reçu ${NET_TO_GROSS_AMOUNTS.length}.`);
-  }
-  if (NET_TO_GROSS_AMOUNTS[0] !== 1500 || NET_TO_GROSS_AMOUNTS[45] !== 6000) {
-    throw new Error("La série publiée doit aller de 1 500 € à 6 000 €.");
-  }
-  for (let i = 0; i < NET_TO_GROSS_AMOUNTS.length; i += 1) {
-    if (NET_TO_GROSS_AMOUNTS[i] !== 1500 + i * 100) {
-      throw new Error(`Montant inattendu à l'index ${i} : ${NET_TO_GROSS_AMOUNTS[i]}.`);
-    }
-  }
-}
-
-/** @deprecated Remplacé par assertExtendedSeriesPublished après publication. */
-export function assertDraftsNotPublished(): void {
-  assertExtendedSeriesPublished();
-}
-
+/**
+ * État de la série Net → Brut mensuel après vague 1 des intermédiaires (pas de 10 €).
+ *
+ * - Publiés : 91 (46 centaines + 45 intermédiaires 1 510 → 1 990)
+ * - Brouillons : 360 (2 010 → 5 990 hors centaines)
+ *
+ * Publication d'un lot : déplacer des montants de DRAFT_NET_TO_GROSS_AMOUNTS
+ * vers NET_TO_GROSS_AMOUNTS (batch publié dans config.ts), puis retirer ces montants des brouillons.
+ */
+
+import { NET_TO_GROSS_AMOUNTS, PUBLISHED_NET_TO_GROSS_AMOUNTS } from "@/site/salaire-net-brut/config";
+import {
+  DRAFT_NET_TO_GROSS_AMOUNTS,
+  buildFuturePublishedCatalog,
+} from "./amounts";
+
+export const PUBLICATION_CHECKLIST = [
+  "Choisir le prochain lot via buildDraftNetToGrossPublicationBatches(45)[0]",
+  "Ajouter ces montants au batch publié dans config.ts (ordre croissant du catalogue)",
+  "Retirer ces montants de DRAFT_NET_TO_GROSS_AMOUNTS (amounts.ts)",
+  "Vérifier generateStaticParams / sitemap / Hub / Index / Nearby (automatiques via la liste publiée)",
+  "Mettre à jour les tests de comptage published/draft",
+  "Lancer lint, tests et build",
+] as const;
+
+const EXPECTED_PUBLISHED_COUNT = 91;
+const EXPECTED_DRAFT_COUNT = 360;
+const EXPECTED_TOTAL = 451;
+
+/** Vérifie que les 46 centaines restent présentes dans le catalogue publié. */
+export function assertPublishedHundredsIntact(): void {
+  if (PUBLISHED_NET_TO_GROSS_AMOUNTS !== NET_TO_GROSS_AMOUNTS) {
+    throw new Error("PUBLISHED_NET_TO_GROSS_AMOUNTS doit rester l'alias de NET_TO_GROSS_AMOUNTS.");
+  }
+  for (let i = 0; i < 46; i += 1) {
+    const hundred = 1500 + i * 100;
+    if (!(NET_TO_GROSS_AMOUNTS as readonly number[]).includes(hundred)) {
+      throw new Error(`La centaine publiée ${hundred} manque au catalogue.`);
+    }
+  }
+  if (NET_TO_GROSS_AMOUNTS[0] !== 1500 || NET_TO_GROSS_AMOUNTS[NET_TO_GROSS_AMOUNTS.length - 1] !== 6000) {
+    throw new Error("Le catalogue publié doit commencer à 1 500 € et finir à 6 000 €.");
+  }
+}
+
+/** Vérifie l'état published/draft après les vagues d'intermédiaires déjà publiées. */
+export function assertTenEuroIntermediatesPrepared(): void {
+  if (NET_TO_GROSS_AMOUNTS.length !== EXPECTED_PUBLISHED_COUNT) {
+    throw new Error(
+      `Attendu ${EXPECTED_PUBLISHED_COUNT} montants publiés, reçu ${NET_TO_GROSS_AMOUNTS.length}.`,
+    );
+  }
+  if (DRAFT_NET_TO_GROSS_AMOUNTS.length !== EXPECTED_DRAFT_COUNT) {
+    throw new Error(
+      `Attendu ${EXPECTED_DRAFT_COUNT} brouillons restants, reçu ${DRAFT_NET_TO_GROSS_AMOUNTS.length}.`,
+    );
+  }
+  if (DRAFT_NET_TO_GROSS_AMOUNTS[0] !== 2010 || DRAFT_NET_TO_GROSS_AMOUNTS[EXPECTED_DRAFT_COUNT - 1] !== 5990) {
+    throw new Error("Les brouillons restants doivent aller de 2 010 € à 5 990 €.");
+  }
+
+  const published = new Set<number>(NET_TO_GROSS_AMOUNTS as readonly number[]);
+  for (let i = 0; i < DRAFT_NET_TO_GROSS_AMOUNTS.length; i += 1) {
+    const amount = DRAFT_NET_TO_GROSS_AMOUNTS[i]!;
+    if (amount % 10 !== 0) {
+      throw new Error(`Brouillon non multiple de 10 : ${amount}.`);
+    }
+    if (amount % 100 === 0) {
+      throw new Error(`Brouillon multiple de 100 (déjà publié) : ${amount}.`);
+    }
+    if (published.has(amount)) {
+      throw new Error(`Le brouillon ${amount} est déjà publié.`);
+    }
+    if (i > 0) {
+      const prev = DRAFT_NET_TO_GROSS_AMOUNTS[i - 1]!;
+      const expectedGap = amount % 100 === 10 ? 20 : 10;
+      if (amount - prev !== expectedGap) {
+        throw new Error(`Trou ou écart inattendu entre ${prev} et ${amount}.`);
+      }
+    }
+  }
+
+  for (const amount of [1510, 1550, 1590, 1610, 1990] as const) {
+    if (!published.has(amount)) {
+      throw new Error(`Le montant de vague 1 ${amount} doit être publié.`);
+    }
+  }
+
+  const future = buildFuturePublishedCatalog();
+  if (future.length !== EXPECTED_TOTAL) {
+    throw new Error(`Attendu ${EXPECTED_TOTAL} montants totaux, reçu ${future.length}.`);
+  }
+  if (future[0] !== 1500 || future[EXPECTED_TOTAL - 1] !== 6000) {
+    throw new Error("Le catalogue futur doit aller de 1 500 € à 6 000 €.");
+  }
+  for (let i = 0; i < future.length; i += 1) {
+    if (future[i] !== 1500 + i * 10) {
+      throw new Error(`Trou dans la séquence globale à l'index ${i} : ${future[i]}.`);
+    }
+  }
+}
+
+/**
+ * Vérifie : centaines intactes + état drafts/publiés cohérent + aucun brouillon dans le publié.
+ */
+export function assertDraftsNotPublished(): void {
+  assertPublishedHundredsIntact();
+  assertTenEuroIntermediatesPrepared();
+}
+
+/**
+ * @deprecated Alias conservé : vérifie les centaines + l'état courant published/draft.
+ */
+export function assertExtendedSeriesPublished(): void {
+  assertDraftsNotPublished();
+}

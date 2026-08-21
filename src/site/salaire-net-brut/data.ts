@@ -7,7 +7,6 @@ import { monthlyToAnnual, monthlyToHourly, roundCent } from "@/site/salary-calcu
 import { formatCurrency } from "@/site/salary-calculator/parsing";
 import type { EmploymentProfile } from "@/site/salary-calculator/types";
 import {
-  isNetToGrossAmount,
   NET_TO_GROSS_AMOUNTS,
   NET_TO_GROSS_DEFAULT_PROFILE,
   NET_TO_GROSS_PROFILES,
@@ -103,24 +102,19 @@ export function buildComparisonRows(netMonthly: number): ComparisonRow[] {
   });
 }
 
-/** Montants proches pour le maillage interne (hors page courante). */
+/** Montants proches pour le maillage interne (hors page courante) = catalogue publié. */
 export function getNearbyNetAmounts(netMonthly: number): NetToGrossAmount[] {
-  const preferred = [1400, 1600, 1700, 1800, 2000, 2500, 3000, 1500, 1900, 2200];
-  const fromSeries = NET_TO_GROSS_AMOUNTS.filter((amount) => amount !== netMonthly);
-
-  const ordered: number[] = [];
-  for (const amount of preferred) {
-    if (amount !== netMonthly && isNetToGrossAmount(amount) && !ordered.includes(amount)) {
-      ordered.push(amount);
-    }
-  }
-  for (const amount of fromSeries) {
-    if (!ordered.includes(amount)) {
-      ordered.push(amount);
-    }
-  }
-
-  return ordered.slice(0, 7) as NetToGrossAmount[];
+  return NET_TO_GROSS_AMOUNTS.filter((amount) => amount !== netMonthly)
+    .slice()
+    .sort((a, b) => {
+      const distanceA = Math.abs(a - netMonthly);
+      const distanceB = Math.abs(b - netMonthly);
+      if (distanceA !== distanceB) {
+        return distanceA - distanceB;
+      }
+      return a - b;
+    })
+    .slice(0, 7) as NetToGrossAmount[];
 }
 
 export interface NearbyLink {

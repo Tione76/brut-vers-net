@@ -1,8 +1,10 @@
-# BROUILLONS — Net vers brut mensuel (3 100 € → 6 000 €)
+# BROUILLONS — Net vers brut mensuel (intermédiaires par pas de 10 €)
 
-Série préparée, **non publiée**.
+Les **91 fiches publiées** (46 centaines + vague 1 : 1 510 → 1 990) sont dans
+`NET_TO_GROSS_AMOUNTS` (`src/site/salaire-net-brut/config.ts`).
 
-Les fiches reprises strictement du modèle `/combien-gagner-brut-mensuel-pour-1500-net` sont stockées ici sous forme de **données** uniquement.
+Ce dossier conserve les **360 montants intermédiaires restants** (2 010 → 5 990 hors centaines)
+sous forme de **données uniquement**, sans routes publiques.
 
 ## Emplacement
 
@@ -10,22 +12,16 @@ Les fiches reprises strictement du modèle `/combien-gagner-brut-mensuel-pour-15
 src/drafts/net-vers-brut-mensuel/
 ```
 
-## Règles
-
-- Aucune route App Router ne doit importer ce dossier.
-- Aucune entrée sitemap / plan du site / navigation / Schema.org public.
-- Les montants restent hors de `NET_TO_GROSS_AMOUNTS` (`src/site/salaire-net-brut/config.ts`).
-- `generateStaticParams` ne doit pas les inclure tant qu'ils sont en `draft`.
-
 ## Source de vérité
 
 | Statut | Constante | Fichier |
 |--------|-----------|---------|
-| Publié | `NET_TO_GROSS_AMOUNTS` / `PUBLISHED_NET_TO_GROSS_AMOUNTS` | `src/site/salaire-net-brut/config.ts` |
-| Brouillon | `DRAFT_NET_TO_GROSS_AMOUNTS` | `amounts.ts` |
+| Publié (91) | `NET_TO_GROSS_AMOUNTS` / `PUBLISHED_NET_TO_GROSS_AMOUNTS` | `config.ts` |
+| Brouillon (360) | `DRAFT_NET_TO_GROSS_AMOUNTS` | `amounts.ts` |
+| Total futur (451) | `buildFuturePublishedCatalog()` | `amounts.ts` |
 
-Préparation d'une fiche : `prepareDraftNetToGrossFiche(montant)`.
+Lots restants : `buildDraftNetToGrossPublicationBatches(45)` → 8 lots.
 
 ## Publication future
 
-Voir `PUBLICATION_CHECKLIST` dans `publication.ts` et le prompt de publication fourni en fin de tâche de préparation.
+Voir `PUBLICATION_CHECKLIST` dans `publication.ts`.

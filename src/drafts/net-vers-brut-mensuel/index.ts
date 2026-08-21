@@ -2,6 +2,7 @@ export {
   DRAFT_NET_TO_GROSS_AMOUNTS,
   DRAFT_NET_TO_GROSS_ENTRIES,
   DRAFT_NET_TO_GROSS_STATUS,
+  buildDraftNetToGrossPublicationBatches,
   buildFuturePublishedCatalog,
   isDraftNetToGrossAmount,
   type DraftNetToGrossAmount,
@@ -23,4 +24,6 @@ export {
   PUBLICATION_CHECKLIST,
   assertDraftsNotPublished,
   assertExtendedSeriesPublished,
+  assertPublishedHundredsIntact,
+  assertTenEuroIntermediatesPrepared,
 } from "./publication";
