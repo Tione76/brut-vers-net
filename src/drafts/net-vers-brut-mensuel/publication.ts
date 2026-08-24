@@ -1,8 +1,8 @@
 /**
- * État de la série Net → Brut mensuel après vague 1 des intermédiaires (pas de 10 €).
+ * État de la série Net → Brut mensuel après vague 2 des intermédiaires (pas de 10 €).
  *
- * - Publiés : 91 (46 centaines + 45 intermédiaires 1 510 → 1 990)
- * - Brouillons : 360 (2 010 → 5 990 hors centaines)
+ * - Publiés : 136 (46 centaines + 90 intermédiaires 1 510 → 2 490)
+ * - Brouillons : 315 (2 510 → 5 990 hors centaines)
  *
  * Publication d'un lot : déplacer des montants de DRAFT_NET_TO_GROSS_AMOUNTS
  * vers NET_TO_GROSS_AMOUNTS (batch publié dans config.ts), puis retirer ces montants des brouillons.
@@ -23,8 +23,8 @@ export const PUBLICATION_CHECKLIST = [
   "Lancer lint, tests et build",
 ] as const;
 
-const EXPECTED_PUBLISHED_COUNT = 91;
-const EXPECTED_DRAFT_COUNT = 360;
+const EXPECTED_PUBLISHED_COUNT = 136;
+const EXPECTED_DRAFT_COUNT = 315;
 const EXPECTED_TOTAL = 451;
 
 /** Vérifie que les 46 centaines restent présentes dans le catalogue publié. */
@@ -55,8 +55,8 @@ export function assertTenEuroIntermediatesPrepared(): void {
       `Attendu ${EXPECTED_DRAFT_COUNT} brouillons restants, reçu ${DRAFT_NET_TO_GROSS_AMOUNTS.length}.`,
     );
   }
-  if (DRAFT_NET_TO_GROSS_AMOUNTS[0] !== 2010 || DRAFT_NET_TO_GROSS_AMOUNTS[EXPECTED_DRAFT_COUNT - 1] !== 5990) {
-    throw new Error("Les brouillons restants doivent aller de 2 010 € à 5 990 €.");
+  if (DRAFT_NET_TO_GROSS_AMOUNTS[0] !== 2510 || DRAFT_NET_TO_GROSS_AMOUNTS[EXPECTED_DRAFT_COUNT - 1] !== 5990) {
+    throw new Error("Les brouillons restants doivent aller de 2 510 € à 5 990 €.");
   }
 
   const published = new Set<number>(NET_TO_GROSS_AMOUNTS as readonly number[]);
@@ -80,9 +80,9 @@ export function assertTenEuroIntermediatesPrepared(): void {
     }
   }
 
-  for (const amount of [1510, 1550, 1590, 1610, 1990] as const) {
+  for (const amount of [1510, 1990, 2010, 2250, 2490] as const) {
     if (!published.has(amount)) {
-      throw new Error(`Le montant de vague 1 ${amount} doit être publié.`);
+      throw new Error(`Le montant déjà publié ${amount} manque au catalogue.`);
     }
   }
 

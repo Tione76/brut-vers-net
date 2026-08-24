@@ -48,14 +48,21 @@ const NET_TO_GROSS_HUNDREDS: readonly number[] = Array.from(
   (_, index) => 1500 + index * 100,
 );
 
+function tenEuroBatch(from: number, to: number): number[] {
+  return Array.from({ length: (to - from) / 10 + 1 }, (_, index) => from + index * 10).filter(
+    (amount) => amount % 100 !== 0,
+  );
+}
+
 /**
  * Lots d'intermédiaires (pas de 10 €) déjà publiés.
- * Vague 1 : 1 510 → 1 990 (hors multiples de 100).
+ * Vague 1 : 1 510 → 1 990
+ * Vague 2 : 2 010 → 2 490
  */
-const NET_TO_GROSS_PUBLISHED_TEN_EURO_BATCHES: readonly number[] = Array.from(
-  { length: (1990 - 1510) / 10 + 1 },
-  (_, index) => 1510 + index * 10,
-).filter((amount) => amount % 100 !== 0);
+const NET_TO_GROSS_PUBLISHED_TEN_EURO_BATCHES: readonly number[] = [
+  ...tenEuroBatch(1510, 1990),
+  ...tenEuroBatch(2010, 2490),
+];
 
 /**
  * Montants publiés (SSG + sitemap + Hub + Index + Nearby public).

@@ -22,7 +22,7 @@ import {
 
 describe("salaire-net-brut série mensuelle", () => {
   it("utilise le format URL combien-gagner-brut-mensuel-pour-{n}-net pour toute la série", () => {
-    expect(NET_TO_GROSS_AMOUNTS).toHaveLength(91);
+    expect(NET_TO_GROSS_AMOUNTS).toHaveLength(136);
     expect(NET_TO_GROSS_AMOUNTS[0]).toBe(1500);
     expect(NET_TO_GROSS_AMOUNTS[NET_TO_GROSS_AMOUNTS.length - 1]).toBe(6000);
     for (const amount of NET_TO_GROSS_AMOUNTS) {
@@ -30,13 +30,12 @@ describe("salaire-net-brut série mensuelle", () => {
     }
     expect(parseNetToGrossMontantParam("1500")).toBe(1500);
     expect(parseNetToGrossMontantParam("1510")).toBe(1510);
-    expect(parseNetToGrossMontantParam("1550")).toBe(1550);
-    expect(parseNetToGrossMontantParam("1990")).toBe(1990);
+    expect(parseNetToGrossMontantParam("2010")).toBe(2010);
+    expect(parseNetToGrossMontantParam("2490")).toBe(2490);
     expect(parseNetToGrossMontantParam("3000")).toBe(3000);
-    expect(parseNetToGrossMontantParam("3100")).toBe(3100);
     expect(parseNetToGrossMontantParam("6000")).toBe(6000);
     expect(parseNetToGrossMontantParam("1499")).toBeNull();
-    expect(parseNetToGrossMontantParam("2010")).toBeNull();
+    expect(parseNetToGrossMontantParam("2510")).toBeNull();
     expect(parseNetToGrossMontantParam("5990")).toBeNull();
     expect(parseNetToGrossMontantParam("6050")).toBeNull();
   });
@@ -45,8 +44,8 @@ describe("salaire-net-brut série mensuelle", () => {
     expect(getSeriesNearbyAmounts(1500)).toEqual([
       1510, 1520, 1530, 1540, 1550, 1560, 1570,
     ]);
-    expect(getSeriesNearbyAmounts(1550)).toEqual([
-      1540, 1560, 1530, 1570, 1520, 1580, 1510,
+    expect(getSeriesNearbyAmounts(2010)).toEqual([
+      2000, 2020, 1990, 2030, 1980, 2040, 1970,
     ]);
   });
 
