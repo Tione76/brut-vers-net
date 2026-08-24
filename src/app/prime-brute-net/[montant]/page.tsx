@@ -18,8 +18,6 @@ import {
   parseGrossPrimeMontantParam,
 } from "@/site/prime-brute-net";
 import { buildAllProfilePrimeEstimates } from "@/site/prime-brute-net/data";
-import "@/site/guides/guide-page.css";
-
 interface PageProps {
   params: Promise<{ montant: string }>;
 }

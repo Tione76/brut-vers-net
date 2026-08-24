@@ -5,8 +5,6 @@ import { useSite } from "@/framework/SiteProvider";
 import { SiteNav } from "@/framework/design/components/SiteNav";
 import { HeaderCurveDown } from "@/framework/design/components/Curves";
 import { PageFooter } from "@/framework/design/PageFooter";
-import "@/framework/design/index.css";
-import "./guide-page.css";
 
 interface GuidePageLayoutProps {
   title: string;

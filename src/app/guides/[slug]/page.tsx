@@ -17,8 +17,6 @@ import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { buildGuideJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
-import "@/site/guides/guide-page.css";
-
 interface GuidePageProps {
   params: Promise<{ slug: string }>;
 }

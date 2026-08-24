@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import { useSite } from "@/framework/SiteProvider";
 import { CompactPageHeader } from "@/framework/design/components/CompactPageHeader";
 import { PageFooter } from "@/framework/design/PageFooter";
-import "@/framework/design/index.css";
 
 interface ContentPageLayoutProps {
   meta?: string;

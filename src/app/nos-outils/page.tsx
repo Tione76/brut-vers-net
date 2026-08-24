@@ -17,7 +17,6 @@ import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
 import { buildHubJsonLd } from "@/site/schema";
-import "@/site/guides/guide-page.css";
 import "@/site/tools/tools-hub.css";
 
 const hub = seoConfig.toolsHub;

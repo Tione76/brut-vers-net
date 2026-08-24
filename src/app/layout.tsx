@@ -6,6 +6,11 @@ import { ThemeStyles } from "@/framework/ThemeStyles";
 import { SkipLink } from "@/framework/SkipLink";
 import { buildRootMetadata } from "@/framework/seo/metadata";
 import "./globals.css";
+/* Design system global : import serveur (root layout) pour forcer <link rel="stylesheet">.
+   Ne pas importer uniquement depuis des layouts "use client" (Next peut émettre <script src="*.css">). */
+import "@/framework/design/index.css";
+/* Styles guides / layouts éditoriaux : aussi au root pour éviter <script src="*.css">. */
+import "@/site/guides/guide-page.css";
 
 const sourceSans = Source_Sans_3({
   variable: "--font-source-sans",

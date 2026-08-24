@@ -9,8 +9,6 @@ import {
   GrossToNetPageSidebar,
   buildGrossToNetIndexPayload,
 } from "@/site/salaire-brut-net";
-import "@/site/guides/guide-page.css";
-
 const page = buildGrossToNetIndexPayload();
 
 export const metadata = buildPageMetadata(config, seoConfig, {

@@ -5,8 +5,6 @@ import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
 import { buildWebPageJsonLd } from "@/site/schema";
-import "@/site/guides/guide-page.css";
-
 const page = seoConfig.legal.cookies;
 const path = "/gestion-des-cookies";
 const metaDescription = page.metaDescription ?? page.description;

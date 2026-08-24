@@ -19,8 +19,6 @@ import {
   parseGrossToNetMontantParam,
 } from "@/site/salaire-brut-net";
 import { buildAllProfileNetEstimates } from "@/site/salaire-brut-net/data";
-import "@/site/guides/guide-page.css";
-
 interface PageProps {
   params: Promise<{ montant: string }>;
 }

@@ -12,8 +12,6 @@ import { coverToOgInput, FAQ_COVER } from "@/site/guides/covers";
 import { FaqPageSidebar, GuidePageLayout } from "@/site/guides";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { buildWebPageJsonLd } from "@/site/schema";
-import "@/site/guides/guide-page.css";
-
 const path = "/faq";
 
 export const metadata = buildPageMetadata(config, seoConfig, {

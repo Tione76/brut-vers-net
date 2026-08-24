@@ -23,8 +23,6 @@ import {
   seriesBreadcrumbLabel,
 } from "@/site/salaire-net-brut/page-1500-content";
 import { buildAllProfileEstimates } from "@/site/salaire-net-brut/data";
-import "@/site/guides/guide-page.css";
-
 interface PageProps {
   params: Promise<{ montant: string }>;
 }

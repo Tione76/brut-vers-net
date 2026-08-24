@@ -3,3 +3,5 @@
 @import "./shared.css";
 @import "./blog-page.css";
 @import "./calculator-page.css";
+@import "./components/share-block.css";
+@import "./components/page-breadcrumb.css";

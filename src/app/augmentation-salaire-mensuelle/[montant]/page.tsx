@@ -18,8 +18,6 @@ import {
   parseMonthlyIncreaseMontantParam,
 } from "@/site/augmentation-salaire-mensuelle";
 import { buildAllProfileIncreaseEstimates } from "@/site/augmentation-salaire-mensuelle/data";
-import "@/site/guides/guide-page.css";
-
 interface PageProps {
   params: Promise<{ montant: string }>;
 }

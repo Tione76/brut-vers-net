@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import "./share-block.css";
 
 export type ShareBlockVariant = "onBrand" | "onLight";
 

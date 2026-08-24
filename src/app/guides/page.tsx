@@ -19,7 +19,6 @@ import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
 import { buildHubJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
-import "@/site/guides/guide-page.css";
 import "@/site/tools/tools-hub.css";
 
 const hub = seoConfig.guidesHub;

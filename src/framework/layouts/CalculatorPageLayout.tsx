@@ -12,8 +12,6 @@ import { HomePageSidebar } from "@/site/guides/GuidePageSidebar";
 import { hasSidebarContent } from "@/site/guides/sidebar";
 import { HomeEditorial } from "@/site/home-editorial";
 import { HomeFaqContent } from "@/site/home-faq";
-import "@/framework/design/index.css";
-import "@/site/guides/guide-page.css";
 
 interface CalculatorPageLayoutProps {
   Calculator: ComponentType;

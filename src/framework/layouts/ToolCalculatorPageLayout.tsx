@@ -7,8 +7,6 @@ import { SiteNav } from "@/framework/design/components/SiteNav";
 import { HeaderCurveDown } from "@/framework/design/components/Curves";
 import { ShareBlock, type ShareBlockProps } from "@/framework/design/components/ShareBlock";
 import { PageFooter } from "@/framework/design/PageFooter";
-import "@/framework/design/index.css";
-import "@/site/guides/guide-page.css";
 
 interface ToolCalculatorPageLayoutProps {
   h1: string;

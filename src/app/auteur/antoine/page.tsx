@@ -7,8 +7,6 @@ import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
 import { buildAuthorJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
-import "@/site/guides/guide-page.css";
-
 const path = SITE_AUTHOR.path;
 
 export const metadata = buildPageMetadata(config, seoConfig, {

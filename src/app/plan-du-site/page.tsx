@@ -6,8 +6,6 @@ import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata } from "@/framework/seo/metadata";
 import { buildWebPageJsonLd } from "@/site/schema";
-import "@/site/guides/guide-page.css";
-
 const page = seoConfig.legal.sitemap;
 const path = "/plan-du-site";
 const metaDescription = page.metaDescription ?? page.description;

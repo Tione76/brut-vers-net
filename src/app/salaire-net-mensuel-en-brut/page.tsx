@@ -9,8 +9,6 @@ import {
   buildNetToGrossHubOgImageInput,
   buildNetToGrossHubPayload,
 } from "@/site/salaire-net-brut";
-import "@/site/guides/guide-page.css";
-
 const hub = buildNetToGrossHubPayload();
 
 export const metadata = buildPageMetadata(config, seoConfig, {
