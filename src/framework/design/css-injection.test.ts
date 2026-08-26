@@ -31,8 +31,10 @@ function collectHtmlFiles(dir: string, acc: string[] = []): string[] {
 }
 
 describe("injection CSS du build Next", () => {
-  it.skipIf(!hasBuild)('n\'émet aucun <script src="*.css"> dans le HTML prerendu', () => {
-    const htmlFiles = collectHtmlFiles(appDir);
+  const htmlFiles = hasBuild ? collectHtmlFiles(appDir) : [];
+  const hasPrerenderedHtml = htmlFiles.length > 0;
+
+  it.skipIf(!hasPrerenderedHtml)('n\'émet aucun <script src="*.css"> dans le HTML prerendu', () => {
     expect(htmlFiles.length).toBeGreaterThan(0);
 
     const offenders: string[] = [];

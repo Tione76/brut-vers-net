@@ -58,10 +58,12 @@ function tenEuroBatch(from: number, to: number): number[] {
  * Lots d'intermédiaires (pas de 10 €) déjà publiés.
  * Vague 1 : 1 510 → 1 990
  * Vague 2 : 2 010 → 2 490
+ * Vague 3 : 2 510 → 2 990
  */
 const NET_TO_GROSS_PUBLISHED_TEN_EURO_BATCHES: readonly number[] = [
   ...tenEuroBatch(1510, 1990),
   ...tenEuroBatch(2010, 2490),
+  ...tenEuroBatch(2510, 2990),
 ];
 
 /**
