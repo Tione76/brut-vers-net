@@ -1,8 +1,8 @@
 /**
- * État de la série Net → Brut mensuel après vague 3 des intermédiaires (pas de 10 €).
+ * État de la série Net → Brut mensuel après vague 4 des intermédiaires (pas de 10 €).
  *
- * - Publiés : 181 (46 centaines + 135 intermédiaires 1 510 → 2 990)
- * - Brouillons : 270 (3 010 → 5 990 hors centaines)
+ * - Publiés : 226 (46 centaines + 180 intermédiaires 1 510 → 3 490)
+ * - Brouillons : 225 (3 510 → 5 990 hors centaines)
  *
  * Publication d'un lot : déplacer des montants de DRAFT_NET_TO_GROSS_AMOUNTS
  * vers NET_TO_GROSS_AMOUNTS (batch publié dans config.ts), puis retirer ces montants des brouillons.
@@ -23,8 +23,8 @@ export const PUBLICATION_CHECKLIST = [
   "Lancer lint, tests et build",
 ] as const;
 
-const EXPECTED_PUBLISHED_COUNT = 181;
-const EXPECTED_DRAFT_COUNT = 270;
+const EXPECTED_PUBLISHED_COUNT = 226;
+const EXPECTED_DRAFT_COUNT = 225;
 const EXPECTED_TOTAL = 451;
 
 /** Vérifie que les 46 centaines restent présentes dans le catalogue publié. */
@@ -55,8 +55,8 @@ export function assertTenEuroIntermediatesPrepared(): void {
       `Attendu ${EXPECTED_DRAFT_COUNT} brouillons restants, reçu ${DRAFT_NET_TO_GROSS_AMOUNTS.length}.`,
     );
   }
-  if (DRAFT_NET_TO_GROSS_AMOUNTS[0] !== 3010 || DRAFT_NET_TO_GROSS_AMOUNTS[EXPECTED_DRAFT_COUNT - 1] !== 5990) {
-    throw new Error("Les brouillons restants doivent aller de 3 010 € à 5 990 €.");
+  if (DRAFT_NET_TO_GROSS_AMOUNTS[0] !== 3510 || DRAFT_NET_TO_GROSS_AMOUNTS[EXPECTED_DRAFT_COUNT - 1] !== 5990) {
+    throw new Error("Les brouillons restants doivent aller de 3 510 € à 5 990 €.");
   }
 
   const published = new Set<number>(NET_TO_GROSS_AMOUNTS as readonly number[]);
@@ -80,7 +80,7 @@ export function assertTenEuroIntermediatesPrepared(): void {
     }
   }
 
-  for (const amount of [1510, 1990, 2010, 2490, 2510, 2750, 2990] as const) {
+  for (const amount of [1510, 2490, 2510, 2990, 3010, 3250, 3490] as const) {
     if (!published.has(amount)) {
       throw new Error(`Le montant déjà publié ${amount} manque au catalogue.`);
     }
