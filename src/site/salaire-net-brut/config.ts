@@ -60,12 +60,14 @@ function tenEuroBatch(from: number, to: number): number[] {
  * Vague 2 : 2 010 → 2 490
  * Vague 3 : 2 510 → 2 990
  * Vague 4 : 3 010 → 3 490
+ * Vague 5 : 3 510 → 3 990
  */
 const NET_TO_GROSS_PUBLISHED_TEN_EURO_BATCHES: readonly number[] = [
   ...tenEuroBatch(1510, 1990),
   ...tenEuroBatch(2010, 2490),
   ...tenEuroBatch(2510, 2990),
   ...tenEuroBatch(3010, 3490),
+  ...tenEuroBatch(3510, 3990),
 ];
 
 /**
