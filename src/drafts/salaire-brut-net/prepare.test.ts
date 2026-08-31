@@ -76,33 +76,37 @@ describe("publication vague 2 salaire brut mensuel → net (3 550 → 6 000)", (
     }
   });
 
-  it("expose Hub, Index et les 101 fiches dans sitemap / pages publiques / plan du site", () => {
-    const publicPaths = new Set(getAllPublicPages().map((page) => page.path));
-    const sitemapPaths = new Set(getSitemapEntries().map((entry) => entry.path));
-    const planPaths = new Set(
-      getPlanDuSiteSections().flatMap((section) => section.pages.map((page) => page.path)),
-    );
+  it(
+    "expose Hub, Index et les 101 fiches dans sitemap / pages publiques / plan du site",
+    () => {
+      const publicPaths = new Set(getAllPublicPages().map((page) => page.path));
+      const sitemapPaths = new Set(getSitemapEntries().map((entry) => entry.path));
+      const planPaths = new Set(
+        getPlanDuSiteSections().flatMap((section) => section.pages.map((page) => page.path)),
+      );
 
-    expect(publicPaths.has(GROSS_TO_NET_HUB_PATH)).toBe(true);
-    expect(publicPaths.has(GROSS_TO_NET_INDEX_PATH)).toBe(true);
-    expect(sitemapPaths.has(GROSS_TO_NET_HUB_PATH)).toBe(true);
-    expect(sitemapPaths.has(GROSS_TO_NET_INDEX_PATH)).toBe(true);
-    expect(isPathIndexable(GROSS_TO_NET_HUB_PATH)).toBe(true);
-    expect(isPathIndexable(GROSS_TO_NET_INDEX_PATH)).toBe(true);
+      expect(publicPaths.has(GROSS_TO_NET_HUB_PATH)).toBe(true);
+      expect(publicPaths.has(GROSS_TO_NET_INDEX_PATH)).toBe(true);
+      expect(sitemapPaths.has(GROSS_TO_NET_HUB_PATH)).toBe(true);
+      expect(sitemapPaths.has(GROSS_TO_NET_INDEX_PATH)).toBe(true);
+      expect(isPathIndexable(GROSS_TO_NET_HUB_PATH)).toBe(true);
+      expect(isPathIndexable(GROSS_TO_NET_INDEX_PATH)).toBe(true);
 
-    expect(GROSS_TO_NET_AMOUNTS).toHaveLength(101);
-    for (const amount of GROSS_TO_NET_AMOUNTS) {
-      const path = grossToNetPath(amount);
-      expect(publicPaths.has(path)).toBe(true);
-      expect(sitemapPaths.has(path)).toBe(true);
-      expect(planPaths.has(path)).toBe(true);
-      expect(isPathIndexable(path)).toBe(true);
-    }
+      expect(GROSS_TO_NET_AMOUNTS).toHaveLength(101);
+      for (const amount of GROSS_TO_NET_AMOUNTS) {
+        const path = grossToNetPath(amount);
+        expect(publicPaths.has(path)).toBe(true);
+        expect(sitemapPaths.has(path)).toBe(true);
+        expect(planPaths.has(path)).toBe(true);
+        expect(isPathIndexable(path)).toBe(true);
+      }
 
-    for (const amount of PUBLISHED_SAMPLES) {
-      expect(isPathIndexable(grossToNetPath(amount))).toBe(true);
-    }
-  });
+      for (const amount of PUBLISHED_SAMPLES) {
+        expect(isPathIndexable(grossToNetPath(amount))).toBe(true);
+      }
+    },
+    45_000,
+  );
 
   it("complète automatiquement le Hub et l'Index à 101 entrées", () => {
     const seo = buildGrossToNetHubSeo();
