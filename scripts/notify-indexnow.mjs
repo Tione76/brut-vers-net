@@ -2,41 +2,44 @@
 /**
  * Notification IndexNow (CLI / CI uniquement, jamais côté client).
  *
- * Usage :
- *   npm run indexnow:notify          → sitemap live → API IndexNow
- *   npm run indexnow:notify:dry      → liste les URL sans envoyer
+ * Modes :
+ *   npm run indexnow:notify           → diff catalogue Net→Brut (streaming)
+ *   npm run indexnow:notify:dry       → liste les URL détectées sans envoyer
+ *   npm run indexnow:notify:full      → sitemap live complet (secours manuel)
+ *   npm run indexnow:notify:full:dry  → liste le sitemap sans envoyer
  *   node scripts/notify-indexnow.mjs /chemin [/autre…]
  *
  * Automatisation : `.github/workflows/indexnow-production.yml`
  * (uniquement après un déploiement Vercel Production réussi).
  *
- * Garde-fous :
- *   - déduplication stricte ;
- *   - host canonique uniquement (pas d'URL externes) ;
- *   - HTTPS uniquement ;
- *   - source = sitemap public (pages indexables uniquement, donc pas de noindex).
- *
  * Variables d'environnement :
- *   INDEXNOW_KEY   (requis)
- *   SITE_URL       (optionnel, défaut https://brut-vers-net.fr)
- *   INDEXNOW_HOST  (optionnel, dérivé de SITE_URL)
+ *   INDEXNOW_KEY          (requis sauf --dry-run)
+ *   SITE_URL              (optionnel, défaut https://brut-vers-net.fr)
+ *   INDEXNOW_HOST         (optionnel, dérivé de SITE_URL)
+ *   INDEXNOW_BEFORE_REF   (optionnel, défaut HEAD^)
+ *   INDEXNOW_AFTER_REF    (optionnel, défaut HEAD)
  */
 
+import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+import {
+  NET_TO_GROSS_CONFIG_RELATIVE_PATH,
+  detectChangedNetToGrossPathsFromConfigSources,
+  shouldSkipBulkCatalogBootstrap,
+} from "./lib/indexnow-changed-urls.mjs";
 
 const INDEXNOW_API_URL = "https://api.indexnow.org/IndexNow";
 const MAX_URLS_PER_REQUEST = 10_000;
 const KEY_PATTERN = /^[a-zA-Z0-9-]{8,128}$/;
 const DEFAULT_SITE_ORIGIN = "https://brut-vers-net.fr";
-/** Seuls 200 et 202 sont considérés comme un succès explicite. */
 const SUCCESS_STATUSES = new Set([200, 202]);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 
-/** Charge .env.local en local si présent (sans écraser les variables déjà définies). */
 function loadLocalEnvFile() {
   const envPath = path.join(ROOT, ".env.local");
   if (!existsSync(envPath)) return;
@@ -81,27 +84,31 @@ function siteOriginFromEnv() {
   return raw.replace(/\/$/, "");
 }
 
-function getConfig() {
-  const key = readEnv("INDEXNOW_KEY");
-  if (!key) {
-    throw new Error(
-      "INDEXNOW_KEY est requis (secret GitHub Actions ou .env.local).",
-    );
-  }
-  if (!KEY_PATTERN.test(key)) {
-    throw new Error(
-      "INDEXNOW_KEY invalide (8-128 caractères alphanumériques ou tirets).",
-    );
-  }
-
+function getConfig({ requireKey }) {
   const siteOrigin = siteOriginFromEnv();
   const host = readEnv("INDEXNOW_HOST") || new URL(siteOrigin).host;
+  const key = readEnv("INDEXNOW_KEY");
+
+  if (requireKey) {
+    if (!key) {
+      throw new Error(
+        "INDEXNOW_KEY est requis (secret GitHub Actions ou .env.local).",
+      );
+    }
+    if (!KEY_PATTERN.test(key)) {
+      throw new Error(
+        "INDEXNOW_KEY invalide (8-128 caractères alphanumériques ou tirets).",
+      );
+    }
+  }
 
   return {
-    key,
+    key: key || "",
     host,
     siteOrigin,
-    keyLocation: `${siteOrigin}/${key}.txt`,
+    keyLocation: key
+      ? `${siteOrigin}/${key}.txt`
+      : `${siteOrigin}/<INDEXNOW_KEY>.txt`,
   };
 }
 
@@ -113,7 +120,10 @@ function toAbsoluteUrl(input, siteOrigin) {
     const url =
       trimmed.startsWith("http://") || trimmed.startsWith("https://")
         ? new URL(trimmed)
-        : new URL(trimmed.startsWith("/") ? trimmed : `/${trimmed}`, `${siteOrigin}/`);
+        : new URL(
+            trimmed.startsWith("/") ? trimmed : `/${trimmed}`,
+            `${siteOrigin}/`,
+          );
 
     url.hash = "";
 
@@ -127,10 +137,6 @@ function toAbsoluteUrl(input, siteOrigin) {
   }
 }
 
-/**
- * Déduplique et ne conserve que les URL HTTPS du host canonique.
- * Les pages noindex ne figurent pas dans le sitemap public.
- */
 function normalizeUrls(urls, config) {
   const seen = new Set();
   for (const entry of urls) {
@@ -143,8 +149,17 @@ function normalizeUrls(urls, config) {
         log(`URL ignorée (non HTTPS) : ${absolute}`);
         continue;
       }
-      if (parsed.host !== config.host) {
+      if (parsed.host !== config.host || parsed.host.startsWith("www.")) {
         log(`URL ignorée (non canonique / externe) : ${absolute}`);
+        continue;
+      }
+      if (
+        parsed.pathname.includes("opengraph-image") ||
+        parsed.pathname.includes("/api/") ||
+        parsed.pathname.endsWith("sitemap.xml") ||
+        parsed.pathname.endsWith("robots.txt")
+      ) {
+        log(`URL ignorée (route technique / OG) : ${absolute}`);
         continue;
       }
     } catch {
@@ -162,7 +177,10 @@ function extractLocsFromXml(xml) {
   );
 }
 
-async function fetchLiveSitemapUrls(siteOrigin, { retries = 5, delayMs = 5000 } = {}) {
+async function fetchLiveSitemapUrls(
+  siteOrigin,
+  { retries = 5, delayMs = 5000 } = {},
+) {
   const sitemapUrl = `${siteOrigin}/sitemap.xml`;
   let lastError = null;
 
@@ -187,7 +205,9 @@ async function fetchLiveSitemapUrls(siteOrigin, { retries = 5, delayMs = 5000 } 
     } catch (error) {
       lastError = error;
       logError(
-        `Échec récupération sitemap : ${error instanceof Error ? error.message : error}`,
+        `Échec récupération sitemap : ${
+          error instanceof Error ? error.message : error
+        }`,
       );
       if (attempt < retries) {
         await new Promise((resolve) => setTimeout(resolve, delayMs));
@@ -200,6 +220,57 @@ async function fetchLiveSitemapUrls(siteOrigin, { retries = 5, delayMs = 5000 } 
       lastError instanceof Error ? lastError.message : lastError
     }`,
   );
+}
+
+function gitShowFile(ref, relativePath) {
+  try {
+    return execFileSync("git", ["show", `${ref}:${relativePath}`], {
+      cwd: ROOT,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+  } catch {
+    return null;
+  }
+}
+
+function detectChangedPathsFromGit() {
+  const beforeRef = readEnv("INDEXNOW_BEFORE_REF") || "HEAD^";
+  const afterRef = readEnv("INDEXNOW_AFTER_REF") || "HEAD";
+  const relativePath = NET_TO_GROSS_CONFIG_RELATIVE_PATH;
+
+  log(`Diff catalogue Net→Brut : ${beforeRef} → ${afterRef} (${relativePath})`);
+
+  const afterSource = gitShowFile(afterRef, relativePath);
+  if (afterSource === null) {
+    throw new Error(`Impossible de lire ${relativePath} à la ref ${afterRef}.`);
+  }
+
+  const beforeSource = gitShowFile(beforeRef, relativePath) ?? "";
+  const detection = detectChangedNetToGrossPathsFromConfigSources(
+    beforeSource,
+    afterSource,
+  );
+
+  log(
+    `Catalogue publié : ${detection.beforeCount} → ${detection.afterCount} ` +
+      `(+${detection.addedAmounts.length} montant(s)).`,
+  );
+
+  if (
+    shouldSkipBulkCatalogBootstrap(
+      detection.beforeCount,
+      detection.addedAmounts.length,
+    )
+  ) {
+    log(
+      "Garde-fou : catalogue « avant » vide et trop de nouveaux montants. " +
+        "Aucune soumission automatique (utilisez indexnow:notify:full en secours manuel).",
+    );
+    return [];
+  }
+
+  return detection.paths;
 }
 
 async function postIndexNow(urlList, config) {
@@ -221,38 +292,57 @@ async function postIndexNow(urlList, config) {
 function parseArgs(argv) {
   const flags = new Set(argv.filter((arg) => arg.startsWith("--")));
   const urlArgs = argv.filter((arg) => !arg.startsWith("--"));
-  return {
-    sitemap: flags.has("--sitemap") || (flags.size === 0 && urlArgs.length === 0),
-    dryRun: flags.has("--dry-run"),
-    urlArgs,
-  };
+  const sitemap = flags.has("--sitemap");
+  const dryRun = flags.has("--dry-run");
+
+  let mode = "changed";
+  if (sitemap) mode = "sitemap";
+  else if (urlArgs.length > 0) mode = "manual";
+  if (flags.has("--changed")) mode = "changed";
+
+  return { mode, dryRun, urlArgs };
+}
+
+function printDryRun(urls) {
+  console.log("IndexNow dry-run");
+  console.log(`${urls.length} URL(s)`);
+  console.log("");
+  for (const url of urls) {
+    console.log(`- ${url}`);
+  }
+  log("Dry-run : aucun appel à l'API IndexNow.");
 }
 
 async function main() {
   const options = parseArgs(process.argv.slice(2));
-  const config = getConfig();
+  const config = getConfig({ requireKey: !options.dryRun });
 
   log(`Host canonique : ${config.host}`);
-  log(`keyLocation : ${config.keyLocation}`);
+  log(`Mode : ${options.mode}${options.dryRun ? " (dry-run)" : ""}`);
+  if (!options.dryRun) {
+    log(`keyLocation : ${config.keyLocation}`);
+  }
 
-  let candidates = [...options.urlArgs];
-  if (options.sitemap || candidates.length === 0) {
-    candidates = [...candidates, ...(await fetchLiveSitemapUrls(config.siteOrigin))];
+  let candidates = [];
+  if (options.mode === "manual") {
+    candidates = [...options.urlArgs];
+  } else if (options.mode === "sitemap") {
+    candidates = await fetchLiveSitemapUrls(config.siteOrigin);
+  } else {
+    candidates = detectChangedPathsFromGit();
   }
 
   const urls = normalizeUrls(candidates, config);
+
   if (urls.length === 0) {
-    logError("Aucune URL valide à soumettre pour ce host.");
-    process.exit(1);
+    log("Aucune URL pertinente à soumettre (streaming : rien à faire).");
+    process.exit(0);
   }
 
   log(`${urls.length} URL(s) unique(s) prête(s) à l'envoi.`);
 
   if (options.dryRun) {
-    for (const url of urls) {
-      console.log(url);
-    }
-    log("Dry-run : aucun appel à l'API IndexNow.");
+    printDryRun(urls);
     process.exit(0);
   }
 

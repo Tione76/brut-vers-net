@@ -185,8 +185,10 @@ Voir aussi `.env.example`. Google Analytics 4 (`@next/third-parties`) et AdSense
 ### IndexNow
 
 Après chaque déploiement **Production** Vercel réussi, le workflow GitHub
-`.github/workflows/indexnow-production.yml` récupère le sitemap public et notifie IndexNow
-(URL indexables uniquement, dédupliquées, host canonique). Les Preview sont ignorés.
+`.github/workflows/indexnow-production.yml` détecte les **nouvelles** fiches
+Net → Brut via diff Git du catalogue publié (`config.ts`) et notifie IndexNow
+en mode streaming (Hub + Index de la série inclus si vague détectée).
+Les Preview sont ignorés. Le sitemap complet n'est plus envoyé automatiquement.
 
 ```env
 INDEXNOW_KEY=votre-cle
@@ -196,8 +198,10 @@ SITE_URL=https://brut-vers-net.fr
 Ajoutez le secret GitHub `INDEXNOW_KEY`. Commandes manuelles :
 
 ```bash
-npm run indexnow:notify          # sitemap live → IndexNow
-npm run indexnow:notify:dry      # liste les URL sans envoyer
+npm run indexnow:notify          # diff catalogue → IndexNow (streaming)
+npm run indexnow:notify:dry      # liste les URL détectées sans envoyer
+npm run indexnow:notify:full     # secours manuel : sitemap live → IndexNow
+npm run indexnow:notify:full:dry # liste le sitemap sans envoyer
 ```
 
 ---

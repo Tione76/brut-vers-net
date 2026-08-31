@@ -1,8 +1,11 @@
 name: IndexNow after Vercel production
 
-# Unique point d'envoi IndexNow automatisé.
+# Unique point d'envoi IndexNow automatisé (mode streaming).
 # Se déclenche uniquement après un déploiement Vercel Production réussi
 # (jamais sur Preview).
+# Envoie seulement les nouvelles fiches Net → Brut détectées via diff Git
+# du catalogue publié (+ Hub / Index de la série si vague détectée).
+# Ne télécharge plus le sitemap complet automatiquement.
 
 on:
   deployment_status:
@@ -26,20 +29,28 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout
+      - name: Checkout deployed commit
         uses: actions/checkout@v4
+        with:
+          # SHA déployé (pas seulement la branche par défaut).
+          ref: ${{ github.event.deployment.sha }}
+          # Parent nécessaire pour diff HEAD^ → HEAD du catalogue.
+          fetch-depth: 2
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
-      - name: Wait for production sitemap to be live
+      - name: Wait for production pages to be live
         run: sleep 30
 
-      - name: Notify IndexNow (sitemap public canonique)
+      - name: Notify IndexNow (streaming — nouvelles URL uniquement)
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
           SITE_URL: https://brut-vers-net.fr
+          INDEXNOW_BEFORE_REF: HEAD^
+          INDEXNOW_AFTER_REF: HEAD
         # Échoue explicitement si la réponse n'est pas HTTP 200 ou 202.
+        # Exit 0 si aucune URL pertinente (deploy sans nouvelle fiche).
         run: npm run indexnow:notify
