@@ -170,8 +170,8 @@ describe("publication vague 2 salaire brut mensuel → net (3 550 → 6 000)", (
 
     const high = getInverseNetToGrossLink(6000);
     expect(high).not.toBeNull();
-    expect(high?.matchedNetMonthly).toBe(4700);
-    expect(high?.href).toBe("/combien-gagner-brut-mensuel-pour-4700-net");
+    expect(high?.matchedNetMonthly).toBe(4680);
+    expect(high?.href).toBe("/combien-gagner-brut-mensuel-pour-4680-net");
     expect(high?.href).not.toContain("6000-euros-brut");
   });
 

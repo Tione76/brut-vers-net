@@ -1,8 +1,8 @@
 /**
- * État de la série Net → Brut mensuel après vague 6 des intermédiaires (pas de 10 €).
+ * État de la série Net → Brut mensuel après vague 7 des intermédiaires (pas de 10 €).
  *
- * - Publiés : 316 (46 centaines + 270 intermédiaires 1 510 → 4 490)
- * - Brouillons : 135 (4 510 → 5 990 hors centaines)
+ * - Publiés : 361 (46 centaines + 315 intermédiaires 1 510 → 4 990)
+ * - Brouillons : 90 (5 010 → 5 990 hors centaines)
  *
  * Publication d'un lot : déplacer des montants de DRAFT_NET_TO_GROSS_AMOUNTS
  * vers NET_TO_GROSS_AMOUNTS (batch publié dans config.ts), puis retirer ces montants des brouillons.
@@ -23,8 +23,8 @@ export const PUBLICATION_CHECKLIST = [
   "Lancer lint, tests et build",
 ] as const;
 
-const EXPECTED_PUBLISHED_COUNT = 316;
-const EXPECTED_DRAFT_COUNT = 135;
+const EXPECTED_PUBLISHED_COUNT = 361;
+const EXPECTED_DRAFT_COUNT = 90;
 const EXPECTED_TOTAL = 451;
 
 /** Vérifie que les 46 centaines restent présentes dans le catalogue publié. */
@@ -55,8 +55,8 @@ export function assertTenEuroIntermediatesPrepared(): void {
       `Attendu ${EXPECTED_DRAFT_COUNT} brouillons restants, reçu ${DRAFT_NET_TO_GROSS_AMOUNTS.length}.`,
     );
   }
-  if (DRAFT_NET_TO_GROSS_AMOUNTS[0] !== 4510 || DRAFT_NET_TO_GROSS_AMOUNTS[EXPECTED_DRAFT_COUNT - 1] !== 5990) {
-    throw new Error("Les brouillons restants doivent aller de 4 510 € à 5 990 €.");
+  if (DRAFT_NET_TO_GROSS_AMOUNTS[0] !== 5010 || DRAFT_NET_TO_GROSS_AMOUNTS[EXPECTED_DRAFT_COUNT - 1] !== 5990) {
+    throw new Error("Les brouillons restants doivent aller de 5 010 € à 5 990 €.");
   }
 
   const published = new Set<number>(NET_TO_GROSS_AMOUNTS as readonly number[]);
@@ -80,7 +80,7 @@ export function assertTenEuroIntermediatesPrepared(): void {
     }
   }
 
-  for (const amount of [1510, 3490, 3510, 3990, 4010, 4250, 4490] as const) {
+  for (const amount of [1510, 3490, 3510, 3990, 4010, 4490, 4510, 4750, 4990] as const) {
     if (!published.has(amount)) {
       throw new Error(`Le montant déjà publié ${amount} manque au catalogue.`);
     }
