@@ -5,6 +5,9 @@ import { commentEstCalculeLeSalaireNetGuide } from "./data/comment-est-calcule-l
 import { commentLireUneFicheDePaieGuide } from "./data/comment-lire-une-fiche-de-paie";
 import { cotisationsSalarialesGuide } from "./data/cotisations-salariales-pourquoi-brut-plus-eleve-que-net";
 import { prelevementALaSourceGuide } from "./data/prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne";
+import { pourquoiSalaireNetChangeSeptembre2026Guide } from "./data/pourquoi-salaire-net-change-septembre-2026";
+
+export { getGuidePublicPath } from "./paths";
 
 /** Guides publiés */
 export const guides: Guide[] = [
@@ -13,6 +16,7 @@ export const guides: Guide[] = [
   attachGuideCover(commentCalculerSonSalaireNetGuide),
   attachGuideCover(cotisationsSalarialesGuide),
   attachGuideCover(prelevementALaSourceGuide),
+  attachGuideCover(pourquoiSalaireNetChangeSeptembre2026Guide),
 ];
 
 export const GUIDE_MODEL_SLUG = "modele";

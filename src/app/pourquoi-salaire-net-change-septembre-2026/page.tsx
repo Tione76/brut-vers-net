@@ -1,9 +1,8 @@
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { config, seoConfig } from "@/site";
 import {
   buildGuideTocH2,
   computeReadingTime,
-  getAllGuideSlugs,
   getGuideBySlug,
   getGuidePublicPath,
   GuideArticle,
@@ -19,25 +18,13 @@ import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { buildGuideJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
 
-interface GuidePageProps {
-  params: Promise<{ slug: string }>;
-}
+const SLUG = "pourquoi-salaire-net-change-septembre-2026";
 
-export async function generateStaticParams() {
-  return getAllGuideSlugs().map((slug) => ({ slug }));
-}
-
-export async function generateMetadata({ params }: GuidePageProps) {
-  const { slug } = await params;
-  const guide = getGuideBySlug(slug);
+export async function generateMetadata() {
+  const guide = getGuideBySlug(SLUG);
   if (!guide) return {};
 
   const path = getGuidePublicPath(guide);
-  // URL historique /guides/{slug} : la page canonique est ailleurs
-  if (path !== `/guides/${slug}`) {
-    return {};
-  }
-
   const cover = resolveGuideCover(guide);
   const indexable = isPathIndexable(path);
 
@@ -51,16 +38,11 @@ export async function generateMetadata({ params }: GuidePageProps) {
   });
 }
 
-export default async function GuideDetailPage({ params }: GuidePageProps) {
-  const { slug } = await params;
-  const guide = getGuideBySlug(slug);
+export default async function PourquoiSalaireNetChangeSeptembre2026Page() {
+  const guide = getGuideBySlug(SLUG);
   if (!guide) notFound();
 
   const path = getGuidePublicPath(guide);
-  if (path !== `/guides/${slug}`) {
-    permanentRedirect(path);
-  }
-
   const readingTime = computeReadingTime(guide);
   const toc = buildGuideTocH2(guide);
   const shareTitle = guide.seoTitle ?? guide.title;
@@ -71,7 +53,7 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
       <GuidePageLayout
         title={guide.title}
         subtitle={guide.subtitle}
-        sidebar={<GuidePageSidebar slug={slug} />}
+        sidebar={<GuidePageSidebar slug={SLUG} />}
       >
         <PageBreadcrumb
           items={[

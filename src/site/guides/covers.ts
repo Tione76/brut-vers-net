@@ -204,6 +204,13 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "pourquoi-salaire-net-change-septembre-2026": cover(
+    "guides/Pourquoi-salaire-net-change-septembre-2026.webp",
+    "Personne calculant un montant avec une calculatrice, un billet et des documents financiers",
+    { photographer: "Jakub Zerdzicki", source: "Pexels" },
+    1200,
+    801,
+  ),
 };
 
 export function getCalculatorCover(id: string): GuideCoverImage {
@@ -216,8 +223,12 @@ export function getGuideCover(slug: string): GuideCoverImage | undefined {
 
 export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   const match = href.match(/^\/guides\/([^/]+)\/?$/);
-  if (!match) return undefined;
-  return getGuideCover(match[1]);
+  if (match) return getGuideCover(match[1]);
+  // Chemins publics hors /guides/{slug} (évite import circulaire registry ↔ covers)
+  if (href === "/pourquoi-salaire-net-change-septembre-2026") {
+    return getGuideCover("pourquoi-salaire-net-change-septembre-2026");
+  }
+  return undefined;
 }
 
 export function resolveGuideCover(

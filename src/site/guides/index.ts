@@ -21,6 +21,7 @@ export {
   GUIDE_MODEL_SLUG,
   getAllGuideSlugs,
   getGuideBySlug,
+  getGuidePublicPath,
   getPublishedGuideSlugs,
 } from "./registry";
 export { buildGuideToc, buildGuideTocH2, computeReadingTime } from "./utils";

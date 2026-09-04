@@ -8,6 +8,7 @@ import {
   type SidebarPageType,
 } from "./sidebar";
 import { getGuideBySlug } from "./registry";
+import { getGuidePublicPath } from "./paths";
 
 export interface SiteSidebarProps {
   pageType: SidebarPageType;
@@ -71,7 +72,7 @@ function getToolsHubFeaturedGuides(): GuideSidebarLink[] {
     return [
       {
         slug: guide.slug,
-        href: `/guides/${guide.slug}`,
+        href: getGuidePublicPath(guide),
         title,
         description: guide.subtitle || guide.description,
       },
@@ -106,10 +107,11 @@ export function ToolsHubSidebar() {
 
 /** Sidebar standard : pages guides */
 export function GuidePageSidebar({ slug }: { slug: string }) {
+  const guide = getGuideBySlug(slug);
   return (
     <SiteSidebar
       pageType="guide"
-      currentPath={`/guides/${slug}`}
+      currentPath={guide ? getGuidePublicPath(guide) : `/guides/${slug}`}
       currentGuideSlug={slug}
     />
   );

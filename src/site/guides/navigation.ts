@@ -37,4 +37,9 @@ export const guidesNavigation: GuideNavItem[] = [
     shortTitle: "Prélèvement à la source",
     title: "Prélèvement à la source : qu'est-ce que c'est et comment ça fonctionne ?",
   },
+  {
+    slug: "pourquoi-salaire-net-change-septembre-2026",
+    shortTitle: "Pourquoi mon net a changé en septembre 2026 ?",
+    title: "Pourquoi mon salaire net a changé en septembre 2026 ?",
+  },
 ];

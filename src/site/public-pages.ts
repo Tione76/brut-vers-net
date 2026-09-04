@@ -4,6 +4,7 @@
  */
 import type { SitemapEntry } from "@/framework/seo/pages";
 import { guides } from "./guides/registry";
+import { getGuidePublicPath } from "./guides/paths";
 import { getAllCalculators } from "./navigation/calculators-registry";
 import { seoConfig } from "./seo.config";
 import { siteConfig } from "./site.config";
@@ -59,7 +60,7 @@ const SEO_CONTENT_UPDATED_AT = "2026-07-17";
 
 /** Pages encore non indexables (templates guides uniquement pour l'instant). */
 const NOINDEX_PATHS = new Set([
-  ...guides.filter((guide) => guide.isTemplate).map((guide) => `/guides/${guide.slug}`),
+  ...guides.filter((guide) => guide.isTemplate).map((guide) => getGuidePublicPath(guide)),
 ]);
 
 function legalLastUpdated(fallback = "2026-07-01"): string {
@@ -102,13 +103,13 @@ export function getAllPublicPages(): PublicPage[] {
   };
 
   const guidePages: PublicPage[] = guides.map((guide) => ({
-    path: `/guides/${guide.slug}`,
+    path: getGuidePublicPath(guide),
     title: guide.title,
     category: "guides",
     changefreq: "monthly",
     priority: 0.8,
     indexable: !guide.isTemplate,
-    lastModified: SEO_CONTENT_UPDATED_AT,
+    lastModified: guide.updatedAt || SEO_CONTENT_UPDATED_AT,
   }));
 
   const toolsHubPage: PublicPage = {

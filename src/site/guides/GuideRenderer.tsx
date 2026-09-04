@@ -464,14 +464,7 @@ export function GuideArticle({
         </aside>
       ) : null}
 
-      <ShareBlock
-        url={share.url}
-        title={share.title}
-        description={share.description}
-        contentType="guide"
-        variant="onLight"
-      />
-
+      {/* Sommaire tôt : avant le partage et le contenu détaillé */}
       <GuideInlineToc entries={toc} />
 
       {quickSummary && <GuideQuickSummaryBlock summary={quickSummary} />}

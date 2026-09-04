@@ -1,5 +1,6 @@
 import type { GuideCoverImage } from "./covers";
 import { guides } from "./registry";
+import { getGuidePublicPath } from "./paths";
 import { getAllCalculators } from "../navigation/calculators-registry";
 
 export const SIDEBAR_LIMITS = {
@@ -79,13 +80,13 @@ export function getSidebarGuides(context: SidebarContext): GuideSidebarLink[] {
   return guides
     .filter((guide) => {
       if (context.currentGuideSlug && guide.slug === context.currentGuideSlug) return false;
-      const guidePath = `/guides/${guide.slug}`;
+      const guidePath = getGuidePublicPath(guide);
       return !sidebarPathsMatch(guidePath, context.currentPath);
     })
     .slice(0, SIDEBAR_LIMITS.maxGuides)
     .map((guide) => ({
       title: guide.title,
-      href: `/guides/${guide.slug}`,
+      href: getGuidePublicPath(guide),
       slug: guide.slug,
     }));
 }
@@ -97,9 +98,10 @@ export function getGuidesSidebarLinks(): GuideSidebarLink[] {
 
 /** @deprecated Utiliser getSidebarGuides({ pageType: "guide", currentPath, currentGuideSlug }) */
 export function getRelatedGuidesForSlug(currentSlug: string): GuideSidebarLink[] {
+  const guide = guides.find((item) => item.slug === currentSlug);
   return getSidebarGuides({
     pageType: "guide",
-    currentPath: `/guides/${currentSlug}`,
+    currentPath: guide ? getGuidePublicPath(guide) : `/guides/${currentSlug}`,
     currentGuideSlug: currentSlug,
   });
 }

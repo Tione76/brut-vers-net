@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Guide } from "./types";
 import { GuideCoverImage } from "./GuideCoverImage";
 import { getGuideHubTeaser } from "./guides-hub-data";
+import { getGuidePublicPath } from "./paths";
 
 interface GuideListCardProps {
   guide: Guide;
@@ -15,7 +16,7 @@ export function GuideListCard({ guide }: GuideListCardProps) {
   const teaser = getGuideHubTeaser(guide.slug) ?? guide.description;
 
   return (
-    <Link href={`/guides/${guide.slug}`} className="guide-list-card">
+    <Link href={getGuidePublicPath(guide)} className="guide-list-card">
       <span className="guide-list-card__cover">
         <GuideCoverImage
           cover={cover}

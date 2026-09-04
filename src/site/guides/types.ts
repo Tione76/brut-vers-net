@@ -185,6 +185,11 @@ export interface GuideSidebarLinks {
  */
 export interface Guide {
   slug: string;
+  /**
+   * Chemin public canonique si différent de `/guides/{slug}`.
+   * Ex. page éditoriale à la racine du site.
+   */
+  publicPath?: string;
   title: string;
   /** Title balise <title> : optionnel, sinon title + suffixe site */
   seoTitle?: string;

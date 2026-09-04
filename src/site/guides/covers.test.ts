@@ -44,11 +44,20 @@ describe("covers registry", () => {
         "comment-lire-une-fiche-de-paie",
         "cotisations-salariales-pourquoi-brut-plus-eleve-que-net",
         "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
+        "pourquoi-salaire-net-change-septembre-2026",
       ]),
     );
     expect(getGuideCover("comment-est-calcule-le-salaire-net")?.src).toContain(
       "Comment-calculer-salaire-net.webp",
     );
+    const septCover = getGuideCover("pourquoi-salaire-net-change-septembre-2026");
+    expect(septCover?.src).toBe(
+      "/images/covers/guides/Pourquoi-salaire-net-change-septembre-2026.webp",
+    );
+    expect(septCover?.src).not.toContain("Prélèvement-à-la-source");
+    expect(formatCoverCredit(septCover!.credit)).toBe("Photo de Jakub Zerdzicki via Pexels");
+    expect(septCover?.width).toBe(1200);
+    expect(septCover?.height).toBe(801);
   });
 
   it("exposes hub and FAQ covers with credits", () => {

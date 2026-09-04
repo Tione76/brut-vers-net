@@ -213,6 +213,8 @@
 
 .prose .guide-intro-summary {
   margin: 24px 0 28px;
+  background: color-mix(in srgb, var(--ds-brand-light) 55%, var(--ds-surface-alt));
+  border-color: color-mix(in srgb, var(--ds-brand) 18%, var(--ds-border));
 }
 
 /* Synthèse visuelle rapide (bloc optionnel des guides) */
@@ -823,9 +825,11 @@
 }
 
 .guide-table thead {
-  background: var(--ds-brand);
+  background: var(--ds-surface-alt);
 }
 
+/* Spécificité .prose .guide-table : évite le texte blanc sur fond gris de .prose th */
+.prose .guide-table th,
 .guide-table th {
   padding: 16px 20px;
   text-align: left;
@@ -833,7 +837,8 @@
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #ffffff;
+  color: var(--ds-text);
+  background: var(--ds-surface-alt);
   border: none;
 }
 

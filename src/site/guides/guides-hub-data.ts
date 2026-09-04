@@ -22,6 +22,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Découvrez à quoi servent les cotisations salariales et pourquoi elles réduisent le montant perçu.",
   "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne":
     "Comprenez le prélèvement à la source, son taux, et son impact sur le salaire net versé.",
+  "pourquoi-salaire-net-change-septembre-2026":
+    "Votre salaire net a changé en septembre 2026 ? Vérifiez le taux de prélèvement à la source et comparez vos bulletins.",
 };
 
 export function getGuideHubTeaser(slug: string): string | undefined {

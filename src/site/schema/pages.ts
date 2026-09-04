@@ -4,6 +4,7 @@ import type { FaqItem } from "@/framework/types";
 import type { Guide } from "@/site/guides/types";
 import type { GuideCoverImage } from "@/site/guides/covers";
 import { resolveGuideCover } from "@/site/guides/covers";
+import { getGuidePublicPath } from "@/site/guides/paths";
 import { buildJsonLdGraph } from "./graph";
 import { schemaIds } from "./ids";
 import { buildLogoImageNode, buildOrganizationGraphNodes } from "./nodes/organization";
@@ -117,7 +118,7 @@ export function buildHomeJsonLd(input: {
 
 /** Guide publié : WebPage + Article (+ FAQ si présente). Pas de WebApplication. */
 export function buildGuideJsonLd(guide: Guide): Record<string, unknown> {
-  const path = `/guides/${guide.slug}`;
+  const path = getGuidePublicPath(guide);
   const cover = resolveGuideCover(guide);
   const faqNode = buildFaqPageNode(path, guide.faq);
   const hasCover = Boolean(cover);
