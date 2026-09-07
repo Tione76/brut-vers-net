@@ -439,6 +439,11 @@ export function GuideArticle({
   share,
 }: GuideArticleProps) {
   const [firstParagraph, ...restIntroduction] = introduction;
+  const isEarlyAmountSummary =
+    Boolean(quickSummary) &&
+    !quickSummary?.variant &&
+    !quickSummary?.items.some((item) => item.kind);
+  const isDeferredSummary = Boolean(quickSummary) && !isEarlyAmountSummary;
 
   return (
     <>
@@ -449,6 +454,11 @@ export function GuideArticle({
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
+
+      {/* Cartes chiffrées : réponse immédiate avant L'essentiel et le sommaire */}
+      {isEarlyAmountSummary && quickSummary ? (
+        <GuideQuickSummaryBlock summary={quickSummary} />
+      ) : null}
 
       {introSummary ? (
         <aside className="guide-checklist guide-intro-summary">
@@ -467,8 +477,10 @@ export function GuideArticle({
       {/* Sommaire tôt : avant le partage et le contenu détaillé */}
       <GuideInlineToc entries={toc} />
 
-      {quickSummary && <GuideQuickSummaryBlock summary={quickSummary} />}
-
+      {/* Schémas pipeline / reading-order / formula : après le sommaire */}
+      {isDeferredSummary && quickSummary ? (
+        <GuideQuickSummaryBlock summary={quickSummary} />
+      ) : null}
       {sections.map((section) => (
         <section key={section.id} id={section.id} className="guide-section">
           <h2>{section.title}</h2>

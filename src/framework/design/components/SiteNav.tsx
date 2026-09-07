@@ -8,6 +8,7 @@ import type { GuideNavItem } from "@/site/guides/navigation";
 import type { ToolNavItem } from "@/site/navigation/tools";
 import { GuidesNavMenu } from "@/site/navigation/GuidesNavMenu";
 import { ToolsNavMenu } from "@/site/navigation/ToolsNavMenu";
+import { SmicNavMenu } from "@/site/navigation/SmicNavMenu";
 
 export interface SiteLogo {
   src: string;
@@ -80,6 +81,7 @@ export function SiteNav({ siteName, nav, logo, toolsNavigation, guidesNavigation
           <nav aria-label="Navigation principale" className="site-nav">
             <ul>
               {showTools && <ToolsNavMenu key="tools-nav" items={toolsNavigation} />}
+              <SmicNavMenu key="smic-nav" />
               {showGuides && <GuidesNavMenu key="guides-nav" items={guidesNavigation} />}
               {nav.map((link) => (
                 <NavItem key={link.href} link={link} />

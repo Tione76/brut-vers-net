@@ -211,6 +211,13 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     801,
   ),
+  smic: cover(
+    "guides/SMIC-horaire-mensuel-brut-net.webp",
+    "Vue de dessus d'un homme en chemise blanche écrivant sur des documents, avec une calculatrice, un classeur et une tablette sur un bureau",
+    { photographer: "Mikhail Nilov", source: "Pexels" },
+    1200,
+    800,
+  ),
 };
 
 export function getCalculatorCover(id: string): GuideCoverImage {
@@ -227,6 +234,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   // Chemins publics hors /guides/{slug} (évite import circulaire registry ↔ covers)
   if (href === "/pourquoi-salaire-net-change-septembre-2026") {
     return getGuideCover("pourquoi-salaire-net-change-septembre-2026");
+  }
+  if (href === "/smic") {
+    return getGuideCover("smic");
   }
   return undefined;
 }

@@ -127,11 +127,19 @@ export function buildGuideJsonLd(guide: Guide): Record<string, unknown> {
     ...sharedNodes(),
     buildPersonNode(),
     ...(hasCover && cover ? [buildPrimaryImageNode(path, cover)] : []),
-    buildBreadcrumbNode(path, [
-      { name: "Accueil", path: "/" },
-      { name: "Guides", path: seoConfig.guidesHub.path },
-      { name: guide.title, path },
-    ]),
+    buildBreadcrumbNode(
+      path,
+      guide.breadcrumbLabel
+        ? [
+            { name: "Accueil", path: "/" },
+            { name: guide.breadcrumbLabel, path },
+          ]
+        : [
+            { name: "Accueil", path: "/" },
+            { name: "Guides", path: seoConfig.guidesHub.path },
+            { name: guide.title, path },
+          ],
+    ),
     buildWebPageNode({
       path,
       name: guide.title,

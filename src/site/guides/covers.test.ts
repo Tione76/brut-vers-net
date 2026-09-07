@@ -45,6 +45,7 @@ describe("covers registry", () => {
         "cotisations-salariales-pourquoi-brut-plus-eleve-que-net",
         "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
         "pourquoi-salaire-net-change-septembre-2026",
+        "smic",
       ]),
     );
     expect(getGuideCover("comment-est-calcule-le-salaire-net")?.src).toContain(
@@ -58,6 +59,20 @@ describe("covers registry", () => {
     expect(formatCoverCredit(septCover!.credit)).toBe("Photo de Jakub Zerdzicki via Pexels");
     expect(septCover?.width).toBe(1200);
     expect(septCover?.height).toBe(801);
+
+    const smicCover = getGuideCover("smic");
+    expect(smicCover?.src).toBe("/images/covers/guides/SMIC-horaire-mensuel-brut-net.webp");
+    expect(formatCoverCredit(smicCover!.credit)).toBe("Photo de Mikhail Nilov via Pexels");
+    expect(smicCover?.credit.photographer).toBe("Mikhail Nilov");
+    expect(smicCover?.credit.source).toBe("Pexels");
+    expect(smicCover?.credit.acquireLicensePage).toBeUndefined();
+    expect(smicCover?.credit.copyrightNotice).toBeUndefined();
+    expect(getCoverLicenseUrl(smicCover!.credit)).toBe(PEXELS_LICENSE_URL);
+    expect(smicCover?.width).toBe(1200);
+    expect(smicCover?.height).toBe(800);
+    expect(smicCover?.alt.length).toBeGreaterThan(20);
+    expect(smicCover?.alt).not.toMatch(/SMIC/i);
+    expect(smicCover?.alt).not.toMatch(/\d+\s*€/);
   });
 
   it("exposes hub and FAQ covers with credits", () => {

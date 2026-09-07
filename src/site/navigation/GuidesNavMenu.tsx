@@ -9,8 +9,8 @@ interface GuidesNavMenuProps {
 export function GuidesNavMenu({ items }: GuidesNavMenuProps) {
   return (
     <NavDropdownMenu
-      label="Guides"
-      menuAriaLabel="Guides"
+      label="Nos guides"
+      menuAriaLabel="Nos guides"
       items={items.map((item) => {
         const guide = getGuideBySlug(item.slug);
         const href = guide ? getGuidePublicPath(guide) : `/guides/${item.slug}`;

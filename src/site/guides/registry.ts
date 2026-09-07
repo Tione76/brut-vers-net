@@ -6,11 +6,13 @@ import { commentLireUneFicheDePaieGuide } from "./data/comment-lire-une-fiche-de
 import { cotisationsSalarialesGuide } from "./data/cotisations-salariales-pourquoi-brut-plus-eleve-que-net";
 import { prelevementALaSourceGuide } from "./data/prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne";
 import { pourquoiSalaireNetChangeSeptembre2026Guide } from "./data/pourquoi-salaire-net-change-septembre-2026";
+import { smicGuide } from "./data/smic";
 
 export { getGuidePublicPath } from "./paths";
 
 /** Guides publiés */
 export const guides: Guide[] = [
+  attachGuideCover(smicGuide),
   attachGuideCover(commentEstCalculeLeSalaireNetGuide),
   attachGuideCover(commentLireUneFicheDePaieGuide),
   attachGuideCover(commentCalculerSonSalaireNetGuide),

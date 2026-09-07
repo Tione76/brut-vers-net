@@ -190,6 +190,11 @@ export interface Guide {
    * Ex. page éditoriale à la racine du site.
    */
   publicPath?: string;
+  /**
+   * Libellé breadcrumb court pour une page pilier (Accueil > label).
+   * Si absent : Accueil > Guides > title.
+   */
+  breadcrumbLabel?: string;
   title: string;
   /** Title balise <title> : optionnel, sinon title + suffixe site */
   seoTitle?: string;

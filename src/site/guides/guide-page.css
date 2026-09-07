@@ -269,7 +269,21 @@
   font-weight: 800;
   color: var(--ds-brand);
   letter-spacing: -0.02em;
-  line-height: 1;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+@media (max-width: 639px) {
+  .guide-quick-summary__rate {
+    font-size: 1.5rem;
+  }
+}
+
+/* Grille 4 colonnes : montants longs (ex. 1 867,02 €) restent lisibles */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .guide-quick-summary__rate {
+    font-size: 1.35rem;
+  }
 }
 
 .guide-quick-summary__desc {
