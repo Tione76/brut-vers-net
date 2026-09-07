@@ -55,7 +55,9 @@ describe("indexnow-changed-urls (streaming Net→Brut)", () => {
     expect(amounts[amounts.length - 1]).toBe(6000);
     expect(amounts).toContain(1510);
     expect(amounts).toContain(4990);
-    expect(amounts).not.toContain(5010);
+    expect(amounts).toContain(5010);
+    expect(amounts).toContain(5490);
+    expect(amounts).not.toContain(5510);
   });
 
   it("ne détecte aucune nouvelle fiche sans publication", () => {

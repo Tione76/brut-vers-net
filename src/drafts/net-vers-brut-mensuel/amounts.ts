@@ -9,8 +9,9 @@
  * + vague 5 (3 510 → 3 990)
  * + vague 6 (4 010 → 4 490)
  * + vague 7 (4 510 → 4 990)
+ * + vague 8 (5 010 → 5 490)
  *
- * Brouillons restants : 5 010 → 5 990 (hors multiples de 100) = 90 fiches.
+ * Brouillons restants : 5 510 → 5 990 (hors multiples de 100) = 45 fiches.
  */
 
 import { NET_TO_GROSS_AMOUNTS } from "@/site/salaire-net-brut/config";
@@ -21,11 +22,11 @@ export type DraftNetToGrossStatus = typeof DRAFT_NET_TO_GROSS_STATUS;
 
 /**
  * Montants nets intermédiaires encore en brouillon (pas de 10 €).
- * Vagues 1 à 7 déjà publiées.
+ * Vagues 1 à 8 déjà publiées.
  */
 export const DRAFT_NET_TO_GROSS_AMOUNTS: readonly number[] = Array.from(
-  { length: (5990 - 5010) / 10 + 1 },
-  (_, index) => 5010 + index * 10,
+  { length: (5990 - 5510) / 10 + 1 },
+  (_, index) => 5510 + index * 10,
 ).filter((amount) => amount % 100 !== 0);
 
 export type DraftNetToGrossAmount = (typeof DRAFT_NET_TO_GROSS_AMOUNTS)[number];

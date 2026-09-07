@@ -35,15 +35,15 @@ import {
   getPreparedNearbyAmounts,
 } from "./index";
 
-const WAVE7_BATCH = [
-  4510, 4520, 4530, 4540, 4550, 4560, 4570, 4580, 4590, 4610, 4620, 4630, 4640, 4650, 4660,
-  4670, 4680, 4690, 4710, 4720, 4730, 4740, 4750, 4760, 4770, 4780, 4790, 4810, 4820, 4830,
-  4840, 4850, 4860, 4870, 4880, 4890, 4910, 4920, 4930, 4940, 4950, 4960, 4970, 4980, 4990,
+const WAVE8_BATCH = [
+  5010, 5020, 5030, 5040, 5050, 5060, 5070, 5080, 5090, 5110, 5120, 5130, 5140, 5150, 5160,
+  5170, 5180, 5190, 5210, 5220, 5230, 5240, 5250, 5260, 5270, 5280, 5290, 5310, 5320, 5330,
+  5340, 5350, 5360, 5370, 5380, 5390, 5410, 5420, 5430, 5440, 5450, 5460, 5470, 5480, 5490,
 ] as const;
 
-const PUBLISHED_SAMPLES = [1500, 1550, 3510, 4010, 4490, 4510, 4750, 4990, 5000, 6000] as const;
-const DRAFT_SAMPLES = [5010, 5050, 5510, 5550, 5990] as const;
-const WAVE7_SEO_SAMPLES = [4510, 4750, 4990] as const;
+const PUBLISHED_SAMPLES = [1500, 1550, 3510, 4490, 4990, 5010, 5250, 5490, 5500, 6000] as const;
+const DRAFT_SAMPLES = [5510, 5550, 5710, 5850, 5990] as const;
+const WAVE8_SEO_SAMPLES = [5010, 5250, 5490] as const;
 
 function collectStrings(value: unknown, acc: string[] = []): string[] {
   if (typeof value === "string") {
@@ -60,23 +60,23 @@ function collectStrings(value: unknown, acc: string[] = []): string[] {
   return acc;
 }
 
-describe("publication vague 7 intermédiaires net→brut (4510 → 4990)", () => {
-  it("valide 361 publiés + 90 brouillons + 451 totaux sans trou", () => {
+describe("publication vague 8 intermédiaires net→brut (5010 → 5490)", () => {
+  it("valide 406 publiés + 45 brouillons + 451 totaux sans trou", () => {
     assertPublishedHundredsIntact();
     assertTenEuroIntermediatesPrepared();
     assertDraftsNotPublished();
     assertExtendedSeriesPublished();
 
-    expect(NET_TO_GROSS_AMOUNTS).toHaveLength(361);
+    expect(NET_TO_GROSS_AMOUNTS).toHaveLength(406);
     expect(PUBLISHED_NET_TO_GROSS_AMOUNTS).toBe(NET_TO_GROSS_AMOUNTS);
     expect(NET_TO_GROSS_AMOUNTS[0]).toBe(1500);
     expect(NET_TO_GROSS_AMOUNTS[NET_TO_GROSS_AMOUNTS.length - 1]).toBe(6000);
 
-    expect(DRAFT_NET_TO_GROSS_AMOUNTS).toHaveLength(90);
-    expect(DRAFT_NET_TO_GROSS_ENTRIES).toHaveLength(90);
-    expect(DRAFT_NET_TO_GROSS_AMOUNTS[0]).toBe(5010);
-    expect(DRAFT_NET_TO_GROSS_AMOUNTS[89]).toBe(5990);
-    expect(prepareAllDraftNetToGrossFiches()).toHaveLength(90);
+    expect(DRAFT_NET_TO_GROSS_AMOUNTS).toHaveLength(45);
+    expect(DRAFT_NET_TO_GROSS_ENTRIES).toHaveLength(45);
+    expect(DRAFT_NET_TO_GROSS_AMOUNTS[0]).toBe(5510);
+    expect(DRAFT_NET_TO_GROSS_AMOUNTS[44]).toBe(5990);
+    expect(prepareAllDraftNetToGrossFiches()).toHaveLength(45);
 
     const future = buildFuturePublishedCatalog();
     expect(future).toHaveLength(451);
@@ -86,7 +86,7 @@ describe("publication vague 7 intermédiaires net→brut (4510 → 4990)", () =>
     const publishedSet = new Set<number>(NET_TO_GROSS_AMOUNTS as readonly number[]);
     const draftSet = new Set(DRAFT_NET_TO_GROSS_AMOUNTS);
 
-    for (const amount of WAVE7_BATCH) {
+    for (const amount of WAVE8_BATCH) {
       expect(publishedSet.has(amount)).toBe(true);
       expect(draftSet.has(amount)).toBe(false);
       expect(isNetToGrossAmount(amount)).toBe(true);
@@ -104,22 +104,22 @@ describe("publication vague 7 intermédiaires net→brut (4510 → 4990)", () =>
     }
 
     expect(isNetToGrossAmount(1510)).toBe(true);
-    expect(isNetToGrossAmount(4490)).toBe(true);
-    expect(isNetToGrossAmount(4510)).toBe(true);
     expect(isNetToGrossAmount(4990)).toBe(true);
-    expect(isDraftNetToGrossAmount(5010)).toBe(true);
+    expect(isNetToGrossAmount(5010)).toBe(true);
+    expect(isNetToGrossAmount(5490)).toBe(true);
+    expect(isDraftNetToGrossAmount(5510)).toBe(true);
     expect(isDraftNetToGrossAmount(5990)).toBe(true);
-    expect(isNetToGrossAmount(5010)).toBe(false);
+    expect(isNetToGrossAmount(5510)).toBe(false);
 
-    expect(buildDraftNetToGrossPublicationBatches(45)).toHaveLength(2);
-    expect(buildDraftNetToGrossPublicationBatches(45)[0]?.[0]).toBe(5010);
+    expect(buildDraftNetToGrossPublicationBatches(45)).toHaveLength(1);
+    expect(buildDraftNetToGrossPublicationBatches(45)[0]?.[0]).toBe(5510);
     expect(buildDraftNetToGrossPublicationBatches(45)[0]).toHaveLength(45);
   });
 });
 
 describe("anti-fuite publique des brouillons net→brut restants", () => {
   it(
-    "indexe les 361 publiés et exclut les drafts restants",
+    "indexe les 406 publiés et exclut les drafts restants",
     () => {
       const publicPaths = new Set(getAllPublicPages().map((page) => page.path));
       const sitemapPaths = new Set(getSitemapEntries().map((entry) => entry.path));
@@ -127,7 +127,7 @@ describe("anti-fuite publique des brouillons net→brut restants", () => {
         getPlanDuSiteSections().flatMap((section) => section.pages.map((page) => page.path)),
       );
 
-      expect(NET_TO_GROSS_AMOUNTS).toHaveLength(361);
+      expect(NET_TO_GROSS_AMOUNTS).toHaveLength(406);
       for (const amount of NET_TO_GROSS_AMOUNTS) {
         const path = netToGrossPath(amount);
         expect(path).toBe(`/combien-gagner-brut-mensuel-pour-${amount}-net`);
@@ -158,13 +158,13 @@ describe("anti-fuite publique des brouillons net→brut restants", () => {
     const hubAmounts = hub.ficheLinks.map((link) => link.amount);
     const indexAmounts = indexRows.map((row) => row.netMonthly);
 
-    expect(hub.catalogCount).toBe(361);
-    expect(hub.ficheLinks).toHaveLength(361);
-    expect(indexRows).toHaveLength(361);
+    expect(hub.catalogCount).toBe(406);
+    expect(hub.ficheLinks).toHaveLength(406);
+    expect(indexRows).toHaveLength(406);
     expect(hubAmounts).toEqual([...NET_TO_GROSS_AMOUNTS]);
     expect(indexAmounts).toEqual([...NET_TO_GROSS_AMOUNTS]);
 
-    for (const amount of WAVE7_BATCH) {
+    for (const amount of WAVE8_BATCH) {
       expect(hubAmounts).toContain(amount);
       expect(indexAmounts).toContain(amount);
     }
@@ -181,8 +181,8 @@ describe("anti-fuite publique des brouillons net→brut restants", () => {
       expect(nearby.every((item) => !isDraftNetToGrossAmount(item))).toBe(true);
     }
 
-    expect(getSeriesNearbyAmounts(4510)).toEqual([
-      4500, 4520, 4490, 4530, 4480, 4540, 4470,
+    expect(getSeriesNearbyAmounts(5010)).toEqual([
+      5000, 5020, 4990, 5030, 4980, 5040, 4970,
     ]);
   });
 
@@ -208,8 +208,8 @@ describe("anti-fuite publique des brouillons net→brut restants", () => {
   });
 });
 
-describe("SEO / Schema des fiches vague 7", () => {
-  it.each(WAVE7_SEO_SAMPLES)("prépare la fiche publiée %s € sans fuite de montant", (amount) => {
+describe("SEO / Schema des fiches vague 8", () => {
+  it.each(WAVE8_SEO_SAMPLES)("prépare la fiche publiée %s € sans fuite de montant", (amount) => {
     const fiche = prepareDraftNetToGrossFiche(amount);
     const netLabel = fiche.netLabel;
 
@@ -255,8 +255,8 @@ describe("SEO / Schema des fiches vague 7", () => {
         titles.add(fiche.seo.title);
         h1s.add(fiche.seo.h1);
       }
-      expect(titles.size).toBe(361);
-      expect(h1s.size).toBe(361);
+      expect(titles.size).toBe(406);
+      expect(h1s.size).toBe(406);
     },
     45_000,
   );
