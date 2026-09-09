@@ -23,6 +23,11 @@ export const guidesNavigation: GuideNavItem[] = [
     title: "Comment calculer son salaire net ?",
   },
   {
+    slug: "salaire-moyen-france",
+    shortTitle: "Salaire moyen en France",
+    title: "Salaire moyen en France : net, brut et médian",
+  },
+  {
     slug: "comment-lire-une-fiche-de-paie",
     shortTitle: "Comment lire une fiche de paie",
     title: "Comment lire une fiche de paie ?",

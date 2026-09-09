@@ -494,6 +494,7 @@ export const smicGuide: Guide = {
       href: "/",
     },
     relatedGuides: [
+      { title: "Salaire moyen en France", href: "/salaire-moyen-france" },
       { title: "Différence brut / net", href: BRUT_NET_EXPLIQUE_HREF },
       { title: "Cotisations salariales", href: COTISATIONS_HREF },
       { title: "Lire une fiche de paie", href: LIRE_FICHE_PAIE_HREF },

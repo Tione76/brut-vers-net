@@ -7,12 +7,14 @@ import { cotisationsSalarialesGuide } from "./data/cotisations-salariales-pourqu
 import { prelevementALaSourceGuide } from "./data/prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne";
 import { pourquoiSalaireNetChangeSeptembre2026Guide } from "./data/pourquoi-salaire-net-change-septembre-2026";
 import { smicGuide } from "./data/smic";
+import { salaireMoyenFranceGuide } from "./data/salaire-moyen-france";
 
 export { getGuidePublicPath } from "./paths";
 
 /** Guides publiés */
 export const guides: Guide[] = [
   attachGuideCover(smicGuide),
+  attachGuideCover(salaireMoyenFranceGuide),
   attachGuideCover(commentEstCalculeLeSalaireNetGuide),
   attachGuideCover(commentLireUneFicheDePaieGuide),
   attachGuideCover(commentCalculerSonSalaireNetGuide),

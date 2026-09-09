@@ -139,8 +139,8 @@
 
 /* Sommaire inline */
 .guide-toc {
-  margin: 32px 0 28px;
-  padding: 28px 32px;
+  margin: 24px 0 22px;
+  padding: 20px 22px;
   background: var(--ds-surface-alt);
   border: 1px solid var(--ds-border);
   border-radius: var(--ds-radius);
@@ -152,7 +152,7 @@
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ds-brand);
-  margin: 0 0 20px;
+  margin: 0 0 14px;
 }
 
 .guide-toc__list {
@@ -161,17 +161,17 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .guide-toc__link {
   display: block;
-  padding: 10px 0;
-  font-size: 0.9375rem;
+  padding: 7px 0;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--ds-text);
   text-decoration: none;
-  line-height: 1.45;
+  line-height: 1.4;
   border-bottom: 1px solid var(--ds-border-light);
   transition: color 0.15s ease, padding-left 0.15s ease;
 }
@@ -189,6 +189,69 @@
   outline: 2px solid var(--ds-brand);
   outline-offset: 2px;
   border-radius: 2px;
+}
+
+/* Sommaire long (pages piliers) : plus compact, 2 colonnes dès tablette */
+.guide-toc--compact {
+  margin: 18px 0 20px;
+  padding: 14px 16px;
+}
+
+.guide-toc--compact .guide-toc__title {
+  margin-bottom: 10px;
+}
+
+.guide-toc--compact .guide-toc__link {
+  padding: 5px 0;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+@media (min-width: 768px) {
+  .guide-toc--compact .guide-toc__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.25rem;
+    row-gap: 0;
+  }
+
+  .guide-toc--compact .guide-toc__list > li {
+    border-bottom: 1px solid var(--ds-border-light);
+  }
+
+  .guide-toc--compact .guide-toc__link {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .guide-toc {
+    margin: 16px 0 18px;
+    padding: 14px 14px;
+  }
+
+  .guide-toc__details > summary {
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ds-brand);
+    margin-bottom: 8px;
+  }
+
+  .guide-toc__details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .guide-toc__details:not([open]) .guide-toc__list {
+    display: none;
+  }
+}
+
+@media (min-width: 640px) {
+  .guide-toc__details > summary {
+    display: none;
+  }
 }
 
 #faq,

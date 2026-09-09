@@ -218,6 +218,13 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "salaire-moyen-france": cover(
+    "guides/Salaire-moyen-France.webp",
+    "Femme concentrée travaillant sur un ordinateur portable à un bureau blanc, crayon à la main, dans une pièce lumineuse",
+    { photographer: "olia danilevich", source: "Pexels" },
+    1201,
+    801,
+  ),
 };
 
 export function getCalculatorCover(id: string): GuideCoverImage {
@@ -237,6 +244,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/smic") {
     return getGuideCover("smic");
+  }
+  if (href === "/salaire-moyen-france") {
+    return getGuideCover("salaire-moyen-france");
   }
   return undefined;
 }

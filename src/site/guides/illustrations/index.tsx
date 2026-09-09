@@ -6,6 +6,7 @@ import { FicheDePaieZonesIllustration } from "./FicheDePaieZonesIllustration";
 import { HeuresSupplementairesFichePaieIllustration } from "./HeuresSupplementairesFichePaieIllustration";
 import { PrelevementSourceFichePaieIllustration } from "./PrelevementSourceFichePaieIllustration";
 import { PrelevementSourceParcoursIllustration } from "./PrelevementSourceParcoursIllustration";
+import { SalaireMoyenEvolutionIllustration } from "./SalaireMoyenEvolutionIllustration";
 
 const ILLUSTRATIONS: Record<string, () => ReactElement> = {
   "fiche-de-paie-zones": FicheDePaieZonesIllustration,
@@ -15,6 +16,7 @@ const ILLUSTRATIONS: Record<string, () => ReactElement> = {
   "prelevement-source-fiche-paie": PrelevementSourceFichePaieIllustration,
   "prelevement-source-parcours": PrelevementSourceParcoursIllustration,
   "heures-supplementaires-fiche-paie": HeuresSupplementairesFichePaieIllustration,
+  "salaire-moyen-evolution-eqtp": SalaireMoyenEvolutionIllustration,
 };
 
 export function GuideIllustration({ id, caption }: { id: string; caption?: string }) {

@@ -240,7 +240,7 @@ export type GuideCalloutLabel =
   | "Erreur fréquente"
   | "Astuce"
   | "Point de vigilance"
-  | "Référence fiscale"
+  | "Référence officielle"
   | "À vérifier";
 
 export const GUIDE_CALLOUT_LABELS: Record<GuideCalloutVariant, GuideCalloutLabel> = {
@@ -252,6 +252,6 @@ export const GUIDE_CALLOUT_LABELS: Record<GuideCalloutVariant, GuideCalloutLabel
   error: "Erreur fréquente",
   hint: "Astuce",
   vigilance: "Point de vigilance",
-  legal: "Référence fiscale",
+  legal: "Référence officielle",
   verify: "À vérifier",
 };

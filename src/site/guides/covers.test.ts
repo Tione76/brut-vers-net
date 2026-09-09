@@ -46,6 +46,7 @@ describe("covers registry", () => {
         "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
         "pourquoi-salaire-net-change-septembre-2026",
         "smic",
+        "salaire-moyen-france",
       ]),
     );
     expect(getGuideCover("comment-est-calcule-le-salaire-net")?.src).toContain(
@@ -73,6 +74,23 @@ describe("covers registry", () => {
     expect(smicCover?.alt.length).toBeGreaterThan(20);
     expect(smicCover?.alt).not.toMatch(/SMIC/i);
     expect(smicCover?.alt).not.toMatch(/\d+\s*€/);
+
+    const salaireMoyenCover = getGuideCover("salaire-moyen-france");
+    expect(salaireMoyenCover?.src).toBe("/images/covers/guides/Salaire-moyen-France.webp");
+    expect(formatCoverCredit(salaireMoyenCover!.credit)).toBe(
+      "Photo de olia danilevich via Pexels",
+    );
+    expect(salaireMoyenCover?.credit.photographer).toBe("olia danilevich");
+    expect(salaireMoyenCover?.credit.source).toBe("Pexels");
+    expect(salaireMoyenCover?.credit.acquireLicensePage).toBeUndefined();
+    expect(salaireMoyenCover?.credit.copyrightNotice).toBeUndefined();
+    expect(getCoverLicenseUrl(salaireMoyenCover!.credit)).toBe(PEXELS_LICENSE_URL);
+    expect(salaireMoyenCover?.width).toBe(1201);
+    expect(salaireMoyenCover?.height).toBe(801);
+    expect(salaireMoyenCover?.alt.length).toBeGreaterThan(20);
+    expect(salaireMoyenCover?.alt.toLowerCase()).not.toContain("salaire");
+    expect(salaireMoyenCover?.alt).not.toMatch(/20\d{2}/);
+    expect(salaireMoyenCover?.alt).not.toMatch(/\d+\s*€/);
   });
 
   it("exposes hub and FAQ covers with credits", () => {

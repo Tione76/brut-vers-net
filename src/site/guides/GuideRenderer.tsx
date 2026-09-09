@@ -212,18 +212,26 @@ export function GuideInlineToc({
   entries: GuideTocEntry[];
   title?: string;
 }) {
+  const compact = entries.length >= 8;
+  const navClass = compact ? "guide-toc guide-toc--compact" : "guide-toc";
+
   return (
-    <nav className="guide-toc" aria-label={title}>
+    <nav className={navClass} aria-label={title}>
       <p className="guide-toc__title">{title}</p>
-      <ol className="guide-toc__list">
-        {entries.map((entry) => (
-          <li key={entry.id}>
-            <a href={`#${entry.id}`} className="guide-toc__link">
-              {entry.title}
-            </a>
-          </li>
-        ))}
-      </ol>
+      <details className="guide-toc__details" open>
+        <summary>
+          Afficher le sommaire ({entries.length} sections)
+        </summary>
+        <ol className="guide-toc__list">
+          {entries.map((entry) => (
+            <li key={entry.id}>
+              <a href={`#${entry.id}`} className="guide-toc__link">
+                {entry.title}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </details>
     </nav>
   );
 }
