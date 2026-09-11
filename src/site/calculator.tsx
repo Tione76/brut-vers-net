@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import "@/site/salary-calculator-layout.css";
 import { SelectableOption, SelectableOptionGroup } from "@/site/components/SelectableOptionGroup";
@@ -858,28 +859,57 @@ function SalaryCalculator({
         aria-label="Salaire net après prélèvement à la source"
       >
         <div className="salary-calc__result-card">
-          <p className="salary-calc__result-label" id="netAfterTaxMonthly-label">
-            Net mensuel après impôt
-          </p>
-          <p
-            className={`salary-calc__result-value${afterTaxMonthly ? " salary-calc__result-value--filled" : ""}`}
-            aria-labelledby="netAfterTaxMonthly-label"
-            aria-live="polite"
-          >
-            {afterTaxMonthly || "Le résultat s'affichera ici"}
-          </p>
+          <span className="salary-calc__result-icon" aria-hidden="true">
+            <Image
+              src="/images/calculator/pictogram-coins-clean.webp"
+              alt=""
+              width={214}
+              height={184}
+              decoding="async"
+              draggable={false}
+            />
+          </span>
+          <div className="salary-calc__result-copy">
+            <p className="salary-calc__result-label" id="netAfterTaxMonthly-label">
+              Net mensuel après impôt
+            </p>
+            <p
+              className={`salary-calc__result-value${afterTaxMonthly ? " salary-calc__result-value--filled" : ""}`}
+              aria-labelledby="netAfterTaxMonthly-label"
+              aria-live="polite"
+            >
+              {afterTaxMonthly ? `${afterTaxMonthly} €` : "Le résultat s'affichera ici"}
+            </p>
+            <p className="salary-calc__result-hint">Ce que vous recevez chaque mois</p>
+          </div>
         </div>
+
         <div className="salary-calc__result-card">
-          <p className="salary-calc__result-label" id="netAfterTaxAnnual-label">
-            Net annuel après impôt
-          </p>
-          <p
-            className={`salary-calc__result-value${afterTaxAnnual ? " salary-calc__result-value--filled" : ""}`}
-            aria-labelledby="netAfterTaxAnnual-label"
-            aria-live="polite"
-          >
-            {afterTaxAnnual || "Le résultat s'affichera ici"}
-          </p>
+          <span className="salary-calc__result-icon" aria-hidden="true">
+            <Image
+              src="/images/calculator/pictogram-calendar-clean.webp"
+              alt=""
+              width={190}
+              height={194}
+              decoding="async"
+              draggable={false}
+            />
+          </span>
+          <div className="salary-calc__result-copy">
+            <p className="salary-calc__result-label" id="netAfterTaxAnnual-label">
+              Net annuel après impôt
+            </p>
+            <p
+              className={`salary-calc__result-value${afterTaxAnnual ? " salary-calc__result-value--filled" : ""}`}
+              aria-labelledby="netAfterTaxAnnual-label"
+              aria-live="polite"
+            >
+              {afterTaxAnnual ? `${afterTaxAnnual} €` : "Le résultat s'affichera ici"}
+            </p>
+            <p className="salary-calc__result-hint">
+              Sur {salaryMonths} mois de rémunération
+            </p>
+          </div>
         </div>
       </div>
 
