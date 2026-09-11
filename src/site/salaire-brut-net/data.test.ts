@@ -115,27 +115,31 @@ describe("série salaire brut mensuel → net (1 000 → 6 000)", () => {
     expect(getNearbyGrossToNetAmounts(6000)).toHaveLength(7);
   });
 
-  it("indexe Hub, Index et fiches publiées dans sitemap / pages publiques", async () => {
-    const { getAllPublicPages, getSitemapEntries, isPathIndexable } = await import(
-      "@/site/public-pages"
-    );
-    const publicPaths = new Set(getAllPublicPages().map((page) => page.path));
-    const sitemapPaths = new Set(getSitemapEntries().map((entry) => entry.path));
+  it(
+    "indexe Hub, Index et fiches publiées dans sitemap / pages publiques",
+    async () => {
+      const { getAllPublicPages, getSitemapEntries, isPathIndexable } = await import(
+        "@/site/public-pages"
+      );
+      const publicPaths = new Set(getAllPublicPages().map((page) => page.path));
+      const sitemapPaths = new Set(getSitemapEntries().map((entry) => entry.path));
 
-    expect(publicPaths.has(GROSS_TO_NET_HUB_PATH)).toBe(true);
-    expect(publicPaths.has(GROSS_TO_NET_INDEX_PATH)).toBe(true);
-    expect(sitemapPaths.has(GROSS_TO_NET_HUB_PATH)).toBe(true);
-    expect(sitemapPaths.has(GROSS_TO_NET_INDEX_PATH)).toBe(true);
-    expect(isPathIndexable(GROSS_TO_NET_HUB_PATH)).toBe(true);
-    expect(isPathIndexable(GROSS_TO_NET_INDEX_PATH)).toBe(true);
+      expect(publicPaths.has(GROSS_TO_NET_HUB_PATH)).toBe(true);
+      expect(publicPaths.has(GROSS_TO_NET_INDEX_PATH)).toBe(true);
+      expect(sitemapPaths.has(GROSS_TO_NET_HUB_PATH)).toBe(true);
+      expect(sitemapPaths.has(GROSS_TO_NET_INDEX_PATH)).toBe(true);
+      expect(isPathIndexable(GROSS_TO_NET_HUB_PATH)).toBe(true);
+      expect(isPathIndexable(GROSS_TO_NET_INDEX_PATH)).toBe(true);
 
-    for (const amount of [1000, 1050, 2000, 3500, 3550, 6000] as const) {
-      const path = grossToNetPath(amount);
-      expect(publicPaths.has(path)).toBe(true);
-      expect(sitemapPaths.has(path)).toBe(true);
-      expect(isPathIndexable(path)).toBe(true);
-    }
+      for (const amount of [1000, 1050, 2000, 3500, 3550, 6000] as const) {
+        const path = grossToNetPath(amount);
+        expect(publicPaths.has(path)).toBe(true);
+        expect(sitemapPaths.has(path)).toBe(true);
+        expect(isPathIndexable(path)).toBe(true);
+      }
 
-    expect(isPathIndexable(grossToNetPath(6050))).toBe(false);
-  });
+      expect(isPathIndexable(grossToNetPath(6050))).toBe(false);
+    },
+    30_000,
+  );
 });

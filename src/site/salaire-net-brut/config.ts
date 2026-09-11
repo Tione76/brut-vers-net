@@ -64,6 +64,7 @@ function tenEuroBatch(from: number, to: number): number[] {
  * Vague 6 : 4 010 → 4 490
  * Vague 7 : 4 510 → 4 990
  * Vague 8 : 5 010 → 5 490
+ * Vague 9 : 5 510 → 5 990 (série complète)
  */
 const NET_TO_GROSS_PUBLISHED_TEN_EURO_BATCHES: readonly number[] = [
   ...tenEuroBatch(1510, 1990),
@@ -74,6 +75,7 @@ const NET_TO_GROSS_PUBLISHED_TEN_EURO_BATCHES: readonly number[] = [
   ...tenEuroBatch(4010, 4490),
   ...tenEuroBatch(4510, 4990),
   ...tenEuroBatch(5010, 5490),
+  ...tenEuroBatch(5510, 5990),
 ];
 
 /**

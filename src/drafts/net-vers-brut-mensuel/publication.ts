@@ -1,8 +1,8 @@
 /**
- * État de la série Net → Brut mensuel après vague 8 des intermédiaires (pas de 10 €).
+ * État de la série Net → Brut mensuel après vague 9 (série complète).
  *
- * - Publiés : 406 (46 centaines + 360 intermédiaires 1 510 → 5 490)
- * - Brouillons : 45 (5 510 → 5 990 hors centaines)
+ * - Publiés : 451 (46 centaines + 405 intermédiaires 1 510 → 5 990)
+ * - Brouillons : 0
  *
  * Publication d'un lot : déplacer des montants de DRAFT_NET_TO_GROSS_AMOUNTS
  * vers NET_TO_GROSS_AMOUNTS (batch publié dans config.ts), puis retirer ces montants des brouillons.
@@ -15,16 +15,15 @@ import {
 } from "./amounts";
 
 export const PUBLICATION_CHECKLIST = [
-  "Choisir le prochain lot via buildDraftNetToGrossPublicationBatches(45)[0]",
-  "Ajouter ces montants au batch publié dans config.ts (ordre croissant du catalogue)",
-  "Retirer ces montants de DRAFT_NET_TO_GROSS_AMOUNTS (amounts.ts)",
+  "Série complète : plus de lot à publier (DRAFT_NET_TO_GROSS_AMOUNTS vide)",
+  "Si de nouveaux montants apparaissent : les ajouter à config.ts puis retirer des brouillons",
   "Vérifier generateStaticParams / sitemap / Hub / Index / Nearby (automatiques via la liste publiée)",
   "Mettre à jour les tests de comptage published/draft",
   "Lancer lint, tests et build",
 ] as const;
 
-const EXPECTED_PUBLISHED_COUNT = 406;
-const EXPECTED_DRAFT_COUNT = 45;
+const EXPECTED_PUBLISHED_COUNT = 451;
+const EXPECTED_DRAFT_COUNT = 0;
 const EXPECTED_TOTAL = 451;
 
 /** Vérifie que les 46 centaines restent présentes dans le catalogue publié. */
@@ -52,11 +51,8 @@ export function assertTenEuroIntermediatesPrepared(): void {
   }
   if (DRAFT_NET_TO_GROSS_AMOUNTS.length !== EXPECTED_DRAFT_COUNT) {
     throw new Error(
-      `Attendu ${EXPECTED_DRAFT_COUNT} brouillons restants, reçu ${DRAFT_NET_TO_GROSS_AMOUNTS.length}.`,
+      `Attendu ${EXPECTED_DRAFT_COUNT} brouillon restant, reçu ${DRAFT_NET_TO_GROSS_AMOUNTS.length}.`,
     );
-  }
-  if (DRAFT_NET_TO_GROSS_AMOUNTS[0] !== 5510 || DRAFT_NET_TO_GROSS_AMOUNTS[EXPECTED_DRAFT_COUNT - 1] !== 5990) {
-    throw new Error("Les brouillons restants doivent aller de 5 510 € à 5 990 €.");
   }
 
   const published = new Set<number>(NET_TO_GROSS_AMOUNTS as readonly number[]);
@@ -80,7 +76,9 @@ export function assertTenEuroIntermediatesPrepared(): void {
     }
   }
 
-  for (const amount of [1510, 3490, 3510, 3990, 4010, 4490, 4510, 4990, 5010, 5250, 5490] as const) {
+  for (const amount of [
+    1510, 3490, 3510, 3990, 4010, 4490, 4510, 4990, 5010, 5250, 5490, 5510, 5750, 5990,
+  ] as const) {
     if (!published.has(amount)) {
       throw new Error(`Le montant déjà publié ${amount} manque au catalogue.`);
     }
