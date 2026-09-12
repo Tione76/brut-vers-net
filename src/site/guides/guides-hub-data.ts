@@ -15,6 +15,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
   smic: "Montants du SMIC brut et net actuellement applicables, horaire et mensuel, avec les règles de revalorisation.",
   "salaire-moyen-france":
     "Salaire moyen, médian, brut et net en France : chiffres officiels Insee, clairement datés et expliqués.",
+  "quel-est-un-bon-salaire-en-france":
+    "Est-ce que votre salaire est bon ? Médiane, déciles et repères Insee pour vous situer entre 2 000 et 5 000 € net.",
   "comment-est-calcule-le-salaire-net":
     "Comprenez pourquoi le salaire brut et le salaire net diffèrent, et ce que chaque étape de la rémunération représente.",
   "comment-lire-une-fiche-de-paie":

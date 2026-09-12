@@ -225,6 +225,13 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1201,
     801,
   ),
+  "quel-est-un-bon-salaire-en-france": cover(
+    "guides/bon-salaire-en-france.webp",
+    "Main posée sur une pile de billets près d'un stylo sur une table en bois, personne floue en arrière-plan",
+    { photographer: "kaboompics", source: "Pexels" },
+    1200,
+    800,
+  ),
 };
 
 export function getCalculatorCover(id: string): GuideCoverImage {
@@ -247,6 +254,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/salaire-moyen-france") {
     return getGuideCover("salaire-moyen-france");
+  }
+  if (href === "/quel-est-un-bon-salaire-en-france") {
+    return getGuideCover("quel-est-un-bon-salaire-en-france");
   }
   return undefined;
 }

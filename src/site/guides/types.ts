@@ -53,10 +53,19 @@ export interface GuideParagraph {
   text: string;
 }
 
+/** Entrée de liste : texte simple, ou texte + lien interne descriptif */
+export type GuideListItem =
+  | string
+  | {
+      text: string;
+      href: string;
+      label: string;
+    };
+
 export interface GuideList {
   type: "list";
   ordered?: boolean;
-  items: string[];
+  items: GuideListItem[];
 }
 
 export interface GuideTable {

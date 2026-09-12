@@ -47,6 +47,7 @@ describe("covers registry", () => {
         "pourquoi-salaire-net-change-septembre-2026",
         "smic",
         "salaire-moyen-france",
+        "quel-est-un-bon-salaire-en-france",
       ]),
     );
     expect(getGuideCover("comment-est-calcule-le-salaire-net")?.src).toContain(
@@ -91,6 +92,25 @@ describe("covers registry", () => {
     expect(salaireMoyenCover?.alt.toLowerCase()).not.toContain("salaire");
     expect(salaireMoyenCover?.alt).not.toMatch(/20\d{2}/);
     expect(salaireMoyenCover?.alt).not.toMatch(/\d+\s*€/);
+
+    const bonSalaireCover = getGuideCover("quel-est-un-bon-salaire-en-france");
+    expect(bonSalaireCover?.src).toBe("/images/covers/guides/bon-salaire-en-france.webp");
+    expect(formatCoverCredit(bonSalaireCover!.credit)).toBe(
+      "Photo de kaboompics via Pexels",
+    );
+    expect(bonSalaireCover?.credit.photographer).toBe("kaboompics");
+    expect(bonSalaireCover?.credit.source).toBe("Pexels");
+    expect(bonSalaireCover?.credit.acquireLicensePage).toBeUndefined();
+    expect(bonSalaireCover?.credit.copyrightNotice).toBeUndefined();
+    expect(getCoverLicenseUrl(bonSalaireCover!.credit)).toBe(PEXELS_LICENSE_URL);
+    expect(bonSalaireCover?.width).toBe(1200);
+    expect(bonSalaireCover?.height).toBe(800);
+    expect(bonSalaireCover?.alt.length).toBeGreaterThan(20);
+    expect(bonSalaireCover?.alt.toLowerCase()).not.toContain("salaire");
+    expect(bonSalaireCover?.alt).not.toMatch(/20\d{2}/);
+    expect(bonSalaireCover?.alt).not.toMatch(/\d+\s*€/);
+    expect(bonSalaireCover?.alt.toLowerCase()).not.toContain("kaboompics");
+    expect(bonSalaireCover?.alt.toLowerCase()).not.toContain("pexels");
   });
 
   it("exposes hub and FAQ covers with credits", () => {

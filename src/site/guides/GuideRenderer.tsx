@@ -21,23 +21,30 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
     case "paragraph":
       return <p>{block.text}</p>;
 
-    case "list":
-      if (block.ordered) {
-        return (
-          <ol>
-            {block.items.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ol>
-        );
-      }
+    case "list": {
+      const ListTag = block.ordered ? "ol" : "ul";
       return (
-        <ul>
-          {block.items.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
+        <ListTag>
+          {block.items.map((item) => {
+            if (typeof item === "string") {
+              return <li key={item}>{item}</li>;
+            }
+            return (
+              <li key={`${item.text}-${item.href}`}>
+                {item.text}{" "}
+                {item.href.startsWith("http") ? (
+                  <a href={item.href} rel="noopener noreferrer" target="_blank">
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link href={item.href}>{item.label}</Link>
+                )}
+              </li>
+            );
+          })}
+        </ListTag>
       );
+    }
 
     case "checklist":
       return (
@@ -452,6 +459,42 @@ export function GuideArticle({
     !quickSummary?.variant &&
     !quickSummary?.items.some((item) => item.kind);
   const isDeferredSummary = Boolean(quickSummary) && !isEarlyAmountSummary;
+  /** « Réponse courte » : affichée juste sous l'intro, avant les cartes. */
+  const leadAnswerSection =
+    sections[0]?.id === "reponse-courte" ? sections[0] : null;
+  const bodySections = leadAnswerSection ? sections.slice(1) : sections;
+
+  const renderSection = (
+    section: (typeof sections)[number],
+    className?: string,
+  ) => (
+    <section
+      key={section.id}
+      id={section.id}
+      className={className ? `guide-section ${className}` : "guide-section"}
+    >
+      <h2>{section.title}</h2>
+      {section.blocks?.map((block, index) => (
+        <GuideBlockRenderer
+          key={blockKey(section.id, block, index)}
+          block={block}
+          isTemplate={isTemplate}
+        />
+      ))}
+      {section.subsections?.map((subsection) => (
+        <div key={subsection.id} id={subsection.id} className="guide-subsection">
+          <h3>{subsection.title}</h3>
+          {subsection.blocks.map((block, index) => (
+            <GuideBlockRenderer
+              key={blockKey(subsection.id, block, index)}
+              block={block}
+              isTemplate={isTemplate}
+            />
+          ))}
+        </div>
+      ))}
+    </section>
+  );
 
   return (
     <>
@@ -462,6 +505,10 @@ export function GuideArticle({
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
+
+      {leadAnswerSection
+        ? renderSection(leadAnswerSection, "guide-section--lead-answer")
+        : null}
 
       {/* Cartes chiffrées : réponse immédiate avant L'essentiel et le sommaire */}
       {isEarlyAmountSummary && quickSummary ? (
@@ -489,30 +536,7 @@ export function GuideArticle({
       {isDeferredSummary && quickSummary ? (
         <GuideQuickSummaryBlock summary={quickSummary} />
       ) : null}
-      {sections.map((section) => (
-        <section key={section.id} id={section.id} className="guide-section">
-          <h2>{section.title}</h2>
-          {section.blocks?.map((block, index) => (
-            <GuideBlockRenderer
-              key={blockKey(section.id, block, index)}
-              block={block}
-              isTemplate={isTemplate}
-            />
-          ))}
-          {section.subsections?.map((subsection) => (
-            <div key={subsection.id} id={subsection.id} className="guide-subsection">
-              <h3>{subsection.title}</h3>
-              {subsection.blocks.map((block, index) => (
-                <GuideBlockRenderer
-                  key={blockKey(subsection.id, block, index)}
-                  block={block}
-                  isTemplate={isTemplate}
-                />
-              ))}
-            </div>
-          ))}
-        </section>
-      ))}
+      {bodySections.map((section) => renderSection(section))}
 
       <section id="faq" className="guide-section">
         <h2>{faqTitle ?? "Questions fréquentes"}</h2>

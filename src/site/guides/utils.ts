@@ -7,7 +7,13 @@ function countWordsInBlock(block: GuideBlock): number {
     case "paragraph":
       return block.text.split(/\s+/).filter(Boolean).length;
     case "list":
-      return block.items.join(" ").split(/\s+/).filter(Boolean).length;
+      return block.items
+        .map((item) =>
+          typeof item === "string" ? item : `${item.text} ${item.label}`,
+        )
+        .join(" ")
+        .split(/\s+/)
+        .filter(Boolean).length;
     case "callout":
       return block.paragraphs.join(" ").split(/\s+/).filter(Boolean).length;
     case "table":

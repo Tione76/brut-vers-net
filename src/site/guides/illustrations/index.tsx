@@ -6,9 +6,13 @@ import { FicheDePaieZonesIllustration } from "./FicheDePaieZonesIllustration";
 import { HeuresSupplementairesFichePaieIllustration } from "./HeuresSupplementairesFichePaieIllustration";
 import { PrelevementSourceFichePaieIllustration } from "./PrelevementSourceFichePaieIllustration";
 import { PrelevementSourceParcoursIllustration } from "./PrelevementSourceParcoursIllustration";
+import { BonSalaireComfortMatrixIllustration } from "./BonSalaireComfortMatrixIllustration";
+import { BonSalaireDistributionIllustration } from "./BonSalaireDistributionIllustration";
 import { SalaireMoyenEvolutionIllustration } from "./SalaireMoyenEvolutionIllustration";
 
 const ILLUSTRATIONS: Record<string, () => ReactElement> = {
+  "bon-salaire-distribution-scale": BonSalaireDistributionIllustration,
+  "bon-salaire-comfort-matrix": BonSalaireComfortMatrixIllustration,
   "fiche-de-paie-zones": FicheDePaieZonesIllustration,
   "calcul-salaire-net-schema": CalculSalaireNetSchemaIllustration,
   "calcul-salaire-net-etapes": CalculSalaireNetEtapesIllustration,

@@ -632,6 +632,23 @@
   margin: 32px 0;
 }
 
+/* Libellés d'encarts : orange marque, corps lisible */
+.prose .prose-callout strong {
+  color: var(--ds-brand);
+}
+
+.prose .prose-callout--tip,
+.prose .prose-callout--example,
+.prose .prose-callout--retain {
+  color: var(--ds-text);
+}
+
+.prose .prose-callout--tip strong,
+.prose .prose-callout--example strong,
+.prose .prose-callout--retain strong {
+  color: var(--ds-brand);
+}
+
 .prose .prose-callout--warning {
   background: #fef9f0;
   border-color: #f0d9a8;
@@ -639,7 +656,7 @@
 }
 
 .prose .prose-callout--warning strong {
-  color: #9a6b12;
+  color: var(--ds-brand);
 }
 
 .prose .prose-callout--advice {
@@ -679,7 +696,7 @@
 }
 
 .prose .prose-callout--vigilance strong {
-  color: #c45c00;
+  color: var(--ds-brand);
 }
 
 .prose .prose-callout--legal {
@@ -699,7 +716,68 @@
 }
 
 .prose .prose-callout--verify strong {
-  color: #52525b;
+  color: var(--ds-brand);
+}
+
+/* Listes du corps : puces orange discrètes */
+.prose .guide-section > ul,
+.prose .guide-subsection > ul {
+  list-style: disc;
+  padding-left: 1.35rem;
+}
+
+.prose .guide-section > ul > li::marker,
+.prose .guide-subsection > ul > li::marker {
+  color: var(--ds-brand);
+}
+
+.prose .guide-section > ol,
+.prose .guide-subsection > ol {
+  padding-left: 1.35rem;
+}
+
+.prose .guide-section > ul > li + li,
+.prose .guide-section > ol > li + li,
+.prose .guide-subsection > ul > li + li,
+.prose .guide-subsection > ol > li + li {
+  margin-top: 10px;
+}
+
+/* Liens éditoriaux du corps (pas sommaire / sidebar / CTA boutons) */
+.prose .guide-section a:not(.guide-contextual-cta__link):not(.guide-conclusion__cta),
+.prose .guide-subsection a:not(.guide-contextual-cta__link),
+.prose .guide-internal-link a {
+  color: var(--ds-brand);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ds-brand) 35%, transparent);
+  text-underline-offset: 2px;
+}
+
+.prose .guide-section a:not(.guide-contextual-cta__link):not(.guide-conclusion__cta):hover,
+.prose .guide-subsection a:not(.guide-contextual-cta__link):hover,
+.prose .guide-internal-link a:hover {
+  color: var(--ds-brand-dark, #a34a1c);
+  text-decoration-color: var(--ds-brand);
+}
+
+.prose .guide-section a:not(.guide-contextual-cta__link):focus-visible,
+.prose .guide-subsection a:focus-visible,
+.prose .guide-internal-link a:focus-visible {
+  outline: 2px solid var(--ds-brand);
+  outline-offset: 2px;
+}
+
+/* Sommaire : conserver sa convention propre */
+.guide-toc__link {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+.guide-toc__link:hover {
+  color: var(--ds-brand);
+  text-decoration: underline;
 }
 
 
@@ -1921,4 +1999,485 @@
 
 .contact-page__direct a:hover {
   color: var(--ds-brand-dark);
+}
+
+/* Réponse courte : mise en avant juste sous l'intro */
+.prose .guide-section--lead-answer {
+  margin-top: 28px;
+  padding: 20px 22px 8px;
+  border: 1px solid color-mix(in srgb, var(--ds-brand) 22%, var(--ds-border));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--ds-brand-light) 42%, var(--ds-surface));
+}
+
+.prose .guide-section--lead-answer h2 {
+  color: var(--ds-brand);
+  font-size: 1.25rem;
+}
+
+/* Matrice pédagogique bon salaire (2×2, non statistique) */
+.bon-salaire-comfort-matrix {
+  padding: 20px 18px 22px;
+  background: var(--ds-surface);
+}
+
+.bon-salaire-comfort-matrix__title {
+  margin: 0 0 16px;
+  font-size: 1rem;
+  font-weight: 650;
+  color: var(--ds-text);
+  line-height: 1.4;
+}
+
+.bon-salaire-comfort-matrix__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.bon-salaire-comfort-matrix__frame {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 12px;
+  align-items: stretch;
+}
+
+.bon-salaire-comfort-matrix__axis-y-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  align-self: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ds-text-muted);
+}
+
+.bon-salaire-comfort-matrix__grid-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.bon-salaire-comfort-matrix__axis-y-high,
+.bon-salaire-comfort-matrix__axis-y-low {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ds-text-muted);
+}
+
+.bon-salaire-comfort-matrix__axis-y-high {
+  align-self: flex-start;
+}
+
+.bon-salaire-comfort-matrix__axis-y-low {
+  align-self: flex-start;
+}
+
+.bon-salaire-comfort-matrix__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.bon-salaire-comfort-matrix__cell {
+  padding: 14px 14px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--ds-border);
+  min-height: 100%;
+}
+
+.bon-salaire-comfort-matrix__cell-title {
+  margin: 0 0 8px;
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.35;
+  color: var(--ds-text);
+}
+
+.bon-salaire-comfort-matrix__cell-text {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ds-text-muted);
+}
+
+.bon-salaire-comfort-matrix__cell--stress {
+  background: color-mix(in srgb, #f0c4c4 35%, var(--ds-surface));
+  border-color: #f0c4c4;
+}
+
+.bon-salaire-comfort-matrix__cell--mixed {
+  background: color-mix(in srgb, var(--ds-brand-light) 70%, var(--ds-surface));
+  border-color: color-mix(in srgb, var(--ds-brand) 28%, var(--ds-border));
+}
+
+.bon-salaire-comfort-matrix__cell--calm {
+  background: color-mix(in srgb, #b8d9c4 30%, var(--ds-surface));
+  border-color: #b8d9c4;
+}
+
+.bon-salaire-comfort-matrix__cell--ease {
+  background: color-mix(in srgb, var(--ds-brand) 12%, var(--ds-surface));
+  border-color: color-mix(in srgb, var(--ds-brand) 35%, var(--ds-border));
+}
+
+.bon-salaire-comfort-matrix__axis-x {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin-top: 2px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ds-text-muted);
+}
+
+.bon-salaire-comfort-matrix__axis-x-range {
+  color: var(--ds-brand);
+}
+
+@media (max-width: 640px) {
+  .bon-salaire-comfort-matrix__frame {
+    grid-template-columns: 1fr;
+  }
+
+  .bon-salaire-comfort-matrix__axis-y-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+    text-align: left;
+  }
+
+  .bon-salaire-comfort-matrix__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .prose .guide-section--lead-answer {
+    padding: 16px 14px 4px;
+  }
+}
+
+/* ==========================================================================
+   Frise « Où se situe votre salaire ? »
+   Marqueurs à position statistique exacte ; légendes décalées anti-chevauchement.
+   ========================================================================== */
+
+.bon-salaire-scale {
+  padding: 16px 12px 8px;
+  background: #fafafa;
+  border-radius: 12px;
+}
+
+.bon-salaire-scale__title {
+  margin: 0 0 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.bon-salaire-scale__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.bon-salaire-scale__canvas {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  margin: 8px 0 4px;
+}
+
+/* Piste intérieure : marge pour les libellés en bout d'échelle (D1 / P99) */
+.bon-salaire-scale__track {
+  position: absolute;
+  inset: 0 48px;
+}
+
+.bon-salaire-scale__axis {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 999px;
+  background: #d1d5db;
+}
+
+.bon-salaire-scale__marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  transform: translateX(-50%);
+}
+
+.bon-salaire-scale__stem {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - 16px);
+  width: 3px;
+  height: 32px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: #f28539;
+}
+
+.bon-salaire-scale__marker--mean .bon-salaire-scale__stem {
+  background: #9ca3af;
+  width: 2px;
+  margin-left: -1px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #9ca3af 0 4px,
+    transparent 4px 7px
+  );
+  background-color: transparent;
+}
+
+.bon-salaire-scale__dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: #f28539;
+  box-shadow: 0 0 0 3px #fafafa;
+}
+
+.bon-salaire-scale__marker--mean .bon-salaire-scale__dot {
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  background: #6b7280;
+}
+
+.bon-salaire-scale__label-block {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: max-content;
+  max-width: 118px;
+  transform: translateX(-50%);
+}
+
+.bon-salaire-scale__marker--above .bon-salaire-scale__label-block {
+  bottom: calc(50% + 28px);
+  align-items: center;
+  text-align: center;
+}
+
+.bon-salaire-scale__marker--below .bon-salaire-scale__label-block {
+  top: calc(50% + 28px);
+  align-items: center;
+  text-align: center;
+}
+
+.bon-salaire-scale__marker--nudge-left .bon-salaire-scale__label-block {
+  transform: translateX(-78%);
+  align-items: flex-start;
+  text-align: left;
+}
+
+.bon-salaire-scale__marker--nudge-right .bon-salaire-scale__label-block {
+  transform: translateX(-22%);
+  align-items: flex-end;
+  text-align: right;
+}
+
+.bon-salaire-scale__marker--above.bon-salaire-scale__marker--nudge-left .bon-salaire-scale__label-block,
+.bon-salaire-scale__marker--below.bon-salaire-scale__marker--nudge-left .bon-salaire-scale__label-block {
+  transform: translateX(-78%);
+}
+
+.bon-salaire-scale__marker--above.bon-salaire-scale__marker--nudge-right .bon-salaire-scale__label-block,
+.bon-salaire-scale__marker--below.bon-salaire-scale__marker--nudge-right .bon-salaire-scale__label-block {
+  transform: translateX(-22%);
+}
+
+/* Bords de frise : libellés calés pour ne pas sortir du cadre */
+.bon-salaire-scale__marker--id-d1.bon-salaire-scale__marker--nudge-left .bon-salaire-scale__label-block {
+  transform: translateX(-30%);
+  align-items: flex-start;
+  text-align: left;
+}
+
+.bon-salaire-scale__marker--id-p99.bon-salaire-scale__marker--nudge-left .bon-salaire-scale__label-block {
+  transform: translateX(-85%);
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* Desktop aussi : deux niveaux bas pour séparer D1 et moyenne (proches sur l'échelle) */
+.bon-salaire-scale__marker--id-median .bon-salaire-scale__label-block {
+  bottom: calc(50% + 56px);
+}
+
+.bon-salaire-scale__marker--id-d9 .bon-salaire-scale__label-block {
+  bottom: calc(50% + 28px);
+}
+
+.bon-salaire-scale__marker--id-d1 .bon-salaire-scale__label-block {
+  top: calc(50% + 56px);
+}
+
+.bon-salaire-scale__marker--id-mean .bon-salaire-scale__label-block {
+  top: calc(50% + 28px);
+}
+
+.bon-salaire-scale__marker--id-p99 .bon-salaire-scale__label-block {
+  top: calc(50% + 28px);
+}
+
+.bon-salaire-scale__name {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #374151;
+  line-height: 1.2;
+}
+
+.bon-salaire-scale__amount {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.25;
+}
+
+.bon-salaire-scale__hint {
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+/* Tablette : hauteur accrue + légendes un peu plus larges + 2 niveaux bas/haut */
+@media (max-width: 900px) {
+  .bon-salaire-scale__canvas {
+    height: 340px;
+  }
+
+  .bon-salaire-scale__track {
+    inset: 0 40px;
+  }
+
+  .bon-salaire-scale__label-block {
+    max-width: 100px;
+  }
+
+  .bon-salaire-scale__marker--id-median .bon-salaire-scale__label-block {
+    bottom: calc(50% + 62px);
+  }
+
+  .bon-salaire-scale__marker--id-d9 .bon-salaire-scale__label-block {
+    bottom: calc(50% + 28px);
+  }
+
+  .bon-salaire-scale__marker--id-d1 .bon-salaire-scale__label-block {
+    top: calc(50% + 62px);
+  }
+
+  .bon-salaire-scale__marker--id-mean .bon-salaire-scale__label-block {
+    top: calc(50% + 28px);
+  }
+}
+
+/* Mobile : hauteurs de légende distinctes (anti-chevauchement D1/moyenne, médiane/D9) */
+@media (max-width: 640px) {
+  .bon-salaire-scale {
+    padding: 12px 6px 4px;
+    overflow: hidden;
+  }
+
+  .bon-salaire-scale__canvas {
+    height: 440px;
+  }
+
+  .bon-salaire-scale__track {
+    inset: 0 32px;
+  }
+
+  .bon-salaire-scale__label-block {
+    max-width: 84px;
+  }
+
+  .bon-salaire-scale__name {
+    font-size: 0.625rem;
+  }
+
+  .bon-salaire-scale__amount {
+    font-size: 0.6875rem;
+  }
+
+  .bon-salaire-scale__hint {
+    font-size: 0.5625rem;
+  }
+
+  /* Niveaux verticaux dédiés : marqueurs inchangés, textes seuls décalés */
+  .bon-salaire-scale__marker--id-median .bon-salaire-scale__label-block {
+    bottom: calc(50% + 78px);
+  }
+
+  .bon-salaire-scale__marker--id-d9 .bon-salaire-scale__label-block {
+    bottom: calc(50% + 28px);
+  }
+
+  .bon-salaire-scale__marker--id-d1 .bon-salaire-scale__label-block {
+    top: calc(50% + 96px);
+  }
+
+  .bon-salaire-scale__marker--id-mean .bon-salaire-scale__label-block {
+    top: calc(50% + 28px);
+  }
+
+  .bon-salaire-scale__marker--id-p99 .bon-salaire-scale__label-block {
+    top: calc(50% + 28px);
+  }
+
+  .bon-salaire-scale__marker--nudge-left .bon-salaire-scale__label-block {
+    transform: translateX(-52%);
+  }
+
+  .bon-salaire-scale__marker--nudge-right .bon-salaire-scale__label-block {
+    transform: translateX(-48%);
+  }
+
+  .bon-salaire-scale__marker--above.bon-salaire-scale__marker--nudge-left .bon-salaire-scale__label-block,
+  .bon-salaire-scale__marker--below.bon-salaire-scale__marker--nudge-left .bon-salaire-scale__label-block {
+    transform: translateX(-52%);
+  }
+
+  .bon-salaire-scale__marker--above.bon-salaire-scale__marker--nudge-right .bon-salaire-scale__label-block,
+  .bon-salaire-scale__marker--below.bon-salaire-scale__marker--nudge-right .bon-salaire-scale__label-block {
+    transform: translateX(-48%);
+  }
+
+  /* Spécificité supérieure : calage des bords sans débordement */
+  .bon-salaire-scale__marker--id-d1.bon-salaire-scale__marker--nudge-left .bon-salaire-scale__label-block {
+    transform: translateX(-35%);
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .bon-salaire-scale__marker--id-p99.bon-salaire-scale__marker--nudge-left .bon-salaire-scale__label-block {
+    transform: translateX(-75%);
+    align-items: flex-end;
+    text-align: right;
+  }
 }

@@ -25,6 +25,7 @@ const PAS_HREF = "/guides/prelevement-a-la-source-quest-ce-que-cest-et-comment-c
 const LIRE_FICHE_HREF = "/guides/comment-lire-une-fiche-de-paie";
 const BRUT_VERS_NET_HUB = "/salaire-brut-mensuel-en-net";
 const NET_VERS_BRUT_HUB = "/salaire-net-mensuel-en-brut";
+const BON_SALAIRE_HREF = "/quel-est-un-bon-salaire-en-france";
 const AUGMENTATION_HREF = "/calculateurs/augmentation-salaire";
 const HOME_HREF = "/";
 
@@ -139,6 +140,14 @@ export const salaireMoyenFranceGuide: Guide = {
         {
           type: "paragraph",
           text: `En ${SALAIRE_MOYEN_STAT_YEAR}, le rapport interdécile D9/D1 vaut ${L.interdecile} : le seuil des 10 % les mieux payés est au moins ${L.interdecile} fois celui des 10 % les moins payés. Un salarié sur cent dépasse ${L.p99} net par mois.`,
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro:
+            "Pour savoir si votre rémunération est plutôt modeste ou élevée par rapport aux autres salariés du privé, consultez notre page",
+          label: "quel est un bon salaire en France",
+          href: BON_SALAIRE_HREF,
         },
       ],
     },
@@ -522,6 +531,7 @@ export const salaireMoyenFranceGuide: Guide = {
       href: HOME_HREF,
     },
     relatedGuides: [
+      { title: "Quel est un bon salaire ?", href: BON_SALAIRE_HREF },
       { title: "SMIC brut et net", href: SMIC_HREF },
       { title: "Différence brut / net", href: BRUT_NET_HREF },
       { title: "Calculer son salaire net", href: CALCULER_NET_HREF },

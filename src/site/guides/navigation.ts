@@ -28,6 +28,11 @@ export const guidesNavigation: GuideNavItem[] = [
     title: "Salaire moyen en France : net, brut et médian",
   },
   {
+    slug: "quel-est-un-bon-salaire-en-france",
+    shortTitle: "Bon salaire en France",
+    title: "Quel est un bon salaire en France ?",
+  },
+  {
     slug: "comment-lire-une-fiche-de-paie",
     shortTitle: "Comment lire une fiche de paie",
     title: "Comment lire une fiche de paie ?",
