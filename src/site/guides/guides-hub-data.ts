@@ -13,6 +13,8 @@ export const GUIDES_HUB_LIST_INTRO =
 /** Résumés courts des cartes (homogènes) ; ne remplacent pas la meta description SEO des guides. */
 export const GUIDE_HUB_TEASERS: Record<string, string> = {
   smic: "Montants du SMIC brut et net actuellement applicables, horaire et mensuel, avec les règles de revalorisation.",
+  "salaire-alternance":
+    "Salaire minimum en apprentissage et en contrat de professionnalisation : grilles par âge, brut/net et règles officielles.",
   "salaire-moyen-france":
     "Salaire moyen, médian, brut et net en France : chiffres officiels Insee, clairement datés et expliqués.",
   "quel-est-un-bon-salaire-en-france":

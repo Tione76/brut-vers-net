@@ -8,6 +8,7 @@ import { prelevementALaSourceGuide } from "./data/prelevement-a-la-source-quest-
 import { pourquoiSalaireNetChangeSeptembre2026Guide } from "./data/pourquoi-salaire-net-change-septembre-2026";
 import { smicGuide } from "./data/smic";
 import { quelEstUnBonSalaireEnFranceGuide } from "./data/quel-est-un-bon-salaire-en-france";
+import { salaireAlternanceGuide } from "./data/salaire-alternance";
 import { salaireMoyenFranceGuide } from "./data/salaire-moyen-france";
 
 export { getGuidePublicPath } from "./paths";
@@ -15,6 +16,7 @@ export { getGuidePublicPath } from "./paths";
 /** Guides publiés */
 export const guides: Guide[] = [
   attachGuideCover(smicGuide),
+  attachGuideCover(salaireAlternanceGuide),
   attachGuideCover(salaireMoyenFranceGuide),
   attachGuideCover(quelEstUnBonSalaireEnFranceGuide),
   attachGuideCover(commentEstCalculeLeSalaireNetGuide),

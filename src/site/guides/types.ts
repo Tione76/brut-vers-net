@@ -108,16 +108,21 @@ export interface GuideProfessionFaq {
 export interface GuideQuickSummaryItem {
   rate: string;
   description?: string;
-  /** Titre du niveau (schéma pipeline) */
+  /** Titre du niveau (schéma pipeline) ou intitulé de bande d'âge */
   title?: string;
   kind?: "level" | "connector";
+  /** Lignes détaillées (ex. année × pourcentage × montant) pour la variante age-bands */
+  details?: string[];
 }
 
 export interface GuideQuickSummary {
   title: string;
   items: GuideQuickSummaryItem[];
-  /** pipeline : 3 niveaux horizontaux · reading-order : parcours vertical · formula : chaîne sobre sans numéros */
-  variant?: "pipeline" | "reading-order" | "formula";
+  /**
+   * pipeline : 3 niveaux horizontaux · reading-order : parcours vertical ·
+   * formula : chaîne sobre sans numéros · age-bands : blocs d'âge empilés / grille 2×2
+   */
+  variant?: "pipeline" | "reading-order" | "formula" | "age-bands";
   /** Synthèse optionnelle affichée sous le schéma */
   synthesis?: string[];
 }

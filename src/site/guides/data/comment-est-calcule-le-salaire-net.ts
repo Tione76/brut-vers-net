@@ -284,6 +284,14 @@ export const commentEstCalculeLeSalaireNetGuide: Guide = {
           text: "À salaire brut identique, un cadre et un non-cadre peuvent obtenir un net légèrement différent selon les cotisations spécifiques, le niveau de rémunération, les garanties collectives et les paramètres du contrat. Le statut seul ne suffit pas à tout expliquer.",
         },
         {
+          type: "internal-link",
+          variant: "guide",
+          intro:
+            "Le contrat d'apprentissage suit aussi un régime de cotisations particulier : pour les minima et le passage brut/net d'un apprenti,",
+          label: "voir le guide du salaire en alternance",
+          href: "/salaire-alternance",
+        },
+        {
           type: "callout",
           variant: "example",
           paragraphs: [

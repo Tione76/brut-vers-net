@@ -12,6 +12,7 @@ export type SchemaCoverInput = {
   credit?: {
     photographer: string;
     source: string;
+    text?: string;
     acquireLicensePage?: string;
     copyrightNotice?: string;
   };

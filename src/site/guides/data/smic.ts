@@ -315,7 +315,14 @@ export const smicGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "Le montant présenté ici concerne le cas général (salarié majeur). Des règles particulières existent pour les mineurs, l'apprentissage, le contrat de professionnalisation, Mayotte ou certains VRP. Pour ces situations, reportez-vous à Service-Public.",
+          text: "Le montant présenté ici concerne le cas général (salarié majeur). Des règles particulières existent pour les mineurs, l'apprentissage, le contrat de professionnalisation, Mayotte ou certains VRP.",
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour les minima d'un apprenti ou d'un salarié en contrat de professionnalisation,",
+          label: "voir le guide du salaire en alternance",
+          href: "/salaire-alternance",
         },
         {
           type: "internal-link",

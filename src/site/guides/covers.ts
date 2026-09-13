@@ -29,6 +29,11 @@ export type CoverCredit = {
   photographer: string;
   source: CoverCreditSource;
   /**
+   * Libellé exact du crédit visible / Schema `creditText`,
+   * si différent du gabarit « Photo de … via … ».
+   */
+  text?: string;
+  /**
    * Page où l'utilisateur peut obtenir/licencier l'image (Schema acquireLicensePage).
    * Uniquement si une URL réelle et pertinente est connue.
    */
@@ -72,7 +77,9 @@ function cover(
 export function formatCoverCredit(credit: {
   photographer: string;
   source: string;
+  text?: string;
 }): string {
+  if (credit.text) return credit.text;
   return `Photo de ${credit.photographer} via ${credit.source}`;
 }
 
@@ -232,6 +239,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "salaire-alternance": cover(
+    "guides/salaire-apparenti-alternant.webp",
+    "Jeune professionnel casqué et technicien en gilet consultent un document devant des panneaux solaires",
+    {
+      photographer: "Gustavo Fring",
+      source: "Pexels",
+      text: "Photo par Gustavo Fring via Pexels",
+    },
+    1200,
+    800,
+  ),
 };
 
 export function getCalculatorCover(id: string): GuideCoverImage {
@@ -257,6 +275,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/quel-est-un-bon-salaire-en-france") {
     return getGuideCover("quel-est-un-bon-salaire-en-france");
+  }
+  if (href === "/salaire-alternance") {
+    return getGuideCover("salaire-alternance");
   }
   return undefined;
 }

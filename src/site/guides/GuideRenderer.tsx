@@ -372,9 +372,46 @@ interface GuideArticleProps {
 }
 
 function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQuickSummary }) {
+  const isAgeBands = summary.variant === "age-bands";
   const isFormula = summary.variant === "formula";
   const isReadingOrder = summary.variant === "reading-order";
-  const isPipeline = !isFormula && summary.items.some((item) => item.kind);
+  const isPipeline = !isFormula && !isAgeBands && summary.items.some((item) => item.kind);
+
+  if (isAgeBands) {
+    return (
+      <aside
+        className="guide-quick-summary guide-quick-summary--age-bands"
+        aria-label={summary.title}
+      >
+        <p className="guide-quick-summary__title">{summary.title}</p>
+        <div className="guide-quick-summary__age-bands">
+          {summary.items.map((item, index) => (
+            <div
+              key={`${item.title ?? item.rate}-${index}`}
+              className="guide-quick-summary__age-band"
+            >
+              <p className="guide-quick-summary__age-band-title">{item.title ?? item.rate}</p>
+              {item.details && item.details.length > 0 ? (
+                <ul className="guide-quick-summary__age-band-list">
+                  {item.details.map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
+                </ul>
+              ) : null}
+              {item.description ? (
+                <p className="guide-quick-summary__age-band-note">{item.description}</p>
+              ) : null}
+            </div>
+          ))}
+        </div>
+        {summary.synthesis?.map((paragraph) => (
+          <p key={paragraph} className="guide-quick-summary__synthesis">
+            {paragraph}
+          </p>
+        ))}
+      </aside>
+    );
+  }
 
   if (isFormula || isReadingOrder || isPipeline) {
     const modifier = isFormula ? "formula" : isReadingOrder ? "reading-order" : "pipeline";
@@ -456,8 +493,8 @@ export function GuideArticle({
   const [firstParagraph, ...restIntroduction] = introduction;
   const isEarlyAmountSummary =
     Boolean(quickSummary) &&
-    !quickSummary?.variant &&
-    !quickSummary?.items.some((item) => item.kind);
+    (quickSummary?.variant === "age-bands" ||
+      (!quickSummary?.variant && !quickSummary?.items.some((item) => item.kind)));
   const isDeferredSummary = Boolean(quickSummary) && !isEarlyAmountSummary;
   /** « Réponse courte » : affichée juste sous l'intro, avant les cartes. */
   const leadAnswerSection =

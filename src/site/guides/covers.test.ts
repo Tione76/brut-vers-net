@@ -48,6 +48,7 @@ describe("covers registry", () => {
         "smic",
         "salaire-moyen-france",
         "quel-est-un-bon-salaire-en-france",
+        "salaire-alternance",
       ]),
     );
     expect(getGuideCover("comment-est-calcule-le-salaire-net")?.src).toContain(
@@ -111,6 +112,28 @@ describe("covers registry", () => {
     expect(bonSalaireCover?.alt).not.toMatch(/\d+\s*€/);
     expect(bonSalaireCover?.alt.toLowerCase()).not.toContain("kaboompics");
     expect(bonSalaireCover?.alt.toLowerCase()).not.toContain("pexels");
+
+    const salaireAlternanceCover = getGuideCover("salaire-alternance");
+    expect(salaireAlternanceCover?.src).toBe(
+      "/images/covers/guides/salaire-apparenti-alternant.webp",
+    );
+    expect(formatCoverCredit(salaireAlternanceCover!.credit)).toBe(
+      "Photo par Gustavo Fring via Pexels",
+    );
+    expect(salaireAlternanceCover?.credit.photographer).toBe("Gustavo Fring");
+    expect(salaireAlternanceCover?.credit.source).toBe("Pexels");
+    expect(salaireAlternanceCover?.credit.text).toBe("Photo par Gustavo Fring via Pexels");
+    expect(salaireAlternanceCover?.credit.acquireLicensePage).toBeUndefined();
+    expect(salaireAlternanceCover?.credit.copyrightNotice).toBeUndefined();
+    expect(getCoverLicenseUrl(salaireAlternanceCover!.credit)).toBe(PEXELS_LICENSE_URL);
+    expect(salaireAlternanceCover?.width).toBe(1200);
+    expect(salaireAlternanceCover?.height).toBe(800);
+    expect(salaireAlternanceCover?.alt.length).toBeGreaterThan(20);
+    expect(salaireAlternanceCover?.alt.toLowerCase()).not.toContain("salaire");
+    expect(salaireAlternanceCover?.alt).not.toMatch(/20\d{2}/);
+    expect(salaireAlternanceCover?.alt).not.toMatch(/\d+\s*€/);
+    expect(salaireAlternanceCover?.alt.toLowerCase()).not.toContain("gustavo");
+    expect(salaireAlternanceCover?.alt.toLowerCase()).not.toContain("pexels");
   });
 
   it("exposes hub and FAQ covers with credits", () => {
