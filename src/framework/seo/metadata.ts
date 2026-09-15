@@ -141,6 +141,9 @@ export function buildRootMetadata(
       apple: { url: "/logo-icon@2x.png?v=3", rel: "apple-touch-icon", type: "image/png", sizes: "any" },
     },
     manifest: "/manifest.webmanifest",
+    other: {
+      "google-adsense-account": "ca-pub-6823212353384678",
+    },
     ...(site.analytics.googleSearchConsoleId && {
       verification: { google: site.analytics.googleSearchConsoleId },
     }),

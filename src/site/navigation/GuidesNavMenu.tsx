@@ -1,5 +1,5 @@
 import type { GuideNavItem } from "@/site/guides/navigation";
-import { getGuideBySlug, getGuidePublicPath } from "@/site/guides";
+import { mapGuidesToNavItems } from "./guide-nav-items";
 import { NavDropdownMenu } from "./NavDropdownMenu";
 
 interface GuidesNavMenuProps {
@@ -11,15 +11,7 @@ export function GuidesNavMenu({ items }: GuidesNavMenuProps) {
     <NavDropdownMenu
       label="Nos guides"
       menuAriaLabel="Nos guides"
-      items={items.map((item) => {
-        const guide = getGuideBySlug(item.slug);
-        const href = guide ? getGuidePublicPath(guide) : `/guides/${item.slug}`;
-        return {
-          href,
-          shortTitle: item.shortTitle,
-          title: item.title,
-        };
-      })}
+      items={mapGuidesToNavItems(items)}
     />
   );
 }
