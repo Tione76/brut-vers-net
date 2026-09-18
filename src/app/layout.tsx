@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Source_Sans_3 } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { config, seoConfig } from "@/site";
 import { SiteProvider } from "@/framework/SiteProvider";
 import { ThemeStyles } from "@/framework/ThemeStyles";
@@ -45,6 +46,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SkipLink />
           {children}
         </SiteProvider>
+        {/* Vercel Web Analytics : agrégé, hors bandeau de consentement (indépendant de GA/Clarity). */}
+        <Analytics />
       </body>
     </html>
   );

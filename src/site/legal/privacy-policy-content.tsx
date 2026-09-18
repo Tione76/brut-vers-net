@@ -234,6 +234,31 @@ export function PrivacyPolicyContent() {
         </p>
       </section>
 
+      <section id="vercel-web-analytics" className="guide-section">
+        <h2>Mesure d&apos;audience avec Vercel Web Analytics</h2>
+        <p>
+          Nous utilisons <strong>Vercel Web Analytics</strong> afin d&apos;obtenir des statistiques
+          agrégées sur la fréquentation du site, notamment les pages consultées, les sources de
+          trafic, les appareils utilisés et la localisation géographique approximative.
+        </p>
+        <p>
+          Selon la documentation de Vercel, ce service n&apos;utilise pas d&apos;identifiant
+          personnel persistant permettant d&apos;identifier directement les visiteurs. Les données
+          sont utilisées sous forme agrégée et l&apos;identifiant temporaire servant au calcul des
+          visiteurs est supprimé après 24 heures.
+        </p>
+        <p>
+          Pour en savoir plus :{" "}
+          <a
+            href="https://vercel.com/docs/analytics/privacy-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            https://vercel.com/docs/analytics/privacy-policy
+          </a>
+        </p>
+      </section>
+
       <section id="google-analytics" className="guide-section">
         <h2>Google Analytics</h2>
         <p>
