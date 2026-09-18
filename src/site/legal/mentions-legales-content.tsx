@@ -10,7 +10,7 @@ export function MentionsLegalesContent() {
           Le site <strong>BRUT-VERS-NET.FR</strong>, accessible à l&apos;adresse :
         </p>
         <p>
-          <a href="https://brut-vers-net.fr">https://brut-vers-net.fr</a>
+          <a href="https://www.brut-vers-net.fr">https://www.brut-vers-net.fr</a>
         </p>
         <p>est édité par :</p>
         <p>

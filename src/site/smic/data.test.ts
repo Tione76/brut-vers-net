@@ -41,7 +41,9 @@ describe("source de vérité SMIC", () => {
     expect(SMIC_META_DESCRIPTION).not.toMatch(/20\d{2}/);
     expect(SMIC_FRESHNESS_LINE).toBe(SMIC_VALIDITY_LINE);
     expect(SMIC_FRESHNESS_LINE).toContain("1er juin 2026");
-    expect(SMIC_FRESHNESS_LINE).toContain("7 septembre 2026");
+    expect(SMIC_FRESHNESS_LINE).toContain("18 septembre 2026");
+    expect(SMIC_FRESHNESS_LINE).toContain("Barème applicable");
+    expect(SMIC_FRESHNESS_LINE).toContain("Barème vérifié");
     expect(SMIC_FRESHNESS_LINE).not.toContain("\u2014");
   });
 

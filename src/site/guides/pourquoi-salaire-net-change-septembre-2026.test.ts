@@ -25,7 +25,7 @@ describe("guide salaire net septembre 2026", () => {
     const webpage = graph.find((node) => node["@type"] === "WebPage");
     const faq = graph.find((node) => node["@type"] === "FAQPage");
     expect(webpage?.["@id"]).toBe(
-      "https://brut-vers-net.fr/pourquoi-salaire-net-change-septembre-2026#webpage",
+      "https://www.brut-vers-net.fr/pourquoi-salaire-net-change-septembre-2026#webpage",
     );
     expect(faq).toBeTruthy();
     const mainEntity = faq?.mainEntity as { name: string }[];

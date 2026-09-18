@@ -3,7 +3,11 @@ import { buildHeaderNavEntries } from "./header-nav";
 import { smicNavigation } from "./smic";
 import { toolsNavigation } from "./tools";
 import { guidesNavigation } from "@/site/guides/navigation";
-import { mapGuidesToNavItems } from "./guide-nav-items";
+import {
+  buildGuidesMenuItems,
+  GUIDES_HUB_NAV_ITEM,
+  mapGuidesToNavItems,
+} from "./guide-nav-items";
 
 describe("buildHeaderNavEntries", () => {
   it("conserve l'ordre et les libellés du header (outils, SMIC, guides, FAQ)", () => {
@@ -37,7 +41,11 @@ describe("buildHeaderNavEntries", () => {
       expect(smic.items).toEqual(smicNavigation);
     }
     if (guides.kind === "dropdown") {
-      expect(guides.items).toEqual(mapGuidesToNavItems(guidesNavigation));
+      expect(guides.items).toEqual(buildGuidesMenuItems(guidesNavigation));
+      expect(guides.items.slice(0, -1)).toEqual(mapGuidesToNavItems(guidesNavigation));
+      expect(guides.items.at(-1)).toEqual(GUIDES_HUB_NAV_ITEM);
+      expect(GUIDES_HUB_NAV_ITEM.href).toBe("/guides");
+      expect(GUIDES_HUB_NAV_ITEM.shortTitle).toBe("Tous nos guides");
     }
     if (faq.kind === "link") {
       expect(faq.href).toBe("/faq");

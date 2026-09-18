@@ -3,10 +3,12 @@ import { smicNavigation } from "./smic";
 import { guidesNavigation } from "@/site/guides/navigation";
 
 describe("navigation header SMIC", () => {
-  it("expose un seul sous-menu vers /smic avec le libellé exact", () => {
-    expect(smicNavigation).toHaveLength(1);
+  it("expose les sous-menus SMIC avec les libellés exacts", () => {
+    expect(smicNavigation).toHaveLength(2);
     expect(smicNavigation[0]?.href).toBe("/smic");
     expect(smicNavigation[0]?.shortTitle).toBe("SMIC: montants brut et net");
+    expect(smicNavigation[1]?.href).toBe("/smic-selon-nombre-heures");
+    expect(smicNavigation[1]?.shortTitle).toBe("SMIC selon le nombre d'heures");
   });
 
   it("n'apparaît plus dans le dropdown Nos guides", () => {

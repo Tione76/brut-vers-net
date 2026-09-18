@@ -84,7 +84,7 @@ export function SiteNav({ siteName, nav, logo, toolsNavigation, guidesNavigation
 
   return (
     <div className={`site-header-bar${mobileOpen ? " site-header-bar--menu-open" : ""}`}>
-      <div className="site-header__inner">
+      <div className="site-header__inner site-header__inner--chrome">
         <header className="site-header">
           <Link href="/" className="site-brand" onClick={() => setMobileOpen(false)}>
             {logo ? (
@@ -120,15 +120,13 @@ export function SiteNav({ siteName, nav, logo, toolsNavigation, guidesNavigation
           />
         </header>
       </div>
-      <div className="site-header__inner site-header__inner--mobile-nav">
-        <MobileSiteNav
-          panelId={mobilePanelId}
-          entries={mobileEntries}
-          open={mobileOpen}
-          onOpenChange={setMobileOpen}
-          toggleRef={toggleRef}
-        />
-      </div>
+      <MobileSiteNav
+        panelId={mobilePanelId}
+        entries={mobileEntries}
+        open={mobileOpen}
+        onOpenChange={setMobileOpen}
+        toggleRef={toggleRef}
+      />
     </div>
   );
 }

@@ -55,13 +55,13 @@ describe("page pilier salaire en alternance", () => {
 
     const graph = buildGuideJsonLd(guide)["@graph"] as Record<string, unknown>[];
     const image = graph.find(
-      (node) => node["@id"] === `https://brut-vers-net.fr${path}#primaryimage`,
+      (node) => node["@id"] === `https://www.brut-vers-net.fr${path}#primaryimage`,
     ) as Record<string, unknown>;
     const webpage = graph.find((node) => node["@type"] === "WebPage") as Record<string, unknown>;
     const article = graph.find((node) => node["@type"] === "Article") as Record<string, unknown>;
 
     expect(image?.["@type"]).toBe("ImageObject");
-    expect(image?.url).toBe(`https://brut-vers-net.fr${coverSrc}`);
+    expect(image?.url).toBe(`https://www.brut-vers-net.fr${coverSrc}`);
     expect(image?.contentUrl).toBe(image?.url);
     expect(image?.width).toBe(1200);
     expect(image?.height).toBe(800);
@@ -73,10 +73,10 @@ describe("page pilier salaire en alternance", () => {
     expect(String(image?.url)).not.toContain("localhost");
     expect(String(image?.url)).not.toMatch(/pexels\.com\/photo\//i);
     expect(webpage?.primaryImageOfPage).toEqual({
-      "@id": `https://brut-vers-net.fr${path}#primaryimage`,
+      "@id": `https://www.brut-vers-net.fr${path}#primaryimage`,
     });
     expect(article?.image).toEqual({
-      "@id": `https://brut-vers-net.fr${path}#primaryimage`,
+      "@id": `https://www.brut-vers-net.fr${path}#primaryimage`,
     });
     expect(graph.filter((node) => node["@type"] === "ImageObject" && String(node["@id"] ?? "").includes(path))).toHaveLength(1);
   });
@@ -105,7 +105,7 @@ describe("page pilier salaire en alternance", () => {
       itemListElement: { name: string }[];
     };
 
-    expect(webpage?.["@id"]).toBe(`https://brut-vers-net.fr${path}#webpage`);
+    expect(webpage?.["@id"]).toBe(`https://www.brut-vers-net.fr${path}#webpage`);
     expect(article?.headline).toBe(ALTERNANCE_H1);
     expect(article?.datePublished).toContain("2026-09-13");
     expect(article?.dateModified).toContain("2026-09-13");

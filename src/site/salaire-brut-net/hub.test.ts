@@ -27,7 +27,7 @@ describe("page Hub salaire brut mensuel en net", () => {
 
     expect(hub.path).toBe(GROSS_TO_NET_HUB_PATH);
     expect(hub.canonical).toBe(`${siteConfig.url}${GROSS_TO_NET_HUB_PATH}`);
-    expect(hub.canonical).toBe("https://brut-vers-net.fr/salaire-brut-mensuel-en-net");
+    expect(hub.canonical).toBe("https://www.brut-vers-net.fr/salaire-brut-mensuel-en-net");
     expect(isPathIndexable(hub.path)).toBe(true);
     expect(getSitemapEntries().some((entry) => entry.path === hub.path)).toBe(true);
     expect(getAllPublicPages().some((page) => page.path === hub.path && page.indexable)).toBe(

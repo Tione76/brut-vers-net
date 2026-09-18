@@ -369,6 +369,12 @@ interface GuideArticleProps {
     title: string;
     description?: string;
   };
+  /** Contenu React juste après l'introduction (ex. calculateur interactif). */
+  afterIntroduction?: import("react").ReactNode;
+  /** Contenu React injecté juste sous le H2 d'une section (clé = id de section). */
+  sectionSlots?: Record<string, import("react").ReactNode>;
+  /** Identifiant d'ancre de la section FAQ (défaut : faq). */
+  faqSectionId?: string;
 }
 
 function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQuickSummary }) {
@@ -489,6 +495,9 @@ export function GuideArticle({
   isTemplate,
   cover,
   share,
+  afterIntroduction,
+  sectionSlots,
+  faqSectionId = "faq",
 }: GuideArticleProps) {
   const [firstParagraph, ...restIntroduction] = introduction;
   const isEarlyAmountSummary =
@@ -511,6 +520,7 @@ export function GuideArticle({
       className={className ? `guide-section ${className}` : "guide-section"}
     >
       <h2>{section.title}</h2>
+      {sectionSlots?.[section.id] ?? null}
       {section.blocks?.map((block, index) => (
         <GuideBlockRenderer
           key={blockKey(section.id, block, index)}
@@ -530,6 +540,13 @@ export function GuideArticle({
           ))}
         </div>
       ))}
+      {section.closingBlocks?.map((block, index) => (
+        <GuideBlockRenderer
+          key={blockKey(`${section.id}-closing`, block, index)}
+          block={block}
+          isTemplate={isTemplate}
+        />
+      ))}
     </section>
   );
 
@@ -542,6 +559,8 @@ export function GuideArticle({
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
+
+      {afterIntroduction ?? null}
 
       {leadAnswerSection
         ? renderSection(leadAnswerSection, "guide-section--lead-answer")
@@ -575,7 +594,7 @@ export function GuideArticle({
       ) : null}
       {bodySections.map((section) => renderSection(section))}
 
-      <section id="faq" className="guide-section">
+      <section id={faqSectionId} className="guide-section">
         <h2>{faqTitle ?? "Questions fréquentes"}</h2>
         {faqIntro ? <p>{faqIntro}</p> : null}
         <div className="faq-list">

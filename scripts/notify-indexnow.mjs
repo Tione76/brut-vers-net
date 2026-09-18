@@ -14,7 +14,7 @@
  *
  * Variables d'environnement :
  *   INDEXNOW_KEY          (requis sauf --dry-run)
- *   SITE_URL              (optionnel, défaut https://brut-vers-net.fr)
+ *   SITE_URL              (optionnel, défaut https://www.brut-vers-net.fr)
  *   INDEXNOW_HOST         (optionnel, dérivé de SITE_URL)
  *   INDEXNOW_BEFORE_REF   (optionnel, défaut HEAD^)
  *   INDEXNOW_AFTER_REF    (optionnel, défaut HEAD)
@@ -34,7 +34,7 @@ import {
 const INDEXNOW_API_URL = "https://api.indexnow.org/IndexNow";
 const MAX_URLS_PER_REQUEST = 10_000;
 const KEY_PATTERN = /^[a-zA-Z0-9-]{8,128}$/;
-const DEFAULT_SITE_ORIGIN = "https://brut-vers-net.fr";
+const DEFAULT_SITE_ORIGIN = "https://www.brut-vers-net.fr";
 const SUCCESS_STATUSES = new Set([200, 202]);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

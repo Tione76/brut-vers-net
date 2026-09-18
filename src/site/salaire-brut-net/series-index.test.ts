@@ -162,7 +162,7 @@ describe("page Index tableau salaire brut mensuel en net", () => {
 
     expect(page.path).toBe(GROSS_TO_NET_INDEX_PATH);
     expect(page.canonical).toBe(`${siteConfig.url}${GROSS_TO_NET_INDEX_PATH}`);
-    expect(page.canonical).toBe("https://brut-vers-net.fr/tableau-salaire-brut-mensuel-en-net");
+    expect(page.canonical).toBe("https://www.brut-vers-net.fr/tableau-salaire-brut-mensuel-en-net");
     expect(page.hubPath).toBe(GROSS_TO_NET_HUB_PATH);
     expect(page.calculatorPath).toBe("/");
     expect(isPathIndexable(page.path)).toBe(true);

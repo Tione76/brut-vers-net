@@ -13,6 +13,8 @@ export const GUIDES_HUB_LIST_INTRO =
 /** Résumés courts des cartes (homogènes) ; ne remplacent pas la meta description SEO des guides. */
 export const GUIDE_HUB_TEASERS: Record<string, string> = {
   smic: "Montants du SMIC brut et net actuellement applicables, horaire et mensuel, avec les règles de revalorisation.",
+  "smic-selon-nombre-heures":
+    "SMIC brut et net estimé de 10 h à 39 h par semaine : tableau complet, temps partiel et heures supplémentaires.",
   "salaire-alternance":
     "Salaire minimum en apprentissage et en contrat de professionnalisation : grilles par âge, brut/net et règles officielles.",
   "salaire-moyen-france":

@@ -225,6 +225,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "smic-selon-nombre-heures": cover(
+    "guides/SMIC-selon-nombre-heures.webp",
+    "Équipe en réunion autour d'une table examinant des documents et des graphiques dans un bureau",
+    {
+      photographer: "Alena Darmel",
+      source: "Pexels",
+      text: "Photo de Alena Darmel via Pexels",
+    },
+    1200,
+    800,
+  ),
   "salaire-moyen-france": cover(
     "guides/Salaire-moyen-France.webp",
     "Femme concentrée travaillant sur un ordinateur portable à un bureau blanc, crayon à la main, dans une pièce lumineuse",
@@ -269,6 +280,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/smic") {
     return getGuideCover("smic");
+  }
+  if (href === "/smic-selon-nombre-heures") {
+    return getGuideCover("smic-selon-nombre-heures");
   }
   if (href === "/salaire-moyen-france") {
     return getGuideCover("salaire-moyen-france");

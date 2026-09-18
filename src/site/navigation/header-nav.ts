@@ -2,7 +2,7 @@ import type { NavLink } from "@/framework/types";
 import type { GuideNavItem } from "@/site/guides/navigation";
 import type { ToolNavItem } from "./tools";
 import type { NavDropdownItem } from "./NavDropdownMenu";
-import { mapGuidesToNavItems } from "./guide-nav-items";
+import { buildGuidesMenuItems } from "./guide-nav-items";
 import { smicNavigation } from "./smic";
 
 export type HeaderNavDropdown = {
@@ -54,7 +54,7 @@ export function buildHeaderNavEntries(input: {
       kind: "dropdown",
       id: "guides",
       label: "Nos guides",
-      items: mapGuidesToNavItems(input.guidesNavigation),
+      items: buildGuidesMenuItems(input.guidesNavigation),
     });
   }
 

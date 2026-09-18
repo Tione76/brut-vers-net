@@ -143,7 +143,7 @@ describe("surfaces publiques net→brut après série complète", () => {
       }
 
       expect(prepareDraftNetToGrossFiche(1500).canonical).toBe(
-        "https://brut-vers-net.fr/combien-gagner-brut-mensuel-pour-1500-net",
+        "https://www.brut-vers-net.fr/combien-gagner-brut-mensuel-pour-1500-net",
       );
     },
     90_000,

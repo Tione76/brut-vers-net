@@ -21,12 +21,12 @@ import {
   validateContactPayload,
 } from "@/site/contact/contact-mail";
 
-function makeRequest(body: unknown, headers?: HeadersInit, url = "https://brut-vers-net.fr/api/contact") {
+function makeRequest(body: unknown, headers?: HeadersInit, url = "https://www.brut-vers-net.fr/api/contact") {
   return new Request(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Origin: "https://brut-vers-net.fr",
+      Origin: "https://www.brut-vers-net.fr",
       ...headers,
     },
     body: JSON.stringify(body),
@@ -163,10 +163,10 @@ describe("POST /api/contact", () => {
   });
 
   it("isTrustedContactOrigin accepte apex et www", () => {
-    const apex = makeRequest(validPayload);
+    const apex = makeRequest(validPayload, { Origin: "https://brut-vers-net.fr" });
     const www = makeRequest(validPayload, { Origin: "https://www.brut-vers-net.fr" });
-    expect(isTrustedContactOrigin(apex, "https://brut-vers-net.fr")).toBe(true);
-    expect(isTrustedContactOrigin(www, "https://brut-vers-net.fr")).toBe(true);
+    expect(isTrustedContactOrigin(apex, "https://www.brut-vers-net.fr")).toBe(true);
+    expect(isTrustedContactOrigin(www, "https://www.brut-vers-net.fr")).toBe(true);
   });
 
   it("envoie un e-mail avec des données valides", async () => {

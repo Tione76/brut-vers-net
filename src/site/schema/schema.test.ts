@@ -26,8 +26,8 @@ describe("schema datetime and author", () => {
 
   it("émet Person avec le nom Antoine et l'URL de la page auteur", () => {
     expect(buildPersonNode().name).toBe("Antoine");
-    expect(buildPersonNode()["@id"]).toBe("https://brut-vers-net.fr/#author");
-    expect(buildPersonNode().url).toBe("https://brut-vers-net.fr/auteur/antoine");
+    expect(buildPersonNode()["@id"]).toBe("https://www.brut-vers-net.fr/#author");
+    expect(buildPersonNode().url).toBe("https://www.brut-vers-net.fr/auteur/antoine");
   });
 
   it("émet Article avec dates ISO complètes", () => {
@@ -36,7 +36,7 @@ describe("schema datetime and author", () => {
     const article = buildArticleNode(guide!, `/guides/${guide!.slug}`);
     expect(article.datePublished).toBe("2026-07-14T09:00:00+02:00");
     expect(article.dateModified).toBe("2026-07-15T09:00:00+02:00");
-    expect(article.author).toEqual({ "@id": "https://brut-vers-net.fr/#author" });
+    expect(article.author).toEqual({ "@id": "https://www.brut-vers-net.fr/#author" });
   });
 });
 
@@ -50,15 +50,15 @@ describe("WebApplication sur calculateurs interactifs", () => {
 
     expect(node).toEqual({
       "@type": "WebApplication",
-      "@id": "https://brut-vers-net.fr/calculateurs/augmentation-salaire#webapp",
+      "@id": "https://www.brut-vers-net.fr/calculateurs/augmentation-salaire#webapp",
       name: "Calculateur d'augmentation de salaire",
       description: "Description test",
-      url: "https://brut-vers-net.fr/calculateurs/augmentation-salaire",
+      url: "https://www.brut-vers-net.fr/calculateurs/augmentation-salaire",
       applicationCategory: "FinanceApplication",
       operatingSystem: "Web",
       browserRequirements: "Requires JavaScript. Requires HTML5.",
       isAccessibleForFree: true,
-      publisher: { "@id": "https://brut-vers-net.fr/#organization" },
+      publisher: { "@id": "https://www.brut-vers-net.fr/#organization" },
     });
     expect(node).not.toHaveProperty("aggregateRating");
     expect(node).not.toHaveProperty("offers");
@@ -78,8 +78,8 @@ describe("WebApplication sur calculateurs interactifs", () => {
     const homeFaq = homeGraph.find((n) => n["@type"] === "FAQPage");
 
     expect(homeApp).toBeTruthy();
-    expect(homePage?.mainEntity).toEqual({ "@id": "https://brut-vers-net.fr/#webapp" });
-    expect(homePage?.hasPart).toEqual([{ "@id": "https://brut-vers-net.fr/#faq" }]);
+    expect(homePage?.mainEntity).toEqual({ "@id": "https://www.brut-vers-net.fr/#webapp" });
+    expect(homePage?.hasPart).toEqual([{ "@id": "https://www.brut-vers-net.fr/#faq" }]);
     expect(homeFaq).toBeTruthy();
 
     const calc = buildCalculatorJsonLd({
@@ -92,7 +92,7 @@ describe("WebApplication sur calculateurs interactifs", () => {
     const calcGraph = calc["@graph"] as Record<string, unknown>[];
     expect(calcGraph.some((n) => n["@type"] === "WebApplication")).toBe(true);
     expect(calcGraph.find((n) => n["@type"] === "WebPage")?.mainEntity).toEqual({
-      "@id": "https://brut-vers-net.fr/calculateurs/indemnite-licenciement#webapp",
+      "@id": "https://www.brut-vers-net.fr/calculateurs/indemnite-licenciement#webapp",
     });
   });
 
@@ -129,9 +129,9 @@ describe("WebApplication sur calculateurs interactifs", () => {
     const graph = page["@graph"] as Record<string, unknown>[];
     const persons = graph.filter((n) => n["@type"] === "Person");
     expect(persons).toHaveLength(1);
-    expect(persons[0]["@id"]).toBe("https://brut-vers-net.fr/#author");
+    expect(persons[0]["@id"]).toBe("https://www.brut-vers-net.fr/#author");
     expect(graph.find((n) => n["@type"] === "WebPage")?.author).toEqual({
-      "@id": "https://brut-vers-net.fr/#author",
+      "@id": "https://www.brut-vers-net.fr/#author",
     });
   });
 });
@@ -141,10 +141,10 @@ describe("page auteur Schema.org", () => {
     const graph = buildAuthorJsonLd()["@graph"] as Record<string, unknown>[];
     const persons = graph.filter((n) => n["@type"] === "Person");
     expect(persons).toHaveLength(1);
-    expect(persons[0]["@id"]).toBe("https://brut-vers-net.fr/#author");
-    expect(persons[0].url).toBe("https://brut-vers-net.fr/auteur/antoine");
+    expect(persons[0]["@id"]).toBe("https://www.brut-vers-net.fr/#author");
+    expect(persons[0].url).toBe("https://www.brut-vers-net.fr/auteur/antoine");
     expect(graph.find((n) => n["@type"] === "WebPage")?.mainEntity).toEqual({
-      "@id": "https://brut-vers-net.fr/#author",
+      "@id": "https://www.brut-vers-net.fr/#author",
     });
   });
 });

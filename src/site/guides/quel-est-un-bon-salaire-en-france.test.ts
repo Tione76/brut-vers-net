@@ -118,16 +118,16 @@ describe("page pilier bon salaire en France", () => {
     const faq = graph.find((node) => node["@type"] === "FAQPage");
     const image = graph.find(
       (node) =>
-        node["@id"] === `https://brut-vers-net.fr${path}#primaryimage`,
+        node["@id"] === `https://www.brut-vers-net.fr${path}#primaryimage`,
     ) as Record<string, unknown> | undefined;
     const breadcrumb = graph.find((node) => node["@type"] === "BreadcrumbList") as {
       itemListElement: { name: string }[];
     };
-    expect(webpage?.["@id"]).toBe(`https://brut-vers-net.fr${path}#webpage`);
+    expect(webpage?.["@id"]).toBe(`https://www.brut-vers-net.fr${path}#webpage`);
     expect(article?.headline).toBe(BON_SALAIRE_H1);
     expect(image?.["@type"]).toBe("ImageObject");
     expect(image?.url).toBe(
-      "https://brut-vers-net.fr/images/covers/guides/bon-salaire-en-france.webp",
+      "https://www.brut-vers-net.fr/images/covers/guides/bon-salaire-en-france.webp",
     );
     expect(image?.contentUrl).toBe(image?.url);
     expect(image?.width).toBe(1200);
@@ -139,10 +139,10 @@ describe("page pilier bon salaire en France", () => {
     expect((image?.creator as { name: string })?.name).toBe("kaboompics");
     expect(String(image?.url)).not.toContain("localhost");
     expect(webpage?.primaryImageOfPage).toEqual({
-      "@id": `https://brut-vers-net.fr${path}#primaryimage`,
+      "@id": `https://www.brut-vers-net.fr${path}#primaryimage`,
     });
     expect(article?.image).toEqual({
-      "@id": `https://brut-vers-net.fr${path}#primaryimage`,
+      "@id": `https://www.brut-vers-net.fr${path}#primaryimage`,
     });
     expect(
       graph.filter(

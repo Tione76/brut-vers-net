@@ -7,8 +7,8 @@ import type { HeaderNavEntry } from "./header-nav";
 
 const MOBILE_MQ = "(max-width: 639px)";
 
-function isItemActive(pathname: string, href: string): boolean {
-  if (href === "/") return pathname === "/";
+function isItemActive(pathname: string, href: string, exact = false): boolean {
+  if (exact || href === "/") return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
@@ -60,6 +60,38 @@ export function MobileSiteNav({
 
   useEffect(() => {
     if (!open) return;
+
+    const { body } = document;
+    const scrollY = window.scrollY;
+    const previous = {
+      overflow: body.style.overflow,
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+      paddingRight: body.style.paddingRight,
+    };
+    const scrollbarGap = window.innerWidth - document.documentElement.clientWidth;
+
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+    if (scrollbarGap > 0) {
+      body.style.paddingRight = `${scrollbarGap}px`;
+    }
+
+    return () => {
+      body.style.overflow = previous.overflow;
+      body.style.position = previous.position;
+      body.style.top = previous.top;
+      body.style.width = previous.width;
+      body.style.paddingRight = previous.paddingRight;
+      window.scrollTo(0, scrollY);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
     const onPointerDown = (event: PointerEvent) => {
       const target = event.target as Node;
       if (rootRef.current?.contains(target)) return;
@@ -75,91 +107,114 @@ export function MobileSiteNav({
   };
 
   return (
-    <nav
-      ref={rootRef}
-      id={panelId}
-      className="site-mobile-nav"
-      aria-label="Navigation principale"
-      hidden={!open}
-    >
-      <ul className="site-mobile-nav__list">
-        {entries.map((entry) => {
-          if (entry.kind === "link") {
-            const isActive = isItemActive(pathname, entry.href);
-            return (
-              <li key={entry.id} className="site-mobile-nav__item">
-                {entry.external ? (
-                  <a
-                    href={entry.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="site-mobile-nav__link"
-                    onClick={close}
-                  >
-                    {entry.label}
-                  </a>
-                ) : (
-                  <Link
-                    href={entry.href}
-                    className={`site-mobile-nav__link${isActive ? " site-mobile-nav__link--active" : ""}`}
-                    aria-current={isActive ? "page" : undefined}
-                    onClick={close}
-                  >
-                    {entry.label}
-                  </Link>
-                )}
-              </li>
-            );
-          }
-
-          const accordionOpen = openAccordionId === entry.id;
-          const panelControlId = `${panelId}-${entry.id}`;
-          const sectionActive = entry.items.some((item) =>
-            isItemActive(pathname, item.href),
-          );
-
-          return (
-            <li
-              key={entry.id}
-              className={`site-mobile-nav__item site-mobile-nav__item--accordion${accordionOpen ? " is-open" : ""}`}
-            >
-              <button
-                type="button"
-                className={`site-mobile-nav__accordion-trigger${sectionActive ? " is-active" : ""}`}
-                aria-expanded={accordionOpen}
-                aria-controls={panelControlId}
-                onClick={() => toggleAccordion(entry.id)}
-              >
-                <span>{entry.label}</span>
-                <span className="site-mobile-nav__chevron" aria-hidden="true" />
-              </button>
-              <ul
-                id={panelControlId}
-                className="site-mobile-nav__sublist"
-                hidden={!accordionOpen}
-              >
-                {entry.items.map((item) => {
-                  const isActive = isItemActive(pathname, item.href);
-                  return (
-                    <li key={item.href}>
+    <div className="site-mobile-nav-layer" hidden={!open}>
+      <button
+        type="button"
+        className="site-mobile-nav__backdrop"
+        aria-label="Fermer le menu"
+        tabIndex={-1}
+        onClick={close}
+      />
+      <div className="site-header__inner site-header__inner--mobile-nav">
+        <nav
+          ref={rootRef}
+          id={panelId}
+          className="site-mobile-nav"
+          aria-label="Navigation principale"
+        >
+          <ul className="site-mobile-nav__list">
+            {entries.map((entry) => {
+              if (entry.kind === "link") {
+                const isActive = isItemActive(pathname, entry.href);
+                return (
+                  <li key={entry.id} className="site-mobile-nav__item">
+                    {entry.external ? (
+                      <a
+                        href={entry.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="site-mobile-nav__link"
+                        onClick={close}
+                      >
+                        {entry.label}
+                      </a>
+                    ) : (
                       <Link
-                        href={item.href}
-                        className={`site-mobile-nav__sublink${isActive ? " site-mobile-nav__sublink--active" : ""}`}
-                        title={item.title}
+                        href={entry.href}
+                        className={`site-mobile-nav__link${isActive ? " site-mobile-nav__link--active" : ""}`}
                         aria-current={isActive ? "page" : undefined}
                         onClick={close}
                       >
-                        {item.shortTitle}
+                        {entry.label}
                       </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </li>
+                    )}
+                  </li>
+                );
+              }
+
+              const accordionOpen = openAccordionId === entry.id;
+              const panelControlId = `${panelId}-${entry.id}`;
+          const sectionActive = entry.items.some((item) =>
+            isItemActive(pathname, item.href, item.variant === "hub"),
           );
-        })}
-      </ul>
-    </nav>
+
+              return (
+                <li
+                  key={entry.id}
+                  className={`site-mobile-nav__item site-mobile-nav__item--accordion${accordionOpen ? " is-open" : ""}`}
+                >
+                  <button
+                    type="button"
+                    className={`site-mobile-nav__accordion-trigger${sectionActive ? " is-active" : ""}`}
+                    aria-expanded={accordionOpen}
+                    aria-controls={panelControlId}
+                    onClick={() => toggleAccordion(entry.id)}
+                  >
+                    <span>{entry.label}</span>
+                    <span className="site-mobile-nav__chevron" aria-hidden="true" />
+                  </button>
+                  <ul
+                    id={panelControlId}
+                    className="site-mobile-nav__sublist"
+                    hidden={!accordionOpen}
+                  >
+                    {entry.items.map((item) => {
+                      const isHub = item.variant === "hub";
+                      const isActive = isItemActive(pathname, item.href, isHub);
+                      return (
+                        <li
+                          key={item.href}
+                          className={isHub ? "site-mobile-nav__subitem--hub" : undefined}
+                        >
+                          <Link
+                            href={item.href}
+                            className={[
+                              "site-mobile-nav__sublink",
+                              isHub ? "site-mobile-nav__sublink--hub" : "",
+                              isActive ? "site-mobile-nav__sublink--active" : "",
+                            ]
+                              .filter(Boolean)
+                              .join(" ")}
+                            title={item.title}
+                            aria-current={isActive ? "page" : undefined}
+                            onClick={close}
+                          >
+                            <span>{item.shortTitle}</span>
+                            {isHub ? (
+                              <span className="site-nav__dropdown-hub-arrow" aria-hidden="true" />
+                            ) : null}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
+    </div>
   );
 }
 

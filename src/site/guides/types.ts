@@ -154,6 +154,8 @@ export interface GuideSection {
   title: string;
   blocks?: GuideBlock[];
   subsections?: GuideSubsection[];
+  /** Blocs affichés après les sous-sections (ex. note commune). */
+  closingBlocks?: GuideBlock[];
 }
 
 export interface GuideConclusion {
@@ -233,6 +235,13 @@ export interface Guide {
   faqTitle?: string;
   /** Paragraphe de transition affiché entre le titre FAQ et la liste de questions */
   faqIntro?: string;
+  /**
+   * Inclure un nœud Schema.org FAQPage (défaut : true).
+   * La FAQ HTML reste affichée même si ce flag est false.
+   */
+  includeFaqSchema?: boolean;
+  /** Identifiant d'ancre de la section FAQ (défaut : « faq ») */
+  faqSectionId?: string;
   conclusion: GuideConclusion;
   sidebar: GuideSidebarLinks;
   /** true uniquement pour le modèle de référence /modele : exclu du sitemap */

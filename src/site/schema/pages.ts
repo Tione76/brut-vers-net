@@ -120,7 +120,8 @@ export function buildHomeJsonLd(input: {
 export function buildGuideJsonLd(guide: Guide): Record<string, unknown> {
   const path = getGuidePublicPath(guide);
   const cover = resolveGuideCover(guide);
-  const faqNode = buildFaqPageNode(path, guide.faq);
+  const faqNode =
+    guide.includeFaqSchema === false ? null : buildFaqPageNode(path, guide.faq);
   const hasCover = Boolean(cover);
 
   return buildJsonLdGraph([

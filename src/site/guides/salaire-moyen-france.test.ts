@@ -87,17 +87,17 @@ describe("page pilier salaire moyen France", () => {
     const article = graph.find((node) => node["@type"] === "Article");
     const faq = graph.find((node) => node["@type"] === "FAQPage");
     const image = graph.find(
-      (node) => node["@id"] === "https://brut-vers-net.fr/salaire-moyen-france#primaryimage",
+      (node) => node["@id"] === "https://www.brut-vers-net.fr/salaire-moyen-france#primaryimage",
     ) as Record<string, unknown> | undefined;
     const breadcrumb = graph.find((node) => node["@type"] === "BreadcrumbList") as {
       itemListElement: { name: string }[];
     };
-    expect(webpage?.["@id"]).toBe("https://brut-vers-net.fr/salaire-moyen-france#webpage");
+    expect(webpage?.["@id"]).toBe("https://www.brut-vers-net.fr/salaire-moyen-france#webpage");
     expect(article?.headline).toBe(SALAIRE_MOYEN_H1);
     expect(image?.["@type"]).toBe("ImageObject");
-    expect(image?.url).toBe("https://brut-vers-net.fr/images/covers/guides/Salaire-moyen-France.webp");
+    expect(image?.url).toBe("https://www.brut-vers-net.fr/images/covers/guides/Salaire-moyen-France.webp");
     expect(image?.contentUrl).toBe(
-      "https://brut-vers-net.fr/images/covers/guides/Salaire-moyen-France.webp",
+      "https://www.brut-vers-net.fr/images/covers/guides/Salaire-moyen-France.webp",
     );
     expect(image?.width).toBe(1201);
     expect(image?.height).toBe(801);
@@ -107,10 +107,10 @@ describe("page pilier salaire moyen France", () => {
     expect(image?.copyrightNotice).toBeUndefined();
     expect((image?.creator as { name: string })?.name).toBe("olia danilevich");
     expect(webpage?.primaryImageOfPage).toEqual({
-      "@id": "https://brut-vers-net.fr/salaire-moyen-france#primaryimage",
+      "@id": "https://www.brut-vers-net.fr/salaire-moyen-france#primaryimage",
     });
     expect(article?.image).toEqual({
-      "@id": "https://brut-vers-net.fr/salaire-moyen-france#primaryimage",
+      "@id": "https://www.brut-vers-net.fr/salaire-moyen-france#primaryimage",
     });
     expect(faq).toBeTruthy();
     const mainEntity = faq?.mainEntity as { name: string }[];

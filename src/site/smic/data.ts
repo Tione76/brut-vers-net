@@ -12,14 +12,21 @@
 /** Année affichée dans le H1 et les libellés éditoriaux (pas dans le Title Google). */
 export const SMIC_EDITORIAL_YEAR = 2026;
 
-export const SMIC_VERIFIED_ON = "2026-09-07";
+/** Dernière vérification des montants contre les sources officielles. */
+export const SMIC_VERIFIED_ON = "2026-09-18";
 
 /** Date d'entrée en vigueur des montants affichés (pas la date de rédaction). */
 export const SMIC_EFFECTIVE_FROM = "2026-06-01";
 
 export const SMIC_EFFECTIVE_FROM_LABEL = "1er juin 2026";
 
-export const SMIC_VERIFIED_ON_LABEL = "7 septembre 2026";
+export const SMIC_VERIFIED_ON_LABEL = "18 septembre 2026";
+
+/** Libellé court : application du barème. */
+export const SMIC_BAREME_APPLICABLE_LINE = `Barème applicable depuis le ${SMIC_EFFECTIVE_FROM_LABEL}`;
+
+/** Libellé court : vérification du barème. */
+export const SMIC_BAREME_VERIFIED_LINE = `Barème vérifié le ${SMIC_VERIFIED_ON_LABEL}`;
 
 /** Base mensuelle usuelle pour 35 h/semaine (35 × 52 / 12 ≈ 151,67). */
 export const SMIC_MONTHLY_HOURS = 151.67;
@@ -73,8 +80,11 @@ export const SMIC_H1 = `SMIC ${SMIC_EDITORIAL_YEAR} : quel est le montant brut e
 
 export const SMIC_AMOUNTS_BLOCK_TITLE = `SMIC ${SMIC_EDITORIAL_YEAR} : les montants à retenir`;
 
-/** Phrase de fraîcheur unique (début de page / synthèse des cartes). */
-export const SMIC_FRESHNESS_LINE = `Montants applicables depuis le ${SMIC_EFFECTIVE_FROM_LABEL}. Page mise à jour le ${SMIC_VERIFIED_ON_LABEL}.`;
+/**
+ * Phrase de fraîcheur unique (début de page / synthèse des cartes).
+ * Distingue l'entrée en vigueur du barème et sa dernière vérification.
+ */
+export const SMIC_FRESHNESS_LINE = `${SMIC_BAREME_APPLICABLE_LINE}. ${SMIC_BAREME_VERIFIED_LINE}.`;
 
 /** @deprecated Utiliser SMIC_FRESHNESS_LINE */
 export const SMIC_VALIDITY_LINE = SMIC_FRESHNESS_LINE;
@@ -83,13 +93,28 @@ export const SMIC_SOURCES = {
   arreteMai2026: {
     label: "Arrêté du 22 mai 2026 relatif au relèvement du salaire minimum de croissance",
     org: "Légifrance (Journal officiel du 24 mai 2026)",
-    /** Sommaire JO vérifié : le texte y est publié ; l'accès direct JORFTEXT est parfois filtré. */
+    /** Texte de l'arrêté (JO n° 0121 du 24 mai 2026). */
+    href: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000054126589",
+  },
+  arreteMai2026JoSommaire: {
+    label: "Journal officiel n° 0121 du 24 mai 2026 (sommaire)",
+    org: "Légifrance",
     href: "https://www.legifrance.gouv.fr/jorf/jo/2026/05/24/0121",
   },
   servicePublic: {
     label: "Smic (salaire minimum interprofessionnel de croissance)",
     org: "Service-Public.fr",
     href: "https://www.service-public.fr/particuliers/vosdroits/F2300",
+  },
+  tempsPartiel: {
+    label: "Temps partiel d'un salarié dans le secteur privé – Service Public",
+    org: "Service-Public.fr",
+    href: "https://www.service-public.gouv.fr/particuliers/vosdroits/F32428",
+  },
+  ministereTravailRevaloJuin2026: {
+    label: "Revalorisation du SMIC au 1er juin 2026",
+    org: "Ministère du Travail",
+    href: "https://travail-emploi.gouv.fr/revalorisation-du-smic-au-1er-juin-2026",
   },
   codeTravailPrincipes: {
     label: "Code du travail : articles L. 3231-2 à L. 3231-3 (principes du Smic)",

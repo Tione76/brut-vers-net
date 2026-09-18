@@ -177,7 +177,7 @@ describe("covers registry", () => {
 
   it("encodes accents in absolute asset URLs", () => {
     const url = toAbsoluteAssetUrl(
-      "https://brut-vers-net.fr",
+      "https://www.brut-vers-net.fr",
       "/images/covers/guides/Prélèvement-à-la-source.webp",
     );
     expect(url).toContain("Pr%C3%A9l%C3%A8vement-%C3%A0-la-source.webp");
@@ -185,8 +185,8 @@ describe("covers registry", () => {
   });
 
   it("preserves cache-busting query strings on absolute asset URLs", () => {
-    expect(toAbsoluteAssetUrl("https://brut-vers-net.fr", "/logo.png?v=2")).toBe(
-      "https://brut-vers-net.fr/logo.png?v=2",
+    expect(toAbsoluteAssetUrl("https://www.brut-vers-net.fr", "/logo.png?v=2")).toBe(
+      "https://www.brut-vers-net.fr/logo.png?v=2",
     );
   });
 });

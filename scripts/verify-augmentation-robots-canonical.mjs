@@ -6,7 +6,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const AMOUNTS = Array.from({ length: 46 }, (_, i) => 50 + i * 10);
-const SITE_URL = "https://brut-vers-net.fr";
+const SITE_URL = "https://www.brut-vers-net.fr";
 const OUT_DIR = join(
   process.cwd(),
   ".next",

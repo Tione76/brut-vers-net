@@ -53,13 +53,13 @@ describe("page pilier SMIC", () => {
 
     const graph = buildGuideJsonLd(guide)["@graph"] as Record<string, unknown>[];
     const image = graph.find(
-      (node) => node["@id"] === "https://brut-vers-net.fr/smic#primaryimage",
+      (node) => node["@id"] === "https://www.brut-vers-net.fr/smic#primaryimage",
     ) as Record<string, unknown>;
     const webpage = graph.find((node) => node["@type"] === "WebPage") as Record<string, unknown>;
     const article = graph.find((node) => node["@type"] === "Article") as Record<string, unknown>;
     expect(image?.["@type"]).toBe("ImageObject");
     expect(image?.url).toBe(
-      "https://brut-vers-net.fr/images/covers/guides/SMIC-horaire-mensuel-brut-net.webp",
+      "https://www.brut-vers-net.fr/images/covers/guides/SMIC-horaire-mensuel-brut-net.webp",
     );
     expect(image?.contentUrl).toBe(image?.url);
     expect(image?.width).toBe(1200);
@@ -71,9 +71,9 @@ describe("page pilier SMIC", () => {
     expect(image?.copyrightNotice).toBeUndefined();
     expect(String(image?.url)).not.toContain("localhost");
     expect(webpage?.primaryImageOfPage).toEqual({
-      "@id": "https://brut-vers-net.fr/smic#primaryimage",
+      "@id": "https://www.brut-vers-net.fr/smic#primaryimage",
     });
-    expect(article?.image).toEqual({ "@id": "https://brut-vers-net.fr/smic#primaryimage" });
+    expect(article?.image).toEqual({ "@id": "https://www.brut-vers-net.fr/smic#primaryimage" });
   });
 
   it("expose H1 daté, Title evergreen et FAQ synchronisés pour le Schema", () => {
@@ -101,7 +101,7 @@ describe("page pilier SMIC", () => {
     const breadcrumb = graph.find((node) => node["@type"] === "BreadcrumbList") as {
       itemListElement: { name: string }[];
     };
-    expect(webpage?.["@id"]).toBe("https://brut-vers-net.fr/smic#webpage");
+    expect(webpage?.["@id"]).toBe("https://www.brut-vers-net.fr/smic#webpage");
     expect(webpage?.datePublished).toBeTruthy();
     expect(webpage?.dateModified).toBeTruthy();
     expect(article?.headline).toBe(SMIC_H1);

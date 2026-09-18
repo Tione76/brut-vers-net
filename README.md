@@ -192,7 +192,7 @@ Les Preview sont ignorés. Le sitemap complet n'est plus envoyé automatiquement
 
 ```env
 INDEXNOW_KEY=votre-cle
-SITE_URL=https://brut-vers-net.fr
+SITE_URL=https://www.brut-vers-net.fr
 ```
 
 Ajoutez le secret GitHub `INDEXNOW_KEY`. Commandes manuelles :

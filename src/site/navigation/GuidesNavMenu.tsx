@@ -1,5 +1,5 @@
 import type { GuideNavItem } from "@/site/guides/navigation";
-import { mapGuidesToNavItems } from "./guide-nav-items";
+import { buildGuidesMenuItems } from "./guide-nav-items";
 import { NavDropdownMenu } from "./NavDropdownMenu";
 
 interface GuidesNavMenuProps {
@@ -11,7 +11,7 @@ export function GuidesNavMenu({ items }: GuidesNavMenuProps) {
     <NavDropdownMenu
       label="Nos guides"
       menuAriaLabel="Nos guides"
-      items={mapGuidesToNavItems(items)}
+      items={buildGuidesMenuItems(items)}
     />
   );
 }

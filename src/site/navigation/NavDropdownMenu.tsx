@@ -8,6 +8,8 @@ export interface NavDropdownItem {
   href: string;
   shortTitle: string;
   title: string;
+  /** Lien de pied de menu (hub) : séparateur + style distinct. */
+  variant?: "hub";
 }
 
 interface NavDropdownMenuProps {
@@ -18,8 +20,8 @@ interface NavDropdownMenuProps {
 
 const MOBILE_MQ = "(max-width: 639px)";
 
-function isItemActive(pathname: string, href: string): boolean {
-  if (href === "/") return pathname === "/";
+function isItemActive(pathname: string, href: string, exact = false): boolean {
+  if (exact || href === "/") return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
@@ -30,7 +32,9 @@ export function NavDropdownMenu({ label, menuAriaLabel, items }: NavDropdownMenu
   const menuId = useId();
   const containerRef = useRef<HTMLLIElement>(null);
 
-  const isSectionActive = items.some((item) => isItemActive(pathname, item.href));
+  const isSectionActive = items.some((item) =>
+    isItemActive(pathname, item.href, item.variant === "hub"),
+  );
 
   useEffect(() => {
     const mq = window.matchMedia(MOBILE_MQ);
@@ -115,18 +119,32 @@ export function NavDropdownMenu({ label, menuAriaLabel, items }: NavDropdownMenu
       </button>
       <ul id={menuId} className="site-nav__dropdown-menu" role="menu" aria-label={menuAriaLabel}>
         {items.map((item) => {
-          const isActive = isItemActive(pathname, item.href);
+          const isHub = item.variant === "hub";
+          const isActive = isItemActive(pathname, item.href, isHub);
           return (
-            <li key={item.href} role="none">
+            <li
+              key={item.href}
+              role="none"
+              className={isHub ? "site-nav__dropdown-item--hub" : undefined}
+            >
               <Link
                 href={item.href}
-                className={`site-nav__dropdown-link${isActive ? " site-nav__dropdown-link--active" : ""}`}
+                className={[
+                  "site-nav__dropdown-link",
+                  isHub ? "site-nav__dropdown-link--hub" : "",
+                  isActive ? "site-nav__dropdown-link--active" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
                 role="menuitem"
                 title={item.title}
                 aria-current={isActive ? "page" : undefined}
                 onClick={close}
               >
-                {item.shortTitle}
+                <span>{item.shortTitle}</span>
+                {isHub ? (
+                  <span className="site-nav__dropdown-hub-arrow" aria-hidden="true" />
+                ) : null}
               </Link>
             </li>
           );

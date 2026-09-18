@@ -26,7 +26,7 @@ const adSlotUnderH1 = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_UNDER_H1");
 export const siteConfig = {
   name: "Brut vers Net",
   domain: "brut-vers-net.fr",
-  url: "https://brut-vers-net.fr",
+  url: "https://www.brut-vers-net.fr",
   author: "Antoine",
   language: "fr",
   locale: "fr-FR",

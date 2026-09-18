@@ -370,6 +370,13 @@ export const smicGuide: Guide = {
           ],
         },
         {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour un tableau complet du salaire au SMIC selon la durée du contrat,",
+          label: "voir le SMIC brut et net selon le nombre d'heures travaillées",
+          href: "/smic-selon-nombre-heures",
+        },
+        {
           type: "callout",
           variant: "verify",
           paragraphs: [
