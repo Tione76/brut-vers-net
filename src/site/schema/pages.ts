@@ -122,7 +122,21 @@ export function buildGuideJsonLd(guide: Guide): Record<string, unknown> {
   const cover = resolveGuideCover(guide);
   const faqNode =
     guide.includeFaqSchema === false ? null : buildFaqPageNode(path, guide.faq);
+  const webAppNode =
+    guide.includeWebApplicationSchema && guide.webApplication
+      ? buildWebApplicationNode({
+          path,
+          name: guide.webApplication.name,
+          description: guide.webApplication.description,
+          operatingSystem: "Any",
+          includeFreeOffer: true,
+        })
+      : null;
   const hasCover = Boolean(cover);
+  const hasPartIds = [
+    ...(faqNode ? [schemaIds.faq(path)] : []),
+    ...(webAppNode ? [schemaIds.webApplication(path)] : []),
+  ];
 
   return buildJsonLdGraph([
     ...sharedNodes(),
@@ -147,12 +161,13 @@ export function buildGuideJsonLd(guide: Guide): Record<string, unknown> {
       description: guide.description,
       hasPrimaryImage: hasCover,
       mainEntityId: schemaIds.article(path),
-      hasPartIds: faqNode ? [schemaIds.faq(path)] : undefined,
+      hasPartIds: hasPartIds.length > 0 ? hasPartIds : undefined,
       datePublished: guide.publishedAt,
       dateModified: guide.updatedAt,
     }),
     buildArticleNode(guide, path),
     faqNode,
+    webAppNode,
   ]);
 }
 

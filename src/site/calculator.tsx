@@ -232,7 +232,7 @@ function HourlyModeInfoButton() {
 }
 
 export default function Calculator() {
-  return (
+    return (
     <Suspense fallback={<SalaryCalculator />}>
       <SalaryCalculatorWithSearchParams />
     </Suspense>
@@ -241,7 +241,7 @@ export default function Calculator() {
 
 function SalaryCalculatorWithSearchParams() {
   const searchParams = useSearchParams();
-  return (
+    return (
     <SalaryCalculator
       prefillGrossRaw={searchParams.get(GROSS_QUERY_PARAM)}
       prefillNetRaw={searchParams.get(CALCULATOR_NET_QUERY_PARAM)}

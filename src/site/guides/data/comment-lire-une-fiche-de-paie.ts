@@ -201,6 +201,13 @@ export const commentLireUneFicheDePaieGuide: Guide = {
           label: "Calculer mon salaire net",
           href: "/",
         },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: "En mission d'intérim, pour contrôler IFM et congés payés sur le bulletin,",
+          label: "calculer son salaire en intérim",
+          href: "/salaire-interim-calcul-brut-net",
+        },
       ],
     },
     {
@@ -494,5 +501,15 @@ export const commentLireUneFicheDePaieGuide: Guide = {
       description: "Estimez votre salaire net à partir de votre salaire brut.",
       href: "/",
     },
+    relatedGuides: [
+      {
+        title: "Salaire en intérim : IFM et congés payés",
+        href: "/salaire-interim-calcul-brut-net",
+      },
+      {
+        title: "Salaire en arrêt maladie",
+        href: "/salaire-arret-maladie",
+      },
+    ],
   },
 };

@@ -8,6 +8,10 @@ import { prelevementALaSourceGuide } from "./data/prelevement-a-la-source-quest-
 import { pourquoiSalaireNetChangeSeptembre2026Guide } from "./data/pourquoi-salaire-net-change-septembre-2026";
 import { smicGuide } from "./data/smic";
 import { smicSelonNombreHeuresGuide } from "./data/smic-selon-nombre-heures";
+import { salaireInterimGuide } from "./data/salaire-interim-calcul-brut-net";
+import { salaireArretMaladieGuide } from "./data/salaire-arret-maladie";
+import { calculIjssArretMaladieGuide } from "./data/calcul-ijss-arret-maladie";
+import { maintienSalaireArretMaladieGuide } from "./data/maintien-salaire-arret-maladie";
 import { quelEstUnBonSalaireEnFranceGuide } from "./data/quel-est-un-bon-salaire-en-france";
 import { salaireAlternanceGuide } from "./data/salaire-alternance";
 import { salaireMoyenFranceGuide } from "./data/salaire-moyen-france";
@@ -18,6 +22,10 @@ export { getGuidePublicPath } from "./paths";
 export const guides: Guide[] = [
   attachGuideCover(smicGuide),
   attachGuideCover(smicSelonNombreHeuresGuide),
+  attachGuideCover(salaireInterimGuide),
+  attachGuideCover(salaireArretMaladieGuide),
+  attachGuideCover(calculIjssArretMaladieGuide),
+  attachGuideCover(maintienSalaireArretMaladieGuide),
   attachGuideCover(salaireAlternanceGuide),
   attachGuideCover(salaireMoyenFranceGuide),
   attachGuideCover(quelEstUnBonSalaireEnFranceGuide),

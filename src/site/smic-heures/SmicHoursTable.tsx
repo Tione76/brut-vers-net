@@ -7,6 +7,7 @@ import {
   formatEuro,
   formatHoursValue,
   formatWeeklyHoursLabel,
+  SMIC_EDITORIAL_YEAR,
   SMIC_EFFECTIVE_FROM_LABEL,
   SMIC_HOURS_OVERTIME_HYPOTHESIS,
   SMIC_HOURS_TABLE_FOOTNOTES,
@@ -51,7 +52,7 @@ export function SmicHoursTable() {
 
   return (
     <div className="smic-heures-table-breakout">
-      <p className="smic-heures-table-scroll-hint" aria-hidden="true">
+      <p className="smic-heures-table-scroll-hint">
         Faites défiler le tableau horizontalement
       </p>
       <div
@@ -71,8 +72,12 @@ export function SmicHoursTable() {
               <th scope="col">Heures mensualisées</th>
               <th scope="col">Brut mensuel</th>
               <th scope="col">Net mensuel estimé</th>
-              <th scope="col">Projection brute 12 mois</th>
-              <th scope="col">Projection nette 12 mois</th>
+              <th scope="col">
+                Projection brute sur 12 mois (mensuel × 12)
+              </th>
+              <th scope="col">
+                Projection nette estimée sur 12 mois (mensuel × 12)
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -88,10 +93,12 @@ export function SmicHoursTable() {
         ))}
       </ul>
       <p className="smic-heures-table__note">
-        Les projections annuelles correspondent à douze mois payés au taux
-        actuellement applicable, pas au cumul réel d&apos;une année civile ayant
-        connu une revalorisation. {SMIC_HOURS_OVERTIME_HYPOTHESIS} Le net reste
-        indicatif et hors prélèvement à la source.
+        Les projections annuelles correspondent au montant mensuel × 12 au taux
+        actuellement applicable. Ce n&apos;est ni le cumul réel de l&apos;année
+        civile {SMIC_EDITORIAL_YEAR} ayant connu une revalorisation, ni les
+        montants annuels officiels publiés par Service-Public.{" "}
+        {SMIC_HOURS_OVERTIME_HYPOTHESIS} Le montant net affiché est une
+        estimation indicative, avant prélèvement à la source.
       </p>
     </div>
   );

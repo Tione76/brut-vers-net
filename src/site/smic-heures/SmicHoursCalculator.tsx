@@ -98,11 +98,11 @@ function ResultPanel({ result }: { result: SmicHoursResult }) {
           <dd>{formatEuro(result.monthlyNetEstimated)}</dd>
         </div>
         <div>
-          <dt>Projection brute (12 mois au taux actuel)</dt>
+          <dt>Projection brute sur 12 mois (mensuel × 12)</dt>
           <dd>{formatEuro(result.annualGrossProjection)}</dd>
         </div>
         <div>
-          <dt>Projection nette estimée (12 mois)</dt>
+          <dt>Projection nette estimée sur 12 mois (mensuel × 12)</dt>
           <dd>{formatEuro(result.annualNetProjection)}</dd>
         </div>
       </dl>

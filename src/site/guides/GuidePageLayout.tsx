@@ -12,6 +12,8 @@ interface GuidePageLayoutProps {
   children: ReactNode;
   sidebar?: ReactNode;
   prose?: boolean;
+  /** Actions sous le sous-titre (bandeau compact, sans calculateur). */
+  headerActions?: ReactNode;
 }
 
 /** Layout dédié aux guides : header hero, sans nom de site au-dessus du H1 */
@@ -21,12 +23,17 @@ export function GuidePageLayout({
   children,
   sidebar,
   prose = true,
+  headerActions,
 }: GuidePageLayoutProps) {
   const site = useSite();
 
   return (
     <>
-      <section className="guide-header">
+      <section
+        className={
+          headerActions ? "guide-header guide-header--compact" : "guide-header"
+        }
+      >
         <SiteNav
           siteName={site.name}
           nav={site.navigation.header}
@@ -37,6 +44,7 @@ export function GuidePageLayout({
         <div className="guide-header__inner">
           <h1 className="guide-header__title">{title}</h1>
           <p className="guide-header__subtitle">{subtitle}</p>
+          {headerActions}
         </div>
         <HeaderCurveDown />
       </section>

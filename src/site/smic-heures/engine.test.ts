@@ -21,6 +21,7 @@ const REGRESSION: Record<
   number,
   { gross: number; net: number; monthlyHours?: number }
 > = {
+  10: { gross: 533.43, net: 422.26 },
   20: { gross: 1066.87, net: 844.53 },
   24: { gross: 1280.24, net: 1013.44, monthlyHours: 104 },
   25: { gross: 1333.58, net: 1055.66 },
@@ -28,6 +29,7 @@ const REGRESSION: Record<
   30: { gross: 1600.3, net: 1266.79, monthlyHours: 130 },
   32: { gross: 1706.99, net: 1351.25 },
   35: { gross: 1867.02, net: 1477.93 },
+  36: { gross: 1933.7, net: 1537.48 },
   39: { gross: 2133.74, net: 1716.14 },
 };
 
@@ -90,13 +92,15 @@ describe("smic-heures engine", () => {
     }
   });
 
-  it("sépare base 35 h et HS majorées à 36 h et 39 h", () => {
+  it("applique la majoration à +25 % entre 36 h et 39 h avec arrondi par composante", () => {
     const r36 = calculateSmicForWeeklyHours(36)!;
     const r39 = calculateSmicForWeeklyHours(39)!;
 
     expect(r36.hasOvertime).toBe(true);
     expect(r36.overtimeWeeklyHours).toBe(1);
     expect(r39.overtimeWeeklyHours).toBe(4);
+    expect(r36.majorationPercent).toBe(25);
+    expect(r39.majorationPercent).toBe(25);
 
     const otHours39 = weeklyToMonthlyHours(4);
     const expectedOtGross39 = roundCent(
@@ -115,6 +119,17 @@ describe("smic-heures engine", () => {
     expect(r39.monthlyNetEstimated).toBe(
       roundCent(SMIC_CURRENT.monthlyNetIndicative + otNet),
     );
+    expect(r39.monthlyNetEstimated).toBe(1716.14);
+    expect(r39.annualNetProjection).toBe(roundCent(1716.14 * 12));
+  });
+
+  it("sépare base 35 h et HS majorées à 36 h et 39 h", () => {
+    const r36 = calculateSmicForWeeklyHours(36)!;
+    const r39 = calculateSmicForWeeklyHours(39)!;
+    expect(r36.baseWeeklyHours).toBe(35);
+    expect(r39.baseWeeklyHours).toBe(35);
+    expect(r36.monthlyGross).toBeGreaterThan(SMIC_CURRENT.monthlyGross);
+    expect(r39.monthlyGross).toBeGreaterThan(r36.monthlyGross);
   });
 
   it("rejette les valeurs hors plage, vides, NaN et négatives", () => {

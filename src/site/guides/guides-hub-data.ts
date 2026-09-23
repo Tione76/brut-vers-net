@@ -15,6 +15,14 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
   smic: "Montants du SMIC brut et net actuellement applicables, horaire et mensuel, avec les règles de revalorisation.",
   "smic-selon-nombre-heures":
     "SMIC brut et net estimé de 10 h à 39 h par semaine : tableau complet, temps partiel et heures supplémentaires.",
+  "salaire-interim-calcul-brut-net":
+    "Salaire en intérim : brut de mission, IFM, congés payés et net estimé, avec formules et simulateur.",
+  "salaire-arret-maladie":
+    "Salaire en arrêt maladie dans le privé : IJSS, carences, complément employeur et perte de revenu estimée.",
+  "calcul-ijss-arret-maladie":
+    "Comprenez la formule des IJSS, la carence, le plafond et le montant versé par l'Assurance Maladie.",
+  "maintien-salaire-arret-maladie":
+    "Complément employeur en arrêt maladie : conditions, ancienneté, délai de 7 jours et minimum légal.",
   "salaire-alternance":
     "Salaire minimum en apprentissage et en contrat de professionnalisation : grilles par âge, brut/net et règles officielles.",
   "salaire-moyen-france":

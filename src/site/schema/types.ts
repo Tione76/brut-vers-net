@@ -8,6 +8,8 @@ export type SchemaCoverInput = {
   alt: string;
   width: number;
   height: number;
+  /** Légende Schema `caption` si distincte de l'alt. */
+  caption?: string;
   /** Crédit photo du registre covers (optionnel). */
   credit?: {
     photographer: string;

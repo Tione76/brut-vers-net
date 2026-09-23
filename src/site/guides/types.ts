@@ -35,7 +35,7 @@ export interface GuideMistakesList {
 
 export interface GuideSteps {
   type: "steps";
-  items: { title: string; description: string }[];
+  items: { title: string; description: string; href?: string; label?: string }[];
 }
 
 /** Emplacement naturel pour le maillage interne */
@@ -73,6 +73,8 @@ export interface GuideTable {
   caption?: string;
   headers: string[];
   rows: string[][];
+  /** Sur mobile, chaque ligne devient une carte ; le tableau reste visible sur ordinateur. */
+  stackOnMobile?: boolean;
 }
 
 /** Identifiant d'illustration vectorielle (réservé aux futurs guides) */
@@ -169,6 +171,11 @@ export interface GuideConclusion {
     label: string;
     href: string;
   };
+  /** Liens secondaires discrets sous le CTA principal */
+  closingSecondaryLinks?: {
+    label: string;
+    href: string;
+  }[];
 }
 
 /** Liens affichés dans la sidebar : maillage interne */
@@ -240,6 +247,12 @@ export interface Guide {
    * La FAQ HTML reste affichée même si ce flag est false.
    */
   includeFaqSchema?: boolean;
+  /**
+   * Ajoute un nœud WebApplication en hasPart (Article reste mainEntity).
+   * Réservé aux guides qui embarquent un calculateur interactif.
+   */
+  includeWebApplicationSchema?: boolean;
+  webApplication?: { name: string; description: string };
   /** Identifiant d'ancre de la section FAQ (défaut : « faq ») */
   faqSectionId?: string;
   conclusion: GuideConclusion;

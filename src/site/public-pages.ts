@@ -73,18 +73,24 @@ function legalLastUpdated(fallback = "2026-07-01"): string {
 }
 
 function calculatorPages(): PublicPage[] {
-  return getAllCalculators().map((calc) => {
-    const configEntry = Object.values(seoConfig.calculators).find((item) => item.path === calc.path);
-    return {
-      path: calc.path,
-      title: calc.shortTitle,
-      category: "tools" as const,
-      changefreq: "monthly" as const,
-      priority: calc.path === "/" ? 1 : 0.9,
-      indexable: calc.path === "/" ? true : Boolean(configEntry?.indexable),
-      lastModified: SEO_CONTENT_UPDATED_AT,
-    };
-  });
+  /** Pages guide+outil : une seule entrée sitemap (celle du guide). */
+  const guidePaths = new Set(guides.map((guide) => getGuidePublicPath(guide)));
+  return getAllCalculators()
+    .filter((calc) => !guidePaths.has(calc.path))
+    .map((calc) => {
+      const configEntry = Object.values(seoConfig.calculators).find(
+        (item) => item.path === calc.path,
+      );
+      return {
+        path: calc.path,
+        title: calc.shortTitle,
+        category: "tools" as const,
+        changefreq: "monthly" as const,
+        priority: calc.path === "/" ? 1 : 0.9,
+        indexable: calc.path === "/" ? true : Boolean(configEntry?.indexable),
+        lastModified: SEO_CONTENT_UPDATED_AT,
+      };
+    });
 }
 
 /** Toutes les pages publiques connues du site (indexables et non indexables) */

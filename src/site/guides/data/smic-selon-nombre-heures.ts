@@ -16,8 +16,12 @@ import {
   SMIC_HOURS_H1,
   SMIC_HOURS_META_DESCRIPTION,
   SMIC_HOURS_NET_METHOD_SUMMARY,
+  SMIC_HOURS_NET_DISCLAIMER,
+  SMIC_HOURS_SCOPE_DISCLAIMER,
   SMIC_HOURS_OVERTIME_HYPOTHESIS,
+  SMIC_HOURS_OVERTIME_SHORT,
   SMIC_HOURS_CODE_TRAVAIL_HS,
+  SMIC_HOURS_SERVICE_PUBLIC_HS,
   SMIC_HOURS_PATH,
   SMIC_HOURS_PUBLISHED_AT,
   SMIC_HOURS_SEO_TITLE,
@@ -91,11 +95,11 @@ export const smicSelonNombreHeuresGuide: Guide = {
   subtitle: SMIC_HOURS_SUBTITLE,
   publishedAt: SMIC_HOURS_PUBLISHED_AT,
   updatedAt: SMIC_HOURS_UPDATED_AT,
-  includeFaqSchema: false,
+  includeFaqSchema: true,
   faqSectionId: "questions-frequentes",
   introduction: [
     `Le SMIC est d'abord un montant horaire brut (${SMIC_LABELS.hourlyGross} depuis le ${SMIC_EFFECTIVE_FROM_LABEL}). Le salaire mensuel dépend donc du nombre d'heures prévues au contrat, pas d'un forfait unique.`,
-    "Cette page calcule le brut et une estimation nette pour chaque durée de 10 h à 39 h par semaine. Le net reste indicatif : il varie selon les cotisations, la mutuelle, les absences ou le prélèvement à la source.",
+    "Cette page calcule le brut et une estimation nette pour chaque durée de 10 h à 39 h par semaine. Le montant net affiché est une estimation indicative, avant prélèvement à la source.",
     "Jusqu'à 35 h, le calcul suit la mensualisation habituelle. Au-delà, les heures supplémentaires changent la méthode : ce n'est plus une simple proratisation.",
   ],
   introSummary: {
@@ -104,8 +108,8 @@ export const smicSelonNombreHeuresGuide: Guide = {
       `SMIC horaire brut actuel : ${SMIC_LABELS.hourlyGross}. ${SMIC_HOURS_FRESHNESS_LINE}`,
       `À 35 h : ${SMIC_LABELS.monthlyGross} brut mensuel officiel et environ ${SMIC_LABELS.monthlyNet} net mensuel indicatif publié par Service-Public.`,
       "Mensualisation : heures hebdomadaires × 52 ÷ 12 (un mois n'égale pas quatre semaines).",
-      "Le net affiché est une estimation, jamais un montant légal garanti.",
-      SMIC_HOURS_OVERTIME_HYPOTHESIS,
+      SMIC_HOURS_NET_DISCLAIMER,
+      SMIC_HOURS_OVERTIME_SHORT,
     ],
   },
   sections: [
@@ -121,8 +125,8 @@ export const smicSelonNombreHeuresGuide: Guide = {
           type: "callout",
           variant: "warning",
           paragraphs: [
-            SMIC_HOURS_OVERTIME_HYPOTHESIS,
-            "Les lignes 36 h à 39 h ne doivent pas être lues comme un simple temps plein proratisé. Les projections sur douze mois sont internes à taux constant, pas les montants annuels publiés par Service-Public.",
+            SMIC_HOURS_OVERTIME_SHORT,
+            "Les lignes 36 h à 39 h ne doivent pas être lues comme un simple temps plein proratisé. Les projections sur douze mois sont internes à taux constant (mensuel × 12), pas les montants annuels publiés par Service-Public.",
           ],
         },
       ],
@@ -141,7 +145,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
           items: [
             "Convertir les heures hebdomadaires en heures mensuelles : H × 52 ÷ 12.",
             `Multiplier par le SMIC horaire brut (${SMIC_LABELS.hourlyGross}).`,
-            "Arrondir le résultat monétaire final au centime.",
+            "Arrondir chaque composante monétaire au centime avant agrégation (convention partagée avec le calculateur d'heures supplémentaires).",
             "Estimer le net à partir du ratio indicatif Service-Public à 35 h (hors prélèvement à la source).",
           ],
         },
@@ -207,7 +211,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
         durationSubsection("smic-20-heures", "SMIC pour 20 heures par semaine", 20, [
           {
             type: "paragraph",
-            text: `Un contrat de 20 h est parfois appelé, à tort, un « mi-temps ». Il représente en réalité environ 57 % d'un temps plein de 35 h. Un mi-temps strict correspondrait à 17,5 h par semaine, soit environ ${halfTimeGross} brut par mois au taux actuellement applicable. Un contrat à 20 h se situe aussi sous la durée minimale habituelle de 24 h : une dérogation est en principe nécessaire (demande écrite, étudiant de moins de 26 ans, cumul d'activités, disposition conventionnelle, etc.).`,
+            text: `Un contrat de 20 h est parfois appelé, à tort, un « mi-temps ». Il représente en réalité environ 57 % d'un temps plein de 35 h. Un mi-temps strict correspondrait à 17,5 h par semaine, soit environ ${halfTimeGross} brut par mois au taux actuellement applicable. Un contrat à 20 h se situe aussi sous la durée minimale habituelle de 24 h : une dérogation est en principe nécessaire (demande écrite, étudiant de moins de 26 ans à sa demande, cumul d'activités, disposition conventionnelle, etc.).`,
           },
         ]),
         durationSubsection("smic-24-heures", "SMIC pour 24 heures par semaine", 24, [
@@ -237,7 +241,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
         durationSubsection("smic-32-heures", "SMIC pour 32 heures par semaine", 32, [
           {
             type: "paragraph",
-            text: "À 32 h, on reste en temps partiel au regard de la durée légale de 35 h (sauf durée collective inférieure). L'écart de trois heures avec la durée légale ne constitue pas des heures supplémentaires : ce sont simplement des heures non prévues au contrat.",
+            text: "À 32 h, le contrat reste à temps partiel lorsque la durée de référence à temps complet est de 35 h. Les trois heures séparant 32 h de 35 h ne sont ni travaillées ni rémunérées : elles ne constituent donc pas des heures supplémentaires.",
           },
         ]),
       ],
@@ -286,7 +290,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
           items: [
             `Base 35 h : ${formatEuro(r35.monthlyGross)} brut mensuel officiel.`,
             `Heures supplémentaires mensualisées : ${formatHoursValue(r39.overtimeMonthlyHours)} h (4 h × 52 ÷ 12).`,
-            `Majoration retenue ici : +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % (hypothèse légale à défaut d'accord).`,
+            `Majoration retenue ici : +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % sur les 4 h de 36 à 39 (hypothèse légale à défaut d'accord).`,
             `Gain brut estimé des HS : ${formatEuro(r39.overtimeGross)}.`,
             `Total brut estimé : ${formatEuro(r39.monthlyGross)} / mois.`,
             `Net estimé (base SMIC indicatif + estimation spécifique des HS) : environ ${formatEuro(r39.monthlyNetEstimated)}.`,
@@ -319,7 +323,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "La durée minimale habituelle du temps partiel est de 24 heures par semaine (ou 104 heures par mois). Des dérogations sont prévues : demande écrite motivée du salarié (contraintes personnelles, cumul d'activités), étudiants de moins de 26 ans, CDD très courts, remplacement, salarié d'un particulier employeur, certaines dispositions conventionnelles ou contrats d'insertion.",
+          text: "La durée minimale habituelle du temps partiel est de 24 heures par semaine (ou 104 heures par mois). Des dérogations sont prévues : demande écrite motivée du salarié (contraintes personnelles, cumul d'activités), étudiants de moins de 26 ans à leur demande, CDD d'une durée maximale de sept jours, remplacement, salarié d'un particulier employeur, certaines dispositions conventionnelles ou contrats d'insertion.",
         },
         {
           type: "paragraph",
@@ -365,12 +369,12 @@ export const smicSelonNombreHeuresGuide: Guide = {
             [
               "Heures complémentaires",
               "Au-delà du temps partiel contractuel, sans atteindre le temps plein",
-              "Oui (souvent 10 %, puis 25 % au-delà du 1/10e, selon les textes)",
+              "À défaut de taux conventionnel différent : +10 % dans la limite du dixième de la durée contractuelle, puis +25 % au-delà, dans la limite autorisée.",
               "Non (cas ponctuel)",
             ],
             [
               "Heures supplémentaires",
-              "Au-delà de 35 h (ou durée collective)",
+              "Au-delà de 35 h par semaine, ou de la durée considérée comme équivalente",
               "Oui (légale ou conventionnelle)",
               "Oui pour 36–39 h (hypothèse affichée)",
             ],
@@ -562,7 +566,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
           paragraphs: [
             `Contrat à 24 h avec heures complémentaires ponctuelles : le tableau donne ${formatEuro(r24.monthlyGross)} brut pour 24 h contractuelles. Deux heures complémentaires un mois donné ne remplacent pas un contrat à 26 h ; elles suivent le régime des heures complémentaires (plafonds et majorations distincts des heures supplémentaires).`,
             "Changement de durée en cours de mois : si le contrat passe de 20 h à 28 h à une date donnée, le bulletin doit proratiser chaque période. Le calculateur de cette page suppose une durée stable sur le mois entier.",
-            `Contrat à 39 h avec taux conventionnel différent : ${SMIC_HOURS_OVERTIME_HYPOTHESIS} L'hypothèse retenue ici donne environ ${formatEuro(r39.monthlyGross)} brut. Si votre accord prévoit un autre taux (avec un minimum légal de 10 %), le brut des majorations change ; utilisez le calculateur d'heures supplémentaires pour simuler ce taux.`,
+            `Contrat à 39 h avec taux conventionnel différent : ${SMIC_HOURS_OVERTIME_SHORT} L'hypothèse retenue ici donne environ ${formatEuro(r39.monthlyGross)} brut. Si votre accord prévoit un autre taux (avec un minimum légal de 10 %), le brut des majorations change ; utilisez le calculateur d'heures supplémentaires pour simuler ce taux.`,
             "Entrée, sortie ou absence en cours de mois : le salaire du mois n'égale pas le montant mensualisé plein. Absences, jours non travaillés ou entrée/sortie réduisent le brut avant même toute estimation de net.",
           ],
         },
@@ -586,9 +590,9 @@ export const smicSelonNombreHeuresGuide: Guide = {
             "Jusqu'à 35 h : heures mensualisées = H × 52 ÷ 12 ; brut = heures × SMIC horaire ; à 35 h, brut mensuel officiel et net mensuel indicatif Service-Public.",
             SMIC_HOURS_NET_METHOD_SUMMARY,
             SMIC_HOURS_OVERTIME_HYPOTHESIS,
-            "Arrondi monétaire : au centime, sur le résultat final.",
-            "Projections annuelles : × 12 au taux actuel (pas le cumul civil en cas de revalorisation, ni les montants annuels officiels Service-Public).",
-            "Aucun professionnel de la paie n'a validé personnellement chaque situation individuelle décrite ici : le contenu est informatif.",
+            "Arrondi monétaire : chaque composante (brut HS, réduction de cotisations, gain net HS, totaux) est arrondie au centime avant agrégation, comme dans le calculateur d'heures supplémentaires partagé.",
+            "Projections annuelles : montant mensuel × 12 au taux actuel (pas le cumul civil en cas de revalorisation, ni les montants annuels officiels Service-Public).",
+            SMIC_HOURS_SCOPE_DISCLAIMER,
           ],
         },
         {
@@ -622,6 +626,13 @@ export const smicSelonNombreHeuresGuide: Guide = {
         {
           type: "internal-link",
           variant: "guide",
+          intro: `${SMIC_HOURS_SERVICE_PUBLIC_HS.org} :`,
+          label: SMIC_HOURS_SERVICE_PUBLIC_HS.label,
+          href: SMIC_HOURS_SERVICE_PUBLIC_HS.href,
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
           intro: `${SMIC_HOURS_CODE_TRAVAIL_HS.org} :`,
           label: SMIC_HOURS_CODE_TRAVAIL_HS.label,
           href: SMIC_HOURS_CODE_TRAVAIL_HS.href,
@@ -644,7 +655,8 @@ export const smicSelonNombreHeuresGuide: Guide = {
           type: "callout",
           variant: "warning",
           paragraphs: [
-            "Limites : estimation du net (coefficient 0,78 et réduction 11,31 % sont des hypothèses techniques d'estimation du site), majoration HS retenue à défaut d'accord, exclusion des cas particuliers listés plus haut, pas de conseil juridique personnalisé.",
+            "Limites : estimation du net (coefficient 0,78 et réduction 11,31 % sont des hypothèses techniques d'estimation du site), majoration HS retenue à défaut d'accord, exclusion des cas particuliers listés plus haut. " +
+              SMIC_HOURS_SCOPE_DISCLAIMER,
           ],
         },
       ],
@@ -656,7 +668,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
   faq: [
     {
       question: "Quel est le SMIC net pour 20 heures par semaine ?",
-      answer: `Environ ${formatEuro(r20.monthlyNetEstimated)} net estimé par mois pour ${formatEuro(r20.monthlyGross)} brut.`,
+      answer: `Environ ${formatEuro(r20.monthlyNetEstimated)} net estimé par mois pour ${formatEuro(r20.monthlyGross)} brut, avant prélèvement à la source.`,
     },
     {
       question: "Quel salaire au SMIC pour 24 heures ?",
@@ -676,15 +688,15 @@ export const smicSelonNombreHeuresGuide: Guide = {
     },
     {
       question: "Quel est le salaire au SMIC pour 32 heures ?",
-      answer: `${formatEuro(must(32).monthlyGross)} brut / mois, environ ${formatEuro(must(32).monthlyNetEstimated)} net estimé.`,
+      answer: `${formatEuro(must(32).monthlyGross)} brut / mois, environ ${formatEuro(must(32).monthlyNetEstimated)} net estimé. À 32 h, le contrat reste à temps partiel lorsque la référence à temps complet est 35 h : les trois heures séparant 32 h de 35 h ne sont ni travaillées ni rémunérées, et ne sont donc pas des heures supplémentaires.`,
     },
     {
       question: "Quel est le SMIC net à 35 heures ?",
-      answer: `Environ ${SMIC_LABELS.monthlyNet} net mensuel indicatif pour ${SMIC_LABELS.monthlyGross} brut mensuel officiel (références Service-Public).`,
+      answer: `Environ ${SMIC_LABELS.monthlyNet} net mensuel indicatif pour ${SMIC_LABELS.monthlyGross} brut mensuel officiel (références Service-Public), avant prélèvement à la source.`,
     },
     {
       question: "Quel est le salaire au SMIC pour 39 heures ?",
-      answer: `Environ ${formatEuro(r39.monthlyGross)} brut / mois avec l'hypothèse de majoration retenue sur cette page (+${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % à défaut d'accord), soit environ ${formatEuro(r39.monthlyNetEstimated)} net estimé. Un accord collectif peut prévoir un autre taux, avec un minimum légal de 10 %.`,
+      answer: `Environ ${formatEuro(r39.monthlyGross)} brut / mois avec l'hypothèse de majoration retenue sur cette page (+${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % sur les 4 h de 36 à 39, à défaut d'accord), soit environ ${formatEuro(r39.monthlyNetEstimated)} net estimé. Un accord collectif peut prévoir un autre taux, sans descendre sous 10 %.`,
     },
     {
       question: "Comment convertir des heures hebdomadaires en heures mensuelles ?",
@@ -699,16 +711,15 @@ export const smicSelonNombreHeuresGuide: Guide = {
     {
       question: "Peut-on avoir un contrat de moins de 24 heures ?",
       answer:
-        "Oui, dans les cas prévus par la loi ou la convention (demande écrite, étudiants de moins de 26 ans, etc.). Le SMIC horaire reste le même ; seul le volume d'heures change.",
+        "Oui, dans les cas prévus par la loi ou la convention (demande écrite, étudiants de moins de 26 ans à leur demande, CDD d'une durée maximale de sept jours, etc.). Le SMIC horaire reste le même ; seul le volume d'heures change.",
     },
     {
       question: "Les heures entre 35 et 39 heures sont-elles majorées ?",
-      answer: SMIC_HOURS_OVERTIME_HYPOTHESIS,
+      answer: SMIC_HOURS_OVERTIME_SHORT,
     },
     {
       question: "Le net affiché est-il garanti ?",
-      answer:
-        "Non. C'est une estimation indicative avant prélèvement à la source. Votre bulletin peut différer.",
+      answer: SMIC_HOURS_NET_DISCLAIMER,
     },
     {
       question: "Le prélèvement à la source est-il déjà déduit ?",
@@ -742,8 +753,8 @@ export const smicSelonNombreHeuresGuide: Guide = {
     keyPoints: [
       "Le SMIC se lit d'abord à l'heure : le salaire mensuel dépend de la durée contractuelle.",
       "Jusqu'à 35 h, utilisez la mensualisation H × 52 ÷ 12 ; au-delà, séparez les heures supplémentaires.",
-      "Le net affiché est une estimation, jamais un montant légal garanti.",
-      SMIC_HOURS_OVERTIME_HYPOTHESIS,
+      SMIC_HOURS_NET_DISCLAIMER,
+      SMIC_HOURS_OVERTIME_SHORT,
     ],
     closingText:
       "Pour un autre brut, une simulation d'heures supplémentaires ou le montant officiel du SMIC, utilisez les outils ci-dessous.",
@@ -760,6 +771,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
     },
     relatedGuides: [
       { title: "SMIC : montants officiels", href: SMIC_PATH },
+      { title: "Salaire en intérim (IFM et congés payés)", href: "/salaire-interim-calcul-brut-net" },
       { title: "Salaire en alternance", href: ALTERNANCE },
       { title: "Lire une fiche de paie", href: LIRE_FICHE },
       { title: "Cotisations salariales", href: COTISATIONS },

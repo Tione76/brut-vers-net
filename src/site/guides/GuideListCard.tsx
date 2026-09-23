@@ -25,7 +25,9 @@ export function GuideListCard({ guide }: GuideListCardProps) {
         />
       </span>
       <span className="guide-list-card__body">
-        <h3 className="guide-list-card__title">{guide.title}</h3>
+        <h3 className="guide-list-card__title">
+          {guide.breadcrumbLabel ?? guide.title}
+        </h3>
         {teaser && <span className="guide-list-card__desc">{teaser}</span>}
         <span className="guide-list-card__cta">Lire le guide →</span>
       </span>

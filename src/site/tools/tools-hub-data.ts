@@ -20,6 +20,12 @@ export const TOOL_HUB_TEASERS: Record<string, string> = {
     "Mesurez ce qu'une augmentation brute représente réellement en net, chaque mois et sur une année.",
   "salaire-heures-supplementaires":
     "Calculez le brut et le net de vos heures supplémentaires, puis votre nouveau salaire mensuel.",
+  "salaire-arret-maladie":
+    "Estimez les IJSS, le complément employeur et la perte de revenu pendant un arrêt maladie dans le privé.",
+  "calcul-ijss-arret-maladie":
+    "Estimez l'IJSS journalière, les jours indemnisés et le total après carence.",
+  "maintien-salaire-arret-maladie":
+    "Estimez le complément légal de l'employeur : conditions, délai de 7 jours, 90 % puis deux tiers.",
   "indemnite-licenciement":
     "Estimez le montant minimal de l'indemnité légale selon votre salaire de référence et votre ancienneté.",
 };
@@ -33,6 +39,9 @@ export const TOOL_HUB_CTAS: Record<string, string> = {
   "brut-vers-net": "Calculer votre salaire net",
   "augmentation-salaire": "Simuler votre augmentation",
   "salaire-heures-supplementaires": "Calculer vos heures supplémentaires",
+  "salaire-arret-maladie": "Estimer mon salaire en arrêt",
+  "calcul-ijss-arret-maladie": "Calculer mes IJSS",
+  "maintien-salaire-arret-maladie": "Calculer le complément employeur",
   "indemnite-licenciement": "Calculer votre indemnité",
 };
 

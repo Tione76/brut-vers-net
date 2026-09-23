@@ -77,7 +77,12 @@ export function buildGuideTocH2(guide: Guide): GuideTocEntry[] {
     level: 2 as const,
   }));
 
-  entries.push({ id: "faq", title: "Questions fréquentes", level: 2 });
+  const faqId = guide.faqSectionId ?? "faq";
+  entries.push({
+    id: faqId,
+    title: guide.faqTitle ?? "Questions fréquentes",
+    level: 2,
+  });
   entries.push({
     id: "conclusion",
     title: guide.conclusion.title ?? "Conclusion",
@@ -98,7 +103,12 @@ export function buildGuideToc(guide: Guide): GuideTocEntry[] {
     }
   }
 
-  entries.push({ id: "faq", title: "Questions fréquentes", level: 2 });
+  const faqId = guide.faqSectionId ?? "faq";
+  entries.push({
+    id: faqId,
+    title: guide.faqTitle ?? "Questions fréquentes",
+    level: 2,
+  });
   entries.push({
     id: "conclusion",
     title: guide.conclusion.title ?? "Conclusion",

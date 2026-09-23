@@ -508,6 +508,8 @@ export const smicGuide: Guide = {
       href: "/",
     },
     relatedGuides: [
+      { title: "SMIC selon le nombre d'heures", href: "/smic-selon-nombre-heures" },
+      { title: "Salaire en intérim (IFM et congés payés)", href: "/salaire-interim-calcul-brut-net" },
       { title: "Salaire moyen en France", href: "/salaire-moyen-france" },
       { title: "Différence brut / net", href: BRUT_NET_EXPLIQUE_HREF },
       { title: "Cotisations salariales", href: COTISATIONS_HREF },

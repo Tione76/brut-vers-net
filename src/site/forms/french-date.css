@@ -1,0 +1,143 @@
+.french-date {
+  position: relative;
+}
+
+.french-date input {
+  padding-right: 2.6rem;
+}
+
+.french-date__trigger {
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.french-date__trigger:hover,
+.french-date__trigger:focus-visible {
+  color: var(--ds-brand, #f28539);
+}
+
+.french-date__trigger:focus-visible {
+  outline: 2px solid var(--ds-brand, #f28539);
+  outline-offset: 1px;
+}
+
+.french-date__popover {
+  position: fixed;
+  z-index: 80;
+  box-sizing: border-box;
+  padding: 0.75rem 0.8rem 0.85rem;
+  border: 1px solid var(--ds-border, #d8dde6);
+  border-radius: 10px;
+  background: #ffffff;
+  color: #161616;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.16);
+}
+
+.french-date__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.55rem;
+}
+
+.french-date__month {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.french-date__nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--ds-border, #d8dde6);
+  border-radius: 6px;
+  background: #fff;
+  color: #161616;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.french-date__nav-btn:hover,
+.french-date__nav-btn:focus-visible {
+  border-color: var(--ds-brand, #f28539);
+  color: var(--ds-brand, #f28539);
+}
+
+.french-date__nav-btn:focus-visible {
+  outline: 2px solid var(--ds-brand, #f28539);
+  outline-offset: 1px;
+}
+
+.french-date__weekdays,
+.french-date__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.2rem;
+}
+
+.french-date__weekdays {
+  margin-bottom: 0.25rem;
+  color: #4b5563;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.french-date__day {
+  min-height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #161616;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.french-date__day--empty {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.french-date__day:hover,
+.french-date__day:focus-visible {
+  background: color-mix(in srgb, var(--ds-brand, #f28539) 16%, #fff);
+}
+
+.french-date__day:focus-visible {
+  outline: 2px solid var(--ds-brand, #f28539);
+  outline-offset: 1px;
+}
+
+.french-date__day--today {
+  box-shadow: inset 0 0 0 1.5px var(--ds-brand, #f28539);
+}
+
+.french-date__day--selected,
+.french-date__day--selected:hover {
+  background: var(--ds-brand, #f28539);
+  color: #ffffff;
+  font-weight: 700;
+}

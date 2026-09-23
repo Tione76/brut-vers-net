@@ -453,5 +453,11 @@ export const commentCalculerSonSalaireNetGuide: Guide = {
       description: "Estimez votre salaire net à partir de votre salaire brut.",
       href: "/",
     },
+    relatedGuides: [
+      {
+        title: "Calcul du salaire pendant un arrêt maladie",
+        href: "/salaire-arret-maladie",
+      },
+    ],
   },
 };

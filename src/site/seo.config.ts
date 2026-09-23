@@ -37,6 +37,39 @@ export const seoConfig = {
       indexable: true,
       navTitle: "Simulateur de salaire avec heures supplémentaires",
     },
+    "salaire-arret-maladie": {
+      path: "/salaire-arret-maladie",
+      title: "Simulateur de salaire en arrêt maladie",
+      h1: "Simulateur de salaire en arrêt maladie",
+      subtitle:
+        "Estimez les IJSS, le complément employeur et la perte de revenu pendant un arrêt maladie dans le privé.",
+      description:
+        "Estimez les IJSS, le complément employeur et la perte de revenu pendant un arrêt maladie dans le privé.",
+      indexable: true,
+      navTitle: "Simulateur de salaire en arrêt maladie",
+    },
+    "calcul-ijss-arret-maladie": {
+      path: "/calcul-ijss-arret-maladie",
+      title: "Calculateur d'IJSS en arrêt maladie",
+      h1: "Calculateur d'IJSS en arrêt maladie",
+      subtitle:
+        "Estimez l'IJSS journalière, les jours indemnisés et le total après carence.",
+      description:
+        "Estimez l'IJSS journalière, les jours indemnisés et le total après carence.",
+      indexable: true,
+      navTitle: "Calculateur d'IJSS en arrêt maladie",
+    },
+    "maintien-salaire-arret-maladie": {
+      path: "/maintien-salaire-arret-maladie",
+      title: "Maintien de salaire en arrêt maladie (privé) : calcul et conditions",
+      h1: "Maintien de salaire en arrêt maladie dans le privé : calcul et conditions",
+      subtitle:
+        "Vérifiez si votre employeur doit compléter vos IJSS et estimez le minimum légal selon votre ancienneté, la durée de votre arrêt et les droits déjà utilisés.",
+      description:
+        "Calculez le maintien de salaire en arrêt maladie dans le privé : complément employeur, ancienneté, délai de 7 jours, taux de 90 % puis deux tiers.",
+      indexable: true,
+      navTitle: "Calculateur de maintien de salaire en arrêt maladie",
+    },
     "indemnite-licenciement": {
       path: "/calculateurs/indemnite-licenciement",
       title: "Calcul indemnité de licenciement → simulateur gratuit",

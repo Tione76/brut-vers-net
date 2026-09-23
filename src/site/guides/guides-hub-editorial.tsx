@@ -33,7 +33,7 @@ export function GuidesHubEditorial() {
           ou{" "}
           <Link href="/guides/prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne">
             anticiper le prélèvement à la source
-          </Link>
+              </Link>
           .
         </p>
         <p>
@@ -84,9 +84,9 @@ export function GuidesHubWhySection() {
         ou par{" "}
         <Link href="/guides/comment-calculer-son-salaire-net">
           le calcul pas à pas du salaire net
-        </Link>
-        .
-      </p>
+                </Link>
+                .
+              </p>
     </section>
   );
 }

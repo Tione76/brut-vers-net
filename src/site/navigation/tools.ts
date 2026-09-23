@@ -13,6 +13,9 @@ export type ToolNavItem = {
 const MENU_SHORT_TITLES: Record<string, string> = {
   "brut-vers-net": "Calculateur de salaire brut vers net",
   "salaire-heures-supplementaires": "Calculateur de salaire avec heures sup",
+  "salaire-arret-maladie": "Simulateur de salaire en arrêt maladie (privé)",
+  "calcul-ijss-arret-maladie": "Calculateur d'IJSS en arrêt maladie (privé)",
+  "maintien-salaire-arret-maladie": "Calculateur de maintien de salaire (privé)",
 };
 
 export const toolsNavigation: ToolNavItem[] = getAllCalculators().map((calc) => ({

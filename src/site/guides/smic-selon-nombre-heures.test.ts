@@ -70,7 +70,6 @@ describe("page SMIC selon le nombre d'heures", () => {
     expect(article?.image).toEqual({
       "@id": `https://www.brut-vers-net.fr${path}#primaryimage`,
     });
-    expect(graph.find((node) => node["@type"] === "FAQPage")).toBeUndefined();
   });
 
   it("est indexable et présente dans sitemap, plan du site et hub guides", () => {
@@ -98,15 +97,19 @@ describe("page SMIC selon le nombre d'heures", () => {
     );
   });
 
-  it("conserve une FAQ HTML visible sans Schema FAQPage", () => {
+  it("expose une FAQ HTML visible avec Schema FAQPage aligné", () => {
     const guide = getGuideBySlug(slug)!;
     expect(guide.faq.length).toBeGreaterThanOrEqual(10);
-    expect(guide.includeFaqSchema).toBe(false);
+    expect(guide.includeFaqSchema).not.toBe(false);
     expect(guide.faqSectionId).toBe("questions-frequentes");
 
     const graph = buildGuideJsonLd(guide)["@graph"] as Record<string, unknown>[];
-    const faqPage = graph.find((node) => node["@type"] === "FAQPage");
-    expect(faqPage).toBeUndefined();
+    const faqPage = graph.find((node) => node["@type"] === "FAQPage") as {
+      mainEntity?: { name: string; acceptedAnswer?: { text: string } }[];
+    };
+    expect(faqPage).toBeTruthy();
+    const names = (faqPage.mainEntity ?? []).map((item) => item.name);
+    expect(names).toEqual(guide.faq.map((item) => item.question));
     const article = graph.find((node) => node["@type"] === "Article");
     expect(article).toBeTruthy();
     const breadcrumb = graph.find((node) => node["@type"] === "BreadcrumbList");
@@ -154,24 +157,46 @@ describe("page SMIC selon le nombre d'heures", () => {
     expect(blob).toContain(
       "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006072050/LEGISCTA000006189631/",
     );
+    expect(blob).toContain("https://www.service-public.fr/particuliers/vosdroits/F2391");
+    expect(blob).toContain("36e à la 43e heure");
+    expect(blob).toContain("ni travaillées ni rémunérées");
+    expect(blob).toContain("durée considérée comme équivalente");
+    expect(blob).toContain("CDD d'une durée maximale de sept jours");
     expect(blob).not.toContain("F2460");
     expect(blob).not.toContain("plus recherchées");
     expect(blob).not.toContain("fréquemment recherchée");
     expect(blob).not.toContain("accord collectif plus favorable");
     expect(blob).not.toContain("cas général métropolitain");
+    expect(blob).not.toContain("quatre premières heures supplémentaires");
+    expect(blob).not.toContain("Le net n'est jamais un montant légal");
+    expect(blob).not.toContain("CDD très courts");
   });
 
-  it("aligne FAQ et exemples sur le moteur de calcul", () => {
+  it("aligne FAQ, tableau et moteur sur les mêmes montants", () => {
     const guide = getGuideBySlug(slug)!;
     const r20 = calculateSmicForWeeklyHours(20)!;
+    const r32 = calculateSmicForWeeklyHours(32)!;
     const r35 = calculateSmicForWeeklyHours(35)!;
+    const r39 = calculateSmicForWeeklyHours(39)!;
     expect(guide.faq.some((item) => item.answer.includes(formatEuro(r20.monthlyNetEstimated)))).toBe(
       true,
     );
+    expect(guide.faq.some((item) => item.answer.includes(formatEuro(r39.monthlyNetEstimated)))).toBe(
+      true,
+    );
+    expect(guide.faq.some((item) => item.answer.includes("ni travaillées ni rémunérées"))).toBe(
+      true,
+    );
+    expect(r32.monthlyGross).toBe(1706.99);
     expect(r35.monthlyGross).toBe(SMIC_CURRENT.monthlyGross);
+    expect(r35.monthlyNetEstimated).toBe(SMIC_CURRENT.monthlyNetIndicative);
+    expect(r39.monthlyNetEstimated).toBe(1716.14);
     expect(guide.introSummary?.items.some((item) => item.includes(SMIC_LABELS.hourlyGross))).toBe(
       true,
     );
+    expect(guide.seoTitle).toContain("2026");
+    expect(guide.description).toContain("2026");
+    expect(guide.title).toBe(SMIC_HOURS_H1);
   });
 
   it("est liée depuis la page /smic", () => {

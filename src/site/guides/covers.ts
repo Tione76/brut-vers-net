@@ -53,6 +53,8 @@ export interface GuideCoverImage {
   width: number;
   height: number;
   credit: CoverCredit;
+  /** Légende Schema `caption` si distincte de l'alt. */
+  caption?: string;
 }
 
 const COVERS_ROOT = "/images/covers";
@@ -63,6 +65,7 @@ function cover(
   credit: CoverCredit,
   width: number,
   height: number,
+  caption?: string,
 ): GuideCoverImage {
   return {
     src: `${COVERS_ROOT}/${relativePath}`,
@@ -70,6 +73,7 @@ function cover(
     width,
     height,
     credit,
+    ...(caption ? { caption } : {}),
   };
 }
 
@@ -236,6 +240,51 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "salaire-interim-calcul-brut-net": cover(
+    "guides/Salaire-brut-net-interim.webp",
+    "Deux agents logistiques transportant des cartons dans un entrepôt",
+    {
+      photographer: "Tiger Lily",
+      source: "Pexels",
+      text: "Photo de Tiger Lily via Pexels",
+    },
+    1200,
+    800,
+  ),
+  "salaire-arret-maladie": cover(
+    "guides/salaire-arret-maladie.webp",
+    "Homme en veste et écharpe se mouchant à un bureau lumineux, avec ordinateur portable, mouchoirs et casque audio",
+    {
+      photographer: "Gustavo Fring",
+      source: "Pexels",
+      text: "Photo de Gustavo Fring via Pexels",
+    },
+    1200,
+    800,
+  ),
+  "calcul-ijss-arret-maladie": cover(
+    "guides/calcul-ijss-prive.webp",
+    "Calcul des indemnités journalières de Sécurité sociale pendant un arrêt maladie",
+    {
+      photographer: "kaboompics.com",
+      source: "Pexels",
+      text: "Photo de kaboompics.com via Pexels",
+    },
+    1200,
+    800,
+    "Calcul des IJSS en arrêt maladie dans le secteur privé",
+  ),
+  "maintien-salaire-arret-maladie": cover(
+    "guides/maintien-salaire-arret-maladie-prive.webp",
+    "Homme masqué en manteau et écharpe, tenant des feuilles à un bureau blanc, avec casque audio, lunettes et ordinateur portable",
+    {
+      photographer: "Gustavo Fring",
+      source: "Pexels",
+      text: "Photo de Gustavo Fring via Pexels",
+    },
+    1200,
+    800,
+  ),
   "salaire-moyen-france": cover(
     "guides/Salaire-moyen-France.webp",
     "Femme concentrée travaillant sur un ordinateur portable à un bureau blanc, crayon à la main, dans une pièce lumineuse",
@@ -264,7 +313,7 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
 };
 
 export function getCalculatorCover(id: string): GuideCoverImage {
-  return CALCULATOR_COVERS[id] ?? HOME_COVER;
+  return CALCULATOR_COVERS[id] ?? GUIDE_COVERS[id] ?? HOME_COVER;
 }
 
 export function getGuideCover(slug: string): GuideCoverImage | undefined {
@@ -283,6 +332,18 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/smic-selon-nombre-heures") {
     return getGuideCover("smic-selon-nombre-heures");
+  }
+  if (href === "/salaire-interim-calcul-brut-net") {
+    return getGuideCover("salaire-interim-calcul-brut-net");
+  }
+  if (href === "/salaire-arret-maladie") {
+    return getGuideCover("salaire-arret-maladie");
+  }
+  if (href === "/calcul-ijss-arret-maladie") {
+    return getGuideCover("calcul-ijss-arret-maladie");
+  }
+  if (href === "/maintien-salaire-arret-maladie") {
+    return getGuideCover("maintien-salaire-arret-maladie");
   }
   if (href === "/salaire-moyen-france") {
     return getGuideCover("salaire-moyen-france");

@@ -372,6 +372,13 @@ export const cotisationsSalarialesGuide: Guide = {
           text: "Consultation médicale remboursée, indemnités en cas d'arrêt maladie, droits retraite constitués mois après mois, couverture prévoyance selon le contrat : voilà ce que ces retenues permettent de financer collectivement.",
         },
         {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour estimer les indemnités versées par la CPAM,",
+          label: "montant des indemnités journalières",
+          href: "/calcul-ijss-arret-maladie",
+        },
+        {
           type: "paragraph",
           text: "Autrement dit, une partie de votre rémunération brute est convertie en protection sociale plutôt qu'en liquidités immédiates. C'est ce qui explique pourquoi votre salaire brut reste supérieur à votre salaire net avant impôt, sans que cette différence soit un simple prélèvement sans contrepartie.",
         },
@@ -580,5 +587,11 @@ export const cotisationsSalarialesGuide: Guide = {
       description: "Estimez votre salaire net à partir de votre salaire brut.",
       href: "/",
     },
+    relatedGuides: [
+      {
+        title: "Estimer sa perte de revenu pendant un arrêt",
+        href: "/salaire-arret-maladie",
+      },
+    ],
   },
 };

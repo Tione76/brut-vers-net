@@ -46,6 +46,10 @@ describe("covers registry", () => {
         "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
         "pourquoi-salaire-net-change-septembre-2026",
         "smic",
+        "salaire-interim-calcul-brut-net",
+        "salaire-arret-maladie",
+        "calcul-ijss-arret-maladie",
+        "maintien-salaire-arret-maladie",
         "salaire-moyen-france",
         "quel-est-un-bon-salaire-en-france",
         "salaire-alternance",
@@ -54,6 +58,83 @@ describe("covers registry", () => {
     expect(getGuideCover("comment-est-calcule-le-salaire-net")?.src).toContain(
       "Comment-calculer-salaire-net.webp",
     );
+    const interimCover = getGuideCover("salaire-interim-calcul-brut-net");
+    expect(interimCover?.src).toBe(
+      "/images/covers/guides/Salaire-brut-net-interim.webp",
+    );
+    expect(formatCoverCredit(interimCover!.credit)).toBe(
+      "Photo de Tiger Lily via Pexels",
+    );
+    expect(interimCover?.width).toBe(1200);
+    expect(interimCover?.height).toBe(800);
+    expect(interimCover?.alt).toBe(
+      "Deux agents logistiques transportant des cartons dans un entrepôt",
+    );
+    const arretMaladieCover = getGuideCover("salaire-arret-maladie");
+    expect(arretMaladieCover?.src).toBe(
+      "/images/covers/guides/salaire-arret-maladie.webp",
+    );
+    expect(formatCoverCredit(arretMaladieCover!.credit)).toBe(
+      "Photo de Gustavo Fring via Pexels",
+    );
+    expect(arretMaladieCover?.credit.photographer).toBe("Gustavo Fring");
+    expect(arretMaladieCover?.credit.source).toBe("Pexels");
+    expect(arretMaladieCover?.credit.text).toBe("Photo de Gustavo Fring via Pexels");
+    expect(arretMaladieCover?.width).toBe(1200);
+    expect(arretMaladieCover?.height).toBe(800);
+    expect(arretMaladieCover?.alt).toBe(
+      "Homme en veste et écharpe se mouchant à un bureau lumineux, avec ordinateur portable, mouchoirs et casque audio",
+    );
+    expect(arretMaladieCover?.alt.toLowerCase()).not.toContain("salaire");
+    expect(arretMaladieCover?.alt.toLowerCase()).not.toContain("gustavo");
+    expect(arretMaladieCover?.alt.toLowerCase()).not.toContain("pexels");
+    const ijssCover = getGuideCover("calcul-ijss-arret-maladie");
+    expect(ijssCover?.src).toBe("/images/covers/guides/calcul-ijss-prive.webp");
+    expect(ijssCover?.src).not.toMatch(/[A-Z]/);
+    expect(ijssCover?.src).not.toMatch(/[éèàùâêîôûçÉÈÀÙ]/);
+    expect(ijssCover?.src).not.toContain(" ");
+    expect(formatCoverCredit(ijssCover!.credit)).toBe(
+      "Photo de kaboompics.com via Pexels",
+    );
+    expect(ijssCover?.credit.photographer).toBe("kaboompics.com");
+    expect(ijssCover?.credit.source).toBe("Pexels");
+    expect(ijssCover?.credit.text).toBe("Photo de kaboompics.com via Pexels");
+    expect(ijssCover?.credit.acquireLicensePage).toBeUndefined();
+    expect(ijssCover?.credit.copyrightNotice).toBeUndefined();
+    expect(getCoverLicenseUrl(ijssCover!.credit)).toBe(PEXELS_LICENSE_URL);
+    expect(ijssCover?.width).toBe(1200);
+    expect(ijssCover?.height).toBe(800);
+    expect(ijssCover?.alt).toBe(
+      "Calcul des indemnités journalières de Sécurité sociale pendant un arrêt maladie",
+    );
+    expect(ijssCover?.caption).toBe(
+      "Calcul des IJSS en arrêt maladie dans le secteur privé",
+    );
+    expect(ijssCover?.alt.toLowerCase()).not.toContain("kaboompics");
+    expect(ijssCover?.alt.toLowerCase()).not.toContain("pexels");
+    expect(ijssCover?.alt.toLowerCase()).not.toMatch(/^image de|^photo de/);
+    const maintienCover = getGuideCover("maintien-salaire-arret-maladie");
+    expect(maintienCover?.src).toBe(
+      "/images/covers/guides/maintien-salaire-arret-maladie-prive.webp",
+    );
+    expect(formatCoverCredit(maintienCover!.credit)).toBe(
+      "Photo de Gustavo Fring via Pexels",
+    );
+    expect(maintienCover?.credit.photographer).toBe("Gustavo Fring");
+    expect(maintienCover?.credit.source).toBe("Pexels");
+    expect(maintienCover?.credit.text).toBe("Photo de Gustavo Fring via Pexels");
+    expect(maintienCover?.credit.acquireLicensePage).toBeUndefined();
+    expect(maintienCover?.credit.copyrightNotice).toBeUndefined();
+    expect(getCoverLicenseUrl(maintienCover!.credit)).toBe(PEXELS_LICENSE_URL);
+    expect(maintienCover?.width).toBe(1200);
+    expect(maintienCover?.height).toBe(800);
+    expect(maintienCover?.alt).toBe(
+      "Homme masqué en manteau et écharpe, tenant des feuilles à un bureau blanc, avec casque audio, lunettes et ordinateur portable",
+    );
+    expect(maintienCover?.alt.toLowerCase()).not.toContain("salaire");
+    expect(maintienCover?.alt.toLowerCase()).not.toContain("gustavo");
+    expect(maintienCover?.alt.toLowerCase()).not.toContain("pexels");
+    expect(maintienCover?.alt.toLowerCase()).not.toMatch(/^image de|^photo de/);
     const septCover = getGuideCover("pourquoi-salaire-net-change-septembre-2026");
     expect(septCover?.src).toBe(
       "/images/covers/guides/Pourquoi-salaire-net-change-septembre-2026.webp",

@@ -7,6 +7,7 @@ import type { GuideSidebarLink, SidebarTool } from "./sidebar";
 import type { GuideBlock, GuideTocEntry } from "./types";
 import { GUIDE_CALLOUT_LABELS } from "./types";
 import { GuideIllustration } from "./illustrations";
+import { GuideFaqDisclosure } from "./GuideFaqDisclosure";
 
 function blockKey(prefix: string, block: GuideBlock, index: number): string {
   return `${prefix}-${block.type}-${index}`;
@@ -92,8 +93,24 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
             <li key={step.title} className="guide-steps__item">
               <span className="guide-steps__num" aria-hidden="true">{i + 1}</span>
               <div>
-                <p className="guide-steps__title">{step.title}</p>
-                <p className="guide-steps__desc">{step.description}</p>
+                <p className="guide-steps__title">
+                  {step.title}
+                  {step.href && step.label ? (
+                    <>
+                      {" "}
+                      {step.href.startsWith("http") ? (
+                        <a href={step.href} rel="noopener noreferrer" target="_blank">
+                          {step.label}
+                        </a>
+                      ) : (
+                        <Link href={step.href}>{step.label}</Link>
+                      )}
+                    </>
+                  ) : null}
+                </p>
+                {step.description ? (
+                  <p className="guide-steps__desc">{step.description}</p>
+                ) : null}
               </div>
             </li>
           ))}
@@ -112,7 +129,9 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
 
     case "table":
       return (
-        <figure className="guide-table-wrap">
+        <figure
+          className={`guide-table-wrap${block.stackOnMobile ? " guide-table-wrap--stack" : ""}`}
+        >
           <div className="guide-table-scroll">
             <table className="guide-table">
               <thead>
@@ -125,16 +144,39 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
                 </tr>
               </thead>
               <tbody>
-                {block.rows.map((row) => (
-                  <tr key={row.join("-")}>
-                    {row.map((cell) => (
-                      <td key={cell}>{cell}</td>
+                {block.rows.map((row, rowIndex) => (
+                  <tr key={`${rowIndex}-${row[0] ?? ""}`}>
+                    {row.map((cell, cellIndex) => (
+                      <td key={`${rowIndex}-${cellIndex}`}>{cell}</td>
                     ))}
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          {block.stackOnMobile ? (
+            <div className="guide-table-cards" role="list">
+              {block.rows.map((row, rowIndex) => (
+                <div
+                  key={`${rowIndex}-${row[0] ?? ""}`}
+                  className="guide-table-card"
+                  role="listitem"
+                >
+                  {row.map((cell, cellIndex) => (
+                    <div
+                      key={`${rowIndex}-${cellIndex}`}
+                      className="guide-table-card__row"
+                    >
+                      <span className="guide-table-card__label">
+                        {block.headers[cellIndex]}
+                      </span>
+                      <span className="guide-table-card__value">{cell}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          ) : null}
           {block.caption && <figcaption>{block.caption}</figcaption>}
         </figure>
       );
@@ -215,30 +257,30 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
 export function GuideInlineToc({
   entries,
   title = "Dans ce guide",
+  id = "sommaire",
 }: {
   entries: GuideTocEntry[];
   title?: string;
+  id?: string;
 }) {
   const compact = entries.length >= 8;
   const navClass = compact ? "guide-toc guide-toc--compact" : "guide-toc";
 
   return (
-    <nav className={navClass} aria-label={title}>
+    <nav id={id} className={navClass} aria-label={title}>
       <p className="guide-toc__title">{title}</p>
-      <details className="guide-toc__details" open>
-        <summary>
-          Afficher le sommaire ({entries.length} sections)
-        </summary>
-        <ol className="guide-toc__list">
-          {entries.map((entry) => (
-            <li key={entry.id}>
-              <a href={`#${entry.id}`} className="guide-toc__link">
-                {entry.title}
-              </a>
-            </li>
-          ))}
-        </ol>
+      <details className="guide-toc__mobile">
+        <summary>Afficher le sommaire ({entries.length} sections)</summary>
       </details>
+      <ol className="guide-toc__list">
+        {entries.map((entry) => (
+          <li key={entry.id}>
+            <a href={`#${entry.id}`} className="guide-toc__link">
+              {entry.title}
+            </a>
+          </li>
+        ))}
+      </ol>
     </nav>
   );
 }
@@ -371,6 +413,20 @@ interface GuideArticleProps {
   };
   /** Contenu React juste après l'introduction (ex. calculateur interactif). */
   afterIntroduction?: import("react").ReactNode;
+  /** Contenu React juste après le sommaire (ex. calculateur en section dédiée). */
+  afterToc?: import("react").ReactNode;
+  /**
+   * Emplacement de la couverture.
+   * - `inline` (défaut) : après le premier paragraphe d'intro
+   * - `after-slot` : après le calculateur (`afterToc` s'il est fourni, sinon `afterIntroduction`)
+   */
+  coverPlacement?: "inline" | "after-slot";
+  /**
+   * Emplacement du sommaire.
+   * - `inline` (défaut) : avant `afterToc`
+   * - `after-slot` : juste après le calculateur / `afterToc`
+   */
+  tocPlacement?: "inline" | "after-slot";
   /** Contenu React injecté juste sous le H2 d'une section (clé = id de section). */
   sectionSlots?: Record<string, import("react").ReactNode>;
   /** Identifiant d'ancre de la section FAQ (défaut : faq). */
@@ -496,10 +552,17 @@ export function GuideArticle({
   cover,
   share,
   afterIntroduction,
+  afterToc,
+  coverPlacement = "inline",
+  tocPlacement = "inline",
   sectionSlots,
   faqSectionId = "faq",
 }: GuideArticleProps) {
   const [firstParagraph, ...restIntroduction] = introduction;
+  const coverAfterSlot = coverPlacement === "after-slot";
+  const coverAfterToc = coverAfterSlot && Boolean(afterToc);
+  const tocAfterSlot = tocPlacement === "after-slot";
+  const tocBlock = toc.length > 0 ? <GuideInlineToc entries={toc} /> : null;
   const isEarlyAmountSummary =
     Boolean(quickSummary) &&
     (quickSummary?.variant === "age-bands" ||
@@ -554,13 +617,24 @@ export function GuideArticle({
     <>
       <div className="guide-intro">
         {firstParagraph ? <p>{firstParagraph}</p> : null}
-        {cover ? <CoverFigure cover={cover} priority /> : null}
+        {!coverAfterSlot && cover ? <CoverFigure cover={cover} priority /> : null}
         {restIntroduction.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
+        {tocAfterSlot && tocBlock ? (
+          <p className="guide-toc-skip-wrap">
+            <a href="#sommaire" className="guide-toc-skip">
+              Aller au sommaire
+            </a>
+          </p>
+        ) : null}
       </div>
 
       {afterIntroduction ?? null}
+
+      {coverAfterSlot && !coverAfterToc && cover ? (
+        <CoverFigure cover={cover} priority={false} />
+      ) : null}
 
       {leadAnswerSection
         ? renderSection(leadAnswerSection, "guide-section--lead-answer")
@@ -585,8 +659,16 @@ export function GuideArticle({
         </aside>
       ) : null}
 
-      {/* Sommaire tôt : avant le partage et le contenu détaillé */}
-      <GuideInlineToc entries={toc} />
+      {/* Sommaire tôt : avant le calculateur, sauf placement after-slot */}
+      {!tocAfterSlot ? tocBlock : null}
+
+      {afterToc ?? null}
+
+      {tocAfterSlot ? tocBlock : null}
+
+      {coverAfterToc && cover ? (
+        <CoverFigure cover={cover} priority={false} />
+      ) : null}
 
       {/* Schémas pipeline / reading-order / formula : après le sommaire */}
       {isDeferredSummary && quickSummary ? (
@@ -599,32 +681,30 @@ export function GuideArticle({
         {faqIntro ? <p>{faqIntro}</p> : null}
         <div className="faq-list">
           {faq.map((item) => (
-            <details key={item.question} className="faq-item">
-              <summary className="faq-item__summary">
-                <span>{item.question}</span>
-                <span className="faq-chevron" aria-hidden="true">▾</span>
-              </summary>
-              <div className="faq-item__body">
-                <p>{item.answer}</p>
-              </div>
-            </details>
+            <GuideFaqDisclosure
+              key={item.question}
+              question={item.question}
+              answer={item.answer}
+            />
           ))}
         </div>
       </section>
 
       <section id="conclusion" className="guide-conclusion">
         <h2>{conclusion.title ?? "Conclusion"}</h2>
-        <div className="guide-conclusion__points">
-          <p className="guide-conclusion__points-title">À retenir</p>
-          <ul className="guide-conclusion__list">
-            {conclusion.keyPoints.map((point) => (
-              <li key={point}>
-                <span className="guide-conclusion__check" aria-hidden="true">✔</span>
-                {point}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {conclusion.keyPoints.length > 0 ? (
+          <div className="guide-conclusion__points">
+            <p className="guide-conclusion__points-title">À retenir</p>
+            <ul className="guide-conclusion__list">
+              {conclusion.keyPoints.map((point) => (
+                <li key={point}>
+                  <span className="guide-conclusion__check" aria-hidden="true">✔</span>
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         <p className="guide-conclusion__closing">{conclusion.closingText}</p>
         {conclusion.closingCta &&
           (isTemplate || isPlaceholderHref(conclusion.closingCta.href) ? (
@@ -634,6 +714,22 @@ export function GuideArticle({
               {conclusion.closingCta.label}
             </Link>
           ))}
+        {conclusion.closingSecondaryLinks && conclusion.closingSecondaryLinks.length > 0 ? (
+          <p className="guide-conclusion__secondary">
+            {conclusion.closingSecondaryLinks.map((link, index) => (
+              <span key={`${link.href}-${link.label}`}>
+                {index > 0 ? (
+                  <span aria-hidden="true"> · </span>
+                ) : null}
+                {isTemplate || isPlaceholderHref(link.href) ? (
+                  <span>{link.label}</span>
+                ) : (
+                  <Link href={link.href}>{link.label}</Link>
+                )}
+              </span>
+            ))}
+          </p>
+        ) : null}
       </section>
 
       <ShareBlock

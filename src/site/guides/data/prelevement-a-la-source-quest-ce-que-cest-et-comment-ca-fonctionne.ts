@@ -640,5 +640,11 @@ export const prelevementALaSourceGuide: Guide = {
       description: "Estimez votre salaire net à partir de votre salaire brut.",
       href: "/",
     },
+    relatedGuides: [
+      {
+        title: "Salaire en arrêt maladie",
+        href: "/salaire-arret-maladie",
+      },
+    ],
   },
 };

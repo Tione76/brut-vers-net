@@ -1,0 +1,107 @@
+.sick-leave-cluster {
+  margin: 0 0 1.5rem;
+  padding: 0.95rem 1rem 1rem;
+  max-width: 100%;
+  background: var(--ds-surface-alt);
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius);
+  box-sizing: border-box;
+}
+
+.sick-leave-cluster__title {
+  margin: 0 0 0.7rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ds-text);
+}
+
+.sick-leave-cluster__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.sick-leave-cluster__item {
+  margin: 0;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--ds-border-light);
+  border-radius: 6px;
+  background: var(--ds-surface);
+  box-sizing: border-box;
+}
+
+.sick-leave-cluster__item--related {
+  border-color: var(--ds-border);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+.sick-leave-cluster__item--current {
+  border-style: dashed;
+  background: var(--ds-surface-alt);
+}
+
+.sick-leave-cluster__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.65rem;
+  margin: 0 0 0.2rem;
+}
+
+.sick-leave-cluster__label,
+.sick-leave-cluster__link {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.sick-leave-cluster__label {
+  color: var(--ds-text);
+}
+
+.sick-leave-cluster__link {
+  color: var(--ds-brand);
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+.sick-leave-cluster__link:hover {
+  color: var(--ds-brand-dark);
+}
+
+.sick-leave-cluster__link:focus-visible {
+  outline: 2px solid var(--ds-brand);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.sick-leave-cluster__here {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ds-text-muted);
+}
+
+.sick-leave-cluster__desc {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--ds-text-muted);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 720px) {
+  .sick-leave-cluster__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+  }
+
+  .sick-leave-cluster__item {
+    display: flex;
+    flex-direction: column;
+  }
+}

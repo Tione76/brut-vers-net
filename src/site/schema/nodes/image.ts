@@ -18,6 +18,13 @@ export function buildCoverImageObjectFields(cover: SchemaCoverInput): JsonLdNode
   const creditText =
     credit && credit.photographer && credit.source ? formatCoverCredit(credit) : undefined;
   const license = credit ? getCoverLicenseUrl(credit) : undefined;
+  const encodingFormat = cover.src.toLowerCase().endsWith(".webp")
+    ? "image/webp"
+    : cover.src.toLowerCase().endsWith(".jpg") || cover.src.toLowerCase().endsWith(".jpeg")
+      ? "image/jpeg"
+      : cover.src.toLowerCase().endsWith(".png")
+        ? "image/png"
+        : undefined;
 
   return pruneEmpty({
     "@type": "ImageObject",
@@ -25,7 +32,8 @@ export function buildCoverImageObjectFields(cover: SchemaCoverInput): JsonLdNode
     contentUrl: absoluteAsset(cover.src),
     width: cover.width,
     height: cover.height,
-    caption: cover.alt,
+    encodingFormat,
+    caption: cover.caption ?? cover.alt,
     name: cover.alt,
     creditText,
     ...(credit?.photographer
@@ -42,6 +50,7 @@ export function buildPrimaryImageNode(path: string, cover: SchemaCoverInput): Js
   return pruneEmpty({
     ...buildCoverImageObjectFields(cover),
     "@id": schemaIds.primaryImage(path),
+    representativeOfPage: true,
   });
 }
 

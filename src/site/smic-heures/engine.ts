@@ -6,7 +6,8 @@
  * et même estimation de réduction de cotisations que le calculateur
  * `/calculateurs/salaire-heures-supplementaires`.
  *
- * Net : estimation indicative, jamais un montant légal garanti.
+ * Net : estimation indicative (le SMIC légal est fixé en brut).
+ * Arrondi : chaque composante monétaire au centime, comme le calculateur HS.
  */
 
 import {
@@ -42,7 +43,9 @@ export function getSmicIndicativeNetRatio(): number {
 
 /**
  * Mensualisation usuelle : heures hebdomadaires × 52 ÷ 12.
- * Ne pas arrondir ici : l'arrondi monétaire se fait sur le résultat final.
+ * Les heures ne sont pas arrondies ici ; l'arrondi monétaire suit la
+ * convention partagée avec le calculateur d'heures supplémentaires
+ * (composantes arrondies au centime avant agrégation).
  */
 export function weeklyToMonthlyHours(weeklyHours: number): number {
   return (weeklyHours * 52) / 12;
@@ -162,7 +165,7 @@ export function calculateSmicForWeeklyHours(
     overtimeNetGain,
     contributionRelief,
     majorationPercent,
-    remark: `Dont ${hoursLabel} à +${majorationPercent} % (hypothèse légale à défaut d'accord ; minimum légal 10 %)`,
+    remark: `Dont ${hoursLabel} à +${majorationPercent} % (hypothèse légale à défaut d'accord ; plancher 10 %)`,
   };
 }
 

@@ -13,6 +13,26 @@ export interface GuideNavItem {
 
 export const guidesNavigation: GuideNavItem[] = [
   {
+    slug: "salaire-interim-calcul-brut-net",
+    shortTitle: "Salaire en intérim",
+    title: "Salaire en intérim : calcul du brut et du net avec IFM et congés payés",
+  },
+  {
+    slug: "salaire-arret-maladie",
+    shortTitle: "Salaire en arrêt maladie (privé)",
+    title: "Salaire en arrêt maladie dans le privé : combien allez-vous toucher ?",
+  },
+  {
+    slug: "calcul-ijss-arret-maladie",
+    shortTitle: "Calcul des IJSS (privé)",
+    title: "Calculez vos IJSS en arrêt maladie (secteur privé) — barème 2026",
+  },
+  {
+    slug: "maintien-salaire-arret-maladie",
+    shortTitle: "Maintien de salaire en arrêt maladie (privé)",
+    title: "Maintien de salaire en arrêt maladie dans le privé : calcul et conditions",
+  },
+  {
     slug: "comment-est-calcule-le-salaire-net",
     shortTitle: "Brut et net expliqués",
     title: "Calcul du salaire net : comprendre la différence entre le salaire brut et le salaire net",

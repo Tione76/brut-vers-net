@@ -1,0 +1,729 @@
+/* Calculateur salaire arret maladie */
+
+.sick-leave-calc {
+  margin: 1rem 0 1.5rem;
+  padding: 1.1rem 1rem 1.15rem;
+  border: 1px solid var(--ds-border, #d8dde6);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.sick-leave-calc__header {
+  margin: 0 0 0.85rem;
+  text-align: center;
+}
+
+.prose .sick-leave-calc__title,
+.sick-leave-calc__title {
+  margin: 0 0 0.45rem;
+  padding: 0;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--ds-brand);
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.sick-leave-calc__intro {
+  margin: 0 auto 0.35rem;
+  max-width: 40rem;
+  color: var(--ds-text, #161616);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+.sick-leave-calc__intro-note {
+  margin: 0 auto 0.55rem;
+  max-width: 40rem;
+  color: var(--ds-text-muted, #4b5563);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.sick-leave-calc__case {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 0.45rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--ds-border, #e2e8f0);
+  border-radius: 10px;
+  background: #fff;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.sick-leave-calc__case-kicker {
+  margin: 0 0 0.15rem;
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ds-text-muted, #4b5563);
+}
+
+.sick-leave-calc__case-value {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ds-text, #161616);
+}
+
+.sick-leave-calc__case-note {
+  margin: 0 0 0.55rem;
+  text-align: left;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--ds-text-muted, #4b5563);
+  overflow-wrap: anywhere;
+}
+
+.sick-leave-calc__case-follow {
+  margin: 0.4rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--ds-text, #161616);
+  overflow-wrap: anywhere;
+}
+
+.sick-leave-calc__scope {
+  margin: 0 auto;
+  max-width: 40rem;
+  text-align: left;
+  font-size: 0.8rem;
+  color: var(--ds-text-muted, #4b5563);
+}
+
+.sick-leave-calc__scope > summary {
+  cursor: pointer;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  list-style: none;
+  font-weight: 600;
+  color: var(--ds-text-muted, #4b5563);
+}
+
+.sick-leave-calc__scope > summary::-webkit-details-marker {
+  display: none;
+}
+
+.sick-leave-calc__scope > summary::before {
+  content: "";
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  flex-shrink: 0;
+}
+
+.sick-leave-calc__scope[open] > summary::before {
+  transform: rotate(45deg);
+  margin-top: -0.1rem;
+}
+
+.sick-leave-calc__scope p {
+  margin: 0.35rem 0 0;
+  line-height: 1.45;
+}
+
+.sick-leave-calc__toggle {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 0.55rem;
+}
+
+.sick-leave-calc__toggle--2,
+.sick-leave-calc__toggle--3 {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .sick-leave-calc__toggle--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sick-leave-calc__toggle--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.sick-leave-calc__choice {
+  margin: 0 0 0.55rem;
+  padding: 0;
+  border: none;
+}
+
+.sick-leave-calc__choice-legend {
+  margin: 0 0 0.45rem;
+  padding: 0;
+  font-weight: 650;
+  font-size: 0.9rem;
+  color: inherit;
+}
+
+.sick-leave-calc__mode {
+  position: relative;
+  min-height: 44px;
+  padding: 0.5rem 0.7rem;
+  border: 1.5px solid var(--ds-border, #c9d0db);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ds-text, #161616);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 650;
+  line-height: 1.3;
+  text-align: center;
+  cursor: pointer;
+}
+
+.sick-leave-calc__mode input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.sick-leave-calc__mode:hover {
+  border-color: var(--ds-brand);
+  background: var(--ds-brand-light);
+}
+
+.sick-leave-calc__mode:focus-visible,
+.sick-leave-calc__mode:focus-within {
+  outline: 3px solid var(--ds-brand);
+  outline-offset: 2px;
+}
+
+.sick-leave-calc__mode--active {
+  border-color: var(--ds-brand);
+  background: var(--ds-brand);
+  color: #fff;
+  box-shadow: none;
+}
+
+.sick-leave-calc__dates-grid,
+.sick-leave-calc__grid-2,
+.sick-leave-calc__grid-3 {
+  display: grid;
+  gap: 0.65rem;
+  align-items: start;
+}
+
+@media (min-width: 640px) {
+  .sick-leave-calc__dates-grid,
+  .sick-leave-calc__grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .sick-leave-calc__grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.sick-leave-calc__dates-help {
+  margin: 0.45rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--ds-text-muted, #4b5563);
+}
+
+@media (min-width: 640px) {
+  .sick-leave-calc__dates-help {
+    margin-left: calc(50% + 0.325rem);
+  }
+}
+
+.sick-leave-calc__advanced {
+  margin: 0 0 0.75rem;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid var(--ds-border, #e2e8f0);
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.sick-leave-calc__advanced > summary,
+.sick-leave-calc__mini-details > summary {
+  cursor: pointer;
+  font-weight: 650;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--ds-text-muted, #4b5563);
+}
+
+.sick-leave-calc__advanced > summary::-webkit-details-marker,
+.sick-leave-calc__mini-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.sick-leave-calc__advanced > summary::before,
+.sick-leave-calc__mini-details > summary::before {
+  content: "";
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 2px solid var(--ds-brand);
+  border-bottom: 2px solid var(--ds-brand);
+  transform: rotate(-45deg);
+  flex-shrink: 0;
+}
+
+.sick-leave-calc__advanced[open] > summary::before,
+.sick-leave-calc__mini-details[open] > summary::before {
+  transform: rotate(45deg);
+  margin-top: -0.15rem;
+}
+
+.sick-leave-calc__advanced > summary:focus-visible,
+.sick-leave-calc__mini-details > summary:focus-visible,
+.sick-leave-calc__scope > summary:focus-visible,
+.sick-leave-calc__details summary:focus-visible {
+  outline: 3px solid var(--ds-brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.sick-leave-calc__advanced-body {
+  margin-top: 0.45rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--ds-border, #e2e8f0);
+}
+
+.sick-leave-calc__mini-details {
+  margin: 0.25rem 0 0.55rem;
+}
+
+.sick-leave-calc__mini-details > summary {
+  font-weight: 600;
+  color: var(--ds-brand-dark, #0f3d2e);
+  min-height: 36px;
+}
+
+.sick-leave-calc__conditions {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--ds-text-muted, #4b5563);
+}
+
+.sick-leave-calc__checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  min-height: 44px;
+  margin-bottom: 0.45rem;
+  font-weight: 650;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.sick-leave-calc__checkbox input {
+  margin-top: 0.2rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+}
+
+.sick-leave-calc__fieldset {
+  margin: 0 0 0.7rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--ds-border, #e2e8f0);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.sick-leave-calc__fieldset legend {
+  padding: 0 0.3rem;
+  font-weight: 750;
+  font-size: 0.95rem;
+  color: var(--ds-text, #161616);
+}
+
+.sick-leave-calc__field {
+  display: grid;
+  gap: 0.25rem;
+  margin-bottom: 0;
+}
+
+.sick-leave-calc__field--full {
+  max-width: none;
+  margin-bottom: 0.55rem;
+}
+
+.sick-leave-calc__field label {
+  font-weight: 650;
+  font-size: 0.9rem;
+  color: var(--ds-text, #161616);
+}
+
+.sick-leave-calc__suffix {
+  font-weight: 500;
+  color: var(--ds-text-muted, #4b5563);
+}
+
+.sick-leave-calc__field input,
+.sick-leave-calc__field select {
+  min-height: 46px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.7rem;
+  border: 1.5px solid var(--ds-border, #c9d0db);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ds-text, #161616);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.sick-leave-calc__field select {
+  overflow-wrap: anywhere;
+}
+
+.sick-leave-calc__field input:focus-visible,
+.sick-leave-calc__field select:focus-visible {
+  outline: 3px solid var(--ds-brand);
+  outline-offset: 2px;
+}
+
+.sick-leave-calc__hint,
+.sick-leave-calc__links,
+.sick-leave-calc__fallback {
+  margin: 0.3rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ds-text-muted, #4b5563);
+}
+
+.sick-leave-calc__fallback {
+  margin-top: 0.55rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px dashed var(--ds-border, #d8dde6);
+  border-radius: 8px;
+  background: #fafbfc;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.sick-leave-calc__error {
+  margin: 0.35rem 0 0;
+  color: #9b1c1c;
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.sick-leave-calc__warning {
+  margin: 0.55rem 0 0;
+  padding: 0.55rem 0.7rem;
+  border-left: 3px solid var(--ds-brand);
+  background: var(--ds-brand-light);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.sick-leave-calc__results {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--ds-border, #d8dde6);
+}
+
+.sick-leave-calc__hero-result {
+  margin: 0 0 0.65rem;
+  padding: 0.9rem 1rem;
+  border: 2px solid var(--ds-brand);
+  border-radius: 12px;
+  background: var(--ds-brand-light);
+  text-align: center;
+}
+
+.sick-leave-calc__hero-label {
+  margin: 0 0 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ds-brand-dark, #0f3d2e);
+}
+
+.sick-leave-calc__hero-value {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--ds-brand-dark, #0f3d2e);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.sick-leave-calc__hero-kicker {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: var(--ds-text, #161616);
+}
+
+.sick-leave-calc__parts,
+.sick-leave-calc__compare {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0 0 0.65rem;
+}
+
+@media (min-width: 640px) {
+  .sick-leave-calc__parts,
+  .sick-leave-calc__compare {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sick-leave-calc__compare--priority {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.sick-leave-calc__part-card,
+.sick-leave-calc__compare-card {
+  margin: 0;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--ds-border, #e2e8f0);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.sick-leave-calc__compare-card--loss {
+  border-color: color-mix(in srgb, var(--ds-brand) 35%, var(--ds-border));
+  background: color-mix(in srgb, var(--ds-brand-light) 55%, #fff);
+}
+
+.sick-leave-calc__part-label {
+  margin: 0 0 0.2rem;
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: var(--ds-text-muted, #4b5563);
+  line-height: 1.35;
+}
+
+.sick-leave-calc__part-value,
+.sick-leave-calc__compare-value,
+.sick-leave-calc__loss-value {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 750;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.sick-leave-calc__loss-value {
+  font-size: 1.25rem;
+  color: var(--ds-brand-dark, #0f3d2e);
+}
+
+.sick-leave-calc__brut-note {
+  margin: 0 0 0.7rem;
+  padding: 0.55rem 0.7rem;
+  border-left: 3px solid var(--ds-brand);
+  background: #f8fafc;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--ds-text-muted, #4b5563);
+}
+
+.sick-leave-calc__secondary {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0 0 0.55rem;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .sick-leave-calc__secondary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.sick-leave-calc__secondary dt {
+  margin: 0 0 0.1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ds-text-muted, #6b7280);
+}
+
+.sick-leave-calc__secondary dd {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ds-text, #374151);
+  overflow-wrap: anywhere;
+}
+
+.sick-leave-calc__metrics {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.55rem 0 0;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .sick-leave-calc__metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.sick-leave-calc__metrics dt {
+  margin: 0 0 0.1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ds-text-muted, #4b5563);
+}
+
+.sick-leave-calc__metrics dd {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.sick-leave-calc__badge {
+  display: inline-block;
+  margin-left: 0.25rem;
+  padding: 0.08rem 0.35rem;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ds-brand-dark);
+  font-size: 0.65rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  vertical-align: middle;
+}
+
+.sick-leave-calc__details {
+  margin: 0.55rem 0 0;
+  font-size: 0.88rem;
+}
+
+.sick-leave-calc__details summary {
+  cursor: pointer;
+  font-weight: 650;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: var(--ds-text-muted, #4b5563);
+}
+
+.sick-leave-calc__formula {
+  margin: 0.45rem 0 0;
+  padding: 0.65rem;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid var(--ds-border, #e2e8f0);
+  white-space: pre-wrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.sick-leave-calc__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.7rem;
+}
+
+.sick-leave-calc__copy {
+  min-height: 44px;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--ds-border, #c9d0db);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.sick-leave-calc__copy:hover {
+  border-color: var(--ds-brand);
+  background: var(--ds-brand-light);
+}
+
+.sick-leave-calc__copy:focus-visible {
+  outline: 3px solid var(--ds-brand);
+  outline-offset: 2px;
+}
+
+.sick-leave-calc__submit,
+.sick-leave-calc__reset {
+  min-height: 44px;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sick-leave-calc__submit {
+  border: 1.5px solid var(--ds-brand);
+  background: var(--ds-brand);
+  color: #ffffff;
+}
+
+.sick-leave-calc__submit:hover {
+  filter: brightness(0.95);
+}
+
+.sick-leave-calc__reset {
+  border: 1.5px solid var(--ds-border, #c9d0db);
+  background: #ffffff;
+  color: var(--ds-text, #161616);
+}
+
+.sick-leave-calc__reset:hover {
+  border-color: var(--ds-brand);
+  background: var(--ds-brand-light);
+}
+
+.sick-leave-calc__submit:focus-visible,
+.sick-leave-calc__reset:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.sick-leave-calc .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sick-leave-calc__mode,
+  .sick-leave-calc__copy {
+    transition: none;
+  }
+}

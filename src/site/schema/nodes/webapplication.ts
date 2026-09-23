@@ -5,6 +5,8 @@ type WebApplicationInput = {
   path: string;
   name: string;
   description: string;
+  operatingSystem?: string;
+  includeFreeOffer?: boolean;
 };
 
 /**
@@ -12,7 +14,8 @@ type WebApplicationInput = {
  * Propriétés limitées à des faits vérifiables (pas de notes, avis, prix ni téléchargements).
  */
 export function buildWebApplicationNode(input: WebApplicationInput): JsonLdNode {
-  const { path, name, description } = input;
+  const { path, name, description, operatingSystem = "Web", includeFreeOffer } =
+    input;
 
   return pruneEmpty({
     "@type": "WebApplication",
@@ -21,9 +24,18 @@ export function buildWebApplicationNode(input: WebApplicationInput): JsonLdNode 
     description,
     url: absoluteUrl(path),
     applicationCategory: "FinanceApplication",
-    operatingSystem: "Web",
+    operatingSystem,
     browserRequirements: "Requires JavaScript. Requires HTML5.",
     isAccessibleForFree: true,
     publisher: ref(schemaIds.organization()),
+    ...(includeFreeOffer
+      ? {
+          offers: {
+            "@type": "Offer",
+            price: 0,
+            priceCurrency: "EUR",
+          },
+        }
+      : {}),
   });
 }
