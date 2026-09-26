@@ -8,6 +8,7 @@ import { NET_TO_GROSS_HUB_PATH, NET_TO_GROSS_INDEX_PATH, netToGrossPath } from "
 import {
   buildNetToGrossHubOgImageInput,
   buildNetToGrossIndexOgImageInput,
+  buildNetToGrossOgAlt,
   buildNetToGrossOgImageInput,
   formatNetToGrossOgHeadline,
   netToGrossOgImagePath,
@@ -45,6 +46,9 @@ describe("série net mensuel → brut : cover + hub + index", () => {
     expect(routeSource).toContain("NET_TO_GROSS_SERIES_COVER");
     expect(
       existsSync(resolve(process.cwd(), "src/app/net-vers-brut/[montant]/opengraph-image.tsx")),
+    ).toBe(false);
+    expect(
+      existsSync(resolve(process.cwd(), "src/app/salaire-net-mensuel-en-brut/opengraph-image.tsx")),
     ).toBe(true);
   });
 
@@ -72,7 +76,10 @@ describe("série net mensuel → brut : cover + hub + index", () => {
         node.url.includes("correspondance-salaire-brut-en-net.webp"),
     ) as { width?: number; height?: number; creditText?: string } | undefined;
 
+    expect(og.url).toBe("/salaire-net-mensuel-en-brut/opengraph-image");
     expect(og.url).toBe(netToGrossOgImagePath(amount));
+    expect(buildNetToGrossOgImageInput(2000).url).toBe(og.url);
+    expect(buildNetToGrossOgImageInput(2000).alt).toBe(buildNetToGrossOgAlt(2000));
     expect(og.width).toBe(1200);
     expect(og.height).toBe(630);
     expect(formatNetToGrossOgHeadline(amount)).toMatch(/1\u202f500.*€ NET \/ MOIS/);

@@ -46,6 +46,7 @@ describe("covers registry", () => {
         "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
         "pourquoi-salaire-net-change-septembre-2026",
         "smic",
+        "evolution-smic",
         "salaire-interim-calcul-brut-net",
         "salaire-arret-maladie",
         "calcul-ijss-arret-maladie",
@@ -157,6 +158,34 @@ describe("covers registry", () => {
     expect(smicCover?.alt.length).toBeGreaterThan(20);
     expect(smicCover?.alt).not.toMatch(/SMIC/i);
     expect(smicCover?.alt).not.toMatch(/\d+\s*€/);
+
+    const evolutionSmicCover = getGuideCover("evolution-smic");
+    expect(evolutionSmicCover?.src).toBe(
+      "/images/covers/guides/evolution-smic-france.webp",
+    );
+    expect(evolutionSmicCover?.src).not.toMatch(/[A-Z]/);
+    expect(evolutionSmicCover?.src).not.toContain(" ");
+    expect(formatCoverCredit(evolutionSmicCover!.credit)).toBe(
+      "Photo de kaboompics.com via Pexels",
+    );
+    expect(evolutionSmicCover?.credit.photographer).toBe("kaboompics.com");
+    expect(evolutionSmicCover?.credit.source).toBe("Pexels");
+    expect(evolutionSmicCover?.credit.text).toBe("Photo de kaboompics.com via Pexels");
+    expect(evolutionSmicCover?.credit.acquireLicensePage).toBeUndefined();
+    expect(evolutionSmicCover?.credit.copyrightNotice).toBeUndefined();
+    expect(getCoverLicenseUrl(evolutionSmicCover!.credit)).toBe(PEXELS_LICENSE_URL);
+    expect(evolutionSmicCover?.width).toBe(1200);
+    expect(evolutionSmicCover?.height).toBe(800);
+    expect(evolutionSmicCover?.alt).toBe(
+      "Main tenant un crayon et pointant un graphique financier épinglé sur un tableau blanc",
+    );
+    expect(evolutionSmicCover?.caption).toBe(
+      "L'évolution du SMIC en France depuis 1950",
+    );
+    expect(evolutionSmicCover?.alt.toLowerCase()).not.toContain("smic");
+    expect(evolutionSmicCover?.alt.toLowerCase()).not.toContain("kaboompics");
+    expect(evolutionSmicCover?.alt.toLowerCase()).not.toContain("pexels");
+    expect(evolutionSmicCover?.alt).not.toMatch(/19\d{2}|20\d{2}/);
 
     const salaireMoyenCover = getGuideCover("salaire-moyen-france");
     expect(salaireMoyenCover?.src).toBe("/images/covers/guides/Salaire-moyen-France.webp");

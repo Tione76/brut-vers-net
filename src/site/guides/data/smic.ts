@@ -261,6 +261,13 @@ export const smicGuide: Guide = {
             "Principes : Code du travail (L. 3231-2 et suivants). Montants en vigueur : arrêté ou décret au Journal officiel.",
           ],
         },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour replacer le montant actuel dans le temps,",
+          label: "consultez l'évolution du SMIC depuis sa création",
+          href: "/evolution-smic",
+        },
       ],
     },
     {

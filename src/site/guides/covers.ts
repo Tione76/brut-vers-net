@@ -229,6 +229,18 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "evolution-smic": cover(
+    "guides/evolution-smic-france.webp",
+    "Main tenant un crayon et pointant un graphique financier épinglé sur un tableau blanc",
+    {
+      photographer: "kaboompics.com",
+      source: "Pexels",
+      text: "Photo de kaboompics.com via Pexels",
+    },
+    1200,
+    800,
+    "L'évolution du SMIC en France depuis 1950",
+  ),
   "smic-selon-nombre-heures": cover(
     "guides/SMIC-selon-nombre-heures.webp",
     "Équipe en réunion autour d'une table examinant des documents et des graphiques dans un bureau",
@@ -332,6 +344,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/smic-selon-nombre-heures") {
     return getGuideCover("smic-selon-nombre-heures");
+  }
+  if (href === "/evolution-smic") {
+    return getGuideCover("evolution-smic");
   }
   if (href === "/salaire-interim-calcul-brut-net") {
     return getGuideCover("salaire-interim-calcul-brut-net");

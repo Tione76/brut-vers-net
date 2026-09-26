@@ -31,15 +31,21 @@ export function buildGrossToNetOgAlt(grossMonthly: number): string {
   return `${formatGrossShort(grossMonthly)} brut par mois : combien en net ?`;
 }
 
-/** Chemin relatif de l’image générée par opengraph-image.tsx */
-export function grossToNetOgImagePath(grossMonthly: number): string {
-  return `${GROSS_TO_NET_INTERNAL_BASE_PATH}/${grossMonthly}/opengraph-image`;
+/** Image sociale unique de la série (évite un ImageResponse par montant au build). */
+export function grossToNetSeriesOgImagePath(): string {
+  return `${GROSS_TO_NET_INTERNAL_BASE_PATH}/opengraph-image`;
 }
 
-/** Entrée metadata (OG + Twitter) pour une fiche de la série. */
+/** Alias : le montant n’entre plus dans l’URL. */
+export function grossToNetOgImagePath(grossMonthly?: number): string {
+  void grossMonthly;
+  return grossToNetSeriesOgImagePath();
+}
+
+/** Entrée metadata (OG + Twitter) : URL de série, alt adapté à la fiche. */
 export function buildGrossToNetOgImageInput(grossMonthly: number): OgImageInput {
   return {
-    url: grossToNetOgImagePath(grossMonthly),
+    url: grossToNetSeriesOgImagePath(),
     width: GROSS_TO_NET_OG_SIZE.width,
     height: GROSS_TO_NET_OG_SIZE.height,
     alt: buildGrossToNetOgAlt(grossMonthly),
@@ -128,6 +134,21 @@ export async function buildGrossToNetOgRenderModel(
   return {
     headline: formatGrossToNetOgHeadline(grossMonthly),
     question: "Combien en net ?",
+    brand: siteConfig.domain,
+    credit: "Photo Mikhail Nilov / Pexels",
+    backgroundDataUrl,
+    orange: BRAND_ORANGE,
+  };
+}
+
+export async function buildGrossToNetStaticOgRenderModel(input: {
+  headline: string;
+  question: string;
+}): Promise<GrossToNetOgRenderModel> {
+  const backgroundDataUrl = await getGrossToNetOgBackgroundDataUrl();
+  return {
+    headline: input.headline,
+    question: input.question,
     brand: siteConfig.domain,
     credit: "Photo Mikhail Nilov / Pexels",
     backgroundDataUrl,

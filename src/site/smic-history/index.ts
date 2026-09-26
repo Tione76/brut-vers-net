@@ -1,0 +1,58 @@
+export {
+  ANNUAL_REVALUATION_JANUARY_FROM,
+  DECADE_NAV,
+  ENRICHED_YEARS,
+  EUR_FRF_OFFICIAL_RATE,
+  GMR_CONVERGENCE_END,
+  INSEE_SMIC_XLSX_URL,
+  LEGAL_WEEK_39_FROM,
+  SMIC_HISTORY_BREADCRUMB,
+  SMIC_HISTORY_EDITORIAL_YEAR,
+  SMIC_HISTORY_H1,
+  SMIC_HISTORY_META_DESCRIPTION,
+  SMIC_HISTORY_PATH,
+  SMIC_HISTORY_PUBLISHED_AT,
+  SMIC_HISTORY_SEO_TITLE,
+  SMIC_HISTORY_SLUG,
+  SMIC_HISTORY_SOURCES,
+  SMIC_HISTORY_UPDATED_AT,
+  SMIC_HISTORY_VERIFIED_ON,
+  SMIC_HISTORY_VERIFIED_ON_LABEL,
+  SMIG_1950,
+} from "./constants";
+export {
+  buildYearAnswer,
+  changeCell,
+  dateCell,
+  hourlyCell,
+  monthlyCell,
+} from "./answers";
+export {
+  convertFrfToEuro,
+  emptyCell,
+  formatEuro,
+  formatFrancs,
+  formatFrenchDate,
+  formatPercent,
+  yearAnchor,
+} from "./format";
+export {
+  CURRENT_LEGAL_RATE,
+  LEGAL_SMIC_ENTRIES,
+  SMIC_EURO_CHART_POINTS,
+  SMIC_HISTORY,
+  SMIC_HISTORY_YEARS,
+  SMIC_INFLATION_SERIES,
+  SMIC_PURCHASING_POWER,
+  entriesForYear,
+  firstEntryForYear,
+  largestLegalHourlyIncrease,
+} from "./series";
+export type {
+  HistoryCurrency,
+  HistorySeriesKind,
+  MinimumWageType,
+  SmicChartPoint,
+  SmicHistoryEntry,
+  YearAnswer,
+} from "./types";

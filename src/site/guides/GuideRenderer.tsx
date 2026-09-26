@@ -130,10 +130,11 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
     case "table":
       return (
         <figure
-          className={`guide-table-wrap${block.stackOnMobile ? " guide-table-wrap--stack" : ""}`}
+          className={`guide-table-wrap${block.stackOnMobile ? " guide-table-wrap--stack" : ""}${block.stickyFirstColumn ? " guide-table-wrap--sticky" : ""}`}
         >
           <div className="guide-table-scroll">
             <table className="guide-table">
+              {block.caption ? <caption className="guide-table__caption">{block.caption}</caption> : null}
               <thead>
                 <tr>
                   {block.headers.map((header) => (
@@ -144,13 +145,25 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
                 </tr>
               </thead>
               <tbody>
-                {block.rows.map((row, rowIndex) => (
-                  <tr key={`${rowIndex}-${row[0] ?? ""}`}>
-                    {row.map((cell, cellIndex) => (
-                      <td key={`${rowIndex}-${cellIndex}`}>{cell}</td>
-                    ))}
-                  </tr>
-                ))}
+                {block.rows.map((row, rowIndex) => {
+                  const rowId = block.rowIds?.[rowIndex];
+                  return (
+                    <tr key={rowId ?? `${rowIndex}-${row[0] ?? ""}`} id={rowId}>
+                      {row.map((cell, cellIndex) => {
+                        const isRowHeader = Boolean(block.rowHeader) && cellIndex === 0;
+                        const Cell = isRowHeader ? "th" : "td";
+                        return (
+                          <Cell
+                            key={`${rowIndex}-${cellIndex}`}
+                            scope={isRowHeader ? "row" : undefined}
+                          >
+                            {cell}
+                          </Cell>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -177,7 +190,6 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
               ))}
             </div>
           ) : null}
-          {block.caption && <figcaption>{block.caption}</figcaption>}
         </figure>
       );
 
@@ -706,15 +718,39 @@ export function GuideArticle({
           </div>
         ) : null}
         <p className="guide-conclusion__closing">{conclusion.closingText}</p>
-        {conclusion.closingCta &&
-          (isTemplate || isPlaceholderHref(conclusion.closingCta.href) ? (
-            <span className="guide-conclusion__cta">{conclusion.closingCta.label}</span>
-          ) : (
-            <Link href={conclusion.closingCta.href} className="guide-conclusion__cta">
-              {conclusion.closingCta.label}
-            </Link>
-          ))}
-        {conclusion.closingSecondaryLinks && conclusion.closingSecondaryLinks.length > 0 ? (
+        {conclusion.closingCta ? (
+          <div className="guide-conclusion__cta-wrap">
+            {isTemplate || isPlaceholderHref(conclusion.closingCta.href) ? (
+              <span className="guide-conclusion__cta">{conclusion.closingCta.label}</span>
+            ) : (
+              <Link href={conclusion.closingCta.href} className="guide-conclusion__cta">
+                {conclusion.closingCta.label}
+              </Link>
+            )}
+          </div>
+        ) : null}
+        {conclusion.furtherReading && conclusion.furtherReading.items.length > 0 ? (
+          <div className="guide-conclusion__further">
+            <p className="guide-conclusion__further-title">{conclusion.furtherReading.title}</p>
+            <ul className="guide-conclusion__further-list">
+              {conclusion.furtherReading.items.map((item) => (
+                <li key={`${item.href}-${item.title}`}>
+                  {isTemplate || isPlaceholderHref(item.href) ? (
+                    <span className="guide-conclusion__further-card">
+                      <span className="guide-conclusion__further-card-title">{item.title}</span>
+                      <span className="guide-conclusion__further-card-desc">{item.description}</span>
+                    </span>
+                  ) : (
+                    <Link href={item.href} className="guide-conclusion__further-card">
+                      <span className="guide-conclusion__further-card-title">{item.title}</span>
+                      <span className="guide-conclusion__further-card-desc">{item.description}</span>
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : conclusion.closingSecondaryLinks && conclusion.closingSecondaryLinks.length > 0 ? (
           <p className="guide-conclusion__secondary">
             {conclusion.closingSecondaryLinks.map((link, index) => (
               <span key={`${link.href}-${link.label}`}>

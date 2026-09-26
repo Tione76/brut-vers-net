@@ -1235,6 +1235,647 @@
   line-height: 1.45;
 }
 
+.guide-table__caption {
+  caption-side: bottom;
+  padding: 12px 16px 0;
+  font-size: 0.8125rem;
+  color: var(--ds-text-muted);
+  text-align: left;
+}
+
+.guide-table-wrap--sticky .guide-table {
+  min-width: 720px;
+}
+
+.guide-table-wrap--sticky .guide-table th[scope="row"],
+.guide-table-wrap--sticky .guide-table td:first-child,
+.guide-table-wrap--sticky .guide-table thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #ffffff;
+  box-shadow: 1px 0 0 var(--ds-border);
+}
+
+.guide-table-wrap--sticky .guide-table tbody tr:nth-child(even) th[scope="row"],
+.guide-table-wrap--sticky .guide-table tbody tr:nth-child(even) td:first-child {
+  background: var(--ds-surface-alt);
+}
+
+.prose .guide-table th[scope="row"] {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.875rem;
+  color: var(--ds-text);
+}
+
+.smic-decade-nav,
+.smic-timeline,
+.smic-year-jump {
+  margin: 24px 0 8px;
+}
+
+.smic-year-jump__hint {
+  margin: 0 0 0.65rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--ds-text-muted);
+}
+
+.smic-year-jump__field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.smic-year-jump__field label {
+  font-size: 0.8125rem;
+  color: var(--ds-text);
+}
+
+.smic-year-jump__field select {
+  min-height: 2.5rem;
+  min-width: 8.5rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--ds-input-border);
+  border-radius: var(--ds-radius);
+  background: #ffffff;
+  color: var(--ds-text);
+  font-family: inherit;
+  font-size: 0.875rem;
+}
+
+.smic-year-jump__field select:focus-visible {
+  outline: 2px solid #f28539;
+  outline-offset: 1px;
+}
+
+.guide-table tr[id^="smic-"] {
+  scroll-margin-top: 5rem;
+}
+
+.guide-table tr:target th[scope="row"],
+.guide-table tr:target td {
+  background: #fff6ee;
+}
+
+.guide-table tr:target th[scope="row"] {
+  box-shadow: inset 3px 0 0 #f28539;
+}
+
+.smic-decade-nav__list,
+.smic-timeline__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.smic-decade-nav__link,
+.smic-timeline__year {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--ds-border);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ds-text);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.smic-decade-nav__link:hover,
+.smic-decade-nav__link:focus-visible {
+  border-color: #f28539;
+  color: #9a4b12;
+}
+
+.smic-timeline__item {
+  flex: 1 1 12rem;
+  min-width: 11rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--ds-border);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.smic-timeline__year {
+  font-weight: 700;
+  color: #9a4b12;
+  background: #fff6ee;
+  border-color: #f5d0b0;
+}
+
+.smic-timeline__text {
+  margin: 0.45rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--ds-text);
+}
+
+@media (max-width: 767px) {
+  .smic-timeline__list {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smic-decade-nav__link,
+  .smic-timeline__item {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Graphique du SMIC horaire brut : ligne continue passant par les taux publiés.
+   Le SVG est étiré (preserveAspectRatio="none"), l'épaisseur du trait étant
+   maintenue par vector-effect. Bleu avant le passage à l'euro, orange ensuite.
+   Titre, légende et note vivent en HTML, hors de la zone de dessin.
+   --------------------------------------------------------------------------- */
+
+.smic-chart {
+  --smic-chart-line: #da7830;
+  --smic-chart-line-francs: #2b6cb0;
+  --smic-chart-line-prices: #374151;
+  --smic-chart-plot-h: 300px;
+  --smic-chart-axis-w: 2.25rem;
+  padding: 24px 20px 20px;
+}
+
+.smic-chart .smic-chart__title {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ds-text);
+}
+
+.smic-chart .smic-chart__subtitle {
+  margin: 4px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--ds-text-muted);
+}
+
+.smic-chart__frame {
+  display: grid;
+  grid-template-columns: var(--smic-chart-axis-w) minmax(0, 1fr);
+  grid-template-areas:
+    "readout readout"
+    "unit    unit"
+    "yaxis   plot"
+    "blank   xaxis";
+  margin-top: 14px;
+}
+
+/* Hauteur réservée : la lecture d'une valeur ne doit décaler aucun contenu. */
+.smic-chart__readout-strip {
+  grid-area: readout;
+  position: relative;
+  min-height: 7rem;
+}
+
+.smic-chart__readout {
+  position: absolute;
+  top: 0;
+  width: max-content;
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--ds-border);
+  border-left: 3px solid var(--smic-chart-line);
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(22, 22, 22, 0.07);
+}
+
+.smic-chart__readout[data-pinned="true"] {
+  border-color: var(--smic-chart-line);
+}
+
+.smic-chart__readout[data-era="francs"] {
+  border-left-color: var(--smic-chart-line-francs);
+}
+
+.smic-chart__readout[data-era="francs"][data-pinned="true"] {
+  border-color: var(--smic-chart-line-francs);
+}
+
+.smic-chart__readout-year {
+  font-weight: 700;
+  color: var(--ds-text);
+}
+
+.smic-chart .smic-chart__readout-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--ds-text-muted);
+}
+
+.smic-chart__readout-change {
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  background: var(--ds-brand-light);
+  color: #8c4a10;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.smic-chart .smic-chart__close {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0.1rem 0.6rem;
+  border: 1px solid var(--ds-border);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ds-text-muted);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.smic-chart .smic-chart__close:hover,
+.smic-chart .smic-chart__close:focus-visible {
+  border-color: var(--smic-chart-line);
+  color: var(--ds-text);
+}
+
+.smic-chart .smic-chart__readout-value {
+  margin: 4px 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ds-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.smic-chart .smic-chart__readout-value span {
+  margin-left: 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ds-text-muted);
+}
+
+.smic-chart .smic-chart__readout-meta {
+  margin: 3px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--ds-text-muted);
+}
+
+.smic-chart .smic-chart__unit {
+  grid-area: unit;
+  margin: 0 0 6px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ds-text-muted);
+}
+
+.smic-chart__y-axis {
+  grid-area: yaxis;
+  position: relative;
+  padding-right: 8px;
+}
+
+.smic-chart__y-tick {
+  position: absolute;
+  right: 8px;
+  transform: translateY(-50%);
+  font-size: 0.6875rem;
+  color: var(--ds-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.smic-chart__plot {
+  grid-area: plot;
+  position: relative;
+  height: var(--smic-chart-plot-h);
+  cursor: crosshair;
+  touch-action: manipulation;
+}
+
+.smic-chart__plot:focus-visible {
+  outline: 2px solid var(--smic-chart-line);
+  outline-offset: 3px;
+}
+
+.guide-illustration .smic-chart__svg,
+.smic-chart__svg {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.smic-chart__grid-line {
+  stroke: var(--ds-border);
+  stroke-width: 1;
+}
+
+.smic-chart__grid-line[data-base="true"] {
+  stroke: #b9c2cc;
+}
+
+.smic-chart__euro-line {
+  stroke: #aeb6c0;
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.smic-chart__line {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: butt;
+}
+
+/* Même chemin, découpé au passage à l'euro : les deux couleurs se rejoignent bord à bord. */
+.smic-chart__line--francs {
+  stroke: var(--smic-chart-line-francs);
+}
+
+.smic-chart__line--euros,
+.smic-chart__line--smic {
+  stroke: var(--smic-chart-line);
+}
+
+.smic-chart__line--prices {
+  stroke: var(--smic-chart-line-prices);
+  stroke-width: 2;
+  stroke-dasharray: 7 5;
+}
+
+.smic-chart__euro-label {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  padding: 0 0.3rem;
+  background: #ffffff;
+  font-size: 0.6875rem;
+  color: var(--ds-text-muted);
+  white-space: nowrap;
+}
+
+.smic-chart__crosshair {
+  position: absolute;
+  top: -4px;
+  bottom: 0;
+  width: 1px;
+  background: rgba(22, 22, 22, 0.35);
+}
+
+.smic-chart__dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: var(--smic-chart-line);
+  box-shadow: 0 0 0 1px rgba(22, 22, 22, 0.18);
+}
+
+.smic-chart__dot[data-era="francs"] {
+  background: var(--smic-chart-line-francs);
+}
+
+.smic-chart__dot[data-era="prices"] {
+  background: var(--smic-chart-line-prices);
+}
+
+.smic-chart__x-axis {
+  grid-area: xaxis;
+  position: relative;
+  height: 1.5rem;
+  margin-top: 6px;
+}
+
+.smic-chart__x-tick {
+  position: absolute;
+  top: 0;
+  font-size: 0.6875rem;
+  color: var(--ds-text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.smic-chart .smic-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  padding: 0;
+  margin: 2px 0 0;
+  list-style: none;
+  font-size: 0.75rem;
+  color: var(--ds-text-muted);
+}
+
+.smic-chart .smic-chart__legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+}
+
+.smic-chart .smic-chart__legend li::before {
+  content: none;
+}
+
+.smic-chart__swatch {
+  width: 1.5rem;
+  height: 0;
+  border-top: 2.5px solid var(--smic-chart-line);
+}
+
+.smic-chart__swatch[data-era="francs"] {
+  border-top-color: var(--smic-chart-line-francs);
+}
+
+.smic-chart__swatch[data-era="prices"] {
+  border-top-width: 2px;
+  border-top-style: dashed;
+  border-top-color: var(--smic-chart-line-prices);
+}
+
+.smic-chart__picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--ds-border-light);
+}
+
+.smic-chart__field {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  color: var(--ds-text-muted);
+}
+
+.smic-chart__field select {
+  min-height: 2.25rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--ds-input-border);
+  border-radius: var(--ds-radius);
+  background: #ffffff;
+  color: var(--ds-text);
+  font-family: inherit;
+  font-size: 0.8125rem;
+}
+
+.smic-chart__field select:focus-visible {
+  outline: 2px solid var(--smic-chart-line);
+  outline-offset: 1px;
+}
+
+.smic-chart .smic-chart__note {
+  margin: 12px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--ds-text-muted);
+}
+
+@media (max-width: 767px) {
+  .smic-chart {
+    --smic-chart-plot-h: 220px;
+    --smic-chart-axis-w: 1.85rem;
+    padding: 18px 14px 16px;
+  }
+
+  .smic-chart__readout-strip {
+    min-height: 8.75rem;
+  }
+
+  .smic-chart .smic-chart__close {
+    min-height: 2rem;
+  }
+
+  .smic-chart__x-tick[data-minor="true"] {
+    display: none;
+  }
+
+  .smic-chart .smic-chart__readout-value {
+    font-size: 1.375rem;
+  }
+
+  .smic-chart__picker {
+    gap: 0.6rem;
+  }
+
+  .smic-chart__field {
+    flex: 1 1 8rem;
+  }
+
+  .smic-chart__field select {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .smic-chart__readout,
+  .smic-chart__crosshair,
+  .smic-chart__dot {
+    transition:
+      left 0.12s ease-out,
+      top 0.12s ease-out,
+      transform 0.12s ease-out;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Variante « indices » : mêmes cadre, encart et interactions, mais deux séries
+   lues au même trimestre, donc un encart à deux valeurs.
+   --------------------------------------------------------------------------- */
+
+.smic-chart--indices {
+  --smic-chart-axis-w: 2.5rem;
+}
+
+.smic-chart--indices .smic-chart__readout-strip {
+  min-height: 8rem;
+}
+
+.smic-chart .smic-chart__readout-pair {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.5rem;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smic-chart .smic-chart__readout-pair li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.smic-chart .smic-chart__readout-pair li::before {
+  content: none;
+}
+
+.smic-chart__readout-key {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  color: var(--ds-text-muted);
+  white-space: nowrap;
+}
+
+.smic-chart__readout-num {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ds-text);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 767px) {
+  .smic-chart--indices {
+    --smic-chart-axis-w: 2.1rem;
+  }
+
+  .smic-chart--indices .smic-chart__readout-strip {
+    min-height: 9.5rem;
+  }
+
+  .smic-chart .smic-chart__readout-pair {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .smic-chart .smic-chart__readout-pair li {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.55rem;
+  }
+
+  .smic-chart__readout-num {
+    font-size: 1.0625rem;
+  }
+}
+
 .guide-table-cards {
   display: none;
 }
@@ -1380,6 +2021,10 @@
   margin-bottom: 24px;
 }
 
+.guide-conclusion__cta-wrap {
+  margin: 0 0 8px;
+}
+
 .guide-conclusion__cta {
   display: inline-flex;
   align-items: center;
@@ -1398,6 +2043,11 @@
   background: var(--ds-brand-dark);
 }
 
+.guide-conclusion__cta:focus-visible {
+  outline: 2px solid var(--ds-brand);
+  outline-offset: 3px;
+}
+
 .guide-conclusion__secondary {
   margin: 0.85rem 0 0;
   font-size: 0.9375rem;
@@ -1407,6 +2057,88 @@
 
 .guide-conclusion__secondary a {
   font-weight: 600;
+}
+
+.guide-conclusion__secondary a:focus-visible {
+  outline: 2px solid var(--ds-brand);
+  outline-offset: 2px;
+}
+
+.guide-conclusion__further {
+  margin: 36px 0 0;
+}
+
+.guide-conclusion__further-title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ds-brand);
+  margin: 0 0 16px;
+}
+
+.prose .guide-conclusion__further-list,
+.guide-conclusion__further-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.prose .guide-conclusion__further-list li + li,
+.guide-conclusion__further-list li + li {
+  margin-top: 0;
+}
+
+@media (min-width: 720px) {
+  .prose .guide-conclusion__further-list,
+  .guide-conclusion__further-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.guide-conclusion__further-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 16px 18px;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.guide-conclusion__further-card:hover {
+  border-color: var(--ds-brand);
+  box-shadow: 0 4px 14px rgba(var(--ds-brand-rgb), 0.1);
+}
+
+.guide-conclusion__further-card:focus-visible {
+  outline: 2px solid var(--ds-brand);
+  outline-offset: 2px;
+}
+
+.guide-conclusion__further-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ds-text);
+}
+
+.guide-conclusion__further-card:hover .guide-conclusion__further-card-title {
+  color: var(--ds-brand);
+}
+
+.guide-conclusion__further-card-desc {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ds-text-muted, #4a5568);
 }
 
 /* Sidebar premium */

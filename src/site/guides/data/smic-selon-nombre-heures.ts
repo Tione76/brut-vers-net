@@ -136,6 +136,13 @@ export const smicSelonNombreHeuresGuide: Guide = {
       title: "Comment calculer le SMIC mensuel selon les heures travaillées ?",
       blocks: [
         {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Retrouvez également",
+          label: "l'historique du taux horaire du SMIC année par année",
+          href: "/evolution-smic",
+        },
+        {
           type: "paragraph",
           text: "Pour une durée contractuelle inférieure ou égale à 35 h, la méthode usuelle de mensualisation est :",
         },

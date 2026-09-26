@@ -75,6 +75,12 @@ export interface GuideTable {
   rows: string[][];
   /** Sur mobile, chaque ligne devient une carte ; le tableau reste visible sur ordinateur. */
   stackOnMobile?: boolean;
+  /** Première cellule de chaque ligne en en-tête de ligne (`scope="row"`). */
+  rowHeader?: boolean;
+  /** Identifiants d'ancre optionnels, alignés sur les lignes (ex. `smic-2006`). */
+  rowIds?: Array<string | undefined>;
+  /** Conserve la première colonne visible lors du défilement horizontal. */
+  stickyFirstColumn?: boolean;
 }
 
 /** Identifiant d'illustration vectorielle (réservé aux futurs guides) */
@@ -176,6 +182,18 @@ export interface GuideConclusion {
     label: string;
     href: string;
   }[];
+  /**
+   * Cartes éditoriales « Pour aller plus loin ».
+   * Si présent, remplace l'affichage inline de closingSecondaryLinks.
+   */
+  furtherReading?: {
+    title: string;
+    items: {
+      title: string;
+      description: string;
+      href: string;
+    }[];
+  };
 }
 
 /** Liens affichés dans la sidebar : maillage interne */

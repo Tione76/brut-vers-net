@@ -15,6 +15,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
   smic: "Montants du SMIC brut et net actuellement applicables, horaire et mensuel, avec les règles de revalorisation.",
   "smic-selon-nombre-heures":
     "SMIC brut et net estimé de 10 h à 39 h par semaine : tableau complet, temps partiel et heures supplémentaires.",
+  "evolution-smic":
+    "Historique du SMIG puis du SMIC depuis 1950 : tableau par année, graphiques et revalorisations officielles.",
   "salaire-interim-calcul-brut-net":
     "Salaire en intérim : brut de mission, IFM, congés payés et net estimé, avec formules et simulateur.",
   "salaire-arret-maladie":

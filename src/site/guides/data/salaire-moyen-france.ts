@@ -453,6 +453,13 @@ export const salaireMoyenFranceGuide: Guide = {
         {
           type: "internal-link",
           variant: "guide",
+          intro: "Historique de ce plancher :",
+          label: "évolution du SMIC depuis sa création",
+          href: "/evolution-smic",
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
           intro: "Comprendre le passage brut → net :",
           label: "différence entre salaire brut et salaire net",
           href: BRUT_NET_HREF,
@@ -502,7 +509,7 @@ export const salaireMoyenFranceGuide: Guide = {
     {
       question: "Comment situer le salaire moyen par rapport au SMIC ?",
       answer:
-        "Le SMIC est un plancher légal, distinct d'une moyenne ou d'une médiane. Pour les montants actuellement applicables, voir la page SMIC de Brut-vers-Net.",
+        "Le SMIC est un plancher légal, distinct d'une moyenne ou d'une médiane. Pour les montants actuellement applicables, voir la page SMIC. Pour replacer ce plancher dans le temps, consultez l'évolution du SMIC depuis sa création.",
     },
     {
       question: "Existe-t-il un salaire moyen officiel « par métier » ?",

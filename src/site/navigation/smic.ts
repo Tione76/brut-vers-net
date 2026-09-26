@@ -1,4 +1,9 @@
 import type { NavDropdownItem } from "./NavDropdownMenu";
+import {
+  SMIC_HISTORY_BREADCRUMB,
+  SMIC_HISTORY_H1,
+  SMIC_HISTORY_PATH,
+} from "@/site/smic-history/constants";
 
 /** Sous-menus du dropdown header « SMIC » (enrichi au fil des pages pilier). */
 export const smicNavigation: NavDropdownItem[] = [
@@ -11,5 +16,10 @@ export const smicNavigation: NavDropdownItem[] = [
     href: "/smic-selon-nombre-heures",
     shortTitle: "SMIC selon le nombre d'heures",
     title: "SMIC selon le nombre d'heures : brut et net de 10 h à 39 h",
+  },
+  {
+    href: SMIC_HISTORY_PATH,
+    shortTitle: SMIC_HISTORY_BREADCRUMB,
+    title: SMIC_HISTORY_H1,
   },
 ];

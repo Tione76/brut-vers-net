@@ -1,9 +1,5 @@
 import type { OgImageInput } from "@/framework/seo/metadata";
-import {
-  NET_TO_GROSS_HUB_PATH,
-  NET_TO_GROSS_INDEX_PATH,
-  NET_TO_GROSS_INTERNAL_BASE_PATH,
-} from "./config";
+import { NET_TO_GROSS_HUB_PATH, NET_TO_GROSS_INDEX_PATH } from "./config";
 import { formatNetShort } from "./data";
 
 export const NET_TO_GROSS_OG_SIZE = {
@@ -22,13 +18,15 @@ export function buildNetToGrossOgAlt(netMonthly: number): string {
   return `${formatNetShort(netMonthly)} net par mois : combien en brut ?`;
 }
 
-export function netToGrossOgImagePath(netMonthly: number): string {
-  return `${NET_TO_GROSS_INTERNAL_BASE_PATH}/${netMonthly}/opengraph-image`;
+/** Image sociale unique de la série (hub déjà généré une fois au build). */
+export function netToGrossOgImagePath(netMonthly?: number): string {
+  void netMonthly;
+  return netToGrossHubOgImagePath();
 }
 
 export function buildNetToGrossOgImageInput(netMonthly: number): OgImageInput {
   return {
-    url: netToGrossOgImagePath(netMonthly),
+    url: netToGrossOgImagePath(),
     width: NET_TO_GROSS_OG_SIZE.width,
     height: NET_TO_GROSS_OG_SIZE.height,
     alt: buildNetToGrossOgAlt(netMonthly),
