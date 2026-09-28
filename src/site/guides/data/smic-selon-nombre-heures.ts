@@ -322,6 +322,14 @@ export const smicSelonNombreHeuresGuide: Guide = {
           label: "utiliser le calculateur de salaire avec heures supplémentaires",
           href: HS_CALC,
         },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro:
+            "Dans les hôtels, cafés et restaurants, les 36e à 39e heures sont majorées à +10 %, pas à +25 %.",
+          label: "voir le SMIC hôtelier et le salaire HCR à 39 h",
+          href: "/smic-hotelier",
+        },
       ],
     },
     {
@@ -778,6 +786,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
     },
     relatedGuides: [
       { title: "SMIC : montants officiels", href: SMIC_PATH },
+      { title: "SMIC hôtelier (HCR)", href: "/smic-hotelier" },
       { title: "Salaire en intérim (IFM et congés payés)", href: "/salaire-interim-calcul-brut-net" },
       { title: "Salaire en alternance", href: ALTERNANCE },
       { title: "Lire une fiche de paie", href: LIRE_FICHE },

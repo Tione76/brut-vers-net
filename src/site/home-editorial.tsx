@@ -67,14 +67,14 @@ export function HomeEditorial() {
               </li>
               <li>
                 <a href="#limites-utilite">Limites et utilité</a>
-              </li>
-              <li>
+            </li>
+            <li>
                 <a href="#methodologie">Méthode de calcul brut vers net</a>
-              </li>
-              <li>
+            </li>
+            <li>
                 <a href="#faq">FAQ</a>
-              </li>
-            </ul>
+            </li>
+          </ul>
           </nav>
 
           <h2 id="calcul-brut-net">Comment calculer son salaire Brut vers Net ?</h2>
@@ -86,19 +86,19 @@ export function HomeEditorial() {
             <p>
               Le net estimé avant impôt correspond au montant après cotisations salariales. Le net
               après impôt est ce qui reste une fois le prélèvement à la source appliqué.
-            </p>
-            <p>
+          </p>
+          <p>
               L&apos;écart entre les deux niveaux vient des cotisations prélevées sur la rémunération,
               qui financent la protection sociale (maladie, retraite, chômage).
-            </p>
+          </p>
 
             <h3>Formule simplifiée du simulateur</h3>
-            <p>
+          <p>
               Sur une fiche de paie, chaque cotisation est détaillée. Ici, un coefficient indicatif
               par profil suffit : net estimé = brut × coefficient. Pour le sens inverse, on divise
               par le même coefficient.
-            </p>
-            <p>
+          </p>
+          <p>
               Trois profils sont proposés : salarié non-cadre, salarié cadre et fonction publique.
               Les coefficients sont configurés pour une estimation simple, revus régulièrement, sans
               prétendre reproduire une paie réelle.
@@ -142,38 +142,38 @@ export function HomeEditorial() {
           <div className="home-editorial__table-wrap home-editorial__wide">
             <table className="home-editorial__table">
               <caption>Brut, net avant impôt, net imposable et net après impôt : où les situer</caption>
-              <thead>
-                <tr>
+            <thead>
+              <tr>
                   <th scope="col">Notion</th>
                   <th scope="col">Définition</th>
                   <th scope="col">Où le retrouver ?</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
                   <td>Salaire brut</td>
                   <td>Avant cotisations salariales</td>
                   <td>Contrat, offre d&apos;emploi, fiche de paie</td>
-                </tr>
-                <tr>
+              </tr>
+              <tr>
                   <td>Net estimé avant impôt</td>
                   <td>Après cotisations, avant prélèvement à la source</td>
                   <td>Résultat du simulateur ; bulletin (net à payer avant impôt)</td>
-                </tr>
-                <tr>
+              </tr>
+              <tr>
                   <td>Net imposable estimé</td>
                   <td>Base fiscale estimée pour calculer le prélèvement</td>
                   <td>
                     Estimation interne du simulateur ; montant exact sur votre bulletin de salaire
                   </td>
-                </tr>
-                <tr>
+              </tr>
+              <tr>
                   <td>Net après impôt</td>
                   <td>Après prélèvement à la source</td>
                   <td>Net payé sur votre compte bancaire</td>
-                </tr>
-              </tbody>
-            </table>
+              </tr>
+            </tbody>
+          </table>
           </div>
 
           <div className="home-editorial__prose">
@@ -315,8 +315,8 @@ export function HomeEditorial() {
           <div className="home-editorial__table-wrap home-editorial__wide">
             <table className="home-editorial__table home-editorial__table--conversion">
               <caption>Conversion salaire brut vers net : estimations mensuelles indicatives</caption>
-              <thead>
-                <tr>
+            <thead>
+              <tr>
                   <th scope="col">Salaire brut mensuel</th>
                   <th scope="col" className="home-editorial__table-num">
                     Net estimé non-cadre
@@ -324,9 +324,9 @@ export function HomeEditorial() {
                   <th scope="col" className="home-editorial__table-num">
                     Net estimé cadre
                   </th>
-                </tr>
-              </thead>
-              <tbody>
+              </tr>
+            </thead>
+            <tbody>
                 {conversionRows.map((row) => (
                   <tr key={row.grossMonthly}>
                     <td>{formatEditorialEuro(row.grossMonthly)}</td>
@@ -336,10 +336,10 @@ export function HomeEditorial() {
                     <td className="home-editorial__table-num">
                       {formatEditorialEuro(row.netExecutive)}
                     </td>
-                  </tr>
+              </tr>
                 ))}
-              </tbody>
-            </table>
+            </tbody>
+          </table>
           </div>
 
           <p className="home-editorial__table-note home-editorial__prose">
@@ -364,8 +364,8 @@ export function HomeEditorial() {
               pas pour reproduire votre bulletin. Connaissez-vous votre taux (bulletin, espace
               impots.gouv.fr) ? Remplacez-le dans le curseur : le net après impôt devient alors
               nettement plus proche de ce que vous percevez réellement.
-            </p>
-            <p>
+          </p>
+          <p>
               À 0 %, vous isolez le net avant impôt et mesurez uniquement l&apos;effet des cotisations
               sociales.
             </p>
@@ -401,7 +401,7 @@ export function HomeEditorial() {
               </EditorialBenefitItem>
               <EditorialBenefitItem>Estimer un budget à partir d&apos;un futur salaire</EditorialBenefitItem>
               <EditorialBenefitItem>Évaluer un temps partiel face au temps plein</EditorialBenefitItem>
-            </ul>
+          </ul>
 
             <aside className="home-editorial__callout home-editorial__callout--limit">
               <strong>Estimation, pas certitude</strong>
@@ -427,15 +427,15 @@ export function HomeEditorial() {
             <p>
               Le simulateur propose deux modes. Dans les deux cas, un seul moteur produit le brut, le
               net estimé avant impôt et le net après impôt.
-            </p>
-            <p>
+          </p>
+          <p>
               <strong>Salaire mensuel ou annuel.</strong> Vous connaissez déjà votre{" "}
               <Link href="/guides/comment-est-calcule-le-salaire-net">salaire brut</Link> ou votre
               rémunération nette. Vous saisissez le montant mensuel ou annuel, choisissez votre
               profil, puis le simulateur calcule automatiquement les équivalents (horaire, mensuel,
               annuel) et le net après impôt.
-            </p>
-            <p>
+          </p>
+          <p>
               <strong>Taux horaire.</strong> Vous renseignez votre{" "}
               <Link href="/guides/comment-calculer-son-salaire-net">salaire horaire</Link>, votre
               temps de travail et le nombre de mois rémunérés. Le simulateur convertit d&apos;abord
@@ -551,10 +551,10 @@ export function HomeEditorial() {
               </p>
             </aside>
 
-            <p className="home-editorial__updated">
+          <p className="home-editorial__updated">
               Contenu révisé le <time dateTime={HOME_EDITORIAL_UPDATED_AT}>{revisedDateLabel}</time>
               . Chiffres alignés sur les coefficients du simulateur au {revisedDateLabel}.
-            </p>
+          </p>
           </div>
         </div>
       </div>

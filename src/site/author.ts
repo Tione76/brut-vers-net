@@ -11,19 +11,17 @@ export const SITE_AUTHOR = {
   metaTitle: "Antoine, auteur de Brut vers Net",
   metaDescription:
     "Antoine est le créateur de Brut vers Net. Il publie des contenus pédagogiques sur le salaire, les cotisations et les calculateurs de rémunération.",
-  pageSubtitle:
-    "Créateur de Brut vers Net, des contenus pédagogiques sur la rémunération.",
+  pageSubtitle: "Je publie des contenus pédagogiques sur la rémunération.",
   role: "Créateur de Brut vers Net",
-  cardIntro:
-    "Des contenus pédagogiques pour rendre la rémunération plus accessible.",
+  cardIntro: "Je cherche à rendre la rémunération plus accessible.",
   sections: [
     {
       id: "a-propos",
       title: "À propos",
       icon: "user" as const,
       paragraphs: [
-        "Antoine est le créateur de Brut vers Net.",
-        "Passionné par la rémunération, la finance personnelle et les mécanismes qui influencent le pouvoir d'achat, il s'intéresse à la manière de rendre accessibles des sujets souvent perçus comme complexes.",
+        "Je suis le créateur de Brut vers Net. Je m'intéresse à la rémunération, à la finance personnelle et aux mécanismes qui influencent le pouvoir d'achat.",
+        "En cherchant des informations sur les salaires ou le SMIC, je trouvais souvent des pages anciennes ou difficiles à dater. Il me fallait alors plusieurs recherches pour vérifier les chiffres. J'ai donc voulu réunir des explications claires, des calculs détaillés et des sources officielles, en indiquant les dates d'application des montants.",
       ],
     },
     {
@@ -31,7 +29,7 @@ export const SITE_AUTHOR = {
       title: "Ce que je publie",
       icon: "book" as const,
       paragraphs: [
-        "À travers Brut vers Net, il publie des contenus pédagogiques consacrés au salaire, aux cotisations sociales, aux calculateurs et aux principaux dispositifs liés à la rémunération.",
+        "J'y publie des guides et des calculateurs sur le salaire, les cotisations sociales et les principaux dispositifs liés à la rémunération.",
       ],
     },
     {
@@ -39,15 +37,15 @@ export const SITE_AUTHOR = {
       title: "Mon objectif",
       icon: "target" as const,
       paragraphs: [
-        "L'objectif du site est de proposer des explications claires, des outils simples à utiliser et des informations régulièrement mises à jour afin d'aider chacun à mieux comprendre sa rémunération.",
+        "Je veux aider chacun à mieux comprendre sa rémunération, avec des outils simples à utiliser.",
       ],
     },
   ],
   methodologyTitle: "Méthodologie",
   methodology:
-    "Les contenus publiés sur Brut vers Net sont rédigés à partir des textes officiels disponibles, puis relus et mis à jour lors des évolutions réglementaires afin de garantir des informations aussi fiables et compréhensibles que possible.",
+    "Je rédige les contenus à partir des textes officiels disponibles. Je les relis et je les mets à jour lors des évolutions réglementaires, afin de proposer des informations aussi fiables que possible.",
   sourcesIntro:
-    "Les articles s'appuient, lorsque cela est pertinent, sur des sources officielles. Sources régulièrement consultées :",
+    "Lorsque c'est pertinent, je m'appuie sur des sources officielles. Sources que je consulte régulièrement :",
   sources: [
     "URSSAF",
     "Service-Public.fr",

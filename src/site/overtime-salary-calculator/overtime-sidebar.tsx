@@ -15,6 +15,11 @@ const CURATED_GUIDE_ENTRIES: { slug: string; title: string; href?: string }[] = 
   },
   { slug: "comment-lire-une-fiche-de-paie", title: "Comprendre une fiche de paie" },
   {
+    slug: "smic-hotelier",
+    title: "SMIC hôtelier et grille HCR",
+    href: "/smic-hotelier",
+  },
+  {
     slug: "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
     title: "Prélèvement à la source",
   },

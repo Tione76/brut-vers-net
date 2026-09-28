@@ -18,6 +18,11 @@ export const smicNavigation: NavDropdownItem[] = [
     title: "SMIC selon le nombre d'heures : brut et net de 10 h à 39 h",
   },
   {
+    href: "/smic-hotelier",
+    shortTitle: "SMIC hôtelier (HCR)",
+    title: "SMIC hôtelier 2026 : grille HCR et salaires à 35 h et 39 h",
+  },
+  {
     href: SMIC_HISTORY_PATH,
     shortTitle: SMIC_HISTORY_BREADCRUMB,
     title: SMIC_HISTORY_H1,

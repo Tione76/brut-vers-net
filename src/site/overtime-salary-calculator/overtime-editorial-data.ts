@@ -162,7 +162,7 @@ export const overtimeFaq: OvertimeFaqItem[] = [
   {
     question: "Une convention collective peut-elle prévoir un autre taux ?",
     answer:
-      "Oui. Un accord d'entreprise ou une convention collective peut prévoir des taux de majoration différents. Le taux ne peut normalement pas être inférieur à 10 %. Vérifiez votre contrat, votre convention ou votre fiche de paie.",
+        "Oui. Un accord d'entreprise ou une convention collective peut prévoir des taux de majoration différents. Le taux ne peut normalement pas être inférieur à 10 %. Dans les hôtels, cafés et restaurants, les heures de la 36e à la 39e sont notamment majorées de 10 %. Vérifiez votre contrat, votre convention ou votre fiche de paie.",
   },
   {
     question: "Les heures supplémentaires augmentent-elles le prélèvement à la source ?",

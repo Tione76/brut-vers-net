@@ -173,6 +173,12 @@ export function OvertimeSalaryEditorial() {
                 la semaine sont généralement majorées de 25 %, puis les suivantes de 50 %.
               </p>
               <p>
+                Une convention peut prévoir d&apos;autres taux, sans descendre sous 10 %. Dans les
+                hôtels, cafés et restaurants, les heures de la 36e à la 39e sont notamment majorées
+                de 10 %. Pour le salaire minimum correspondant, consultez le{" "}
+                <Link href="/smic-hotelier">SMIC hôtelier et la grille HCR</Link>.
+              </p>
+              <p>
                 C&apos;est pourquoi le calculateur demande deux quantités séparées sur le mois,
                 plutôt que de répartir automatiquement un total. Vous reprenez simplement la
                 répartition déjà faite par votre employeur.

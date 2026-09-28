@@ -8,6 +8,7 @@ import { prelevementALaSourceGuide } from "./data/prelevement-a-la-source-quest-
 import { pourquoiSalaireNetChangeSeptembre2026Guide } from "./data/pourquoi-salaire-net-change-septembre-2026";
 import { smicGuide } from "./data/smic";
 import { smicSelonNombreHeuresGuide } from "./data/smic-selon-nombre-heures";
+import { smicHotelierGuide } from "./data/smic-hotelier";
 import { evolutionSmicGuide } from "./data/evolution-smic";
 import { salaireInterimGuide } from "./data/salaire-interim-calcul-brut-net";
 import { salaireArretMaladieGuide } from "./data/salaire-arret-maladie";
@@ -23,6 +24,7 @@ export { getGuidePublicPath } from "./paths";
 export const guides: Guide[] = [
   attachGuideCover(smicGuide),
   attachGuideCover(smicSelonNombreHeuresGuide),
+  attachGuideCover(smicHotelierGuide),
   attachGuideCover(evolutionSmicGuide),
   attachGuideCover(salaireInterimGuide),
   attachGuideCover(salaireArretMaladieGuide),

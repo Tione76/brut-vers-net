@@ -252,6 +252,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "smic-hotelier": cover(
+    "guides/smic-hotelier.webp",
+    "Employée d'étage en gants blancs déposant des serviettes pliées sur un lit d'hôtel",
+    {
+      photographer: "cottonbro studio",
+      source: "Pexels",
+      text: "Photo de cottonbro studio via Pexels",
+    },
+    1200,
+    800,
+  ),
   "salaire-interim-calcul-brut-net": cover(
     "guides/Salaire-brut-net-interim.webp",
     "Deux agents logistiques transportant des cartons dans un entrepôt",
@@ -344,6 +355,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/smic-selon-nombre-heures") {
     return getGuideCover("smic-selon-nombre-heures");
+  }
+  if (href === "/smic-hotelier") {
+    return getGuideCover("smic-hotelier");
   }
   if (href === "/evolution-smic") {
     return getGuideCover("evolution-smic");

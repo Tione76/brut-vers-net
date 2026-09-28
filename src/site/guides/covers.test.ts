@@ -46,6 +46,7 @@ describe("covers registry", () => {
         "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
         "pourquoi-salaire-net-change-septembre-2026",
         "smic",
+        "smic-hotelier",
         "evolution-smic",
         "salaire-interim-calcul-brut-net",
         "salaire-arret-maladie",
@@ -244,6 +245,16 @@ describe("covers registry", () => {
     expect(salaireAlternanceCover?.alt).not.toMatch(/\d+\s*€/);
     expect(salaireAlternanceCover?.alt.toLowerCase()).not.toContain("gustavo");
     expect(salaireAlternanceCover?.alt.toLowerCase()).not.toContain("pexels");
+
+    const smicHotelierCover = getGuideCover("smic-hotelier");
+    expect(smicHotelierCover?.src).toBe("/images/covers/guides/smic-hotelier.webp");
+    expect(formatCoverCredit(smicHotelierCover!.credit)).toBe(
+      "Photo de cottonbro studio via Pexels",
+    );
+    expect(smicHotelierCover?.width).toBe(1200);
+    expect(smicHotelierCover?.height).toBe(800);
+    expect(smicHotelierCover?.alt.toLowerCase()).not.toContain("salaire");
+    expect(smicHotelierCover?.alt).not.toMatch(/20\d{2}/);
   });
 
   it("exposes hub and FAQ covers with credits", () => {

@@ -358,6 +358,13 @@ export const smicGuide: Guide = {
             "En pratique, le salarié bénéficie du plancher le plus favorable entre SMIC et minimum conventionnel applicable.",
           ],
         },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour le salaire minimum dans les hôtels, cafés et restaurants,",
+          label: "consulter la grille HCR et le SMIC hôtelier à 35 h et 39 h",
+          href: "/smic-hotelier",
+        },
       ],
     },
     {
@@ -516,6 +523,7 @@ export const smicGuide: Guide = {
     },
     relatedGuides: [
       { title: "SMIC selon le nombre d'heures", href: "/smic-selon-nombre-heures" },
+      { title: "SMIC hôtelier (HCR)", href: "/smic-hotelier" },
       { title: "Salaire en intérim (IFM et congés payés)", href: "/salaire-interim-calcul-brut-net" },
       { title: "Salaire moyen en France", href: "/salaire-moyen-france" },
       { title: "Différence brut / net", href: BRUT_NET_EXPLIQUE_HREF },

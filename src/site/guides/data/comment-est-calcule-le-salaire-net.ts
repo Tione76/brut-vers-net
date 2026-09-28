@@ -303,6 +303,14 @@ export const commentEstCalculeLeSalaireNetGuide: Guide = {
           text: "En pratique, les écarts réels dépendent aussi du contrat, des cotisations applicables, de la convention collective et du niveau de rémunération.",
         },
         {
+          type: "internal-link",
+          variant: "guide",
+          intro:
+            "Dans les hôtels, cafés et restaurants, le brut de départ dépend aussi de la grille de branche :",
+          label: "consulter le SMIC hôtelier et les minima HCR",
+          href: "/smic-hotelier",
+        },
+        {
           type: "paragraph",
           text: "Le prélèvement à la source accentue encore les différences : deux personnes au même salaire net avant impôt peuvent avoir des taux différents selon leur foyer fiscal.",
         },

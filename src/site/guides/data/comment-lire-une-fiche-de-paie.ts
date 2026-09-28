@@ -163,6 +163,14 @@ export const commentLireUneFicheDePaieGuide: Guide = {
             "Lors d'une première lecture, concentrez-vous sur la zone salaire, les cotisations, l'impôt et le net. Les mentions en pied de page peuvent attendre.",
           ],
         },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro:
+            "Si votre bulletin indique la convention des hôtels, cafés et restaurants (IDCC 1979),",
+          label: "vérifiez le SMIC hôtelier et la grille HCR",
+          href: "/smic-hotelier",
+        },
       ],
     },
     {
@@ -502,6 +510,10 @@ export const commentLireUneFicheDePaieGuide: Guide = {
       href: "/",
     },
     relatedGuides: [
+      {
+        title: "SMIC hôtelier (HCR)",
+        href: "/smic-hotelier",
+      },
       {
         title: "Salaire en intérim : IFM et congés payés",
         href: "/salaire-interim-calcul-brut-net",
