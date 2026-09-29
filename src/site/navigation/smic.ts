@@ -15,7 +15,7 @@ export const smicNavigation: NavDropdownItem[] = [
   {
     href: "/smic-selon-nombre-heures",
     shortTitle: "SMIC selon le nombre d'heures",
-    title: "SMIC selon le nombre d'heures : brut et net de 10 h à 39 h",
+    title: "SMIC selon le nombre d'heures : brut et net de 10 h à 44 h",
   },
   {
     href: "/smic-hotelier",

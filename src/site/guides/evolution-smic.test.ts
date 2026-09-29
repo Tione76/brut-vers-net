@@ -257,7 +257,7 @@ describe("page évolution du SMIC", () => {
       {
         title: "SMIC selon le nombre d'heures",
         description:
-          "Calculez le SMIC brut et net pour chaque durée de 10 h à 39 h par semaine, y compris le temps partiel et les heures supplémentaires.",
+          "Calculez le SMIC brut et net pour chaque durée de 10 h à 44 h par semaine, y compris le temps partiel et les heures supplémentaires.",
         href: "/smic-selon-nombre-heures",
       },
       {

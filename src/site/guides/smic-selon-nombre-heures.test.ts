@@ -19,8 +19,12 @@ import {
   SMIC_HOURS_SEO_TITLE,
   SMIC_HOURS_SLUG,
   SMIC_HOURS_UPDATED_AT,
+  SMIC_HOURS_WEEKLY_MONEY_ROUNDING_NOTE,
+  SMIC_HOURS_OVERTIME_QUALIFICATION_NOTE,
+  SMIC_HOURS_COMPENSATORY_REST_NOTE,
 } from "@/site/smic-heures/data";
 import { calculateSmicForWeeklyHours, formatEuro } from "@/site/smic-heures";
+import { roundCent } from "@/site/salary-calculator";
 import { SMIC_CURRENT, SMIC_LABELS, SMIC_SOURCES } from "@/site/smic/data";
 
 describe("page SMIC selon le nombre d'heures", () => {
@@ -128,7 +132,7 @@ describe("page SMIC selon le nombre d'heures", () => {
     expect(webpage.url).toBe(`https://www.brut-vers-net.fr${path}`);
     expect(String(webpage["@id"])).toContain(path);
     expect(webpage.datePublished).toContain("2026-09-18");
-    expect(webpage.dateModified).toContain("2026-09-18");
+    expect(webpage.dateModified).toContain("2026-09-29");
   });
 
   it("expose les ancres recherchées et les sources officielles à jour", () => {
@@ -144,6 +148,10 @@ describe("page SMIC selon le nombre d'heures", () => {
       "smic-32-heures",
       "smic-35-heures",
       "smic-39-heures",
+      "heures-supplementaires-smic",
+      "smic-36-a-44-heures",
+      "smic-40-heures",
+      "smic-44-heures",
     ];
     for (const id of ids) {
       const found =
@@ -158,6 +166,9 @@ describe("page SMIC selon le nombre d'heures", () => {
       "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006072050/LEGISCTA000006189631/",
     );
     expect(blob).toContain("https://www.service-public.fr/particuliers/vosdroits/F2391");
+    expect(blob).toContain(
+      "https://www.urssaf.fr/accueil/employeur/cotisations/liste-cotisations/heures-supplementaires.html",
+    );
     expect(blob).toContain("36e à la 43e heure");
     expect(blob).toContain("ni travaillées ni rémunérées");
     expect(blob).toContain("durée considérée comme équivalente");
@@ -178,12 +189,16 @@ describe("page SMIC selon le nombre d'heures", () => {
     const r32 = calculateSmicForWeeklyHours(32)!;
     const r35 = calculateSmicForWeeklyHours(35)!;
     const r39 = calculateSmicForWeeklyHours(39)!;
+    const r40 = calculateSmicForWeeklyHours(40)!;
+    const r44 = calculateSmicForWeeklyHours(44)!;
     expect(guide.faq.some((item) => item.answer.includes(formatEuro(r20.monthlyNetEstimated)))).toBe(
       true,
     );
     expect(guide.faq.some((item) => item.answer.includes(formatEuro(r39.monthlyNetEstimated)))).toBe(
       true,
     );
+    expect(guide.faq.some((item) => item.answer.includes(formatEuro(r40.monthlyGross)))).toBe(true);
+    expect(guide.faq.some((item) => item.answer.includes(formatEuro(r44.monthlyGross)))).toBe(true);
     expect(guide.faq.some((item) => item.answer.includes("ni travaillées ni rémunérées"))).toBe(
       true,
     );
@@ -194,9 +209,13 @@ describe("page SMIC selon le nombre d'heures", () => {
     expect(guide.introSummary?.items.some((item) => item.includes(SMIC_LABELS.hourlyGross))).toBe(
       true,
     );
-    expect(guide.seoTitle).toContain("2026");
-    expect(guide.description).toContain("2026");
+    expect(guide.seoTitle).toBe(SMIC_HOURS_SEO_TITLE);
+    expect(SMIC_HOURS_SEO_TITLE).not.toContain("2026");
+    expect(SMIC_HOURS_SEO_TITLE.endsWith("(mis à jour)")).toBe(true);
+    expect(guide.description).not.toContain("2026");
+    expect(guide.title).toContain("2026");
     expect(guide.title).toBe(SMIC_HOURS_H1);
+    expect(guide.title).toContain("44 h");
   });
 
   it("est liée depuis la page /smic", () => {
@@ -206,5 +225,57 @@ describe("page SMIC selon le nombre d'heures", () => {
     expect(blob).toContain(
       "voir le SMIC brut et net selon le nombre d'heures travaillées",
     );
+  });
+
+  it("conserve les intentions historiques 20–39 h et étend 40–44 h", () => {
+    const guide = getGuideBySlug(slug)!;
+    const blob = JSON.stringify(guide);
+    expect(blob).toContain("temps partiel");
+    expect(blob).toContain("heures complémentaires");
+    expect(blob).toContain("heures supplémentaires");
+    expect(blob).toContain("durée minimale de 24 h applicable");
+    expect(blob).not.toContain("durée contractuelle de 10 h à 44 h");
+    expect(blob).toContain("durée hebdomadaire de 10 h à 44 h");
+    expect(blob).not.toContain("une dérogation est en principe nécessaire");
+    expect(blob).toContain(SMIC_HOURS_OVERTIME_QUALIFICATION_NOTE);
+    expect(
+      blob.split("sont traitées comme des heures supplémentaires").length - 1,
+    ).toBe(1);
+    expect(blob).toContain(SMIC_HOURS_COMPENSATORY_REST_NOTE);
+    expect(blob).toContain("fiche de paie");
+    expect(blob).toContain("minimum conventionnel");
+    expect(blob).toContain("Cas non couverts");
+    expect(blob).toContain("10 h à 44 h");
+    expect(blob).toContain("169");
+    expect(blob).toContain("10 h à 23 h");
+    expect(blob).toContain("48 h");
+    expect(blob).toContain("44 h en moyenne");
+    expect(blob).toContain("+20 %");
+    expect(blob).toContain("KALIARTI000005826386");
+    expect(blob).toContain("F1911");
+    expect(blob).toContain("D241-21");
+    expect(blob).toContain("47,666");
+    expect(blob).toContain(SMIC_HOURS_WEEKLY_MONEY_ROUNDING_NOTE);
+    expect(
+      blob.split("Les montants hebdomadaires affichés sont arrondis au centime").length - 1,
+    ).toBe(1);
+    expect(blob).toContain(formatEuro(roundCent(SMIC_CURRENT.monthlyGross * 12)));
+    expect(blob).toContain("taux constant");
+    expect(blob).toContain("projections du calculateur");
+    expect(blob).not.toContain("Service-Public publie un SMIC annuel");
+    expect(blob).not.toContain("Service-Public ne publie pas de montant annuel");
+    expect(blob).toContain("L3123-27");
+    expect(blob).toContain("L3123-20");
+    expect(blob).toContain("L3123-28");
+    expect(blob).toContain("L3123-29");
+    expect(blob).toContain("F2617");
+    expect(blob).toContain("n'est pas intégrée au calcul du net avant impôt");
+    expect(blob).not.toContain("plafond Urssaf retenu");
+    expect(blob).not.toContain("Retrouvez également");
+    expect(blob).not.toContain("cités ci-dessous");
+    expect(guide.sections.some((s) => s.id === "smic-39-heures")).toBe(true);
+    expect(guide.sections.some((s) => s.id === "moins-de-24h")).toBe(true);
+    expect(guide.sections.some((s) => s.id === "differences-heures")).toBe(true);
+    expect(guide.sections.some((s) => s.id === "methodologie-sources")).toBe(true);
   });
 });

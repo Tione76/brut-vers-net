@@ -6,13 +6,17 @@ import { estimateOvertimeContributionRelief } from "@/site/overtime-salary-calcu
 import { getProfileCoefficient } from "@/site/salary-calculator/config";
 import {
   buildSmicHoursTable,
+  buildSmicWeeklyOvertimeGainTable,
   calculateSmicForWeeklyHours,
+  calculateSmicWeeklyOvertimeGain,
   getSmicIndicativeNetRatio,
   OVERTIME_MAJORATION_ASSUMPTION_PERCENT,
+  OVERTIME_MAJORATION_GROUP2_PERCENT,
   parseWeeklyHoursInput,
   SMIC_HOURS_DEFAULT,
   SMIC_HOURS_MAX,
   SMIC_HOURS_MIN,
+  smicOvertimeHourlyGross,
   weeklyToMonthlyHours,
 } from "./engine";
 
@@ -34,12 +38,13 @@ const REGRESSION: Record<
 };
 
 describe("smic-heures engine", () => {
-  it("expose la plage 10–39 h et la majoration légale de 1re tranche", () => {
+  it("expose la plage 10–44 h et les majorations légales 25 % / 50 %", () => {
     expect(SMIC_HOURS_MIN).toBe(10);
-    expect(SMIC_HOURS_MAX).toBe(39);
+    expect(SMIC_HOURS_MAX).toBe(44);
     expect(SMIC_HOURS_DEFAULT).toBe(35);
     expect(OVERTIME_MAJORATION_ASSUMPTION_PERCENT).toBe(LEGAL_MAJORATION_GROUP1);
     expect(OVERTIME_MAJORATION_ASSUMPTION_PERCENT).toBe(25);
+    expect(OVERTIME_MAJORATION_GROUP2_PERCENT).toBe(50);
   });
 
   it("mensualise avec H × 52 ÷ 12 sans arrondi prématuré", () => {
@@ -72,7 +77,7 @@ describe("smic-heures engine", () => {
     },
   );
 
-  it("calcule toutes les heures entières de 10 à 39 sans NaN", () => {
+  it("calcule toutes les heures entières de 10 à 44 sans NaN", () => {
     for (let h = SMIC_HOURS_MIN; h <= SMIC_HOURS_MAX; h += 1) {
       const result = calculateSmicForWeeklyHours(h);
       expect(result).not.toBeNull();
@@ -85,7 +90,7 @@ describe("smic-heures engine", () => {
 
   it("aligne le tableau et le calculateur pour chaque ligne", () => {
     const table = buildSmicHoursTable();
-    expect(table).toHaveLength(30);
+    expect(table).toHaveLength(35);
     for (const row of table) {
       const fromEngine = calculateSmicForWeeklyHours(row.weeklyHours)!;
       expect(row).toEqual(fromEngine);
@@ -134,7 +139,7 @@ describe("smic-heures engine", () => {
 
   it("rejette les valeurs hors plage, vides, NaN et négatives", () => {
     expect(calculateSmicForWeeklyHours(9)).toBeNull();
-    expect(calculateSmicForWeeklyHours(40)).toBeNull();
+    expect(calculateSmicForWeeklyHours(45)).toBeNull();
     expect(calculateSmicForWeeklyHours(Number.NaN)).toBeNull();
     expect(calculateSmicForWeeklyHours(-1)).toBeNull();
     expect(calculateSmicForWeeklyHours(Number.POSITIVE_INFINITY)).toBeNull();
@@ -147,8 +152,9 @@ describe("smic-heures engine", () => {
     expect(parseWeeklyHoursInput(" 30 ")).toBe(30);
     expect(parseWeeklyHoursInput("10")).toBe(10);
     expect(parseWeeklyHoursInput("39")).toBe(39);
+    expect(parseWeeklyHoursInput("44")).toBe(44);
     expect(parseWeeklyHoursInput("9")).toBeNull();
-    expect(parseWeeklyHoursInput("40")).toBeNull();
+    expect(parseWeeklyHoursInput("45")).toBeNull();
     expect(parseWeeklyHoursInput("abc")).toBeNull();
     expect(parseWeeklyHoursInput("-12")).toBeNull();
 
@@ -161,11 +167,106 @@ describe("smic-heures engine", () => {
     );
   });
 
+  it("applique +25 % jusqu'à 43 h et +50 % à la 44e heure", () => {
+    const r40 = calculateSmicForWeeklyHours(40)!;
+    const r43 = calculateSmicForWeeklyHours(43)!;
+    const r44 = calculateSmicForWeeklyHours(44)!;
+
+    expect(r40.overtimeWeeklyHours).toBe(5);
+    expect(r40.overtimeWeeklyHours25).toBe(5);
+    expect(r40.overtimeWeeklyHours50).toBe(0);
+    expect(r43.overtimeWeeklyHours).toBe(8);
+    expect(r43.overtimeWeeklyHours25).toBe(8);
+    expect(r43.overtimeWeeklyHours50).toBe(0);
+    expect(r44.overtimeWeeklyHours).toBe(9);
+    expect(r44.overtimeWeeklyHours25).toBe(8);
+    expect(r44.overtimeWeeklyHours50).toBe(1);
+
+    const expected40 = roundCent(
+      weeklyToMonthlyHours(5) * SMIC_CURRENT.hourlyGross * 1.25,
+    );
+    expect(r40.overtimeGross).toBe(expected40);
+    expect(r40.monthlyGross).toBe(roundCent(SMIC_CURRENT.monthlyGross + expected40));
+
+    const gross25 = roundCent(
+      weeklyToMonthlyHours(8) * SMIC_CURRENT.hourlyGross * 1.25,
+    );
+    const gross50 = roundCent(
+      weeklyToMonthlyHours(1) * SMIC_CURRENT.hourlyGross * 1.5,
+    );
+    expect(r43.overtimeGross).toBe(gross25);
+    expect(r44.overtimeGross25).toBe(gross25);
+    expect(r44.overtimeGross50).toBe(gross50);
+    expect(r44.overtimeGross).toBe(roundCent(gross25 + gross50));
+    expect(r44.monthlyGross).toBeGreaterThan(r43.monthlyGross);
+
+    const relief = estimateOvertimeContributionRelief(r44.overtimeGross);
+    const otNet = roundCent(
+      r44.overtimeGross * getProfileCoefficient("nonExecutive") + relief,
+    );
+    expect(r44.overtimeNetGain).toBe(otNet);
+    expect(r44.monthlyNetEstimated).toBe(
+      roundCent(SMIC_CURRENT.monthlyNetIndicative + otNet),
+    );
+  });
+
+  it("aligne le gain d'heures supplémentaires hebdomadaires sur le contrat 35 h + HS", () => {
+    const oneHour = calculateSmicWeeklyOvertimeGain(1)!;
+    const r36 = calculateSmicForWeeklyHours(36)!;
+    expect(oneHour.hoursAt25).toBe(1);
+    expect(oneHour.hoursAt50).toBe(0);
+    expect(oneHour.monthlyGross).toBe(r36.overtimeGross);
+    expect(oneHour.monthlyNetGain).toBe(r36.overtimeNetGain);
+    expect(oneHour.weeklyGross).toBe(roundCent(SMIC_CURRENT.hourlyGross * 1.25));
+
+    const nineHours = calculateSmicWeeklyOvertimeGain(9)!;
+    const r44 = calculateSmicForWeeklyHours(44)!;
+    expect(nineHours.hoursAt25).toBe(8);
+    expect(nineHours.hoursAt50).toBe(1);
+    expect(nineHours.monthlyGross).toBe(r44.overtimeGross);
+    expect(buildSmicWeeklyOvertimeGainTable()).toHaveLength(9);
+  });
+
+  it("fixe la valeur brute d'une heure supplémentaire à +25 % et à +50 %", () => {
+    expect(smicOvertimeHourlyGross(25)).toBe(roundCent(SMIC_CURRENT.hourlyGross * 1.25));
+    expect(smicOvertimeHourlyGross(50)).toBe(roundCent(SMIC_CURRENT.hourlyGross * 1.5));
+    expect(smicOvertimeHourlyGross(25)).toBe(15.39);
+    expect(smicOvertimeHourlyGross(50)).toBe(18.47);
+  });
+
+  it("aligne 4 h et 5 h supplémentaires hebdomadaires sur 39 h et 40 h", () => {
+    const r39 = calculateSmicForWeeklyHours(39)!;
+    const r40 = calculateSmicForWeeklyHours(40)!;
+    const ot4 = calculateSmicWeeklyOvertimeGain(4)!;
+    const ot5 = calculateSmicWeeklyOvertimeGain(5)!;
+    expect(ot4.monthlyGross).toBe(r39.overtimeGross);
+    expect(ot5.monthlyGross).toBe(r40.overtimeGross);
+    expect(calculateSmicForWeeklyHours(41)!.overtimeWeeklyHours).toBe(6);
+    expect(calculateSmicForWeeklyHours(42)!.overtimeWeeklyHours).toBe(7);
+    expect(calculateSmicForWeeklyHours(37)!.overtimeWeeklyHours).toBe(2);
+    expect(calculateSmicForWeeklyHours(38)!.overtimeWeeklyHours).toBe(3);
+  });
+
   it("s'appuie sur la source SMIC centralisée", () => {
     expect(SMIC_EFFECTIVE_FROM).toBe("2026-06-01");
     expect(SMIC_SOURCES.servicePublic.href).toContain("F2300");
     expect(SMIC_SOURCES.arreteMai2026.href).toContain("JORFTEXT");
     expect(SMIC_SOURCES.tempsPartiel.href).toContain("F32428");
     expect(SMIC_CURRENT.hourlyGross).toBe(12.31);
+  });
+
+  it("n'arrondit pas les heures mensualisées avant le calcul monétaire", () => {
+    const exactHours = weeklyToMonthlyHours(11);
+    expect(exactHours).toBeCloseTo(47.6666666667, 8);
+    expect(exactHours).not.toBe(47.67);
+
+    const result = calculateSmicForWeeklyHours(11)!;
+    expect(result.monthlyHours).toBe(exactHours);
+    expect(result.monthlyGross).toBe(
+      roundCent(exactHours * SMIC_CURRENT.hourlyGross),
+    );
+    expect(result.monthlyGross).not.toBe(
+      roundCent(47.67 * SMIC_CURRENT.hourlyGross),
+    );
   });
 });

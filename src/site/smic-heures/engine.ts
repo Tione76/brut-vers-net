@@ -1,8 +1,8 @@
 /**
- * Calcul du SMIC selon la durée hebdomadaire contractuelle (10 h à 39 h).
+ * Calcul du SMIC selon la durée hebdomadaire contractuelle (10 h à 44 h).
  *
  * Source des montants : `@/site/smic/data` (SMIC_CURRENT).
- * Heures supplémentaires (36–39 h) : même majoration légale de 1re tranche
+ * Heures supplémentaires : mêmes majorations légales supplétives (25 % / 50 %)
  * et même estimation de réduction de cotisations que le calculateur
  * `/calculateurs/salaire-heures-supplementaires`.
  *
@@ -18,23 +18,38 @@ import {
   getProfileCoefficient,
   roundCent,
 } from "@/site/salary-calculator";
-import { LEGAL_MAJORATION_GROUP1 } from "@/site/overtime-salary-calculator/config";
+import {
+  LEGAL_MAJORATION_GROUP1,
+  LEGAL_MAJORATION_GROUP2,
+} from "@/site/overtime-salary-calculator/config";
 import { estimateOvertimeContributionRelief } from "@/site/overtime-salary-calculator";
 
 export const SMIC_HOURS_MIN = 10;
-export const SMIC_HOURS_MAX = 39;
+export const SMIC_HOURS_MAX = 44;
 export const SMIC_HOURS_DEFAULT = 35;
 export const FULL_TIME_WEEKLY_HOURS = 35;
 
-/** Durées mises en avant (accès rapide calculateur + surbrillance tableau). */
+/** Huit premières heures supplémentaires : jusqu'à la 43e heure hebdomadaire. */
+export const OVERTIME_GROUP1_WEEKLY_CAP = 8;
+
+/** Durées mises en avant (surbrillance tableau). */
 export const HIGHLIGHT_WEEKLY_HOURS = [
-  20, 24, 25, 28, 30, 32, 35, 39,
+  20, 24, 25, 28, 30, 32, 35, 39, 40, 43, 44,
 ] as const;
+
+/** Accès rapide calculateur : temps partiel. */
+export const PART_TIME_CHIP_HOURS = [20, 24, 25, 28, 30, 32] as const;
+
+/** Accès rapide calculateur : durée légale et heures supplémentaires. */
+export const FULL_TIME_CHIP_HOURS = [35, 36, 39, 40, 44] as const;
 
 export type HighlightWeeklyHours = (typeof HIGHLIGHT_WEEKLY_HOURS)[number];
 
-/** Majoration retenue pour la 36e à la 39e heure (hypothèse légale par défaut). */
+/** Majoration retenue pour la 36e à la 43e heure (hypothèse légale par défaut). */
 export const OVERTIME_MAJORATION_ASSUMPTION_PERCENT = LEGAL_MAJORATION_GROUP1;
+
+/** Majoration retenue à partir de la 44e heure (hypothèse légale par défaut). */
+export const OVERTIME_MAJORATION_GROUP2_PERCENT = LEGAL_MAJORATION_GROUP2;
 
 /** Ratio net/brut aligné sur les montants indicatifs Service-Public à 35 h. */
 export function getSmicIndicativeNetRatio(): number {
@@ -51,9 +66,36 @@ export function weeklyToMonthlyHours(weeklyHours: number): number {
   return (weeklyHours * 52) / 12;
 }
 
+export function smicOvertimeHourlyGross(majorationPercent: number): number {
+  return roundCent(SMIC_CURRENT.hourlyGross * (1 + majorationPercent / 100));
+}
+
+function overtimeGrossForWeeklyHours(
+  weeklyOvertimeHours: number,
+  majorationPercent: number,
+): number {
+  if (weeklyOvertimeHours <= 0) return 0;
+  return roundCent(
+    weeklyToMonthlyHours(weeklyOvertimeHours) *
+      SMIC_CURRENT.hourlyGross *
+      (1 + majorationPercent / 100),
+  );
+}
+
+function overtimeRemark(hours25: number, hours50: number): string {
+  if (hours50 > 0) {
+    const label25 = hours25 === 1 ? "1 h à +25 %" : `${hours25} h à +25 %`;
+    const label50 = hours50 === 1 ? "1 h à +50 %" : `${hours50} h à +50 %`;
+    return `Dont ${label25} et ${label50} (hypothèse légale à défaut d'accord ; plancher 10 %)`;
+  }
+  const hoursLabel =
+    hours25 === 1 ? "1 h supplémentaire" : `${hours25} h supplémentaires`;
+  return `Dont ${hoursLabel} à +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % (hypothèse légale à défaut d'accord ; plancher 10 %)`;
+}
+
 export type SmicHoursResult = {
   weeklyHours: number;
-  /** Heures mensualisées (total contractuel, y compris HS pour 36–39 h). */
+  /** Heures mensualisées (total contractuel, y compris HS au-delà de 35 h). */
   monthlyHours: number;
   monthlyGross: number;
   /** Net estimé avant prélèvement à la source. */
@@ -66,8 +108,12 @@ export type SmicHoursResult = {
   overtimeWeeklyHours: number;
   overtimeMonthlyHours: number;
   overtimeGross: number;
+  overtimeGross25: number;
+  overtimeGross50: number;
   overtimeNetGain: number;
   contributionRelief: number;
+  overtimeWeeklyHours25: number;
+  overtimeWeeklyHours50: number;
   majorationPercent: number;
   remark: string | null;
 };
@@ -117,23 +163,36 @@ export function calculateSmicForWeeklyHours(
       overtimeWeeklyHours: 0,
       overtimeMonthlyHours: 0,
       overtimeGross: 0,
+      overtimeGross25: 0,
+      overtimeGross50: 0,
       overtimeNetGain: 0,
       contributionRelief: 0,
+      overtimeWeeklyHours25: 0,
+      overtimeWeeklyHours50: 0,
       majorationPercent: OVERTIME_MAJORATION_ASSUMPTION_PERCENT,
       remark: null,
     };
   }
 
   const overtimeWeeklyHours = weeklyHours - FULL_TIME_WEEKLY_HOURS;
-  const overtimeMonthlyHours = weeklyToMonthlyHours(overtimeWeeklyHours);
-  const majorationPercent = OVERTIME_MAJORATION_ASSUMPTION_PERCENT;
-
-  // Même logique monétaire que le moteur HS : taux × (1 + majoration/100) × heures.
-  const overtimeGross = roundCent(
-    overtimeMonthlyHours *
-      SMIC_CURRENT.hourlyGross *
-      (1 + majorationPercent / 100),
+  const overtimeWeeklyHours25 = Math.min(
+    overtimeWeeklyHours,
+    OVERTIME_GROUP1_WEEKLY_CAP,
   );
+  const overtimeWeeklyHours50 = Math.max(
+    overtimeWeeklyHours - OVERTIME_GROUP1_WEEKLY_CAP,
+    0,
+  );
+  const overtimeMonthlyHours = weeklyToMonthlyHours(overtimeWeeklyHours);
+  const overtimeGross25 = overtimeGrossForWeeklyHours(
+    overtimeWeeklyHours25,
+    OVERTIME_MAJORATION_ASSUMPTION_PERCENT,
+  );
+  const overtimeGross50 = overtimeGrossForWeeklyHours(
+    overtimeWeeklyHours50,
+    OVERTIME_MAJORATION_GROUP2_PERCENT,
+  );
+  const overtimeGross = roundCent(overtimeGross25 + overtimeGross50);
   const contributionRelief = estimateOvertimeContributionRelief(overtimeGross);
   const coefficient = getProfileCoefficient("nonExecutive");
   const overtimeNetGain = roundCent(
@@ -144,11 +203,6 @@ export function calculateSmicForWeeklyHours(
   const monthlyNetEstimated = roundCent(
     SMIC_CURRENT.monthlyNetIndicative + overtimeNetGain,
   );
-
-  const hoursLabel =
-    overtimeWeeklyHours === 1
-      ? "1 h supplémentaire"
-      : `${overtimeWeeklyHours} h supplémentaires`;
 
   return {
     weeklyHours,
@@ -162,14 +216,18 @@ export function calculateSmicForWeeklyHours(
     overtimeWeeklyHours,
     overtimeMonthlyHours,
     overtimeGross,
+    overtimeGross25,
+    overtimeGross50,
     overtimeNetGain,
     contributionRelief,
-    majorationPercent,
-    remark: `Dont ${hoursLabel} à +${majorationPercent} % (hypothèse légale à défaut d'accord ; plancher 10 %)`,
+    overtimeWeeklyHours25,
+    overtimeWeeklyHours50,
+    majorationPercent: OVERTIME_MAJORATION_ASSUMPTION_PERCENT,
+    remark: overtimeRemark(overtimeWeeklyHours25, overtimeWeeklyHours50),
   };
 }
 
-/** Tableau complet 10 h → 39 h (entiers). */
+/** Tableau complet 10 h → 44 h (entiers). */
 export function buildSmicHoursTable(): SmicHoursResult[] {
   const rows: SmicHoursResult[] = [];
   for (let h = SMIC_HOURS_MIN; h <= SMIC_HOURS_MAX; h += 1) {
@@ -195,4 +253,54 @@ export function parseWeeklyHoursInput(raw: string): number | null {
   if (!Number.isFinite(value)) return null;
   if (value < SMIC_HOURS_MIN || value > SMIC_HOURS_MAX) return null;
   return value;
+}
+
+export type SmicWeeklyOvertimeGain = {
+  weeklyOvertimeHours: number;
+  hoursAt25: number;
+  hoursAt50: number;
+  weeklyGross: number;
+  monthlyGross: number;
+  monthlyNetGain: number;
+};
+
+/** Gain d'un volume d'heures supplémentaires *par semaine* au SMIC (1 à 9 h). */
+export function calculateSmicWeeklyOvertimeGain(
+  weeklyOvertimeHours: number,
+): SmicWeeklyOvertimeGain | null {
+  if (
+    !Number.isFinite(weeklyOvertimeHours) ||
+    weeklyOvertimeHours < 1 ||
+    weeklyOvertimeHours > OVERTIME_GROUP1_WEEKLY_CAP + 1
+  ) {
+    return null;
+  }
+  const result = calculateSmicForWeeklyHours(
+    FULL_TIME_WEEKLY_HOURS + weeklyOvertimeHours,
+  );
+  if (!result) return null;
+  return {
+    weeklyOvertimeHours,
+    hoursAt25: result.overtimeWeeklyHours25,
+    hoursAt50: result.overtimeWeeklyHours50,
+    weeklyGross: roundCent(
+      result.overtimeWeeklyHours25 *
+        SMIC_CURRENT.hourlyGross *
+        (1 + OVERTIME_MAJORATION_ASSUMPTION_PERCENT / 100) +
+        result.overtimeWeeklyHours50 *
+          SMIC_CURRENT.hourlyGross *
+          (1 + OVERTIME_MAJORATION_GROUP2_PERCENT / 100),
+    ),
+    monthlyGross: result.overtimeGross,
+    monthlyNetGain: result.overtimeNetGain,
+  };
+}
+
+export function buildSmicWeeklyOvertimeGainTable(): SmicWeeklyOvertimeGain[] {
+  const rows: SmicWeeklyOvertimeGain[] = [];
+  for (let h = 1; h <= OVERTIME_GROUP1_WEEKLY_CAP + 1; h += 1) {
+    const row = calculateSmicWeeklyOvertimeGain(h);
+    if (row) rows.push(row);
+  }
+  return rows;
 }

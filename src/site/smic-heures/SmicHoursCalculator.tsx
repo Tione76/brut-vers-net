@@ -4,7 +4,8 @@ import { useId, useState } from "react";
 import Link from "next/link";
 import {
   calculateSmicForWeeklyHours,
-  HIGHLIGHT_WEEKLY_HOURS,
+  FULL_TIME_CHIP_HOURS,
+  PART_TIME_CHIP_HOURS,
   parseWeeklyHoursInput,
   SMIC_HOURS_DEFAULT,
   SMIC_HOURS_MAX,
@@ -109,10 +110,12 @@ function ResultPanel({ result }: { result: SmicHoursResult }) {
 
       {result.hasOvertime ? (
         <p className="smic-heures-calc__overtime-note" role="status">
-          Au-delà de 35{"\u00a0"}h : {formatHoursValue(result.overtimeWeeklyHours)}
-          {"\u00a0"}h supplémentaires majorées à +{result.majorationPercent}
-          {"\u00a0"}% (hypothèse légale à défaut d&apos;accord). Gain brut estimé
-          des majorations : {formatEuro(result.overtimeGross)}.
+          Au-delà de 35{"\u00a0"}h :{" "}
+          {result.overtimeWeeklyHours50 > 0
+            ? `${formatHoursValue(result.overtimeWeeklyHours25)}\u00a0h à +${result.majorationPercent}\u00a0% et ${formatHoursValue(result.overtimeWeeklyHours50)}\u00a0h à +50\u00a0%`
+            : `${formatHoursValue(result.overtimeWeeklyHours)}\u00a0h supplémentaires majorées à +${result.majorationPercent}\u00a0%`}{" "}
+          (hypothèse légale à défaut d&apos;accord). Gain brut estimé des
+          majorations : {formatEuro(result.overtimeGross)}.
         </p>
       ) : null}
 
@@ -143,6 +146,44 @@ function ResultPanel({ result }: { result: SmicHoursResult }) {
           Calculateur d&apos;heures supplémentaires
         </Link>
       </p>
+    </div>
+  );
+}
+
+function ChipGroup({
+  label,
+  hours,
+  weeklyHours,
+  error,
+  onApply,
+}: {
+  label: string;
+  hours: readonly number[];
+  weeklyHours: number;
+  error: string | null;
+  onApply: (hours: number) => void;
+}) {
+  return (
+    <div className="smic-heures-calc__quick-group" role="group" aria-label={label}>
+      <p className="smic-heures-calc__quick-label">{label}</p>
+      {hours.map((value) => {
+        const selected = weeklyHours === value && !error;
+        return (
+          <button
+            key={value}
+            type="button"
+            className={
+              selected
+                ? "smic-heures-calc__chip smic-heures-calc__chip--active"
+                : "smic-heures-calc__chip"
+            }
+            aria-pressed={selected}
+            onClick={() => onApply(value)}
+          >
+            {formatWeeklyHoursLabel(value)}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -191,29 +232,21 @@ export function SmicHoursCalculator() {
         utilisent le SMIC actuellement applicable.
       </p>
 
-      <div
-        className="smic-heures-calc__quick"
-        role="group"
-        aria-label="Principales durées en accès rapide"
-      >
-        {HIGHLIGHT_WEEKLY_HOURS.map((hours) => {
-          const selected = weeklyHours === hours && !error;
-          return (
-            <button
-              key={hours}
-              type="button"
-              className={
-                selected
-                  ? "smic-heures-calc__chip smic-heures-calc__chip--active"
-                  : "smic-heures-calc__chip"
-              }
-              aria-pressed={selected}
-              onClick={() => applyHours(hours)}
-            >
-              {formatWeeklyHoursLabel(hours)}
-            </button>
-          );
-        })}
+      <div className="smic-heures-calc__quick">
+        <ChipGroup
+          label="Temps partiel"
+          hours={PART_TIME_CHIP_HOURS}
+          weeklyHours={weeklyHours}
+          error={error}
+          onApply={applyHours}
+        />
+        <ChipGroup
+          label="35 h et heures supplémentaires"
+          hours={FULL_TIME_CHIP_HOURS}
+          weeklyHours={weeklyHours}
+          error={error}
+          onApply={applyHours}
+        />
       </div>
 
       <div className="smic-heures-calc__field">
@@ -250,7 +283,7 @@ export function SmicHoursCalculator() {
       ) : (
         <p className="smic-heures-calc__fallback">
           Consultez le tableau ci-dessous pour les montants de 10{"\u00a0"}h à
-          39{"\u00a0"}h, disponibles sans JavaScript.
+          44{"\u00a0"}h, disponibles sans JavaScript.
         </p>
       )}
 

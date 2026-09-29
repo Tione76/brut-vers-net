@@ -7,10 +7,13 @@ import {
   SMIC_CALENDAR_YEAR_2026,
 } from "@/site/smic/data";
 import {
+  buildSmicWeeklyOvertimeGainTable,
   calculateSmicForWeeklyHours,
+  calculateSmicWeeklyOvertimeGain,
   formatEuro,
   formatHoursValue,
   OVERTIME_MAJORATION_ASSUMPTION_PERCENT,
+  OVERTIME_MAJORATION_GROUP2_PERCENT,
   SMIC_HOURS_BREADCRUMB,
   SMIC_HOURS_FRESHNESS_LINE,
   SMIC_HOURS_H1,
@@ -21,15 +24,33 @@ import {
   SMIC_HOURS_OVERTIME_HYPOTHESIS,
   SMIC_HOURS_OVERTIME_SHORT,
   SMIC_HOURS_CODE_TRAVAIL_HS,
+  SMIC_HOURS_CODE_TRAVAIL_TEMPS_PARTIEL,
   SMIC_HOURS_SERVICE_PUBLIC_HS,
+  SMIC_HOURS_SERVICE_PUBLIC_DUREE,
+  SMIC_HOURS_SERVICE_PUBLIC_IR,
+  SMIC_HOURS_URSSAF_HS,
+  SMIC_HOURS_HCR_AVENANT_2,
+  SMIC_HOURS_CSS_REDUCTION_HS,
+  SMIC_HOURS_HOURS_ROUNDING_NOTE,
+  SMIC_HOURS_WEEKLY_MONEY_ROUNDING_NOTE,
+  SMIC_HOURS_ANNUAL_PROJECTION_NOTE,
+  SMIC_HOURS_ANNUAL_OTHER_DURATIONS_NOTE,
+  SMIC_HOURS_TEMPS_PARTIEL_CODE_NOTE,
+  SMIC_HOURS_IR_EXEMPTION_NOTE,
+  SMIC_HOURS_DURATION_MAX_NOTE,
+  SMIC_HOURS_OVERTIME_QUALIFICATION_NOTE,
+  SMIC_HOURS_COMPENSATORY_REST_NOTE,
+  SMIC_HOURS_HCR_SHORT,
   SMIC_HOURS_PATH,
   SMIC_HOURS_PUBLISHED_AT,
   SMIC_HOURS_SEO_TITLE,
   SMIC_HOURS_SLUG,
   SMIC_HOURS_SUBTITLE,
   SMIC_HOURS_UPDATED_AT,
+  smicOvertimeHourlyGross,
   weeklyToMonthlyHours,
   type SmicHoursResult,
+  type SmicWeeklyOvertimeGain,
 } from "@/site/smic-heures";
 
 const BRUT_VERS_NET = "/";
@@ -51,6 +72,21 @@ function must(hours: number): SmicHoursResult {
     throw new Error(`Durée SMIC heures invalide: ${hours}`);
   }
   return result;
+}
+
+function mustWeeklyOt(hours: number): SmicWeeklyOvertimeGain {
+  const result = calculateSmicWeeklyOvertimeGain(hours);
+  if (!result) {
+    throw new Error(`Volume HS hebdomadaire invalide: ${hours}`);
+  }
+  return result;
+}
+
+function overtimeMajorationLabel(row: SmicWeeklyOvertimeGain): string {
+  if (row.hoursAt50 > 0) {
+    return `${formatHoursValue(row.hoursAt25)} h à +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % et ${formatHoursValue(row.hoursAt50)} h à +${OVERTIME_MAJORATION_GROUP2_PERCENT} %`;
+  }
+  return `+${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} %`;
 }
 
 /** Réponse courte : un montant + info propre à la durée. */
@@ -78,8 +114,36 @@ const r20 = must(20);
 const r24 = must(24);
 const r30 = must(30);
 const r35 = must(35);
+const r36 = must(36);
 const r39 = must(39);
+const r40 = must(40);
+const r43 = must(43);
+const r44 = must(44);
 const halfTimeGross = formatEuro(must(17.5).monthlyGross);
+const otHour25 = smicOvertimeHourlyGross(OVERTIME_MAJORATION_ASSUMPTION_PERCENT);
+const otHour50 = smicOvertimeHourlyGross(OVERTIME_MAJORATION_GROUP2_PERCENT);
+const weeklyOtGains = buildSmicWeeklyOvertimeGainTable();
+const ot1 = mustWeeklyOt(1);
+const ot2 = mustWeeklyOt(2);
+const ot3 = mustWeeklyOt(3);
+const ot4 = mustWeeklyOt(4);
+const ot5 = mustWeeklyOt(5);
+const ot8 = mustWeeklyOt(8);
+const ot9 = mustWeeklyOt(9);
+const overtimeDurationRows = [36, 37, 38, 39, 40, 41, 42, 43, 44].map((hours) => {
+  const row = must(hours);
+  const majoration =
+    row.overtimeWeeklyHours50 > 0
+      ? `${formatHoursValue(row.overtimeWeeklyHours25)} h à +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % et ${formatHoursValue(row.overtimeWeeklyHours50)} h à +${OVERTIME_MAJORATION_GROUP2_PERCENT} %`
+      : `+${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} %`;
+  return [
+    `${formatHoursValue(hours)} h`,
+    `${formatHoursValue(row.overtimeWeeklyHours)} h`,
+    majoration,
+    formatEuro(row.monthlyGross),
+    formatEuro(row.monthlyNetEstimated),
+  ];
+});
 
 /**
  * Guide pilier : SMIC selon le nombre d'heures (/smic-selon-nombre-heures).
@@ -99,7 +163,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
   faqSectionId: "questions-frequentes",
   introduction: [
     `Le SMIC est d'abord un montant horaire brut (${SMIC_LABELS.hourlyGross} depuis le ${SMIC_EFFECTIVE_FROM_LABEL}). Le salaire mensuel dépend donc du nombre d'heures prévues au contrat, pas d'un forfait unique.`,
-    "Cette page calcule le brut et une estimation nette pour chaque durée de 10 h à 39 h par semaine. Le montant net affiché est une estimation indicative, avant prélèvement à la source.",
+    "Cette page calcule le brut et une estimation nette pour chaque durée de 10 h à 44 h par semaine. Le montant net affiché est une estimation indicative, avant prélèvement à la source.",
     "Jusqu'à 35 h, le calcul suit la mensualisation habituelle. Au-delà, les heures supplémentaires changent la méthode : ce n'est plus une simple proratisation.",
   ],
   introSummary: {
@@ -119,14 +183,14 @@ export const smicSelonNombreHeuresGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "Le tableau ci-dessus présente, pour chaque durée contractuelle de 10 h à 39 h, les heures mensualisées, le brut mensuel, le net estimé et une projection sur douze mois au taux actuellement applicable. Les principales durées mises en avant dans le calculateur sont repérées par une pastille orange et une légère surbrillance.",
+          text: "Le tableau ci-dessus présente, pour chaque durée hebdomadaire de 10 h à 44 h, les heures mensualisées, le brut mensuel, le net estimé et une projection sur douze mois au taux actuellement applicable. Une pastille orange signale des durées de référence : temps partiel fréquent, durée légale, 39 h, et seuils d'heures supplémentaires (40 h, 43 h, 44 h).",
         },
         {
           type: "callout",
           variant: "warning",
           paragraphs: [
             SMIC_HOURS_OVERTIME_SHORT,
-            "Les lignes 36 h à 39 h ne doivent pas être lues comme un simple temps plein proratisé. Les projections sur douze mois sont internes à taux constant (mensuel × 12), pas les montants annuels publiés par Service-Public.",
+            "Les lignes 36 h à 44 h ne doivent pas être lues comme un simple temps plein proratisé. Les projections sur douze mois sont des multiplications du mensuel par 12 au taux actuel, pas un cumul civil en cas de revalorisation.",
           ],
         },
       ],
@@ -135,13 +199,6 @@ export const smicSelonNombreHeuresGuide: Guide = {
       id: "methode-calcul",
       title: "Comment calculer le SMIC mensuel selon les heures travaillées ?",
       blocks: [
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Retrouvez également",
-          label: "l'historique du taux horaire du SMIC année par année",
-          href: "/evolution-smic",
-        },
         {
           type: "paragraph",
           text: "Pour une durée contractuelle inférieure ou égale à 35 h, la méthode usuelle de mensualisation est :",
@@ -153,7 +210,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
             "Convertir les heures hebdomadaires en heures mensuelles : H × 52 ÷ 12.",
             `Multiplier par le SMIC horaire brut (${SMIC_LABELS.hourlyGross}).`,
             "Arrondir chaque composante monétaire au centime avant agrégation (convention partagée avec le calculateur d'heures supplémentaires).",
-            "Estimer le net à partir du ratio indicatif Service-Public à 35 h (hors prélèvement à la source).",
+            "Estimer le net à partir du ratio indicatif Service-Public à 35 h (hors prélèvement à la source). Ce n'est pas un net légal pour chaque durée.",
           ],
         },
         {
@@ -168,13 +225,18 @@ export const smicSelonNombreHeuresGuide: Guide = {
           title: "Erreur fréquente",
           items: [
             "Multiplier le salaire d'une semaine par quatre. Un mois civil correspond en moyenne à 52 ÷ 12 ≈ 4,333 semaines, pas à 4 semaines exactes.",
-            "Traiter 39 h comme 39 × SMIC horaire sans majoration des heures au-delà de 35 h.",
+            "Traiter 39 h ou 40 h comme un simple multiple du SMIC horaire, sans majoration des heures au-delà de 35 h.",
             "Présenter le net estimé comme le montant exact qui sera viré.",
           ],
         },
         {
+          type: "callout",
+          variant: "tip",
+          paragraphs: [SMIC_HOURS_HOURS_ROUNDING_NOTE],
+        },
+        {
           type: "paragraph",
-          text: "À 35 h, cette page retient le brut mensuel officiel et le net mensuel indicatif publié par Service-Public, afin d'éviter un écart d'arrondi intermédiaire. Pour 36 h à 39 h, le calcul sépare la base 35 h et les heures supplémentaires majorées.",
+          text: "À 35 h, cette page retient le brut mensuel officiel et le net mensuel indicatif publié par Service-Public, afin d'éviter un écart d'arrondi intermédiaire. Au-delà de 35 h, le calcul sépare la base 35 h et les heures supplémentaires majorées.",
         },
         {
           type: "callout",
@@ -185,6 +247,13 @@ export const smicSelonNombreHeuresGuide: Guide = {
           type: "paragraph",
           text: SMIC_HOURS_OVERTIME_HYPOTHESIS,
         },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour relier ces montants aux taux horaires des années précédentes,",
+          label: "l'historique du taux horaire du SMIC année par année",
+          href: "/evolution-smic",
+        },
       ],
     },
     {
@@ -193,7 +262,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "En temps partiel, le contrat fixe une durée inférieure à la durée légale ou conventionnelle applicable. Au SMIC, le salaire de base se calcule au prorata de cette durée contractuelle, via la mensualisation H × 52 ÷ 12.",
+          text: "En temps partiel, le contrat fixe une durée inférieure à la durée légale ou conventionnelle applicable. Au SMIC, le salaire de base se calcule au prorata de cette durée contractuelle, via la mensualisation H × 52 ÷ 12. Le net affiché pour ces durées est une estimation obtenue à partir du ratio indicatif Service-Public à 35 h, pas un montant légal officiel.",
         },
         {
           type: "paragraph",
@@ -203,6 +272,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
           type: "callout",
           variant: "tip",
           paragraphs: [
+            "Les lignes 10 h à 23 h restent calculées au SMIC horaire. 24 h est la durée minimale applicable à défaut de disposition conventionnelle fixant une autre durée minimale, sous réserve des dérogations détaillées plus bas.",
             "Si vous effectuez régulièrement des heures au-delà de votre contrat à temps partiel, demandez à votre service paie comment elles sont qualifiées (heures complémentaires) et majorées. Service-Public précise les plafonds (en principe 1/10e de la durée contractuelle, pouvant aller jusqu'à 1/3 par accord) et les majorations associées.",
           ],
         },
@@ -218,13 +288,13 @@ export const smicSelonNombreHeuresGuide: Guide = {
         durationSubsection("smic-20-heures", "SMIC pour 20 heures par semaine", 20, [
           {
             type: "paragraph",
-            text: `Un contrat de 20 h est parfois appelé, à tort, un « mi-temps ». Il représente en réalité environ 57 % d'un temps plein de 35 h. Un mi-temps strict correspondrait à 17,5 h par semaine, soit environ ${halfTimeGross} brut par mois au taux actuellement applicable. Un contrat à 20 h se situe aussi sous la durée minimale habituelle de 24 h : une dérogation est en principe nécessaire (demande écrite, étudiant de moins de 26 ans à sa demande, cumul d'activités, disposition conventionnelle, etc.).`,
+            text: `Un contrat de 20 h est parfois appelé, à tort, un « mi-temps ». Il représente en réalité environ 57 % d'un temps plein de 35 h. Un mi-temps strict correspondrait à 17,5 h par semaine, soit environ ${halfTimeGross} brut par mois au taux actuellement applicable. Un contrat à 20 h se situe aussi sous la durée minimale de 24 h applicable à défaut de disposition conventionnelle différente, sous réserve des dérogations prévues (demande écrite, étudiant de moins de 26 ans à sa demande, cumul d'activités, etc.).`,
           },
         ]),
         durationSubsection("smic-24-heures", "SMIC pour 24 heures par semaine", 24, [
           {
             type: "paragraph",
-            text: `24 h par semaine (ou 104 h par mois) est la durée minimale habituelle du temps partiel en l'absence de disposition conventionnelle plus basse. Des dérogations existent. Le SMIC horaire reste identique ; seul le volume change.`,
+            text: `24 h par semaine (ou 104 h par mois) est la durée minimale applicable à défaut de disposition conventionnelle fixant une autre durée minimale. Des dérogations existent. Le SMIC horaire reste identique ; seul le volume change.`,
           },
         ]),
         durationSubsection("smic-25-heures", "SMIC pour 25 heures par semaine", 25, [
@@ -265,7 +335,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: `35 heures par semaine constituent la durée légale de travail. Au SMIC actuellement applicable, le salaire mensuel brut officiel est ${SMIC_LABELS.monthlyGross}, pour environ ${SMIC_LABELS.monthlyNet} net mensuel indicatif publié par Service-Public. Les heures mensualisées de référence sont ${SMIC_LABELS.monthlyHours} h. Les projections du tableau (${formatEuro(r35.annualGrossProjection)} brut et ${formatEuro(r35.annualNetProjection)} net estimé sur douze mois) multiplient ces montants mensuels par douze au taux actuel : ce ne sont pas les montants annuels officiels de Service-Public.`,
+          text: `35 heures par semaine constituent la durée légale de travail. Au SMIC actuellement applicable, le salaire mensuel brut officiel est ${SMIC_LABELS.monthlyGross}, pour environ ${SMIC_LABELS.monthlyNet} net mensuel indicatif publié par Service-Public. Les heures mensualisées de référence sont ${SMIC_LABELS.monthlyHours} h. ${SMIC_HOURS_ANNUAL_PROJECTION_NOTE}`,
         },
         {
           type: "list",
@@ -304,6 +374,10 @@ export const smicSelonNombreHeuresGuide: Guide = {
           ],
         },
         {
+          type: "paragraph",
+          text: `On parle souvent de 169 h par mois pour un SMIC 39 h : 39 × 52 ÷ 12 = ${formatHoursValue(r39.monthlyHours)} heures mensualisées. Ce volume comprend les 4 heures supplémentaires hebdomadaires, pas uniquement la durée légale. Le SMIC 39 h brut retenu ici est ${formatEuro(r39.monthlyGross)} ; le SMIC 39 h net estimé est d'environ ${formatEuro(r39.monthlyNetEstimated)}.`,
+        },
+        {
           type: "callout",
           variant: "warning",
           paragraphs: [
@@ -325,9 +399,182 @@ export const smicSelonNombreHeuresGuide: Guide = {
         {
           type: "internal-link",
           variant: "guide",
-          intro:
-            "Dans les hôtels, cafés et restaurants, les 36e à 39e heures sont majorées à +10 %, pas à +25 %.",
+          intro: SMIC_HOURS_HCR_SHORT,
           label: "voir le SMIC hôtelier et le salaire HCR à 39 h",
+          href: "/smic-hotelier",
+        },
+      ],
+    },
+    {
+      id: "heures-supplementaires-smic",
+      title: "Combien rapportent les heures supplémentaires quand on est au SMIC ?",
+      blocks: [
+        {
+          type: "paragraph",
+          text: `Une heure supplémentaire au SMIC majorée de ${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % vaut ${formatEuro(otHour25)} brut (${SMIC_LABELS.hourlyGross} × 1,25). Une heure majorée de ${OVERTIME_MAJORATION_GROUP2_PERCENT} % vaut ${formatEuro(otHour50)} brut (${SMIC_LABELS.hourlyGross} × 1,50). Ces montants sont arrondis au centime.`,
+        },
+        {
+          type: "paragraph",
+          text: `${SMIC_HOURS_OVERTIME_HYPOTHESIS} Les heures supplémentaires se décomptent semaine par semaine, pas comme un total mensuel unique.`,
+        },
+        {
+          type: "table",
+          caption:
+            "Gain des heures supplémentaires par semaine au SMIC (hypothèse légale à défaut d'accord)",
+          headers: [
+            "Heures supplémentaires / semaine",
+            "Majoration appliquée",
+            "Gain brut hebdomadaire",
+            "Gain brut mensuel moyen",
+            "Gain net mensuel estimé",
+          ],
+          rows: weeklyOtGains.map((row) => [
+            `${formatHoursValue(row.weeklyOvertimeHours)} h`,
+            overtimeMajorationLabel(row),
+            formatEuro(row.weeklyGross),
+            formatEuro(row.monthlyGross),
+            formatEuro(row.monthlyNetGain),
+          ]),
+          stackOnMobile: true,
+          rowHeader: true,
+        },
+        {
+          type: "paragraph",
+          text: SMIC_HOURS_WEEKLY_MONEY_ROUNDING_NOTE,
+        },
+        {
+          type: "paragraph",
+          text: SMIC_HOURS_IR_EXEMPTION_NOTE,
+        },
+        {
+          type: "list",
+          items: [
+            `Combien rapporte 1 heure supplémentaire au SMIC ? ${formatEuro(ot1.weeklyGross)} brut cette semaine-là, soit environ ${formatEuro(ot1.monthlyGross)} brut / mois et ${formatEuro(ot1.monthlyNetGain)} net estimé si elle est répétée chaque semaine.`,
+            `2 heures supplémentaires par semaine : ${formatEuro(ot2.weeklyGross)} brut / semaine, environ ${formatEuro(ot2.monthlyGross)} brut / mois.`,
+            `3 heures supplémentaires par semaine : ${formatEuro(ot3.weeklyGross)} brut / semaine, environ ${formatEuro(ot3.monthlyGross)} brut / mois.`,
+            `4 heures supplémentaires par semaine (SMIC 39 h) : ${formatEuro(ot4.weeklyGross)} brut / semaine, environ ${formatEuro(ot4.monthlyGross)} brut / mois et ${formatEuro(ot4.monthlyNetGain)} net estimé.`,
+            `5 heures supplémentaires par semaine (SMIC 40 h) : ${formatEuro(ot5.weeklyGross)} brut / semaine, environ ${formatEuro(ot5.monthlyGross)} brut / mois.`,
+            `8 heures supplémentaires par semaine (SMIC 43 h) : ${formatEuro(ot8.weeklyGross)} brut / semaine, encore dans la tranche à +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} %.`,
+            `À la 9e heure supplémentaire de la même semaine (SMIC 44 h), cette heure seule passe à +${OVERTIME_MAJORATION_GROUP2_PERCENT} % dans le cas général retenu ici. Le gain de 9 h/semaine atteint ${formatEuro(ot9.weeklyGross)} brut / semaine, soit environ ${formatEuro(ot9.monthlyGross)} brut / mois.`,
+          ],
+        },
+        {
+          type: "callout",
+          variant: "warning",
+          paragraphs: [
+            "Ne raisonnez pas un volume mensuel d'heures supplémentaires comme s'il s'agissait d'une seule semaine. 10 heures supplémentaires dans le mois ne valent pas automatiquement 8 heures à +25 % et 2 heures à +50 %.",
+            "Cas A : 10 heures supplémentaires réparties sur quatre semaines (par exemple 2 ou 3 h par semaine) restent dans la tranche des huit premières heures supplémentaires de chaque semaine, donc à +25 % dans l'hypothèse légale retenue ici.",
+            "Cas B : 10 heures supplémentaires réalisées pendant une seule semaine : les 8 premières sont calculées ici à +25 %, les 2 suivantes à +50 %. La répartition hebdomadaire change le brut.",
+          ],
+        },
+        {
+          type: "internal-link",
+          variant: "calculator",
+          intro: "Pour un autre salaire de base ou un autre taux de majoration,",
+          label: "utiliser le calculateur d'heures supplémentaires",
+          href: HS_CALC,
+        },
+      ],
+    },
+    {
+      id: "smic-36-a-44-heures",
+      title: "Quel salaire au SMIC de 36 h à 44 h ?",
+      blocks: [
+        {
+          type: "paragraph",
+          text: `De 36 h à 43 h, les heures au-delà de 35 h sont des heures supplémentaires calculées ici avec +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} %. À 36 h, 1 heure supplémentaire par semaine porte le salaire à ${formatEuro(r36.monthlyGross)} brut et environ ${formatEuro(r36.monthlyNetEstimated)} net estimé. À 44 h s'ajoute une 9e heure supplémentaire à +${OVERTIME_MAJORATION_GROUP2_PERCENT} %. Les montants du tableau viennent des mêmes fonctions que le calculateur.`,
+        },
+        {
+          type: "table",
+          caption: "SMIC brut et net estimé de 36 h à 44 h par semaine",
+          headers: [
+            "Durée / semaine",
+            "Heures supplémentaires / semaine",
+            "Majoration retenue",
+            "Brut mensuel",
+            "Net mensuel estimé",
+          ],
+          rows: overtimeDurationRows,
+          stackOnMobile: true,
+          rowHeader: true,
+        },
+        {
+          type: "paragraph",
+          text: SMIC_HOURS_OVERTIME_HYPOTHESIS,
+        },
+        {
+          type: "callout",
+          variant: "legal",
+          paragraphs: [SMIC_HOURS_DURATION_MAX_NOTE],
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: `${SMIC_HOURS_SERVICE_PUBLIC_DUREE.org} :`,
+          label: SMIC_HOURS_SERVICE_PUBLIC_DUREE.label,
+          href: SMIC_HOURS_SERVICE_PUBLIC_DUREE.href,
+        },
+      ],
+    },
+    {
+      id: "smic-40-heures",
+      title: "Quel salaire au SMIC pour 40 heures par semaine ?",
+      blocks: [
+        {
+          type: "paragraph",
+          text: `À 40 heures par semaine au SMIC, les 35 premières heures correspondent au salaire de base et les 5 suivantes sont des heures supplémentaires. Avec la majoration légale de +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % retenue ici à défaut d'accord différent, le salaire atteint ${formatEuro(r40.monthlyGross)} brut par mois et environ ${formatEuro(r40.monthlyNetEstimated)} net estimé.`,
+        },
+        {
+          type: "list",
+          items: [
+            `Base 35 h : ${formatEuro(r35.monthlyGross)} brut mensuel officiel.`,
+            `Heures supplémentaires : 5 h par semaine, soit ${formatHoursValue(r40.overtimeMonthlyHours)} h mensualisées (5 × 52 ÷ 12).`,
+            `Majoration retenue ici : +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % (les 5 h restent dans les huit premières heures supplémentaires).`,
+            `Gain brut estimé des HS : ${formatEuro(r40.overtimeGross)}.`,
+            `Total brut estimé : ${formatEuro(r40.monthlyGross)} / mois.`,
+            `Net estimé : environ ${formatEuro(r40.monthlyNetEstimated)}.`,
+            `Gain par rapport à 35 h : ${formatEuro(r40.overtimeGross)} brut, environ ${formatEuro(r40.overtimeNetGain)} net estimé.`,
+          ],
+        },
+        {
+          type: "callout",
+          variant: "warning",
+          paragraphs: [
+            SMIC_HOURS_OVERTIME_HYPOTHESIS,
+            "Le bulletin réel dépend aussi de l'organisation du temps de travail, des absences et du régime social ou fiscal des heures supplémentaires.",
+          ],
+        },
+      ],
+    },
+    {
+      id: "smic-44-heures",
+      title: "Pourquoi le calcul change-t-il à partir de 44 heures ?",
+      blocks: [
+        {
+          type: "paragraph",
+          text: `Dans le cas général retenu ici, à défaut d'accord collectif différent, les huit premières heures supplémentaires de la semaine (36e à 43e heure) sont majorées de ${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} %. À partir de la 44e heure, la 9e heure supplémentaire de la même semaine passe à +${OVERTIME_MAJORATION_GROUP2_PERCENT} %.`,
+        },
+        {
+          type: "list",
+          items: [
+            `À 43 h : 35 h normales + 8 h supplémentaires à +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} %, soit ${formatEuro(r43.monthlyGross)} brut / mois et environ ${formatEuro(r43.monthlyNetEstimated)} net estimé.`,
+            `À 44 h : 35 h normales + 8 h à +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % + 1 h à +${OVERTIME_MAJORATION_GROUP2_PERCENT} %, soit ${formatEuro(r44.monthlyGross)} brut / mois et environ ${formatEuro(r44.monthlyNetEstimated)} net estimé.`,
+            `L'écart entre 43 h et 44 h correspond donc à une heure mensualisée à +${OVERTIME_MAJORATION_GROUP2_PERCENT} % (${formatEuro(r44.overtimeGross50)} brut), pas à une heure au simple SMIC horaire.`,
+          ],
+        },
+        {
+          type: "callout",
+          variant: "tip",
+          paragraphs: [
+            "Un accord d'entreprise ou une convention collective peut prévoir d'autres taux. Le taux conventionnel n'est pas nécessairement identique au taux légal supplétif. Le plancher reste 10 %.",
+            SMIC_HOURS_HCR_SHORT,
+          ],
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour le détail des salaires et des majorations HCR,",
+          label: "voir le SMIC hôtelier",
           href: "/smic-hotelier",
         },
       ],
@@ -338,7 +585,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "La durée minimale habituelle du temps partiel est de 24 heures par semaine (ou 104 heures par mois). Des dérogations sont prévues : demande écrite motivée du salarié (contraintes personnelles, cumul d'activités), étudiants de moins de 26 ans à leur demande, CDD d'une durée maximale de sept jours, remplacement, salarié d'un particulier employeur, certaines dispositions conventionnelles ou contrats d'insertion.",
+          text: "À défaut de disposition conventionnelle fixant une autre durée minimale, la durée minimale du temps partiel est de 24 heures par semaine (ou 104 heures par mois), sous réserve des dérogations prévues : demande écrite motivée du salarié (contraintes personnelles, cumul d'activités), étudiants de moins de 26 ans à leur demande, CDD d'une durée maximale de sept jours, remplacement, salarié d'un particulier employeur, ou contrats d'insertion.",
         },
         {
           type: "paragraph",
@@ -391,7 +638,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
               "Heures supplémentaires",
               "Au-delà de 35 h par semaine, ou de la durée considérée comme équivalente",
               "Oui (légale ou conventionnelle)",
-              "Oui pour 36–39 h (hypothèse affichée)",
+              "Oui, de 36 h à 44 h (hypothèse affichée)",
             ],
           ],
         },
@@ -547,7 +794,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: `Le tableau vise le cas général d'un salarié majeur relevant du barème national de ${SMIC_LABELS.hourlyGross} brut par heure, sur une durée hebdomadaire stable de 10 h à 39 h. Ce barème s'applique en métropole, en Guadeloupe, en Guyane, en Martinique, à La Réunion, à Saint-Barthélemy, à Saint-Martin et à Saint-Pierre-et-Miquelon. Mayotte dispose d'un barème distinct et reste exclue du tableau.`,
+          text: `Le tableau vise le cas général d'un salarié majeur relevant du barème national de ${SMIC_LABELS.hourlyGross} brut par heure, sur une durée hebdomadaire stable de 10 h à 44 h. Ce barème s'applique en métropole, en Guadeloupe, en Guyane, en Martinique, à La Réunion, à Saint-Barthélemy, à Saint-Martin et à Saint-Pierre-et-Miquelon. Mayotte dispose d'un barème distinct et reste exclue du tableau.`,
         },
         {
           type: "list",
@@ -561,6 +808,10 @@ export const smicSelonNombreHeuresGuide: Guide = {
             "Temps de travail annualisé ou modulation",
             "Absences, entrées ou sorties en cours de mois",
           ],
+        },
+        {
+          type: "paragraph",
+          text: SMIC_HOURS_COMPENSATORY_REST_NOTE,
         },
         {
           type: "internal-link",
@@ -605,8 +856,11 @@ export const smicSelonNombreHeuresGuide: Guide = {
             "Jusqu'à 35 h : heures mensualisées = H × 52 ÷ 12 ; brut = heures × SMIC horaire ; à 35 h, brut mensuel officiel et net mensuel indicatif Service-Public.",
             SMIC_HOURS_NET_METHOD_SUMMARY,
             SMIC_HOURS_OVERTIME_HYPOTHESIS,
+            SMIC_HOURS_OVERTIME_QUALIFICATION_NOTE,
+            "Arrondi des heures affichées : " + SMIC_HOURS_HOURS_ROUNDING_NOTE,
             "Arrondi monétaire : chaque composante (brut HS, réduction de cotisations, gain net HS, totaux) est arrondie au centime avant agrégation, comme dans le calculateur d'heures supplémentaires partagé.",
-            "Projections annuelles : montant mensuel × 12 au taux actuel (pas le cumul civil en cas de revalorisation, ni les montants annuels officiels Service-Public).",
+            `${SMIC_HOURS_ANNUAL_PROJECTION_NOTE} ${SMIC_HOURS_ANNUAL_OTHER_DURATIONS_NOTE}`,
+            SMIC_HOURS_TEMPS_PARTIEL_CODE_NOTE,
             SMIC_HOURS_SCOPE_DISCLAIMER,
           ],
         },
@@ -641,6 +895,13 @@ export const smicSelonNombreHeuresGuide: Guide = {
         {
           type: "internal-link",
           variant: "guide",
+          intro: `${SMIC_HOURS_CODE_TRAVAIL_TEMPS_PARTIEL.org} :`,
+          label: SMIC_HOURS_CODE_TRAVAIL_TEMPS_PARTIEL.label,
+          href: SMIC_HOURS_CODE_TRAVAIL_TEMPS_PARTIEL.href,
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
           intro: `${SMIC_HOURS_SERVICE_PUBLIC_HS.org} :`,
           label: SMIC_HOURS_SERVICE_PUBLIC_HS.label,
           href: SMIC_HOURS_SERVICE_PUBLIC_HS.href,
@@ -648,9 +909,44 @@ export const smicSelonNombreHeuresGuide: Guide = {
         {
           type: "internal-link",
           variant: "guide",
+          intro: `${SMIC_HOURS_SERVICE_PUBLIC_IR.org} :`,
+          label: SMIC_HOURS_SERVICE_PUBLIC_IR.label,
+          href: SMIC_HOURS_SERVICE_PUBLIC_IR.href,
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
           intro: `${SMIC_HOURS_CODE_TRAVAIL_HS.org} :`,
           label: SMIC_HOURS_CODE_TRAVAIL_HS.label,
           href: SMIC_HOURS_CODE_TRAVAIL_HS.href,
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: `${SMIC_HOURS_URSSAF_HS.org} :`,
+          label: SMIC_HOURS_URSSAF_HS.label,
+          href: SMIC_HOURS_URSSAF_HS.href,
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: `${SMIC_HOURS_CSS_REDUCTION_HS.org} :`,
+          label: SMIC_HOURS_CSS_REDUCTION_HS.label,
+          href: SMIC_HOURS_CSS_REDUCTION_HS.href,
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: `${SMIC_HOURS_SERVICE_PUBLIC_DUREE.org} :`,
+          label: SMIC_HOURS_SERVICE_PUBLIC_DUREE.label,
+          href: SMIC_HOURS_SERVICE_PUBLIC_DUREE.href,
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: `${SMIC_HOURS_HCR_AVENANT_2.org} :`,
+          label: SMIC_HOURS_HCR_AVENANT_2.label,
+          href: SMIC_HOURS_HCR_AVENANT_2.href,
         },
         {
           type: "internal-link",
@@ -670,7 +966,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
           type: "callout",
           variant: "warning",
           paragraphs: [
-            "Limites : estimation du net (coefficient 0,78 et réduction 11,31 % sont des hypothèses techniques d'estimation du site), majoration HS retenue à défaut d'accord, exclusion des cas particuliers listés plus haut. " +
+            "Limites : le net est une estimation (coefficient 0,78 du calculateur partagé ; réduction d'assurance vieillesse dans la limite de 11,31 %, pas un taux garanti pour tous). Les majorations HS sont celles du cas général à défaut d'accord. Les durées 40 h à 44 h sont des salaires théoriques, sous réserve des plafonds de durée du travail. " +
               SMIC_HOURS_SCOPE_DISCLAIMER,
           ],
         },
@@ -711,7 +1007,30 @@ export const smicSelonNombreHeuresGuide: Guide = {
     },
     {
       question: "Quel est le salaire au SMIC pour 39 heures ?",
-      answer: `Environ ${formatEuro(r39.monthlyGross)} brut / mois avec l'hypothèse de majoration retenue sur cette page (+${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % sur les 4 h de 36 à 39, à défaut d'accord), soit environ ${formatEuro(r39.monthlyNetEstimated)} net estimé. Un accord collectif peut prévoir un autre taux, sans descendre sous 10 %.`,
+      answer: `Environ ${formatEuro(r39.monthlyGross)} brut / mois (SMIC 39 h brut) avec l'hypothèse de majoration retenue sur cette page (+${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % sur les 4 h de 36 à 39, à défaut d'accord), soit environ ${formatEuro(r39.monthlyNetEstimated)} net estimé (SMIC 39 h net). Ce volume correspond à ${formatHoursValue(r39.monthlyHours)} h mensualisées (souvent dites 169 h). Un accord collectif peut prévoir un autre taux, sans descendre sous 10 %.`,
+    },
+    {
+      question: "Combien vaut une heure supplémentaire au SMIC ?",
+      answer: `Une heure supplémentaire au SMIC majorée de ${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % vaut ${formatEuro(otHour25)} brut. Une heure majorée de ${OVERTIME_MAJORATION_GROUP2_PERCENT} % vaut ${formatEuro(otHour50)} brut. Ces taux sont ceux du cas général à défaut de dispositions conventionnelles différentes.`,
+    },
+    {
+      question: "Combien gagne-t-on au SMIC avec 4 heures supplémentaires par semaine ?",
+      answer: `4 heures supplémentaires par semaine correspondent à un contrat de 39 h. Dans l'hypothèse légale retenue ici, le gain brut des HS est d'environ ${formatEuro(ot4.monthlyGross)} par mois, pour un total de ${formatEuro(r39.monthlyGross)} brut et environ ${formatEuro(r39.monthlyNetEstimated)} net estimé.`,
+    },
+    {
+      question: "Quel est le salaire au SMIC pour 40 heures par semaine ?",
+      answer: `À 40 h par semaine au SMIC, les 5 heures au-delà de 35 h sont des heures supplémentaires. Avec +${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} % à défaut d'accord différent, le salaire atteint ${formatEuro(r40.monthlyGross)} brut / mois et environ ${formatEuro(r40.monthlyNetEstimated)} net estimé.`,
+    },
+    {
+      question:
+        "Pourquoi la majoration passe-t-elle à 50 % à partir de la 44e heure dans le cas général ?",
+      answer: `Parce que la 44e heure est la 9e heure supplémentaire de la semaine, au-delà des huit premières (36e à 43e) majorées de ${OVERTIME_MAJORATION_ASSUMPTION_PERCENT} %. À 44 h, le calcul retenu ici donne ${formatEuro(r44.monthlyGross)} brut / mois et environ ${formatEuro(r44.monthlyNetEstimated)} net estimé. Un accord collectif peut fixer d'autres taux.`,
+    },
+    {
+      question:
+        "10 heures supplémentaires dans le mois sont-elles toutes majorées de la même façon ?",
+      answer:
+        "Non. Le seuil +25 % / +50 % se raisonne semaine par semaine. 10 heures supplémentaires réparties sur quatre semaines ne se majorent pas comme 10 heures réalisées pendant une seule semaine.",
     },
     {
       question: "Comment convertir des heures hebdomadaires en heures mensuelles ?",
@@ -767,7 +1086,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
     title: "Conclusion",
     keyPoints: [
       "Le SMIC se lit d'abord à l'heure : le salaire mensuel dépend de la durée contractuelle.",
-      "Jusqu'à 35 h, utilisez la mensualisation H × 52 ÷ 12 ; au-delà, séparez les heures supplémentaires.",
+      "Jusqu'à 35 h, utilisez la mensualisation H × 52 ÷ 12 ; au-delà, séparez les heures supplémentaires (36e à 43e heure à +25 % ici, puis +50 % à partir de la 44e, à défaut d'accord différent).",
       SMIC_HOURS_NET_DISCLAIMER,
       SMIC_HOURS_OVERTIME_SHORT,
     ],

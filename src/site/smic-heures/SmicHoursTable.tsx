@@ -7,8 +7,9 @@ import {
   formatEuro,
   formatHoursValue,
   formatWeeklyHoursLabel,
-  SMIC_EDITORIAL_YEAR,
   SMIC_EFFECTIVE_FROM_LABEL,
+  SMIC_HOURS_ANNUAL_OTHER_DURATIONS_NOTE,
+  SMIC_HOURS_ANNUAL_PROJECTION_NOTE,
   SMIC_HOURS_OVERTIME_HYPOTHESIS,
   SMIC_HOURS_TABLE_FOOTNOTES,
 } from "./data";
@@ -93,10 +94,8 @@ export function SmicHoursTable() {
         ))}
       </ul>
       <p className="smic-heures-table__note">
-        Les projections annuelles correspondent au montant mensuel × 12 au taux
-        actuellement applicable. Ce n&apos;est ni le cumul réel de l&apos;année
-        civile {SMIC_EDITORIAL_YEAR} ayant connu une revalorisation, ni les
-        montants annuels officiels publiés par Service-Public.{" "}
+        {SMIC_HOURS_ANNUAL_PROJECTION_NOTE}{" "}
+        {SMIC_HOURS_ANNUAL_OTHER_DURATIONS_NOTE}{" "}
         {SMIC_HOURS_OVERTIME_HYPOTHESIS} Le montant net affiché est une
         estimation indicative, avant prélèvement à la source.
       </p>

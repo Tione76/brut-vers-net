@@ -24,9 +24,23 @@
 
 .smic-heures-calc__quick {
   display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.smic-heures-calc__quick-group {
+  display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+}
+
+.smic-heures-calc__quick-label {
+  flex: 1 0 100%;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ds-text-muted, #4b5563);
 }
 
 .smic-heures-calc__chip {

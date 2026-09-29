@@ -172,7 +172,7 @@ export const overtimeFaq: OvertimeFaqItem[] = [
   {
     question: "Puis-je utiliser ce calculateur si je travaille à temps partiel ?",
     answer:
-      "Non pour cette première version. Le simulateur concerne les salariés à temps plein du secteur privé sur une base de 35 heures. Pour estimer un salaire au SMIC selon une durée contractuelle de 10 h à 39 h, consultez la page SMIC selon le nombre d'heures. Les heures complémentaires du temps partiel suivent des règles différentes.",
+      "Non pour cette première version. Le simulateur concerne les salariés à temps plein du secteur privé sur une base de 35 heures. Pour estimer un salaire au SMIC selon une durée contractuelle de 10 h à 44 h, y compris avec heures supplémentaires, consultez la page SMIC selon le nombre d'heures. Les heures complémentaires du temps partiel suivent des règles différentes.",
   },
   {
     question: "Le résultat remplace-t-il la fiche de paie ?",

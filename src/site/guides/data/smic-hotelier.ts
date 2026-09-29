@@ -657,7 +657,7 @@ export const smicHotelierGuide: Guide = {
         },
         {
           title: "SMIC selon le nombre d'heures",
-          description: "De 10 h à 39 h, avec l'hypothèse légale à +25 % hors accord.",
+          description: "De 10 h à 44 h, avec heures supplémentaires à +25 % puis +50 % hors accord.",
           href: SMIC_HOURS_HREF,
         },
         {
