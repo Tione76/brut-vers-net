@@ -9,6 +9,7 @@ import { pourquoiSalaireNetChangeSeptembre2026Guide } from "./data/pourquoi-sala
 import { smicGuide } from "./data/smic";
 import { smicSelonNombreHeuresGuide } from "./data/smic-selon-nombre-heures";
 import { smicHotelierGuide } from "./data/smic-hotelier";
+import { smicEuropeGuide } from "./data/smic-europe";
 import { evolutionSmicGuide } from "./data/evolution-smic";
 import { salaireInterimGuide } from "./data/salaire-interim-calcul-brut-net";
 import { salaireArretMaladieGuide } from "./data/salaire-arret-maladie";
@@ -25,6 +26,7 @@ export const guides: Guide[] = [
   attachGuideCover(smicGuide),
   attachGuideCover(smicSelonNombreHeuresGuide),
   attachGuideCover(smicHotelierGuide),
+  attachGuideCover(smicEuropeGuide),
   attachGuideCover(evolutionSmicGuide),
   attachGuideCover(salaireInterimGuide),
   attachGuideCover(salaireArretMaladieGuide),

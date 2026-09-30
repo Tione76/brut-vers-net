@@ -1,6 +1,5 @@
 import type { NavDropdownItem } from "./NavDropdownMenu";
 import {
-  SMIC_HISTORY_BREADCRUMB,
   SMIC_HISTORY_H1,
   SMIC_HISTORY_PATH,
 } from "@/site/smic-history/constants";
@@ -24,7 +23,7 @@ export const smicNavigation: NavDropdownItem[] = [
   },
   {
     href: SMIC_HISTORY_PATH,
-    shortTitle: SMIC_HISTORY_BREADCRUMB,
+    shortTitle: "Évolution du SMIC depuis 1950",
     title: SMIC_HISTORY_H1,
   },
 ];

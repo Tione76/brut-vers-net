@@ -391,6 +391,13 @@ export const smicGuide: Guide = {
           href: "/smic-selon-nombre-heures",
         },
         {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour comparer le SMIC français aux salaires minimums des autres pays européens,",
+          label: "voir les salaires minimums en Europe",
+          href: "/smic-europe",
+        },
+        {
           type: "callout",
           variant: "verify",
           paragraphs: [
@@ -523,6 +530,7 @@ export const smicGuide: Guide = {
     },
     relatedGuides: [
       { title: "SMIC selon le nombre d'heures", href: "/smic-selon-nombre-heures" },
+      { title: "SMIC en Europe", href: "/smic-europe" },
       { title: "SMIC hôtelier (HCR)", href: "/smic-hotelier" },
       { title: "Salaire en intérim (IFM et congés payés)", href: "/salaire-interim-calcul-brut-net" },
       { title: "Salaire moyen en France", href: "/salaire-moyen-france" },

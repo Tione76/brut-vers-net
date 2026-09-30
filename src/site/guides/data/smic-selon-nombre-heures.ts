@@ -1105,6 +1105,7 @@ export const smicSelonNombreHeuresGuide: Guide = {
     },
     relatedGuides: [
       { title: "SMIC : montants officiels", href: SMIC_PATH },
+      { title: "SMIC en Europe", href: "/smic-europe" },
       { title: "SMIC hôtelier (HCR)", href: "/smic-hotelier" },
       { title: "Salaire en intérim (IFM et congés payés)", href: "/salaire-interim-calcul-brut-net" },
       { title: "Salaire en alternance", href: ALTERNANCE },

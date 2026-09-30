@@ -1,6 +1,7 @@
 @import "./tokens.css";
 @import "./forms.css";
 @import "./shared.css";
+@import "./cookie-consent.css";
 @import "./blog-page.css";
 @import "./calculator-page.css";
 @import "./components/share-block.css";

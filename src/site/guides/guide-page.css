@@ -1269,6 +1269,63 @@
   color: var(--ds-text);
 }
 
+.guide-country-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.country-flag,
+img.country-flag,
+.guide-illustration .country-flag {
+  width: 20px;
+  height: 15px;
+  max-width: 20px;
+  max-height: 15px;
+  flex: 0 0 20px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.16);
+  background: #e2e8f0;
+}
+
+img.country-flag.country-flag--section {
+  float: left;
+  width: 88px;
+  height: auto;
+  max-width: 88px;
+  max-height: none;
+  flex: none;
+  object-fit: contain;
+  object-position: top left;
+  margin: 0 1rem 0.65rem 0;
+  border-radius: 3px;
+}
+
+.prose .guide-subsection:has(.country-flag--section)::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.prose .guide-subsection > .country-flag--section {
+  margin-top: 0;
+}
+
+.prose .guide-subsection > .country-flag--section + p {
+  margin-top: 0;
+}
+
+@media (max-width: 767px) {
+  img.country-flag.country-flag--section {
+    width: 68px;
+    max-width: 68px;
+    margin: 0 0.75rem 0.5rem 0;
+  }
+}
+
 .smic-decade-nav,
 .smic-timeline,
 .smic-year-jump {
@@ -1311,8 +1368,9 @@
   outline-offset: 1px;
 }
 
-.guide-table tr[id^="smic-"] {
-  scroll-margin-top: 5rem;
+.guide-table tr[id^="smic-"],
+.guide-table tr[id^="table-pays-"] {
+  scroll-margin-top: 5.5rem;
 }
 
 .guide-table tr:target th[scope="row"],
@@ -1930,6 +1988,92 @@
   .guide-table-wrap--stack .guide-table-cards {
     display: grid;
   }
+
+  #tableau-salaires-minimums .guide-table-wrap--stack .guide-table-scroll {
+    display: block;
+    overflow: visible;
+  }
+
+  #tableau-salaires-minimums .guide-table-wrap--stack .guide-table-cards {
+    display: none;
+  }
+
+  #tableau-salaires-minimums .guide-table {
+    min-width: 0;
+    border-collapse: separate;
+    border-spacing: 0 0.65rem;
+  }
+
+  #tableau-salaires-minimums .guide-table thead {
+    display: none;
+  }
+
+  #tableau-salaires-minimums .guide-table tbody,
+  #tableau-salaires-minimums .guide-table tr,
+  #tableau-salaires-minimums .guide-table th,
+  #tableau-salaires-minimums .guide-table td {
+    display: block;
+    width: 100%;
+  }
+
+  #tableau-salaires-minimums .guide-table tbody tr {
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--ds-border);
+    border-radius: var(--ds-radius);
+    background: var(--ds-surface);
+    scroll-margin-top: 5.5rem;
+  }
+
+  #tableau-salaires-minimums .guide-table tbody tr:nth-child(even) {
+    background: var(--ds-surface);
+  }
+
+  #tableau-salaires-minimums .guide-table-wrap--sticky .guide-table th[scope="row"],
+  #tableau-salaires-minimums .guide-table-wrap--sticky .guide-table td:first-child,
+  #tableau-salaires-minimums .guide-table-wrap--sticky .guide-table tbody tr:nth-child(even) th[scope="row"],
+  #tableau-salaires-minimums .guide-table-wrap--sticky .guide-table tbody tr:nth-child(even) td:first-child {
+    position: static;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  #tableau-salaires-minimums .prose .guide-table th,
+  #tableau-salaires-minimums .guide-table th,
+  #tableau-salaires-minimums .guide-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.28rem 0;
+    border-bottom: 1px solid var(--ds-border-light);
+    text-align: right;
+    background: transparent;
+  }
+
+  #tableau-salaires-minimums .prose .guide-table th[scope="row"],
+  #tableau-salaires-minimums .guide-table th[scope="row"] {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  #tableau-salaires-minimums .guide-table th::before,
+  #tableau-salaires-minimums .guide-table td::before {
+    content: attr(data-label);
+    flex: 0 1 46%;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ds-text-muted);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  #tableau-salaires-minimums .guide-table tr > :last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
 }
 
 /* Illustrations */
@@ -1948,6 +2092,198 @@
   height: auto;
 }
 
+
+.guide-illustration:has(.smic-europe-nav) {
+  margin: 16px 0 28px;
+  border: 1px solid var(--ds-border);
+  box-shadow: none;
+}
+
+.guide-illustration:has(.smic-europe-table-letters) {
+  margin: 0 0 12px;
+  border: none;
+  box-shadow: none;
+}
+
+.smic-europe-table-letters {
+  padding: 0;
+}
+
+.smic-europe-table-letters__label {
+  margin: 0 0 0.4rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--ds-text-muted);
+}
+
+.smic-europe-table-letters__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.smic-europe-table-letters__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.7rem;
+  min-height: 1.7rem;
+  padding: 0.1rem 0.3rem;
+  border: 1px solid var(--ds-border);
+  border-radius: 5px;
+  background: var(--ds-surface);
+  color: var(--ds-text);
+  font-size: 0.75rem;
+  font-weight: 650;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.smic-europe-table-letters__link:hover,
+.smic-europe-table-letters__link:focus-visible {
+  border-color: var(--ds-brand);
+  background: var(--ds-brand-light);
+  color: var(--ds-brand-dark);
+}
+
+.smic-europe-table-letters__link:focus-visible {
+  outline: 2px solid var(--ds-brand);
+  outline-offset: 1px;
+}
+
+.smic-europe-nav {
+  padding: 14px 16px 10px;
+}
+
+.smic-europe-nav__legend {
+  margin: 0 0 0.65rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--ds-text-muted);
+}
+
+.smic-europe-nav__ue-mark,
+.smic-europe-nav__ue {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0 0.3rem;
+  border-radius: 3px;
+  background: #eef2f7;
+  color: #4a5568;
+  font-size: 0.625rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.smic-europe-nav__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.15rem 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.smic-europe-nav__item {
+  min-width: 0;
+}
+
+.smic-europe-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 1.85rem;
+  padding: 0.12rem 0.15rem;
+  border-radius: 4px;
+  color: var(--ds-text);
+  text-decoration: none;
+}
+
+.smic-europe-nav__link:hover,
+.smic-europe-nav__link:focus-visible {
+  background: var(--ds-brand-light);
+  color: var(--ds-brand-dark);
+}
+
+.smic-europe-nav__link:focus-visible {
+  outline: 2px solid var(--ds-brand);
+  outline-offset: 1px;
+}
+
+.smic-europe-nav__text {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.smic-europe-nav__name {
+  min-width: 0;
+  font-size: 0.875rem;
+  line-height: 1.3;
+}
+
+.smic-europe-nav__ue {
+  flex: 0 0 auto;
+}
+
+@media (min-width: 360px) {
+  .smic-europe-nav__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 720px) {
+  .smic-europe-nav__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .smic-europe-nav__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+#tableau-salaires-minimums .guide-table-scroll {
+  border-color: var(--ds-border);
+}
+
+#tableau-salaires-minimums .guide-table thead,
+#tableau-salaires-minimums .prose .guide-table thead th,
+#tableau-salaires-minimums .guide-table thead th {
+  background: var(--ds-surface-alt);
+  font-weight: 650;
+  border-bottom: 1px solid var(--ds-border);
+}
+
+#tableau-salaires-minimums .guide-table td {
+  border-bottom-color: var(--ds-border-light);
+}
+
+#tableau-salaires-minimums .guide-table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--ds-border) 32%, var(--ds-surface));
+}
+
+#tableau-salaires-minimums .guide-table-wrap--sticky .guide-table tbody tr:nth-child(even) th[scope="row"],
+#tableau-salaires-minimums .guide-table-wrap--sticky .guide-table tbody tr:nth-child(even) td:first-child {
+  background: color-mix(in srgb, var(--ds-border) 32%, var(--ds-surface));
+}
+
+@media (hover: hover) {
+  #tableau-salaires-minimums .guide-table tbody tr:hover td,
+  #tableau-salaires-minimums .guide-table tbody tr:hover th[scope="row"] {
+    background: var(--ds-brand-light);
+  }
+
+  #tableau-salaires-minimums .guide-table-wrap--sticky .guide-table tbody tr:hover th[scope="row"],
+  #tableau-salaires-minimums .guide-table-wrap--sticky .guide-table tbody tr:hover td:first-child {
+    background: var(--ds-brand-light);
+  }
+}
 
 .guide-illustration figcaption {
   padding: 14px 20px;

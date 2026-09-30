@@ -12,7 +12,7 @@ describe("navigation header SMIC", () => {
     expect(smicNavigation[2]?.href).toBe("/smic-hotelier");
     expect(smicNavigation[2]?.shortTitle).toBe("SMIC hôtelier (HCR)");
     expect(smicNavigation[3]?.href).toBe("/evolution-smic");
-    expect(smicNavigation[3]?.shortTitle).toBe("Évolution du SMIC");
+    expect(smicNavigation[3]?.shortTitle).toBe("Évolution du SMIC depuis 1950");
     expect(smicNavigation.map((item) => item.href)).toEqual([
       ...new Set(smicNavigation.map((item) => item.href)),
     ]);

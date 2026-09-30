@@ -8,6 +8,7 @@ import type { GuideBlock, GuideTocEntry } from "./types";
 import { GUIDE_CALLOUT_LABELS } from "./types";
 import { GuideIllustration } from "./illustrations";
 import { GuideFaqDisclosure } from "./GuideFaqDisclosure";
+import { CountryFlag } from "@/site/smic-europe/CountryFlag";
 
 function blockKey(prefix: string, block: GuideBlock, index: number): string {
   return `${prefix}-${block.type}-${index}`;
@@ -156,8 +157,16 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
                           <Cell
                             key={`${rowIndex}-${cellIndex}`}
                             scope={isRowHeader ? "row" : undefined}
+                            data-label={block.stackOnMobile ? block.headers[cellIndex] : undefined}
                           >
-                            {cell}
+                            {isRowHeader && block.rowFlags?.[rowIndex] ? (
+                              <span className="guide-country-cell">
+                                <CountryFlag code={block.rowFlags[rowIndex]} />
+                                {cell}
+                              </span>
+                            ) : (
+                              cell
+                            )}
                           </Cell>
                         );
                       })}
@@ -183,7 +192,16 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
                       <span className="guide-table-card__label">
                         {block.headers[cellIndex]}
                       </span>
-                      <span className="guide-table-card__value">{cell}</span>
+                      <span className="guide-table-card__value">
+                        {cellIndex === 0 && block.rowFlags?.[rowIndex] ? (
+                          <span className="guide-country-cell">
+                            <CountryFlag code={block.rowFlags[rowIndex]} />
+                            {cell}
+                          </span>
+                        ) : (
+                          cell
+                        )}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -606,6 +624,7 @@ export function GuideArticle({
       {section.subsections?.map((subsection) => (
         <div key={subsection.id} id={subsection.id} className="guide-subsection">
           <h3>{subsection.title}</h3>
+          {subsection.flagCode ? <CountryFlag code={subsection.flagCode} variant="section" /> : null}
           {subsection.blocks.map((block, index) => (
             <GuideBlockRenderer
               key={blockKey(subsection.id, block, index)}

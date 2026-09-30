@@ -47,6 +47,7 @@ describe("covers registry", () => {
         "pourquoi-salaire-net-change-septembre-2026",
         "smic",
         "smic-hotelier",
+        "smic-europe",
         "evolution-smic",
         "salaire-interim-calcul-brut-net",
         "salaire-arret-maladie",
@@ -255,6 +256,19 @@ describe("covers registry", () => {
     expect(smicHotelierCover?.height).toBe(800);
     expect(smicHotelierCover?.alt.toLowerCase()).not.toContain("salaire");
     expect(smicHotelierCover?.alt).not.toMatch(/20\d{2}/);
+
+    const smicEuropeCover = getGuideCover("smic-europe");
+    expect(smicEuropeCover?.src).toBe("/images/covers/guides/classement-smic-europe.webp");
+    expect(formatCoverCredit(smicEuropeCover!.credit)).toBe("Photo de Oliver via Pexels");
+    expect(smicEuropeCover?.width).toBe(1200);
+    expect(smicEuropeCover?.height).toBe(800);
+    expect(smicEuropeCover?.alt).toBe(
+      "Drapeaux de la France, de l'Union européenne et de l'Allemagne flottant sur une colline, sous un ciel bleu",
+    );
+    expect(smicEuropeCover?.alt.toLowerCase()).not.toContain("salaire");
+    expect(smicEuropeCover?.alt).not.toMatch(/20\d{2}/);
+    expect(smicEuropeCover?.alt).not.toMatch(/\d+\s*€/);
+    expect(smicEuropeCover?.alt.toLowerCase()).not.toContain("classement");
   });
 
   it("exposes hub and FAQ covers with credits", () => {

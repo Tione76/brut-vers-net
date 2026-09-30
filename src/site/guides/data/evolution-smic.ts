@@ -624,6 +624,7 @@ export const evolutionSmicGuide: Guide = {
     relatedGuides: [
       { title: "SMIC brut et net", href: SMIC_HREF },
       { title: "SMIC selon le nombre d'heures", href: SMIC_HOURS_HREF },
+      { title: "SMIC en Europe", href: "/smic-europe" },
       { title: "Salaire moyen en France", href: SALAIRE_MOYEN_HREF },
       { title: "Cotisations salariales", href: COTISATIONS_HREF },
       { title: "Différence brut / net", href: BRUT_NET_HREF },

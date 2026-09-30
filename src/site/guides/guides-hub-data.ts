@@ -17,6 +17,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "SMIC brut et net estimé de 10 h à 44 h par semaine : tableau complet, temps partiel et heures supplémentaires.",
   "smic-hotelier":
             "Salaire minimum HCR : grille applicable, comparaison avec le SMIC, brut à 35 h et 39 h, heures supplémentaires et repas.",
+  "smic-europe":
+    "Salaires minimums en Europe pays par pays : montants, pays sans minimum national et équivalents Eurostat.",
   "evolution-smic":
     "Historique du SMIG puis du SMIC depuis 1950 : tableau par année, graphiques et revalorisations officielles.",
   "salaire-interim-calcul-brut-net":

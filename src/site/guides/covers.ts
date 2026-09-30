@@ -263,6 +263,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "smic-europe": cover(
+    "guides/classement-smic-europe.webp",
+    "Drapeaux de la France, de l'Union européenne et de l'Allemagne flottant sur une colline, sous un ciel bleu",
+    {
+      photographer: "Oliver",
+      source: "Pexels",
+      text: "Photo de Oliver via Pexels",
+    },
+    1200,
+    800,
+  ),
   "salaire-interim-calcul-brut-net": cover(
     "guides/Salaire-brut-net-interim.webp",
     "Deux agents logistiques transportant des cartons dans un entrepôt",
@@ -358,6 +369,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/smic-hotelier") {
     return getGuideCover("smic-hotelier");
+  }
+  if (href === "/smic-europe") {
+    return getGuideCover("smic-europe");
   }
   if (href === "/evolution-smic") {
     return getGuideCover("evolution-smic");

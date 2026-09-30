@@ -81,6 +81,8 @@ export interface GuideTable {
   rowIds?: Array<string | undefined>;
   /** Conserve la première colonne visible lors du défilement horizontal. */
   stickyFirstColumn?: boolean;
+  /** Codes ISO des drapeaux, alignés sur les lignes (colonne pays). */
+  rowFlags?: string[];
 }
 
 /** Identifiant d'illustration vectorielle (réservé aux futurs guides) */
@@ -154,6 +156,8 @@ export interface GuideSubsection {
   id: string;
   title: string;
   blocks: GuideBlock[];
+  /** Code drapeau décoratif, affiché sous le titre (sections pays). */
+  flagCode?: string;
 }
 
 export interface GuideSection {
