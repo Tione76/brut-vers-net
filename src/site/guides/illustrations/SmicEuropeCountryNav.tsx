@@ -7,7 +7,7 @@ export function SmicEuropeCountryNav() {
     <nav className="smic-europe-nav" aria-label="Aller à un pays">
       <p className="smic-europe-nav__legend">
         La mention <span className="smic-europe-nav__ue-mark">UE</span> désigne un État membre de
-        l'Union européenne.
+        l&apos;Union européenne.
       </p>
       <ul className="smic-europe-nav__grid">
         {COUNTRIES_WITH_SECTIONS.map((country) => (
