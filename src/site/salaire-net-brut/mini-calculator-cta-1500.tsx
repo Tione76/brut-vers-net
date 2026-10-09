@@ -16,9 +16,19 @@ function formatNetForInput(value: number): string {
 
 interface MiniCalculatorCta1500Props {
   defaultNetMonthly: number;
+  heading?: string;
+  intro?: string;
+  buttonLabel?: string;
+  appearance?: "default" | "onBrand";
 }
 
-export function MiniCalculatorCta1500({ defaultNetMonthly }: MiniCalculatorCta1500Props) {
+export function MiniCalculatorCta1500({
+  defaultNetMonthly,
+  heading = "Calculer un autre salaire net",
+  intro,
+  buttonLabel = "Calculer en brut",
+  appearance = "default",
+}: MiniCalculatorCta1500Props) {
   const router = useRouter();
   const [profile, setProfile] = useState<EmploymentProfile>("nonExecutive");
   const [value, setValue] = useState(formatNetForInput(defaultNetMonthly));
@@ -35,16 +45,45 @@ export function MiniCalculatorCta1500({ defaultNetMonthly }: MiniCalculatorCta15
     router.push(buildCalculatorNetPrefillHref(parsed, profile));
   };
 
+  const netInputId = `net-gross-mini-net-${defaultNetMonthly}`;
+  const errorId = `net-gross-mini-error-${defaultNetMonthly}`;
+  const netInput = (
+    <input
+      id={netInputId}
+      className="net-gross-1500__mini-input"
+      type="text"
+      inputMode="decimal"
+      autoComplete="off"
+      value={value}
+      onChange={(event) => {
+        setValue(event.target.value);
+        if (error) {
+          setError(null);
+        }
+      }}
+      aria-invalid={Boolean(error)}
+      aria-describedby={error ? errorId : undefined}
+    />
+  );
+
   return (
-    <section className="net-gross-1500__cta" aria-labelledby="net-gross-1500-cta-title">
-      <h2 id="net-gross-1500-cta-title" className="net-gross-1500__h2">
-        Calculer un autre salaire net
+    <section
+      className={`net-gross-1500__cta${appearance === "onBrand" ? " net-gross-1650__simulator" : ""}`}
+      aria-labelledby={`net-gross-${defaultNetMonthly}-cta-title`}
+    >
+      <h2 id={`net-gross-${defaultNetMonthly}-cta-title`} className="net-gross-1500__h2">
+        {heading}
       </h2>
+      {intro ? <p className="net-gross-1500__cta-intro">{intro}</p> : null}
 
       <form className="net-gross-1500__mini-form" onSubmit={handleSubmit}>
         <fieldset className="net-gross-1500__profiles">
-          <legend className="net-gross-1500__sr-only">Profil</legend>
-          <div className="net-gross-1500__profile-list" role="radiogroup" aria-label="Profil">
+          <legend className="net-gross-1500__sr-only">Statut professionnel</legend>
+          <div
+            className="net-gross-1500__profile-list"
+            role="radiogroup"
+            aria-label="Statut professionnel"
+          >
             {NET_TO_GROSS_PROFILES.map((id) => {
               const selected = profile === id;
               const tone =
@@ -74,36 +113,26 @@ export function MiniCalculatorCta1500({ defaultNetMonthly }: MiniCalculatorCta15
           </div>
         </fieldset>
 
-        <label className="net-gross-1500__mini-label" htmlFor={`net-gross-mini-net-${defaultNetMonthly}`}>
+        <label className="net-gross-1500__mini-label" htmlFor={netInputId}>
           Salaire net mensuel
         </label>
         <div className="net-gross-1500__mini-row">
-          <input
-            id={`net-gross-mini-net-${defaultNetMonthly}`}
-            className="net-gross-1500__mini-input"
-            type="text"
-            inputMode="decimal"
-            autoComplete="off"
-            value={value}
-            onChange={(event) => {
-              setValue(event.target.value);
-              if (error) {
-                setError(null);
-              }
-            }}
-            aria-invalid={Boolean(error)}
-            aria-describedby={error ? `net-gross-mini-error-${defaultNetMonthly}` : undefined}
-          />
+          {appearance === "onBrand" ? (
+            <div className="net-gross-1650__amount-field">
+              {netInput}
+              <span className="net-gross-1650__amount-suffix" aria-hidden="true">
+                €
+              </span>
+            </div>
+          ) : (
+            netInput
+          )}
           <button type="submit" className="net-gross-1500__cta-button">
-            Calculer en brut
+            {buttonLabel}
           </button>
         </div>
         {error ? (
-          <p
-            id={`net-gross-mini-error-${defaultNetMonthly}`}
-            className="net-gross-1500__mini-error"
-            role="alert"
-          >
+          <p id={errorId} className="net-gross-1500__mini-error" role="alert">
             {error}
           </p>
         ) : null}

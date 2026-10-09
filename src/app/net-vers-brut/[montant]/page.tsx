@@ -23,6 +23,13 @@ import {
   seriesBreadcrumbLabel,
 } from "@/site/salaire-net-brut/page-1500-content";
 import { buildAllProfileEstimates } from "@/site/salaire-net-brut/data";
+import {
+  PAGE_1650_DATE_MODIFIED,
+  PAGE_1650_DATE_PUBLISHED,
+  build1650PageJsonLd,
+  isNetToGross1650Prototype,
+  netToGrossOpenGraphType,
+} from "@/site/salaire-net-brut/page-1650";
 interface PageProps {
   params: Promise<{ montant: string }>;
 }
@@ -52,7 +59,7 @@ export async function generateMetadata({ params }: PageProps) {
     description: seo.description,
     path,
     ogImage: buildNetToGrossOgImageInput(netMonthly),
-    openGraphType: "article",
+    openGraphType: netToGrossOpenGraphType(netMonthly),
     robots: isPathIndexable(path) ? undefined : { index: false, follow: false },
   });
 }
@@ -69,28 +76,37 @@ export default async function NetToGrossAmountPage({ params }: PageProps) {
   const path = netToGrossPath(netMonthly);
   const estimates = buildAllProfileEstimates(netMonthly);
   const faq = buildSeriesFaqItems(netMonthly, estimates);
+  const jsonLdInput = {
+    path,
+    name: seo.title,
+    description: seo.description,
+    breadcrumbs: [
+      { name: "Accueil", path: "/" },
+      {
+        name: NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
+        path: NET_TO_GROSS_HUB_PATH,
+      },
+      { name: seriesBreadcrumbLabel(netMonthly), path },
+    ],
+    cover: NET_TO_GROSS_SERIES_COVER,
+    faq,
+    withAuthor: true,
+    dateModified: isNetToGross1650Prototype(netMonthly)
+      ? PAGE_1650_DATE_MODIFIED
+      : NET_TO_GROSS_UPDATED_AT,
+    datePublished: isNetToGross1650Prototype(netMonthly)
+      ? PAGE_1650_DATE_PUBLISHED
+      : NET_TO_GROSS_UPDATED_AT,
+  };
 
   return (
     <>
       <JsonLd
-        data={buildWebPageJsonLd({
-          path,
-          name: seo.title,
-          description: seo.description,
-          breadcrumbs: [
-            { name: "Accueil", path: "/" },
-            {
-              name: NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
-              path: NET_TO_GROSS_HUB_PATH,
-            },
-            { name: seriesBreadcrumbLabel(netMonthly), path },
-          ],
-          cover: NET_TO_GROSS_SERIES_COVER,
-          faq,
-          withAuthor: true,
-          dateModified: NET_TO_GROSS_UPDATED_AT,
-          datePublished: NET_TO_GROSS_UPDATED_AT,
-        })}
+        data={
+          isNetToGross1650Prototype(netMonthly)
+            ? build1650PageJsonLd(jsonLdInput)
+            : buildWebPageJsonLd(jsonLdInput)
+        }
       />
       <GuidePageLayout
         title={seo.h1}

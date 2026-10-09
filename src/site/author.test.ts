@@ -33,7 +33,9 @@ describe("auteur éditorial", () => {
       "utf8",
     );
     expect(source).toContain("GuideAuthorMeta");
-    expect(source).toContain("updatedAt={NET_TO_GROSS_UPDATED_AT}");
+    expect(source).toContain("updatedAt={pageUpdatedAt}");
+    expect(source).toContain("NET_TO_GROSS_UPDATED_AT");
+    expect(source).toContain("PAGE_1650_DATE_MODIFIED");
     expect(source).not.toContain("readingTime");
   });
 });

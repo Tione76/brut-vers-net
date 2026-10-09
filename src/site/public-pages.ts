@@ -17,6 +17,7 @@ import {
   netToGrossPath,
 } from "./salaire-net-brut/config";
 import { buildSeriesSeoMeta } from "./salaire-net-brut/page-1500-content";
+import { PAGE_1650_DATE_MODIFIED, isNetToGross1650Prototype } from "./salaire-net-brut/page-1650";
 import { buildNetToGrossHubSeo } from "./salaire-net-brut/hub";
 import { buildNetToGrossIndexSeo } from "./salaire-net-brut/series-index";
 import {
@@ -235,7 +236,9 @@ export function getAllPublicPages(): PublicPage[] {
     changefreq: "monthly" as const,
     priority: 0.72,
     indexable: true,
-    lastModified: NET_TO_GROSS_UPDATED_AT,
+    lastModified: isNetToGross1650Prototype(amount)
+      ? PAGE_1650_DATE_MODIFIED
+      : NET_TO_GROSS_UPDATED_AT,
   }));
 
   const monthlyIncreasePages: PublicPage[] = MONTHLY_INCREASE_AMOUNTS.map((amount) => ({

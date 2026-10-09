@@ -5,6 +5,14 @@ import {
 } from "./config";
 import type { NetToGrossEstimate } from "./data";
 import { formatNetShort } from "./data";
+import {
+  PAGE_1650_ANSWER_H2,
+  PAGE_1650_H1,
+  PAGE_1650_SEO,
+  build1650Editorial,
+  build1650FaqItems,
+  isNetToGross1650Prototype,
+} from "./page-1650";
 
 type ProfileEstimates = {
   nonExecutive: NetToGrossEstimate;
@@ -17,6 +25,10 @@ type ProfileEstimates = {
  * Seuls le montant cible et les chiffres calculés sont adaptés.
  */
 export function buildSeriesEditorial(netMonthly: number, estimates: ProfileEstimates) {
+  if (isNetToGross1650Prototype(netMonthly)) {
+    return build1650Editorial(estimates);
+  }
+
   const netLabel = formatNetShort(netMonthly);
   const nonCadreGross = formatCurrency(estimates.nonExecutive.grossMonthly);
   const cadreGross = formatCurrency(estimates.executive.grossMonthly);
@@ -56,6 +68,10 @@ export function buildSeriesEditorial(netMonthly: number, estimates: ProfileEstim
 }
 
 export function buildSeriesFaqItems(netMonthly: number, estimates: ProfileEstimates) {
+  if (isNetToGross1650Prototype(netMonthly)) {
+    return [...build1650FaqItems()];
+  }
+
   const netLabel = formatNetShort(netMonthly);
   const nonCadre = formatCurrency(estimates.nonExecutive.grossMonthly);
   const cadre = formatCurrency(estimates.executive.grossMonthly);
@@ -107,6 +123,18 @@ const TITLE_MAX_VISIBLE_CHARS = 60;
 
 export function buildSeriesSeoMeta(netMonthly: number) {
   const netLabel = formatNetShort(netMonthly);
+  const h1 = `Combien faut-il gagner en brut par mois pour toucher ${netLabel} net ?`;
+  const answerH2 = `Quel salaire brut mensuel correspond à ${netLabel} net ?`;
+
+  if (isNetToGross1650Prototype(netMonthly)) {
+    return {
+      title: PAGE_1650_SEO.title,
+      description: PAGE_1650_SEO.description,
+      h1: PAGE_1650_H1,
+      answerH2: PAGE_1650_ANSWER_H2,
+    };
+  }
+
   const titleBase = `Quel salaire brut mensuel pour toucher ${netLabel} net ?`;
   const titleWithSuffix = `${titleBase}${TITLE_SUFFIX}`;
   const title =
@@ -115,8 +143,8 @@ export function buildSeriesSeoMeta(netMonthly: number) {
   return {
     title,
     description: `À combien correspond un salaire de ${netLabel} net par mois en salaire brut ? Consultez immédiatement l'estimation selon votre statut, puis calculez gratuitement votre salaire brut ou net avec notre simulateur.`,
-    h1: `Combien faut-il gagner en brut par mois pour toucher ${netLabel} net ?`,
-    answerH2: `Quel salaire brut mensuel correspond à ${netLabel} net ?`,
+    h1,
+    answerH2,
   };
 }
 
