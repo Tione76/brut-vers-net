@@ -86,29 +86,30 @@ describe("salaire-net-brut série mensuelle", () => {
   });
 
   it("applique le SEO modèle sans tiret cadratin et sans 1 500 € sur les autres pages", () => {
-    const seo1600 = buildSeriesSeoMeta(1600);
+    const seo1510 = buildSeriesSeoMeta(1510);
     const seo2000 = buildSeriesSeoMeta(2000);
-    const seo3000 = buildSeriesSeoMeta(3000);
+    const seo1510Faq = buildSeriesFaqItems(1510, buildAllProfileEstimates(1510));
+    const editorial1510 = buildSeriesEditorial(1510, buildAllProfileEstimates(1510));
     const seo6000 = buildSeriesSeoMeta(6000);
-    const faq2000 = buildSeriesFaqItems(2000, buildAllProfileEstimates(2000));
-    const editorial2000 = buildSeriesEditorial(2000, buildAllProfileEstimates(2000));
 
-    expect(seo1600.h1).toContain("par mois");
-    expect(seo1600.title).toMatch(/brut mensuel/);
-    expect(seo1600.title).not.toContain("| Calcul gratuit");
-    expect([...seo1600.title].length).toBeLessThanOrEqual(60);
-    expect(seo2000.description).toContain("2");
-    expect(seo2000.description).not.toContain("non-cadre");
-    expect(seo3000.title).not.toMatch(/1[\u00a0\u202f]500/);
+    expect(seo1510.h1).toContain("par mois");
+    expect(seo1510.title).toMatch(/brut mensuel/);
+    expect(seo1510.title).not.toContain("| Calcul gratuit");
+    expect([...seo1510.title].length).toBeLessThanOrEqual(60);
+    expect(seo1510.description).toContain("1");
+    expect(seo1510.description).not.toContain("non-cadre");
+    expect(seo2000.title).toBe("2 000 € net en brut : calcul et conversion");
+    expect(seo2000.description).toContain("non-cadre");
+    expect(seo2000.title).not.toMatch(/1[\u00a0\u202f]500/);
     expect(seo6000.h1).toContain("6");
     expect(seo6000.title).not.toMatch(/1[\u00a0\u202f]500/);
 
     const blob = [
-      seo2000.title,
-      seo2000.description,
-      seo2000.h1,
-      ...faq2000.flatMap((item) => [item.question, item.answer]),
-      ...editorial2000.flatMap((section) => [section.title, ...section.paragraphs]),
+      seo1510.title,
+      seo1510.description,
+      seo1510.h1,
+      ...seo1510Faq.flatMap((item) => [item.question, item.answer]),
+      ...editorial1510.flatMap((section) => [section.title, ...section.paragraphs]),
     ].join(" ");
     expect(blob).not.toContain("\u2014");
     expect(blob).not.toMatch(/1[\u00a0\u202f]500/);

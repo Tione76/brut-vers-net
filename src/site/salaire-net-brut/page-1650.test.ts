@@ -83,7 +83,7 @@ const sidebar1650Source = readFileSync(
 describe("prototype page 1 650 € net en brut", () => {
   it("isole le SEO title, la meta description et le H1 autour de 1650 net en brut", () => {
     const seo1650 = buildSeriesSeoMeta(1650);
-    const seo1600 = buildSeriesSeoMeta(1600);
+    const seo1510 = buildSeriesSeoMeta(1510);
 
     expect(seo1650.title).toBe("1 650 € net en brut : calcul et conversion");
     expect(seo1650.title).toBe(PAGE_1650_SEO.title);
@@ -100,11 +100,11 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(seo1650.title).not.toContain("\u2014");
     expect(seo1650.description).not.toContain("\u2014");
 
-    expect(seo1600.title).toMatch(/brut mensuel/);
-    expect(seo1600.title).not.toBe(PAGE_1650_SEO.title);
-    expect(seo1600.description).not.toBe(PAGE_1650_SEO.description);
-    expect(seo1600.h1).toContain("par mois");
-    expect(seo1600.h1).not.toBe(PAGE_1650_H1);
+    expect(seo1510.title).toMatch(/brut mensuel/);
+    expect(seo1510.title).not.toBe(PAGE_1650_SEO.title);
+    expect(seo1510.description).not.toBe(PAGE_1650_SEO.description);
+    expect(seo1510.h1).toContain("par mois");
+    expect(seo1510.h1).not.toBe(PAGE_1650_H1);
   });
 
   it("conserve l'URL, la canonical auto-référente et l'indexabilité", () => {
@@ -159,9 +159,9 @@ describe("prototype page 1 650 € net en brut", () => {
 
   it("place le tableau 1650 après le calculateur et avant la photo, sans second partage", () => {
     const calcIndex = pageSource.indexOf("<MiniCalculatorCta1500");
-    const table1650Index = pageSource.indexOf("{is1650Prototype ? table : null}");
+    const table1650Index = pageSource.indexOf("{isRedesign ? table : null}");
     const coverIndex = pageSource.indexOf("<CoverFigure");
-    const otherTableIndex = pageSource.indexOf("{is1650Prototype ? null : table}");
+    const otherTableIndex = pageSource.indexOf("{isRedesign ? null : table}");
     const pedagogyIndex = pageSource.indexOf("<Page1650PedagogySections");
     const shareCount = pageSource.match(/<ShareBlock/g)?.length ?? 0;
 
@@ -173,12 +173,12 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(otherTableIndex).toBeGreaterThan(coverIndex);
     expect(pageSource).toContain("net-gross-1650");
     expect(pageSource).toContain("PAGE_1650_ROUNDING_NOTE");
-    expect(pageSource).toContain("is1650Prototype ? null : (");
+    expect(pageSource).toContain("isRedesign ? null : (");
     expect(shareCount).toBe(2);
-    expect(pageSource.match(/is1650Prototype \? table : null/g)?.length).toBe(1);
+    expect(pageSource.match(/isRedesign \? table : null/g)?.length).toBe(1);
     expect(PAGE_1650_CALCULATOR_HEADING).toBe("Calculez votre salaire brut");
     expect(PAGE_1650_CALCULATOR_BUTTON).toBe("Calculer mon salaire brut");
-    expect(pageSource).toContain("PAGE_1650_ANSWER_H2");
+    expect(pageSource).toContain("redesignSeo.answerH2");
     expect(pageSource).toContain("Page1650NearbySection");
   });
 
@@ -187,15 +187,15 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(rows1650.map((row) => row.netMonthly)).toEqual([
       1645, 1646, 1647, 1648, 1649, 1650, 1651, 1652, 1653, 1654,
     ]);
-    expect(buildComparisonRows(1640).map((row) => row.netMonthly)).toEqual([
-      1540, 1590, 1640, 1690, 1740,
+    expect(buildComparisonRows(1630).map((row) => row.netMonthly)).toEqual([
+      1530, 1580, 1630, 1680, 1730,
     ]);
-    expect(buildComparisonRows(1660).map((row) => row.netMonthly)).toEqual([
-      1560, 1610, 1660, 1710, 1760,
+    expect(buildComparisonRows(1670).map((row) => row.netMonthly)).toEqual([
+      1570, 1620, 1670, 1720, 1770,
     ]);
-    expect(buildSeriesSeoMeta(1640).title).toMatch(/brut mensuel/);
-    expect(buildSeriesSeoMeta(1660).title).toMatch(/brut mensuel/);
-    expect(buildSeriesSeoMeta(1600).title).not.toBe(PAGE_1650_SEO.title);
+    expect(buildSeriesSeoMeta(1630).title).toMatch(/brut mensuel/);
+    expect(buildSeriesSeoMeta(1670).title).toMatch(/brut mensuel/);
+    expect(buildSeriesSeoMeta(1510).title).not.toBe(PAGE_1650_SEO.title);
   });
 
   it("aligne la pédagogie et l'annuel sur le moteur existant, sans exemple fiscal fictif", () => {
@@ -229,23 +229,23 @@ describe("prototype page 1 650 € net en brut", () => {
 
   it("raccourcit l'éditorial et la FAQ sans toucher aux autres fiches", () => {
     const estimates1650 = buildAllProfileEstimates(1650);
-    const estimates1600 = buildAllProfileEstimates(1600);
+    const estimates1510 = buildAllProfileEstimates(1510);
     const editorial1650 = buildSeriesEditorial(1650, estimates1650);
-    const editorial1600 = buildSeriesEditorial(1600, estimates1600);
+    const editorial1510 = buildSeriesEditorial(1510, estimates1510);
     const faq1650 = buildSeriesFaqItems(1650, estimates1650);
-    const faq1600 = buildSeriesFaqItems(1600, estimates1600);
+    const faq1510 = buildSeriesFaqItems(1510, estimates1510);
 
     expect(editorial1650).toHaveLength(3);
     expect(editorial1650[0]?.title).toMatch(/^Quel brut pour toucher/);
     expect(editorial1650.flatMap((section) => section.paragraphs).length).toBeLessThan(
-      editorial1600.flatMap((section) => section.paragraphs).length,
+      editorial1510.flatMap((section) => section.paragraphs).length,
     );
     expect(faq1650).toHaveLength(4);
     expect(faq1650.some((item) => item.question.includes("Combien faut-il gagner"))).toBe(false);
     expect(faq1650.some((item) => item.question.includes("avant ou après impôt"))).toBe(true);
     expect(faq1650.some((item) => item.question.includes("selon le statut"))).toBe(true);
-    expect(faq1600).toHaveLength(3);
-    expect(faq1600[0]?.question).toContain("Combien faut-il gagner");
+    expect(faq1510).toHaveLength(3);
+    expect(faq1510[0]?.question).toContain("Combien faut-il gagner");
 
     const nearby = getSeriesNearbyAmounts(1650);
     expect(nearby).toEqual([1640, 1660, 1630, 1670, 1620, 1680, 1610]);
@@ -277,7 +277,7 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(otherCssSource).not.toContain(".net-gross-1650");
   });
 
-  it("isole le JSON-LD WebPage et l'og:type website sans toucher à 1640 ni 1660", () => {
+  it("isole le JSON-LD WebPage et l'og:type website sans toucher aux fiches témoins", () => {
     const jsonLdInput = (netMonthly: number) => {
       const seo = buildSeriesSeoMeta(netMonthly);
       const path = netToGrossPath(netMonthly);
@@ -339,32 +339,32 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(serialized).not.toContain("82,50");
     expect(serialized).not.toContain("1 567,50");
 
-    const graph1640 = buildWebPageJsonLd(jsonLdInput(1640))["@graph"] as Record<string, unknown>[];
-    const page1640 = graph1640.find((node) => node["@type"] === "WebPage") as Record<
+    const graph1630 = buildWebPageJsonLd(jsonLdInput(1630))["@graph"] as Record<string, unknown>[];
+    const page1630 = graph1630.find((node) => node["@type"] === "WebPage") as Record<
       string,
       unknown
     >;
-    expect(page1640.about).toEqual({ "@id": schemaIds.organization() });
-    expect(page1640.mainEntity).toEqual({ "@id": schemaIds.faq(netToGrossPath(1640)) });
-    expect(page1640).not.toHaveProperty("publisher");
-    expect(page1640).not.toHaveProperty("hasPart");
-    expect(page1640.datePublished).toBe("2026-07-15T09:00:00+02:00");
-    expect(page1640.dateModified).toBe("2026-07-15T09:00:00+02:00");
+    expect(page1630.about).toEqual({ "@id": schemaIds.organization() });
+    expect(page1630.mainEntity).toEqual({ "@id": schemaIds.faq(netToGrossPath(1630)) });
+    expect(page1630).not.toHaveProperty("publisher");
+    expect(page1630).not.toHaveProperty("hasPart");
+    expect(page1630.datePublished).toBe("2026-07-15T09:00:00+02:00");
+    expect(page1630.dateModified).toBe("2026-07-15T09:00:00+02:00");
 
-    const graph1660 = buildWebPageJsonLd(jsonLdInput(1660))["@graph"] as Record<string, unknown>[];
-    const page1660 = graph1660.find((node) => node["@type"] === "WebPage") as Record<
+    const graph1670 = buildWebPageJsonLd(jsonLdInput(1670))["@graph"] as Record<string, unknown>[];
+    const page1670 = graph1670.find((node) => node["@type"] === "WebPage") as Record<
       string,
       unknown
     >;
-    expect(page1660.about).toEqual({ "@id": schemaIds.organization() });
-    expect(page1660.mainEntity).toEqual({ "@id": schemaIds.faq(netToGrossPath(1660)) });
-    expect(page1660).not.toHaveProperty("publisher");
+    expect(page1670.about).toEqual({ "@id": schemaIds.organization() });
+    expect(page1670.mainEntity).toEqual({ "@id": schemaIds.faq(netToGrossPath(1670)) });
+    expect(page1670).not.toHaveProperty("publisher");
 
     expect(netToGrossOpenGraphType(1650)).toBe("website");
-    expect(netToGrossOpenGraphType(1640)).toBe("article");
-    expect(netToGrossOpenGraphType(1660)).toBe("article");
+    expect(netToGrossOpenGraphType(1630)).toBe("article");
+    expect(netToGrossOpenGraphType(1670)).toBe("article");
     expect(routeSource).toContain("netToGrossOpenGraphType(netMonthly)");
-    expect(routeSource).toContain("build1650PageJsonLd");
+    expect(routeSource).toContain("buildRedesignPageJsonLd");
     expect(routeSource).toContain("buildWebPageJsonLd(jsonLdInput)");
   });
 
@@ -380,13 +380,13 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(PAGE_1650_END_CTA_H2).toBe("Vous souhaitez convertir un autre montant ?");
     expect(PAGE_1650_END_CTA_LINK_LABEL).toBe("Calculer mon salaire net en brut");
 
-    expect(seriesSidebarSource).toContain("isNetToGross1650Prototype");
+    expect(seriesSidebarSource).toContain("isNetToGrossRedesign");
     expect(seriesSidebarSource).toContain("Page1650Sidebar");
     expect(seriesSidebarSource).toContain('pageType="home"');
     expect(sidebar1650Source).not.toContain("salaire-arret-maladie");
     expect(sidebar1650Source).not.toContain("indemnite-licenciement");
     expect(pageSource).toContain("Page1650EndCta");
-    expect(sectionsSource).toContain("PAGE_1650_END_CTA_HREF");
+    expect(sectionsSource).toContain("buildRedesignEndCtaHref");
     expect(cssSource).toContain(".net-gross-1650__end-cta");
     expect(otherCssSource).not.toContain(".net-gross-1650__end-cta");
   });

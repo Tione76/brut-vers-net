@@ -6,38 +6,101 @@ import { NET_TO_GROSS_DEFAULT_PROFILE, NET_TO_GROSS_SALARY_MONTHS, netToGrossPat
 import type { ComparisonRow, NetToGrossEstimate } from "./data";
 import { estimateGrossMonthlyFromNet, formatNetShort } from "./data";
 import { buildCalculatorNetPrefillHref } from "./prefill";
+import {
+  REDESIGN_DATE_PUBLISHED,
+  REDESIGN_WAVE1_DATE_MODIFIED,
+  REDESIGN_WAVE1_EXCEPTION_NET,
+  isNetToGrossRedesign,
+} from "./redesign-wave";
 
-/** Page prototype : n'appliquer ces règles qu'à 1 650 € net. */
-export const PAGE_1650_NET = 1650 as const;
+/** Page prototype historique : 1 650 € net. */
+export const PAGE_1650_NET = REDESIGN_WAVE1_EXCEPTION_NET;
 
-/**
- * Couverture euro par euro pour N = 1650 (N−5 à N+4).
- * Règle prévue à terme pour tout N multiple de 10 : ne pas généraliser.
- */
-export const PAGE_1650_INTERMEDIATE_NETS = [
-  1645, 1646, 1647, 1648, 1649, 1650, 1651, 1652, 1653, 1654,
-] as const;
+export function isNetToGross1650Prototype(netMonthly: number): boolean {
+  return netMonthly === PAGE_1650_NET;
+}
+
+/** Espaces ordinaires, identiques aux libellés validés de la fiche 1 650 €. */
+function formatGroupedFr(netMonthly: number): string {
+  return String(netMonthly).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+export function formatRedesignEuro(netMonthly: number): string {
+  return `${formatGroupedFr(netMonthly)} €`;
+}
+
+/** N−5 à N+4 : dix lignes, sans chevauchement entre fiches au pas de 20 €. */
+export function buildRedesignIntermediateNets(netMonthly: number): number[] {
+  return Array.from({ length: 10 }, (_, index) => netMonthly - 5 + index);
+}
+
+export function buildRedesignSeoMeta(netMonthly: number) {
+  const netLabel = formatRedesignEuro(netMonthly);
+  return {
+    title: `${netLabel} net en brut : calcul et conversion`,
+    description: `${netLabel} net en brut : découvrez le salaire brut estimé pour un non-cadre, un cadre ou la fonction publique. Tableau et calculateur gratuits.`,
+    h1: `${netLabel} net en brut : combien ça fait ?`,
+    answerH2: `${netLabel} net : combien en brut selon votre statut ?`,
+  };
+}
+
+export function buildRedesignTableCopy(netMonthly: number) {
+  const fromPlain = formatGroupedFr(netMonthly - 5);
+  const fromLabel = formatRedesignEuro(netMonthly - 5);
+  const toLabel = formatRedesignEuro(netMonthly + 4);
+  const netLabel = formatRedesignEuro(netMonthly);
+  return {
+    h2: `De ${fromPlain} à ${toLabel} net : équivalents en brut`,
+    intro: `Vous recherchez un salaire légèrement différent de ${netLabel} net ? Retrouvez le brut mensuel estimé pour chaque montant de ${fromLabel} à ${toLabel}, selon votre statut professionnel.`,
+  };
+}
+
+export function buildRedesignNearbyCopy(netMonthly: number) {
+  return {
+    h2: `Comparez les salaires nets proches de ${formatRedesignEuro(netMonthly)}`,
+    intro:
+      "Consultez les conversions net en brut des montants voisins pour comparer les estimations selon votre statut.",
+  };
+}
+
+export function buildRedesignHowToH2(netMonthly: number) {
+  return `Comment calculer le salaire brut correspondant à ${formatRedesignEuro(netMonthly)} net ?`;
+}
+
+export function buildRedesignAnnualH2(netMonthly: number) {
+  return `${formatRedesignEuro(netMonthly)} net par mois : combien cela représente-t-il par an ?`;
+}
+
+export function buildRedesignTaxH2(netMonthly: number) {
+  return `${formatRedesignEuro(netMonthly)} net : avant ou après prélèvement à la source ?`;
+}
+
+export function redesignHowToSectionId(netMonthly: number) {
+  return `comment-calculer-${netMonthly}-net-en-brut`;
+}
+
+export function redesignAnnualSectionId(netMonthly: number) {
+  return `${netMonthly}-net-par-an`;
+}
+
+export const PAGE_1650_INTERMEDIATE_NETS = buildRedesignIntermediateNets(PAGE_1650_NET);
 
 export const PAGE_1650_SEO = {
-  title: "1 650 € net en brut : calcul et conversion",
-  description:
-    "1 650 € net en brut : découvrez le salaire brut estimé pour un non-cadre, un cadre ou la fonction publique. Tableau et calculateur gratuits.",
+  title: buildRedesignSeoMeta(PAGE_1650_NET).title,
+  description: buildRedesignSeoMeta(PAGE_1650_NET).description,
 } as const;
 
-export const PAGE_1650_H1 = "1 650 € net en brut : combien ça fait ?";
+export const PAGE_1650_H1 = buildRedesignSeoMeta(PAGE_1650_NET).h1;
 
-/** Première publication de la fiche (inchangée). */
-export const PAGE_1650_DATE_PUBLISHED = "2026-07-15";
+export const PAGE_1650_DATE_PUBLISHED = REDESIGN_DATE_PUBLISHED;
 
-/** Date réelle de mise en ligne de la refonte. */
-export const PAGE_1650_DATE_MODIFIED = "2026-10-09";
+export const PAGE_1650_DATE_MODIFIED = REDESIGN_WAVE1_DATE_MODIFIED;
 
-export const PAGE_1650_ANSWER_H2 = "1 650 € net : combien en brut selon votre statut ?";
+export const PAGE_1650_ANSWER_H2 = buildRedesignSeoMeta(PAGE_1650_NET).answerH2;
 
-export const PAGE_1650_TABLE_H2 = "De 1 645 à 1 654 € net : équivalents en brut";
+export const PAGE_1650_TABLE_H2 = buildRedesignTableCopy(PAGE_1650_NET).h2;
 
-export const PAGE_1650_TABLE_INTRO =
-  "Vous recherchez un salaire légèrement différent de 1 650 € net ? Retrouvez le brut mensuel estimé pour chaque montant de 1 645 € à 1 654 €, selon votre statut professionnel.";
+export const PAGE_1650_TABLE_INTRO = buildRedesignTableCopy(PAGE_1650_NET).intro;
 
 export const PAGE_1650_ROUNDING_NOTE =
   "Montants estimatifs arrondis à l'euro. Le simulateur affiche le détail au centime.";
@@ -49,10 +112,9 @@ export const PAGE_1650_CALCULATOR_INTRO =
 
 export const PAGE_1650_CALCULATOR_BUTTON = "Calculer mon salaire brut";
 
-export const PAGE_1650_NEARBY_H2 = "Comparez les salaires nets proches de 1 650 €";
+export const PAGE_1650_NEARBY_H2 = buildRedesignNearbyCopy(PAGE_1650_NET).h2;
 
-export const PAGE_1650_NEARBY_INTRO =
-  "Consultez les conversions net en brut des montants voisins pour comparer les estimations selon votre statut.";
+export const PAGE_1650_NEARBY_INTRO = buildRedesignNearbyCopy(PAGE_1650_NET).intro;
 
 export const PAGE_1650_END_CTA_H2 = "Vous souhaitez convertir un autre montant ?";
 
@@ -61,12 +123,13 @@ export const PAGE_1650_END_CTA_TEXT =
 
 export const PAGE_1650_END_CTA_LINK_LABEL = "Calculer mon salaire net en brut";
 
-export const PAGE_1650_END_CTA_HREF = buildCalculatorNetPrefillHref(
-  PAGE_1650_NET,
-  NET_TO_GROSS_DEFAULT_PROFILE,
-);
+export function buildRedesignEndCtaHref(netMonthly: number) {
+  return buildCalculatorNetPrefillHref(netMonthly, NET_TO_GROSS_DEFAULT_PROFILE);
+}
 
-/** Sidebar curatée 1 650 € : 3 outils + 3 guides, hors SMIC / arrêt maladie / licenciement. */
+export const PAGE_1650_END_CTA_HREF = buildRedesignEndCtaHref(PAGE_1650_NET);
+
+/** Sidebar curatée : 3 outils + 3 guides, hors SMIC / arrêt maladie / licenciement. */
 export const PAGE_1650_SIDEBAR_TOOL_IDS = [
   "brut-vers-net",
   "augmentation-salaire",
@@ -88,19 +151,17 @@ export const PAGE_1650_SIDEBAR_GUIDE_ENTRIES = [
   },
 ] as const;
 
-export const PAGE_1650_HOW_TO_H2 =
-  "Comment calculer le salaire brut correspondant à 1 650 € net ?";
+export const PAGE_1650_HOW_TO_H2 = buildRedesignHowToH2(PAGE_1650_NET);
 
-export const PAGE_1650_ANNUAL_H2 =
-  "1 650 € net par mois : combien cela représente-t-il par an ?";
+export const PAGE_1650_ANNUAL_H2 = buildRedesignAnnualH2(PAGE_1650_NET);
 
-export const PAGE_1650_TAX_H2 = "1 650 € net : avant ou après prélèvement à la source ?";
+export const PAGE_1650_TAX_H2 = buildRedesignTaxH2(PAGE_1650_NET);
 
 export const PAGE_1650_TAX_SECTION_ID = "avant-ou-apres-impot";
 
-export const PAGE_1650_HOW_TO_SECTION_ID = "comment-calculer-1650-net-en-brut";
+export const PAGE_1650_HOW_TO_SECTION_ID = redesignHowToSectionId(PAGE_1650_NET);
 
-export const PAGE_1650_ANNUAL_SECTION_ID = "1650-net-par-an";
+export const PAGE_1650_ANNUAL_SECTION_ID = redesignAnnualSectionId(PAGE_1650_NET);
 
 export const COTISATIONS_GUIDE_HREF =
   "/guides/cotisations-salariales-pourquoi-brut-plus-eleve-que-net";
@@ -121,7 +182,7 @@ export function split1650FaqHomeCalculatorAnswer(answer: string): {
 }
 
 export function netToGrossOpenGraphType(netMonthly: number): "article" | "website" {
-  return isNetToGross1650Prototype(netMonthly) ? "website" : "article";
+  return isNetToGrossRedesign(netMonthly) ? "website" : "article";
 }
 
 type ProfileEstimates = {
@@ -130,10 +191,6 @@ type ProfileEstimates = {
   publicService: NetToGrossEstimate;
 };
 
-export function isNetToGross1650Prototype(netMonthly: number): boolean {
-  return netMonthly === PAGE_1650_NET;
-}
-
 export function format1650Coefficient(coefficient: number): string {
   return coefficient.toLocaleString("fr-FR", {
     minimumFractionDigits: 2,
@@ -141,27 +198,35 @@ export function format1650Coefficient(coefficient: number): string {
   });
 }
 
-export function build1650IntermediateRows(): ComparisonRow[] {
-  return PAGE_1650_INTERMEDIATE_NETS.map((net) => ({
+export function buildRedesignIntermediateRows(netMonthly: number): ComparisonRow[] {
+  return buildRedesignIntermediateNets(netMonthly).map((net) => ({
     netMonthly: net,
     nonExecutive: estimateGrossMonthlyFromNet(net, "nonExecutive"),
     executive: estimateGrossMonthlyFromNet(net, "executive"),
     publicService: estimateGrossMonthlyFromNet(net, "publicService"),
-    isCurrent: net === PAGE_1650_NET,
+    isCurrent: net === netMonthly,
   }));
 }
 
-export function assert1650IntermediateHasNoDedicatedUrls(): string[] {
-  return PAGE_1650_INTERMEDIATE_NETS.filter((net) => net !== PAGE_1650_NET).map(
-    (net) => netToGrossPath(net),
-  );
+export function build1650IntermediateRows(): ComparisonRow[] {
+  return buildRedesignIntermediateRows(PAGE_1650_NET);
 }
 
-export function build1650ConversionExample() {
+export function assertRedesignIntermediateHasNoDedicatedUrls(netMonthly: number): string[] {
+  return buildRedesignIntermediateNets(netMonthly)
+    .filter((net) => net !== netMonthly)
+    .map((net) => netToGrossPath(net));
+}
+
+export function assert1650IntermediateHasNoDedicatedUrls(): string[] {
+  return assertRedesignIntermediateHasNoDedicatedUrls(PAGE_1650_NET);
+}
+
+export function buildRedesignConversionExample(netMonthly: number) {
   const coefficient = getProfileCoefficient("nonExecutive");
-  const exactGrossMonthly = estimateGrossMonthlyFromNet(PAGE_1650_NET, "nonExecutive");
+  const exactGrossMonthly = estimateGrossMonthlyFromNet(netMonthly, "nonExecutive");
   return {
-    netMonthly: PAGE_1650_NET,
+    netMonthly,
     coefficient,
     coefficientLabel: format1650Coefficient(coefficient),
     exactGrossMonthly,
@@ -174,11 +239,15 @@ export function build1650ConversionExample() {
   };
 }
 
-export function build1650AnnualFigures(estimates: ProfileEstimates) {
-  const netAnnual = monthlyToAnnual(PAGE_1650_NET, NET_TO_GROSS_SALARY_MONTHS);
+export function build1650ConversionExample() {
+  return buildRedesignConversionExample(PAGE_1650_NET);
+}
+
+export function buildRedesignAnnualFigures(netMonthly: number, estimates: ProfileEstimates) {
+  const netAnnual = monthlyToAnnual(netMonthly, NET_TO_GROSS_SALARY_MONTHS);
   return {
     salaryMonths: NET_TO_GROSS_SALARY_MONTHS,
-    netMonthly: PAGE_1650_NET,
+    netMonthly,
     netAnnual,
     netAnnualLabel: formatNetShort(netAnnual),
     grossAnnual: estimates.nonExecutive.grossAnnual,
@@ -187,8 +256,12 @@ export function build1650AnnualFigures(estimates: ProfileEstimates) {
   };
 }
 
-export function build1650Editorial(estimates: ProfileEstimates) {
-  const netLabel = formatNetShort(PAGE_1650_NET);
+export function build1650AnnualFigures(estimates: ProfileEstimates) {
+  return buildRedesignAnnualFigures(PAGE_1650_NET, estimates);
+}
+
+export function buildRedesignEditorial(netMonthly: number, estimates: ProfileEstimates) {
+  const netLabel = formatRedesignEuro(netMonthly);
   const nonCadreGross = formatNetShort(Math.round(estimates.nonExecutive.grossMonthly));
   const cadreGross = formatNetShort(Math.round(estimates.executive.grossMonthly));
   const publicGross = formatNetShort(Math.round(estimates.publicService.grossMonthly));
@@ -224,9 +297,13 @@ export function build1650Editorial(estimates: ProfileEstimates) {
   ] as const;
 }
 
-export function build1650FaqItems() {
-  const netLabel = formatNetShort(PAGE_1650_NET);
-  const example = build1650ConversionExample();
+export function build1650Editorial(estimates: ProfileEstimates) {
+  return buildRedesignEditorial(PAGE_1650_NET, estimates);
+}
+
+export function buildRedesignFaqItems(netMonthly: number) {
+  const netLabel = formatRedesignEuro(netMonthly);
+  const example = buildRedesignConversionExample(netMonthly);
 
   return [
     {
@@ -249,22 +326,26 @@ export function build1650FaqItems() {
   ];
 }
 
+export function build1650FaqItems() {
+  return buildRedesignFaqItems(PAGE_1650_NET);
+}
+
 function isJsonLdNode(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
 /**
- * Ajuste le graphe WebPage de la fiche 1 650 € sans modifier `buildWebPageJsonLd`.
+ * Ajuste le graphe WebPage du modèle refondu sans modifier `buildWebPageJsonLd`.
  * FAQ en hasPart, publisher Organization, pas de about ni de mainEntity FAQ.
  */
-export function build1650PageJsonLd(
+export function buildRedesignPageJsonLd(
   input: Parameters<typeof buildWebPageJsonLd>[0],
 ): Record<string, unknown> {
   const document = buildWebPageJsonLd(input);
   const graph = document["@graph"];
   if (!Array.isArray(graph)) return document;
 
-  const faqId = schemaIds.faq(netToGrossPath(PAGE_1650_NET));
+  const faqId = schemaIds.faq(input.path);
 
   return {
     ...document,
@@ -279,4 +360,10 @@ export function build1650PageJsonLd(
       return page;
     }),
   };
+}
+
+export function build1650PageJsonLd(
+  input: Parameters<typeof buildWebPageJsonLd>[0],
+): Record<string, unknown> {
+  return buildRedesignPageJsonLd(input);
 }

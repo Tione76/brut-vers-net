@@ -6,13 +6,11 @@ import {
 import type { NetToGrossEstimate } from "./data";
 import { formatNetShort } from "./data";
 import {
-  PAGE_1650_ANSWER_H2,
-  PAGE_1650_H1,
-  PAGE_1650_SEO,
-  build1650Editorial,
-  build1650FaqItems,
-  isNetToGross1650Prototype,
+  buildRedesignEditorial,
+  buildRedesignFaqItems,
+  buildRedesignSeoMeta,
 } from "./page-1650";
+import { isNetToGrossRedesign } from "./redesign-wave";
 
 type ProfileEstimates = {
   nonExecutive: NetToGrossEstimate;
@@ -25,8 +23,8 @@ type ProfileEstimates = {
  * Seuls le montant cible et les chiffres calculés sont adaptés.
  */
 export function buildSeriesEditorial(netMonthly: number, estimates: ProfileEstimates) {
-  if (isNetToGross1650Prototype(netMonthly)) {
-    return build1650Editorial(estimates);
+  if (isNetToGrossRedesign(netMonthly)) {
+    return buildRedesignEditorial(netMonthly, estimates);
   }
 
   const netLabel = formatNetShort(netMonthly);
@@ -68,8 +66,8 @@ export function buildSeriesEditorial(netMonthly: number, estimates: ProfileEstim
 }
 
 export function buildSeriesFaqItems(netMonthly: number, estimates: ProfileEstimates) {
-  if (isNetToGross1650Prototype(netMonthly)) {
-    return [...build1650FaqItems()];
+  if (isNetToGrossRedesign(netMonthly)) {
+    return [...buildRedesignFaqItems(netMonthly)];
   }
 
   const netLabel = formatNetShort(netMonthly);
@@ -126,13 +124,8 @@ export function buildSeriesSeoMeta(netMonthly: number) {
   const h1 = `Combien faut-il gagner en brut par mois pour toucher ${netLabel} net ?`;
   const answerH2 = `Quel salaire brut mensuel correspond à ${netLabel} net ?`;
 
-  if (isNetToGross1650Prototype(netMonthly)) {
-    return {
-      title: PAGE_1650_SEO.title,
-      description: PAGE_1650_SEO.description,
-      h1: PAGE_1650_H1,
-      answerH2: PAGE_1650_ANSWER_H2,
-    };
+  if (isNetToGrossRedesign(netMonthly)) {
+    return buildRedesignSeoMeta(netMonthly);
   }
 
   const titleBase = `Quel salaire brut mensuel pour toucher ${netLabel} net ?`;

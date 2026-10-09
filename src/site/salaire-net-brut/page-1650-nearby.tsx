@@ -1,8 +1,4 @@
 import Link from "next/link";
-import {
-  PAGE_1650_NEARBY_H2,
-  PAGE_1650_NEARBY_INTRO,
-} from "./page-1650";
 
 interface NearbyLink {
   href: string;
@@ -11,17 +7,21 @@ interface NearbyLink {
 
 export function Page1650NearbySection({
   headingId,
+  heading,
+  intro,
   links,
 }: {
   headingId: string;
+  heading: string;
+  intro: string;
   links: NearbyLink[];
 }) {
   return (
     <section className="net-gross-1650__nearby" aria-labelledby={headingId}>
       <h2 id={headingId} className="net-gross-1500__h2">
-        {PAGE_1650_NEARBY_H2}
+        {heading}
       </h2>
-      <p className="net-gross-1650__nearby-intro">{PAGE_1650_NEARBY_INTRO}</p>
+      <p className="net-gross-1650__nearby-intro">{intro}</p>
       <div className="net-gross-1650__nearby-panel">
         <ul className="net-gross-1650__nearby-grid">
           {links.map((item) => (

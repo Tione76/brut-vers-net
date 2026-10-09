@@ -35,7 +35,7 @@ describe("auteur éditorial", () => {
     expect(source).toContain("GuideAuthorMeta");
     expect(source).toContain("updatedAt={pageUpdatedAt}");
     expect(source).toContain("NET_TO_GROSS_UPDATED_AT");
-    expect(source).toContain("PAGE_1650_DATE_MODIFIED");
+    expect(source).toContain("REDESIGN_WAVE1_DATE_MODIFIED");
     expect(source).not.toContain("readingTime");
   });
 });

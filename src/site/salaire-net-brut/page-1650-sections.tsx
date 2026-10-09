@@ -3,18 +3,19 @@ import Link from "next/link";
 import type { NetToGrossEstimate } from "./data";
 import {
   COTISATIONS_GUIDE_HREF,
-  PAGE_1650_ANNUAL_H2,
-  PAGE_1650_ANNUAL_SECTION_ID,
-  PAGE_1650_HOW_TO_H2,
-  PAGE_1650_HOW_TO_SECTION_ID,
   PAGE_1650_END_CTA_H2,
-  PAGE_1650_END_CTA_HREF,
   PAGE_1650_END_CTA_LINK_LABEL,
   PAGE_1650_END_CTA_TEXT,
-  PAGE_1650_TAX_H2,
   PAGE_1650_TAX_SECTION_ID,
-  build1650AnnualFigures,
-  build1650ConversionExample,
+  buildRedesignAnnualFigures,
+  buildRedesignAnnualH2,
+  buildRedesignConversionExample,
+  buildRedesignEndCtaHref,
+  buildRedesignHowToH2,
+  buildRedesignTaxH2,
+  formatRedesignEuro,
+  redesignAnnualSectionId,
+  redesignHowToSectionId,
 } from "./page-1650";
 import { Page1650InfoIcon } from "./page-1650-icons";
 
@@ -24,19 +25,29 @@ type ProfileEstimates = {
   publicService: NetToGrossEstimate;
 };
 
-export function Page1650PedagogySections({ estimates }: { estimates: ProfileEstimates }) {
-  const example = build1650ConversionExample();
-  const annual = build1650AnnualFigures(estimates);
+export function Page1650PedagogySections({
+  netMonthly,
+  estimates,
+}: {
+  netMonthly: number;
+  estimates: ProfileEstimates;
+}) {
+  const example = buildRedesignConversionExample(netMonthly);
+  const annual = buildRedesignAnnualFigures(netMonthly, estimates);
+  const netLabel = formatRedesignEuro(netMonthly);
+  const howToTitleId = `net-gross-${netMonthly}-how-to-title`;
+  const annualTitleId = `net-gross-${netMonthly}-annual-title`;
+  const taxTitleId = `net-gross-${netMonthly}-tax-title`;
 
   return (
     <>
       <section
-        id={PAGE_1650_HOW_TO_SECTION_ID}
+        id={redesignHowToSectionId(netMonthly)}
         className="net-gross-1650__section"
-        aria-labelledby="net-gross-1650-how-to-title"
+        aria-labelledby={howToTitleId}
       >
-        <h2 id="net-gross-1650-how-to-title" className="net-gross-1500__h2">
-          {PAGE_1650_HOW_TO_H2}
+        <h2 id={howToTitleId} className="net-gross-1500__h2">
+          {buildRedesignHowToH2(netMonthly)}
         </h2>
         <p>
           Le simulateur convertit le net en brut en divisant le salaire net par un coefficient propre
@@ -66,12 +77,12 @@ export function Page1650PedagogySections({ estimates }: { estimates: ProfileEsti
       </section>
 
       <section
-        id={PAGE_1650_ANNUAL_SECTION_ID}
+        id={redesignAnnualSectionId(netMonthly)}
         className="net-gross-1650__section"
-        aria-labelledby="net-gross-1650-annual-title"
+        aria-labelledby={annualTitleId}
       >
-        <h2 id="net-gross-1650-annual-title" className="net-gross-1500__h2">
-          {PAGE_1650_ANNUAL_H2}
+        <h2 id={annualTitleId} className="net-gross-1500__h2">
+          {buildRedesignAnnualH2(netMonthly)}
         </h2>
         <p>
           Avec {annual.salaryMonths} mensualités identiques : {annual.netMonthly.toLocaleString("fr-FR")}{" "}
@@ -121,10 +132,10 @@ export function Page1650PedagogySections({ estimates }: { estimates: ProfileEsti
       <section
         id={PAGE_1650_TAX_SECTION_ID}
         className="net-gross-1650__section"
-        aria-labelledby="net-gross-1650-tax-title"
+        aria-labelledby={taxTitleId}
       >
-        <h2 id="net-gross-1650-tax-title" className="net-gross-1500__h2">
-          {PAGE_1650_TAX_H2}
+        <h2 id={taxTitleId} className="net-gross-1500__h2">
+          {buildRedesignTaxH2(netMonthly)}
         </h2>
         <div className="net-gross-1650__info">
           <span className="net-gross-1650__info-icon" aria-hidden="true">
@@ -132,7 +143,7 @@ export function Page1650PedagogySections({ estimates }: { estimates: ProfileEsti
           </span>
           <div className="net-gross-1650__info-copy">
             <p>
-              Les 1 650 € nets indiqués sur cette page correspondent au salaire net avant
+              Les {netLabel} nets indiqués sur cette page correspondent au salaire net avant
               prélèvement à la source, c&apos;est-à-dire après les cotisations salariales, mais avant
               la retenue de l&apos;impôt sur le revenu.
             </p>
@@ -152,14 +163,15 @@ export function Page1650PedagogySections({ estimates }: { estimates: ProfileEsti
   );
 }
 
-export function Page1650EndCta() {
+export function Page1650EndCta({ netMonthly }: { netMonthly: number }) {
+  const titleId = `net-gross-${netMonthly}-end-cta-title`;
   return (
-    <section className="net-gross-1650__end-cta" aria-labelledby="net-gross-1650-end-cta-title">
-      <h2 id="net-gross-1650-end-cta-title" className="net-gross-1500__h2">
+    <section className="net-gross-1650__end-cta" aria-labelledby={titleId}>
+      <h2 id={titleId} className="net-gross-1500__h2">
         {PAGE_1650_END_CTA_H2}
       </h2>
       <p>{PAGE_1650_END_CTA_TEXT}</p>
-      <Link href={PAGE_1650_END_CTA_HREF} className="net-gross-1650__end-cta-link">
+      <Link href={buildRedesignEndCtaHref(netMonthly)} className="net-gross-1650__end-cta-link">
         {PAGE_1650_END_CTA_LINK_LABEL}
       </Link>
     </section>

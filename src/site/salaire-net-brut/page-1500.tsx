@@ -24,23 +24,22 @@ import {
   seriesBreadcrumbLabel,
 } from "./page-1500-content";
 import {
-  PAGE_1650_ANSWER_H2,
   PAGE_1650_CALCULATOR_BUTTON,
   PAGE_1650_CALCULATOR_HEADING,
   PAGE_1650_CALCULATOR_INTRO,
-  PAGE_1650_ROUNDING_NOTE,
-  PAGE_1650_TABLE_H2,
-  PAGE_1650_TABLE_INTRO,
-  PAGE_1650_DATE_MODIFIED,
   PAGE_1650_FAQ_HOME_CALCULATOR_LABEL,
+  PAGE_1650_ROUNDING_NOTE,
   PAGE_1650_TAX_SECTION_ID,
-  build1650IntermediateRows,
-  isNetToGross1650Prototype,
+  buildRedesignIntermediateRows,
+  buildRedesignNearbyCopy,
+  buildRedesignSeoMeta,
+  buildRedesignTableCopy,
   split1650FaqHomeCalculatorAnswer,
 } from "./page-1650";
 import { Page1650NearbySection } from "./page-1650-nearby";
 import { Page1650EndCta, Page1650PedagogySections } from "./page-1650-sections";
 import { Page1650ResultCards } from "./page-1650-result-cards";
+import { REDESIGN_WAVE1_DATE_MODIFIED, isNetToGrossRedesign } from "./redesign-wave";
 import "./salaire-net-brut.css";
 import "./page-1500.css";
 import "./page-1650.css";
@@ -150,13 +149,16 @@ export function NetToGrossSeriesPageContent({
   netMonthly,
   share,
 }: NetToGrossSeriesPageContentProps) {
-  const is1650Prototype = isNetToGross1650Prototype(netMonthly);
+  const isRedesign = isNetToGrossRedesign(netMonthly);
   const estimates = buildAllProfileEstimates(netMonthly);
-  const rows = is1650Prototype ? build1650IntermediateRows() : buildComparisonRows(netMonthly);
+  const rows = isRedesign ? buildRedesignIntermediateRows(netMonthly) : buildComparisonRows(netMonthly);
   const faq = buildSeriesFaqItems(netMonthly, estimates);
   const editorialSections = buildSeriesEditorial(netMonthly, estimates);
   const netLabel = formatNetShort(netMonthly);
-  const pageUpdatedAt = is1650Prototype ? PAGE_1650_DATE_MODIFIED : NET_TO_GROSS_UPDATED_AT;
+  const redesignSeo = isRedesign ? buildRedesignSeoMeta(netMonthly) : null;
+  const redesignTable = isRedesign ? buildRedesignTableCopy(netMonthly) : null;
+  const redesignNearby = isRedesign ? buildRedesignNearbyCopy(netMonthly) : null;
+  const pageUpdatedAt = isRedesign ? REDESIGN_WAVE1_DATE_MODIFIED : NET_TO_GROSS_UPDATED_AT;
   const revisedLabel = new Date(pageUpdatedAt).toLocaleDateString("fr-FR", {
     day: "numeric",
     month: "long",
@@ -164,7 +166,7 @@ export function NetToGrossSeriesPageContent({
   });
 
   const profileCards = NET_TO_GROSS_PROFILES.map((profile) => estimates[profile]);
-  const nearbyAmounts = is1650Prototype
+  const nearbyAmounts = isRedesign
     ? [...getSeriesNearbyAmounts(netMonthly)].sort((a, b) => a - b)
     : getSeriesNearbyAmounts(netMonthly);
   const nearby = nearbyAmounts.map((amount) => ({
@@ -177,23 +179,23 @@ export function NetToGrossSeriesPageContent({
       idPrefix={idPrefix}
       netLabel={netLabel}
       title={
-        is1650Prototype
-          ? PAGE_1650_TABLE_H2
+        redesignTable
+          ? redesignTable.h2
           : `Estimation du salaire brut pour des salaires nets proches de ${netLabel}`
       }
       intro={
-        is1650Prototype
-          ? PAGE_1650_TABLE_INTRO
+        redesignTable
+          ? redesignTable.intro
           : "Brut mensuel estimé selon le profil, avant prélèvement à la source."
       }
       rows={rows}
-      highlightCurrent={is1650Prototype}
-      allowHorizontalScroll={is1650Prototype}
+      highlightCurrent={isRedesign}
+      allowHorizontalScroll={isRedesign}
     />
   );
 
   return (
-    <div className={`net-gross net-gross-1500${is1650Prototype ? " net-gross-1650" : ""}`}>
+    <div className={`net-gross net-gross-1500${isRedesign ? " net-gross-1650" : ""}`}>
       <PageBreadcrumb
         items={[
           { label: "Accueil", href: "/" },
@@ -208,12 +210,12 @@ export function NetToGrossSeriesPageContent({
 
       <section className="net-gross-1500__hero" aria-labelledby={`${idPrefix}-answer`}>
         <h2 id={`${idPrefix}-answer`} className="net-gross-1500__answer-title">
-          {is1650Prototype
-            ? PAGE_1650_ANSWER_H2
+          {redesignSeo
+            ? redesignSeo.answerH2
             : `Quel salaire brut mensuel correspond à ${netLabel} net\u00a0?`}
         </h2>
 
-        {is1650Prototype ? (
+        {isRedesign ? (
           <Page1650ResultCards cards={profileCards} />
         ) : (
           <div className="net-gross-1500__cards">
@@ -239,7 +241,7 @@ export function NetToGrossSeriesPageContent({
         )}
 
         <p className="net-gross-1500__result-note">
-          {is1650Prototype ? (
+          {isRedesign ? (
             <>
               Les montants ci-dessus correspondent à une estimation du salaire brut mensuel avant
               prélèvement à la source. {PAGE_1650_ROUNDING_NOTE}
@@ -256,13 +258,13 @@ export function NetToGrossSeriesPageContent({
 
       <MiniCalculatorCta1500
         defaultNetMonthly={netMonthly}
-        heading={is1650Prototype ? PAGE_1650_CALCULATOR_HEADING : undefined}
-        intro={is1650Prototype ? PAGE_1650_CALCULATOR_INTRO : undefined}
-        buttonLabel={is1650Prototype ? PAGE_1650_CALCULATOR_BUTTON : undefined}
-        appearance={is1650Prototype ? "onBrand" : undefined}
+        heading={isRedesign ? PAGE_1650_CALCULATOR_HEADING : undefined}
+        intro={isRedesign ? PAGE_1650_CALCULATOR_INTRO : undefined}
+        buttonLabel={isRedesign ? PAGE_1650_CALCULATOR_BUTTON : undefined}
+        appearance={isRedesign ? "onBrand" : undefined}
       />
 
-      {is1650Prototype ? table : null}
+      {isRedesign ? table : null}
 
       <ShareBlock
         url={share.url}
@@ -278,7 +280,9 @@ export function NetToGrossSeriesPageContent({
         sizes="(max-width: 768px) 100vw, (max-width: 1100px) 70vw, 720px"
       />
 
-      {is1650Prototype ? <Page1650PedagogySections estimates={estimates} /> : null}
+      {isRedesign ? (
+        <Page1650PedagogySections netMonthly={netMonthly} estimates={estimates} />
+      ) : null}
 
       {editorialSections.map(({ id, title, paragraphs }) => (
         <section
@@ -295,7 +299,7 @@ export function NetToGrossSeriesPageContent({
         </section>
       ))}
 
-      {is1650Prototype ? null : table}
+      {isRedesign ? null : table}
 
       <section className="net-gross-1500__faq" aria-labelledby={`${idPrefix}-faq-title`}>
         <h2 id={`${idPrefix}-faq-title`} className="net-gross-1500__h2">
@@ -304,7 +308,7 @@ export function NetToGrossSeriesPageContent({
         <div className="faq-list">
           {faq.map((item) => {
             const homeCalcParts =
-              is1650Prototype && item.question.includes("précisément")
+              isRedesign && item.question.includes("précisément")
                 ? split1650FaqHomeCalculatorAnswer(item.answer)
                 : null;
 
@@ -317,7 +321,7 @@ export function NetToGrossSeriesPageContent({
                 </span>
               </summary>
               <div className="faq-item__body">
-                {is1650Prototype && item.question.includes("avant ou après impôt") ? (
+                {isRedesign && item.question.includes("avant ou après impôt") ? (
                   <p>
                     {item.answer}{" "}
                     <a href={`#${PAGE_1650_TAX_SECTION_ID}`}>
@@ -349,8 +353,13 @@ export function NetToGrossSeriesPageContent({
         </div>
       </section>
 
-      {is1650Prototype ? (
-        <Page1650NearbySection headingId={`${idPrefix}-nearby-title`} links={nearby} />
+      {isRedesign && redesignNearby ? (
+        <Page1650NearbySection
+          headingId={`${idPrefix}-nearby-title`}
+          heading={redesignNearby.h2}
+          intro={redesignNearby.intro}
+          links={nearby}
+        />
       ) : (
         <section className="net-gross-1500__nearby" aria-labelledby={`${idPrefix}-nearby-title`}>
           <h2 id={`${idPrefix}-nearby-title`} className="net-gross-1500__h2">
@@ -366,14 +375,14 @@ export function NetToGrossSeriesPageContent({
         </section>
       )}
 
-      {is1650Prototype ? <Page1650EndCta /> : null}
+      {isRedesign ? <Page1650EndCta netMonthly={netMonthly} /> : null}
 
       <p className="net-gross__updated">
         Contenu révisé le <time dateTime={pageUpdatedAt}>{revisedLabel}</time>. Chiffres
         alignés sur les coefficients du simulateur.
       </p>
 
-      {is1650Prototype ? null : (
+      {isRedesign ? null : (
         <ShareBlock
           url={share.url}
           title={share.title}

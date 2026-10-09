@@ -7,9 +7,9 @@ import {
   type SidebarTool,
 } from "@/site/guides/sidebar";
 import {
-  PAGE_1650_END_CTA_HREF,
   PAGE_1650_SIDEBAR_GUIDE_ENTRIES,
   PAGE_1650_SIDEBAR_TOOL_IDS,
+  buildRedesignEndCtaHref,
 } from "./page-1650";
 
 const TOOL_DESCRIPTION_OVERRIDES: Partial<Record<(typeof PAGE_1650_SIDEBAR_TOOL_IDS)[number], string>> =
@@ -19,8 +19,9 @@ const TOOL_DESCRIPTION_OVERRIDES: Partial<Record<(typeof PAGE_1650_SIDEBAR_TOOL_
     "salaire-heures-supplementaires": "Estimez vos heures sup en brut et en net.",
   };
 
-function getCuratedTools(): SidebarTool[] {
+function getCuratedTools(netMonthly: number): SidebarTool[] {
   const byId = new Map(getAllSidebarTools().map((tool) => [tool.id, tool]));
+  const calculatorHref = buildRedesignEndCtaHref(netMonthly);
 
   return PAGE_1650_SIDEBAR_TOOL_IDS.flatMap((id) => {
     const tool = byId.get(id);
@@ -30,7 +31,7 @@ function getCuratedTools(): SidebarTool[] {
       {
         ...tool,
         description,
-        href: id === "brut-vers-net" ? PAGE_1650_END_CTA_HREF : tool.href,
+        href: id === "brut-vers-net" ? calculatorHref : tool.href,
       },
     ];
   });
@@ -50,11 +51,11 @@ function getCuratedGuides(): GuideSidebarLink[] {
   });
 }
 
-export function Page1650Sidebar() {
+export function Page1650Sidebar({ netMonthly }: { netMonthly: number }) {
   return (
     <aside className="article-sidebar net-gross-1650-sidebar" aria-label="Maillage interne">
       <GuideSidebar
-        tools={getCuratedTools()}
+        tools={getCuratedTools(netMonthly)}
         guides={getCuratedGuides()}
         guidesSectionTitle="À lire aussi"
         guidesBlockVariant="also-read"

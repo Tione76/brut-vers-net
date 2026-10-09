@@ -24,12 +24,15 @@ import {
 } from "@/site/salaire-net-brut/page-1500-content";
 import { buildAllProfileEstimates } from "@/site/salaire-net-brut/data";
 import {
-  PAGE_1650_DATE_MODIFIED,
-  PAGE_1650_DATE_PUBLISHED,
-  build1650PageJsonLd,
-  isNetToGross1650Prototype,
+  buildRedesignPageJsonLd,
   netToGrossOpenGraphType,
 } from "@/site/salaire-net-brut/page-1650";
+import {
+  REDESIGN_DATE_PUBLISHED,
+  REDESIGN_WAVE1_DATE_MODIFIED,
+  isNetToGrossRedesign,
+} from "@/site/salaire-net-brut/redesign-wave";
+
 interface PageProps {
   params: Promise<{ montant: string }>;
 }
@@ -91,11 +94,11 @@ export default async function NetToGrossAmountPage({ params }: PageProps) {
     cover: NET_TO_GROSS_SERIES_COVER,
     faq,
     withAuthor: true,
-    dateModified: isNetToGross1650Prototype(netMonthly)
-      ? PAGE_1650_DATE_MODIFIED
+    dateModified: isNetToGrossRedesign(netMonthly)
+      ? REDESIGN_WAVE1_DATE_MODIFIED
       : NET_TO_GROSS_UPDATED_AT,
-    datePublished: isNetToGross1650Prototype(netMonthly)
-      ? PAGE_1650_DATE_PUBLISHED
+    datePublished: isNetToGrossRedesign(netMonthly)
+      ? REDESIGN_DATE_PUBLISHED
       : NET_TO_GROSS_UPDATED_AT,
   };
 
@@ -103,8 +106,8 @@ export default async function NetToGrossAmountPage({ params }: PageProps) {
     <>
       <JsonLd
         data={
-          isNetToGross1650Prototype(netMonthly)
-            ? build1650PageJsonLd(jsonLdInput)
+          isNetToGrossRedesign(netMonthly)
+            ? buildRedesignPageJsonLd(jsonLdInput)
             : buildWebPageJsonLd(jsonLdInput)
         }
       />
