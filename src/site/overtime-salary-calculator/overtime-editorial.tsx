@@ -3,6 +3,8 @@ import { EditorialBenefitItem } from "@/site/editorial-check-icon";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { getCalculatorCover } from "@/site/guides/covers";
 import { GuideIllustration } from "@/site/guides/illustrations";
+import { GuideInlineToc } from "@/site/guides";
+import type { GuideTocGroup } from "@/site/guides/GuideEditorialToc";
 import { OvertimeCalculatorCta } from "./OvertimeCalculatorCta";
 import {
   buildOvertimePracticalCases,
@@ -24,6 +26,48 @@ const revisedDateLabel = new Date(OVERTIME_EDITORIAL_UPDATED_AT).toLocaleDateStr
   month: "long",
   year: "numeric",
 });
+
+const OVERTIME_TOC = [
+  { id: "calculateur", title: "Estimez immédiatement vos heures supplémentaires", level: 2 as const },
+  {
+    id: "comment-calculer-salaire-heures-sup",
+    title: "Comment calculer son salaire avec des heures supplémentaires ?",
+    level: 2 as const,
+  },
+  {
+    id: "comment-calculer-taux-horaire-hs",
+    title: "Comment calculer le taux horaire d'une heure supplémentaire ?",
+    level: 2 as const,
+  },
+  {
+    id: "majoration-25-ou-50",
+    title: "Heures supplémentaires à 25 % ou à 50 % : quelle différence ?",
+    level: 2 as const,
+  },
+  {
+    id: "brut-vers-net-heures-sup",
+    title: "Comment convertir une heure supplémentaire brute en net ?",
+    level: 2 as const,
+  },
+  { id: "exemples-heures-sup", title: "Exemples de calcul d'heures supplémentaires", level: 2 as const },
+  {
+    id: "heures-sup-imposables",
+    title: "Les heures supplémentaires sont-elles imposables ?",
+    level: 2 as const,
+  },
+  {
+    id: "pourquoi-resultat-varie",
+    title: "Pourquoi le montant réel de vos heures supplémentaires peut-il varier ?",
+    level: 2 as const,
+  },
+  { id: "faq-heures-supplementaires", title: "Questions fréquentes", level: 2 as const },
+];
+
+const OVERTIME_TOC_GROUPS: GuideTocGroup[] = [
+  { title: "Calcul et majorations", icon: "calculator", start: 0, end: 5 },
+  { title: "Exemples, fiscalité et cas particuliers", icon: "help", start: 5, end: 8 },
+  { title: "Questions fréquentes", icon: "badge", start: 8, end: 9 },
+];
 
 const oneHour = exampleOneHourAt25();
 const tenHours = exampleTenHoursNonExecutive();
@@ -76,50 +120,7 @@ export function OvertimeSalaryEditorial() {
               vous pouvez vérifier si le montant figurant sur votre fiche de paie est cohérent.
             </p>
 
-            <nav className="home-editorial__toc home-editorial__prose" aria-label="Sommaire du guide">
-              <p className="home-editorial__toc-title">Dans ce guide</p>
-              <ul className="home-editorial__toc-list editorial-list editorial-list--toc">
-                <li>
-                  <a href="#calculateur">Estimez immédiatement vos heures supplémentaires</a>
-                </li>
-                <li>
-                  <a href="#comment-calculer-salaire-heures-sup">
-                    Comment calculer son salaire avec des heures supplémentaires ?
-                  </a>
-                </li>
-                <li>
-                  <a href="#comment-calculer-taux-horaire-hs">
-                    Comment calculer le taux horaire d&apos;une heure supplémentaire ?
-                  </a>
-                </li>
-                <li>
-                  <a href="#majoration-25-ou-50">
-                    Heures supplémentaires à 25 % ou à 50 % : quelle différence ?
-                  </a>
-                </li>
-                <li>
-                  <a href="#brut-vers-net-heures-sup">
-                    Comment convertir une heure supplémentaire brute en net ?
-                  </a>
-                </li>
-                <li>
-                  <a href="#exemples-heures-sup">Exemples de calcul d&apos;heures supplémentaires</a>
-                </li>
-                <li>
-                  <a href="#heures-sup-imposables">
-                    Les heures supplémentaires sont-elles imposables ?
-                  </a>
-                </li>
-                <li>
-                  <a href="#pourquoi-resultat-varie">
-                    Pourquoi le montant réel de vos heures supplémentaires peut-il varier ?
-                  </a>
-                </li>
-                <li>
-                  <a href="#faq-heures-supplementaires">Questions fréquentes</a>
-                </li>
-              </ul>
-            </nav>
+            <GuideInlineToc entries={OVERTIME_TOC} groups={OVERTIME_TOC_GROUPS} />
 
             <h2 id="comment-calculer-salaire-heures-sup" className="home-editorial__section-spaced">
               Comment calculer son salaire avec des heures supplémentaires ?

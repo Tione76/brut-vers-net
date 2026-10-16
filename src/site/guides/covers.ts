@@ -344,6 +344,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "prime-activite": cover(
+    "guides/Prime-activite-montant-plafond.webp",
+    "Femme en veste beige travaillant sur un ordinateur portable à un bureau en bois, collègues attablés en arrière-plan dans un open space",
+    {
+      photographer: "Edmond Dantès",
+      source: "Pexels",
+      text: "Photo de Edmond Dantès via Pexels",
+    },
+    1200,
+    800,
+  ),
 };
 
 export function getCalculatorCover(id: string): GuideCoverImage {
@@ -396,6 +407,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/salaire-alternance") {
     return getGuideCover("salaire-alternance");
+  }
+  if (href === "/prime-activite") {
+    return getGuideCover("prime-activite");
   }
   return undefined;
 }

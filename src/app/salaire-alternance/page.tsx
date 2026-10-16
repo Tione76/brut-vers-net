@@ -68,6 +68,7 @@ export default async function SalaireAlternancePage() {
         />
         <GuideAuthorMeta updatedAt={guide.updatedAt} readingTime={readingTime} />
         <GuideArticle
+          slug={guide.slug}
           introduction={guide.introduction}
           introSummary={guide.introSummary}
           quickSummary={guide.quickSummary}

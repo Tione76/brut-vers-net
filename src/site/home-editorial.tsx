@@ -14,6 +14,25 @@ import {
 import { EditorialBenefitItem } from "./editorial-check-icon";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { HOME_COVER } from "@/site/guides/covers";
+import { GuideInlineToc } from "@/site/guides";
+import type { GuideTocGroup } from "@/site/guides/GuideEditorialToc";
+
+const HOME_TOC = [
+  { id: "calcul-brut-net", title: "Calculer brut vers net", level: 2 as const },
+  { id: "comprendre-brut-net", title: "Comprendre le brut et le net", level: 2 as const },
+  { id: "utiliser-calculateur", title: "Utiliser le calculateur", level: 2 as const },
+  { id: "exemples-cas-pratiques", title: "Voir des exemples", level: 2 as const },
+  { id: "prelevement-source", title: "Prélèvement à la source", level: 2 as const },
+  { id: "limites-utilite", title: "Limites et utilité", level: 2 as const },
+  { id: "methodologie", title: "Méthode de calcul brut vers net", level: 2 as const },
+  { id: "faq", title: "FAQ", level: 2 as const },
+];
+
+const HOME_TOC_GROUPS: GuideTocGroup[] = [
+  { title: "Calculer et comprendre son salaire", icon: "calculator", start: 0, end: 3 },
+  { title: "Exemples et fonctionnement du calcul", icon: "file", start: 3, end: 7 },
+  { title: "Questions fréquentes", icon: "badge", start: 7, end: 8 },
+];
 
 const conversionRows = buildConversionTableRows();
 const practicalCases = buildPracticalCases();
@@ -47,35 +66,7 @@ export function HomeEditorial() {
 
           <CoverFigure cover={HOME_COVER} priority />
 
-          <nav className="home-editorial__toc home-editorial__prose" aria-label="Sommaire du guide">
-            <p className="home-editorial__toc-title">Dans ce guide</p>
-            <ul className="home-editorial__toc-list editorial-list editorial-list--toc">
-              <li>
-                <a href="#calcul-brut-net">Calculer brut vers net</a>
-              </li>
-              <li>
-                <a href="#comprendre-brut-net">Comprendre le brut et le net</a>
-              </li>
-              <li>
-                <a href="#utiliser-calculateur">Utiliser le calculateur</a>
-              </li>
-              <li>
-                <a href="#exemples-cas-pratiques">Voir des exemples</a>
-              </li>
-              <li>
-                <a href="#prelevement-source">Prélèvement à la source</a>
-              </li>
-              <li>
-                <a href="#limites-utilite">Limites et utilité</a>
-            </li>
-            <li>
-                <a href="#methodologie">Méthode de calcul brut vers net</a>
-            </li>
-            <li>
-                <a href="#faq">FAQ</a>
-            </li>
-          </ul>
-          </nav>
+          <GuideInlineToc entries={HOME_TOC} groups={HOME_TOC_GROUPS} />
 
           <h2 id="calcul-brut-net">Comment calculer son salaire Brut vers Net ?</h2>
           <div className="home-editorial__prose">

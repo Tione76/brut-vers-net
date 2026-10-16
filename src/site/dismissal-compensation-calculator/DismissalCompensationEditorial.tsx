@@ -2,6 +2,8 @@ import Link from "next/link";
 import { EditorialBenefitItem } from "@/site/editorial-check-icon";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { getCalculatorCover } from "@/site/guides/covers";
+import { GuideInlineToc } from "@/site/guides";
+import type { GuideTocGroup } from "@/site/guides/GuideEditorialToc";
 import { DismissalCalculatorCta } from "./DismissalCalculatorCta";
 import {
   DISMISSAL_CONTENT_REVIEW_DATE,
@@ -20,6 +22,32 @@ const revisedDateLabel = new Date(DISMISSAL_CONTENT_REVIEW_DATE).toLocaleDateStr
 });
 
 const dismissalCover = getCalculatorCover("indemnite-licenciement");
+
+const DISMISSAL_TOC = [
+  { id: "calculateur", title: "Estimez immédiatement votre indemnité", level: 2 as const },
+  { id: "comment-calculer-indemnite", title: "Comment calculer l'indemnité ?", level: 2 as const },
+  { id: "qui-peut-recevoir", title: "Qui peut recevoir une indemnité légale ?", level: 2 as const },
+  { id: "salaire-reference", title: "Quel salaire est retenu ?", level: 2 as const },
+  { id: "anciennete", title: "Comment calculer l'ancienneté ?", level: 2 as const },
+  { id: "moins-de-10-ans", title: "Indemnité jusqu'à 10 ans", level: 2 as const },
+  { id: "plus-de-10-ans", title: "Indemnité après 10 ans", level: 2 as const },
+  { id: "convention-collective", title: "Convention collective", level: 2 as const },
+  { id: "montants-exclus", title: "Montants non inclus", level: 2 as const },
+  {
+    id: "quand-estimation-a-verifier",
+    title: "Situations nécessitant une vérification",
+    level: 2 as const,
+  },
+  { id: "exemples-indemnite", title: "Exemples de calcul", level: 2 as const },
+  { id: "en-resume", title: "En résumé", level: 2 as const },
+  { id: "faq-indemnite-licenciement", title: "Questions fréquentes", level: 2 as const },
+];
+
+const DISMISSAL_TOC_GROUPS: GuideTocGroup[] = [
+  { title: "Calcul de l'indemnité légale", icon: "calculator", start: 0, end: 7 },
+  { title: "Cas particuliers et exemples de calcul", icon: "clipboard", start: 7, end: 11 },
+  { title: "Synthèse et questions fréquentes", icon: "badge", start: 11, end: 13 },
+];
 
 function DismissalFaqContent() {
   return (
@@ -62,52 +90,7 @@ export function DismissalCompensationEditorial() {
             <Link href="/guides/comment-lire-une-fiche-de-paie">fiche de paie</Link>.
           </p>
 
-          <nav className="home-editorial__toc home-editorial__prose" aria-label="Sommaire du guide">
-            <p className="home-editorial__toc-title">Dans ce guide</p>
-            <ul className="home-editorial__toc-list editorial-list editorial-list--toc">
-              <li>
-                <a href="#calculateur">Estimez immédiatement votre indemnité</a>
-              </li>
-              <li>
-                <a href="#comment-calculer-indemnite">Comment calculer l&apos;indemnité ?</a>
-              </li>
-              <li>
-                <a href="#qui-peut-recevoir">Qui peut recevoir une indemnité légale ?</a>
-              </li>
-              <li>
-                <a href="#salaire-reference">Quel salaire est retenu ?</a>
-              </li>
-              <li>
-                <a href="#anciennete">Comment calculer l&apos;ancienneté ?</a>
-              </li>
-              <li>
-                <a href="#moins-de-10-ans">Indemnité jusqu&apos;à 10 ans</a>
-              </li>
-              <li>
-                <a href="#plus-de-10-ans">Indemnité après 10 ans</a>
-              </li>
-              <li>
-                <a href="#convention-collective">Convention collective</a>
-              </li>
-              <li>
-                <a href="#montants-exclus">Montants non inclus</a>
-              </li>
-              <li>
-                <a href="#quand-estimation-a-verifier">
-                  Situations nécessitant une vérification
-                </a>
-              </li>
-              <li>
-                <a href="#exemples-indemnite">Exemples de calcul</a>
-              </li>
-              <li>
-                <a href="#en-resume">En résumé</a>
-              </li>
-              <li>
-                <a href="#faq-indemnite-licenciement">Questions fréquentes</a>
-              </li>
-            </ul>
-          </nav>
+          <GuideInlineToc entries={DISMISSAL_TOC} groups={DISMISSAL_TOC_GROUPS} />
 
           <h2 id="comment-calculer-indemnite" className="home-editorial__section-spaced">
             Comment calculer une indemnité de licenciement ?

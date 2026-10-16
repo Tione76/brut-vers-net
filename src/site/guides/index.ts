@@ -43,6 +43,14 @@ export {
 export type { GuideCoverImage, CoverCredit, CoverCreditSource } from "./covers";
 export { formatCoverCredit, getCoverLicenseUrl, PEXELS_LICENSE_URL } from "./covers";
 export { GuideArticle, GuideInlineToc, GuideSidebar } from "./GuideRenderer";
+export type { GuideTocVariant, GuideTocGroup } from "./GuideRenderer";
+export { GuideEditorialToc, buildTocBlocks } from "./GuideEditorialToc";
+export { getGuideTocGroups, GUIDE_TOC_GROUPS, GUIDE_TOC_CONFIG } from "./toc-groups";
+export type { GuideTocConfig } from "./toc-groups";
+export {
+  planTocColumns,
+  TOC_BALANCE_THRESHOLD,
+} from "./toc-column-balance";
 export {
   SiteSidebar,
   GuidePageSidebar,

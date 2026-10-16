@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { GuideInlineToc } from "@/site/guides";
+import type { GuideTocGroup } from "@/site/guides/GuideEditorialToc";
 import { PRIVACY_POLICY_TOC } from "./privacy-policy-toc";
+
+const PRIVACY_TOC_GROUPS: GuideTocGroup[] = [
+  { title: "Traitement des données", icon: "file", start: 0, end: 9 },
+  { title: "Outils d'analyse", icon: "chart", start: 9, end: 14 },
+  { title: "Cookies et droits", icon: "badge", start: 14, end: 17 },
+];
 
 /** Contenu éditorial de la page /politique-de-confidentialite */
 export function PrivacyPolicyContent() {
@@ -16,7 +23,11 @@ export function PrivacyPolicyContent() {
         </p>
       </div>
 
-      <GuideInlineToc entries={PRIVACY_POLICY_TOC} />
+      <GuideInlineToc
+        entries={PRIVACY_POLICY_TOC}
+        groups={PRIVACY_TOC_GROUPS}
+        title="Explorer cette page"
+      />
 
       <section id="responsable-traitement" className="guide-section">
         <h2>Responsable du traitement</h2>

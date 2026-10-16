@@ -69,6 +69,7 @@ export default async function SmicEuropePage() {
         />
         <GuideAuthorMeta updatedAt={guide.updatedAt} readingTime={readingTime} />
         <GuideArticle
+          slug={guide.slug}
           introduction={guide.introduction}
           introSummary={guide.introSummary}
           toc={toc}

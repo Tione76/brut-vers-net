@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { ShareBlock } from "@/framework/design/components/ShareBlock";
-import { GuideAuthorMeta } from "@/site/guides";
+import { GuideAuthorMeta, GuideInlineToc } from "@/site/guides";
 import { GROSS_TO_NET_UPDATED_AT } from "./config";
 import { formatEuroAmount } from "./data";
 import { grossToNetIndexRowId } from "./index-table";
@@ -37,16 +37,14 @@ export function GrossToNetIndexPageContent() {
       />
       <GuideAuthorMeta updatedAt={GROSS_TO_NET_UPDATED_AT} />
 
-      <nav className="gross-to-net-index__toc" aria-label="Sur cette page">
-        <p className="gross-to-net-index__toc-title">Sur cette page</p>
-        <ul className="gross-to-net-index__toc-list">
-          {page.toc.map((entry) => (
-            <li key={entry.id}>
-              <a href={`#${entry.id}`}>{entry.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <GuideInlineToc
+        entries={page.toc.map((entry) => ({
+          id: entry.id,
+          title: entry.label,
+          level: 2 as const,
+        }))}
+        title="Explorer cette page"
+      />
 
       <section
         id="index-table"

@@ -95,11 +95,11 @@ describe("page Index tableau salaire brut mensuel en net", () => {
     ]);
     expect(new Set(toc.map((entry) => entry.id)).size).toBe(toc.length);
     expect(page.toc).toEqual(toc);
-    expect(pageSource).toContain('href={`#${entry.id}`}');
+    expect(pageSource).toContain("GuideInlineToc");
+    expect(pageSource).toContain('title="Explorer cette page"');
     expect(pageSource).toContain('id="index-table"');
     expect(pageSource).toContain("id={`index-${id}`}");
     expect(pageSource).toContain('id="index-faq"');
-    expect(pageSource).toContain("Sur cette page");
   });
 
   it("navigue vers un montant exact ou le plus proche publié", () => {

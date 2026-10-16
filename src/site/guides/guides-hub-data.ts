@@ -47,6 +47,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Comprenez le prélèvement à la source, son taux, et son impact sur le salaire net versé.",
   "pourquoi-salaire-net-change-septembre-2026":
     "Votre salaire net a changé en septembre 2026 ? Vérifiez le taux de prélèvement à la source et comparez vos bulletins.",
+  "prime-activite":
+    "Prime d'activité : conditions, montants forfaitaires, plafonds et simulateur officiel de la CAF.",
 };
 
 export function getGuideHubTeaser(slug: string): string | undefined {

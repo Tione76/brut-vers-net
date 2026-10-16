@@ -1,8 +1,14 @@
 import Link from "next/link";
 import { CookiePreferencesPanel } from "@/framework/CookiePreferencesPanel";
 import { GuideInlineToc } from "@/site/guides";
+import type { GuideTocGroup } from "@/site/guides/GuideEditorialToc";
 import { CONSENT_STORAGE_KEY } from "@/framework/consent/storage";
 import { COOKIE_POLICY_TOC } from "./cookie-policy-toc";
+
+const COOKIE_TOC_GROUPS: GuideTocGroup[] = [
+  { title: "Cookies et consentement", icon: "help", start: 0, end: 4 },
+  { title: "Utilisation des données et droits", icon: "badge", start: 4, end: 9 },
+];
 
 /** Contenu éditorial de la page /gestion-des-cookies */
 export function CookiePolicyContent() {
@@ -17,7 +23,11 @@ export function CookiePolicyContent() {
         </p>
       </div>
 
-      <GuideInlineToc entries={COOKIE_POLICY_TOC} />
+      <GuideInlineToc
+        entries={COOKIE_POLICY_TOC}
+        groups={COOKIE_TOC_GROUPS}
+        title="Explorer cette page"
+      />
 
       <section id="quest-ce-quun-cookie" className="guide-section">
         <h2>Qu&apos;est-ce qu&apos;un cookie ?</h2>

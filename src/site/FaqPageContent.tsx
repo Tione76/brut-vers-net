@@ -32,7 +32,11 @@ export function FaqPageContent({ share }: { share: FaqPageShare }) {
           contentType="faq"
           variant="onLight"
         />
-        <GuideInlineToc entries={toc} title="Sommaire" />
+        <GuideInlineToc
+          entries={toc}
+          title="Explorer cette page"
+          lede="Accédez directement à la catégorie qui vous intéresse."
+        />
         <p className="faq-page__updated">Dernière mise à jour : {FAQ_PAGE_UPDATED}</p>
       </div>
 

@@ -55,7 +55,7 @@ export function computeReadingTime(guide: Guide): number {
     0,
   );
 
-  for (const section of guide.sections) {
+  for (const section of [...guide.sections, ...(guide.bibliography ? [guide.bibliography] : [])]) {
     for (const block of section.blocks ?? []) {
       words += countWordsInBlock(block);
     }
@@ -63,6 +63,9 @@ export function computeReadingTime(guide: Guide): number {
       for (const block of subsection.blocks) {
         words += countWordsInBlock(block);
       }
+    }
+    for (const block of section.closingBlocks ?? []) {
+      words += countWordsInBlock(block);
     }
   }
 
@@ -88,6 +91,13 @@ export function buildGuideTocH2(guide: Guide): GuideTocEntry[] {
     title: guide.conclusion.title ?? "Conclusion",
     level: 2,
   });
+  if (guide.bibliography) {
+    entries.push({
+      id: guide.bibliography.id,
+      title: guide.bibliography.title,
+      level: 2,
+    });
+  }
 
   return entries;
 }
@@ -114,6 +124,13 @@ export function buildGuideToc(guide: Guide): GuideTocEntry[] {
     title: guide.conclusion.title ?? "Conclusion",
     level: 2,
   });
+  if (guide.bibliography) {
+    entries.push({
+      id: guide.bibliography.id,
+      title: guide.bibliography.title,
+      level: 2,
+    });
+  }
 
   return entries;
 }

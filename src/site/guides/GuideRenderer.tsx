@@ -5,7 +5,9 @@ import { GuideCoverImage } from "./GuideCoverImage";
 import { CoverFigure } from "./CoverFigure";
 import type { GuideSidebarLink, SidebarTool } from "./sidebar";
 import type { GuideBlock, GuideTocEntry } from "./types";
+import { getGuideTocGroups } from "./toc-groups";
 import { GUIDE_CALLOUT_LABELS } from "./types";
+import { GuideEditorialToc, type GuideTocGroup } from "./GuideEditorialToc";
 import { GuideIllustration } from "./illustrations";
 import { GuideFaqDisclosure } from "./GuideFaqDisclosure";
 import { CountryFlag } from "@/site/smic-europe/CountryFlag";
@@ -16,6 +18,10 @@ function blockKey(prefix: string, block: GuideBlock, index: number): string {
 
 function isPlaceholderHref(href: string): boolean {
   return href.includes("[") || href.includes("]");
+}
+
+function isExternalHref(href: string): boolean {
+  return href.startsWith("http://") || href.startsWith("https://");
 }
 
 function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTemplate?: boolean }) {
@@ -131,7 +137,7 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
     case "table":
       return (
         <figure
-          className={`guide-table-wrap${block.stackOnMobile ? " guide-table-wrap--stack" : ""}${block.stickyFirstColumn ? " guide-table-wrap--sticky" : ""}`}
+          className={`guide-table-wrap${block.stackOnMobile ? " guide-table-wrap--stack" : ""}${block.stickyFirstColumn ? " guide-table-wrap--sticky" : ""}${block.accent === "brand" ? " guide-table-wrap--brand" : ""}${block.numeric ? " guide-table-wrap--numeric" : ""}`}
         >
           <div className="guide-table-scroll">
             <table className="guide-table">
@@ -283,35 +289,39 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
   }
 }
 
-/** Sommaire inline : H2 uniquement */
+/** @deprecated Conservé pour compatibilité ; le sommaire éditorial orange est désormais le défaut. */
+export type GuideTocVariant = "editorialOrange";
+export type { GuideTocGroup };
+
+/** Sommaire inline : design éditorial orange (référence /prime-activite). */
 export function GuideInlineToc({
   entries,
-  title = "Dans ce guide",
+  title = "Explorer ce guide",
+  lede = "Accédez directement à la rubrique qui vous intéresse.",
   id = "sommaire",
+  variant,
+  groups,
+  leftColumnGroups,
 }: {
   entries: GuideTocEntry[];
   title?: string;
+  lede?: string;
   id?: string;
+  /** Ignoré : le design éditorial est généralisé. */
+  variant?: GuideTocVariant;
+  groups?: GuideTocGroup[];
+  leftColumnGroups?: number;
 }) {
-  const compact = entries.length >= 8;
-  const navClass = compact ? "guide-toc guide-toc--compact" : "guide-toc";
-
+  void variant;
   return (
-    <nav id={id} className={navClass} aria-label={title}>
-      <p className="guide-toc__title">{title}</p>
-      <details className="guide-toc__mobile">
-        <summary>Afficher le sommaire ({entries.length} sections)</summary>
-      </details>
-      <ol className="guide-toc__list">
-        {entries.map((entry) => (
-          <li key={entry.id}>
-            <a href={`#${entry.id}`} className="guide-toc__link">
-              {entry.title}
-            </a>
-          </li>
-        ))}
-      </ol>
-    </nav>
+    <GuideEditorialToc
+      entries={entries}
+      groups={groups}
+      leftColumnGroups={leftColumnGroups}
+      id={id}
+      title={title}
+      lede={lede}
+    />
   );
 }
 
@@ -461,6 +471,16 @@ interface GuideArticleProps {
   sectionSlots?: Record<string, import("react").ReactNode>;
   /** Identifiant d'ancre de la section FAQ (défaut : faq). */
   faqSectionId?: string;
+  /** Bibliographie affichée après la conclusion, avant le bloc de partage. */
+  bibliography?: import("./types").GuideSection;
+  /** @deprecated Le design éditorial orange est le défaut pour tous les guides. */
+  tocVariant?: GuideTocVariant;
+  /** Groupes visuels optionnels, dérivés de la liste TOC existante (indices consécutifs). */
+  tocGroups?: GuideTocGroup[];
+  /** Nombre de catégories dans la colonne gauche (override de toc-groups.ts). */
+  tocLeftColumnGroups?: number;
+  /** Slug du guide : résout automatiquement les groupes déclarés dans toc-groups.ts. */
+  slug?: string;
 }
 
 function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQuickSummary }) {
@@ -587,12 +607,26 @@ export function GuideArticle({
   tocPlacement = "inline",
   sectionSlots,
   faqSectionId = "faq",
+  bibliography,
+  tocVariant,
+  tocGroups,
+  tocLeftColumnGroups,
+  slug,
 }: GuideArticleProps) {
   const [firstParagraph, ...restIntroduction] = introduction;
   const coverAfterSlot = coverPlacement === "after-slot";
   const coverAfterToc = coverAfterSlot && Boolean(afterToc);
   const tocAfterSlot = tocPlacement === "after-slot";
-  const tocBlock = toc.length > 0 ? <GuideInlineToc entries={toc} /> : null;
+  const resolvedTocGroups = tocGroups ?? (slug ? getGuideTocGroups(slug) : undefined);
+  const tocBlock =
+    toc.length > 0 ? (
+      <GuideInlineToc
+        entries={toc}
+        variant={tocVariant}
+        groups={resolvedTocGroups}
+        leftColumnGroups={tocLeftColumnGroups}
+      />
+    ) : null;
   const isEarlyAmountSummary =
     Boolean(quickSummary) &&
     (quickSummary?.variant === "age-bands" ||
@@ -725,7 +759,9 @@ export function GuideArticle({
         <h2>{conclusion.title ?? "Conclusion"}</h2>
         {conclusion.keyPoints.length > 0 ? (
           <div className="guide-conclusion__points">
-            <p className="guide-conclusion__points-title">À retenir</p>
+            {(conclusion.title ?? "Conclusion") !== "À retenir" ? (
+              <p className="guide-conclusion__points-title">À retenir</p>
+            ) : null}
             <ul className="guide-conclusion__list">
               {conclusion.keyPoints.map((point) => (
                 <li key={point}>
@@ -742,9 +778,20 @@ export function GuideArticle({
             {isTemplate || isPlaceholderHref(conclusion.closingCta.href) ? (
               <span className="guide-conclusion__cta">{conclusion.closingCta.label}</span>
             ) : (
-              <Link href={conclusion.closingCta.href} className="guide-conclusion__cta">
-                {conclusion.closingCta.label}
-              </Link>
+              isExternalHref(conclusion.closingCta.href) ? (
+                <a
+                  href={conclusion.closingCta.href}
+                  className="guide-conclusion__cta"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {conclusion.closingCta.label}
+                </a>
+              ) : (
+                <Link href={conclusion.closingCta.href} className="guide-conclusion__cta">
+                  {conclusion.closingCta.label}
+                </Link>
+              )
             )}
           </div>
         ) : null}
@@ -786,6 +833,8 @@ export function GuideArticle({
           </p>
         ) : null}
       </section>
+
+      {bibliography ? renderSection(bibliography) : null}
 
       <ShareBlock
         url={share.url}

@@ -58,6 +58,11 @@ export const guidesNavigation: GuideNavItem[] = [
     title: "Comment lire une fiche de paie ?",
   },
   {
+    slug: "prime-activite",
+    shortTitle: "Prime d'activité",
+    title: "Prime d'activité 2026 : montants, plafonds et conditions",
+  },
+  {
     slug: "cotisations-salariales-pourquoi-brut-plus-eleve-que-net",
     shortTitle: "Comprendre les cotisations salariales",
     title: "Cotisations salariales : pourquoi mon salaire brut est-il plus élevé que mon salaire net ?",

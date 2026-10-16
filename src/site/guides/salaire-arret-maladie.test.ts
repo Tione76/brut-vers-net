@@ -403,9 +403,14 @@ describe("page salaire arrêt maladie", () => {
     );
     expect(renderer).toContain("Aller au sommaire");
     expect(renderer).toContain('id = "sommaire"');
-    expect(renderer).toContain("guide-toc__mobile");
+    expect(renderer).toContain("GuideEditorialToc");
     expect(renderer).not.toContain("guide-toc__details");
     expect(renderer).toContain("{tocAfterSlot ? tocBlock : null}");
+    const editorial = readFileSync(
+      join(process.cwd(), "src/site/guides/GuideEditorialToc.tsx"),
+      "utf8",
+    );
+    expect(editorial).toContain("guide-toc__mobile");
   });
 
   it("affiche un périmètre AT/MP visible avant les champs du simulateur", () => {

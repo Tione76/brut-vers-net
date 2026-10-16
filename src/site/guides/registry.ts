@@ -18,6 +18,7 @@ import { maintienSalaireArretMaladieGuide } from "./data/maintien-salaire-arret-
 import { quelEstUnBonSalaireEnFranceGuide } from "./data/quel-est-un-bon-salaire-en-france";
 import { salaireAlternanceGuide } from "./data/salaire-alternance";
 import { salaireMoyenFranceGuide } from "./data/salaire-moyen-france";
+import { primeActiviteGuide } from "./data/prime-activite";
 
 export { getGuidePublicPath } from "./paths";
 
@@ -41,6 +42,7 @@ export const guides: Guide[] = [
   attachGuideCover(cotisationsSalarialesGuide),
   attachGuideCover(prelevementALaSourceGuide),
   attachGuideCover(pourquoiSalaireNetChangeSeptembre2026Guide),
+  attachGuideCover(primeActiviteGuide),
 ];
 
 export const GUIDE_MODEL_SLUG = "modele";

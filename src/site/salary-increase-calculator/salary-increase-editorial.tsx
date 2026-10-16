@@ -2,6 +2,8 @@ import Link from "next/link";
 import { EditorialBenefitItem } from "@/site/editorial-check-icon";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { getCalculatorCover } from "@/site/guides/covers";
+import { GuideInlineToc } from "@/site/guides";
+import type { GuideTocGroup } from "@/site/guides/GuideEditorialToc";
 import { IncreaseCalculatorCta } from "./IncreaseCalculatorCta";
 import {
   buildIncreasePracticalCases,
@@ -22,6 +24,24 @@ const ex200Exec = example200Executive();
 const ex5 = example5PercentNonExecutive();
 const net200Range = format200EuroNetRange();
 const increaseCover = getCalculatorCover("augmentation-salaire");
+
+const INCREASE_TOC = [
+  { id: "introduction-augmentation", title: "Introduction", level: 2 as const },
+  { id: "a-qui-sadresse", title: "À qui s'adresse ce calculateur ?", level: 2 as const },
+  { id: "fonctionnement-calculateur", title: "Fonctionnement du calculateur", level: 2 as const },
+  { id: "comprendre-augmentation", title: "Comprendre son augmentation", level: 2 as const },
+  { id: "exemples-cas-pratiques", title: "Exemples concrets", level: 2 as const },
+  { id: "reperes-rapides", title: "Repères rapides", level: 2 as const },
+  { id: "bien-negocier", title: "Bien négocier", level: 2 as const },
+  { id: "en-resume", title: "En résumé", level: 2 as const },
+  { id: "faq", title: "FAQ", level: 2 as const },
+];
+
+const INCREASE_TOC_GROUPS: GuideTocGroup[] = [
+  { title: "Utiliser le calculateur d'augmentation", icon: "calculator", start: 0, end: 3 },
+  { title: "Comprendre et négocier son augmentation", icon: "help", start: 3, end: 7 },
+  { title: "Synthèse et questions fréquentes", icon: "badge", start: 7, end: 9 },
+];
 
 const revisedDateLabel = new Date(SALARY_INCREASE_EDITORIAL_UPDATED_AT).toLocaleDateString("fr-FR", {
   day: "numeric",
@@ -67,38 +87,7 @@ export function SalaryIncreaseEditorial() {
 
             <CoverFigure cover={increaseCover} priority />
 
-            <nav className="home-editorial__toc home-editorial__prose" aria-label="Sommaire du guide">
-              <p className="home-editorial__toc-title">Dans ce guide</p>
-              <ul className="home-editorial__toc-list editorial-list editorial-list--toc">
-                <li>
-                  <a href="#introduction-augmentation">Introduction</a>
-                </li>
-                <li>
-                  <a href="#a-qui-sadresse">À qui s&apos;adresse ce calculateur ?</a>
-                </li>
-                <li>
-                  <a href="#fonctionnement-calculateur">Fonctionnement du calculateur</a>
-                </li>
-                <li>
-                  <a href="#comprendre-augmentation">Comprendre son augmentation</a>
-                </li>
-                <li>
-                  <a href="#exemples-cas-pratiques">Exemples concrets</a>
-                </li>
-                <li>
-                  <a href="#reperes-rapides">Repères rapides</a>
-                </li>
-                <li>
-                  <a href="#bien-negocier">Bien négocier</a>
-                </li>
-                <li>
-                  <a href="#en-resume">En résumé</a>
-                </li>
-                <li>
-                  <a href="#faq">FAQ</a>
-                </li>
-              </ul>
-            </nav>
+            <GuideInlineToc entries={INCREASE_TOC} groups={INCREASE_TOC_GROUPS} />
 
             <h2 id="introduction-augmentation">Pourquoi simuler une augmentation de salaire ?</h2>
             <div className="home-editorial__prose">

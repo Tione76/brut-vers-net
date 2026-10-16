@@ -83,6 +83,13 @@ export interface GuideTable {
   stickyFirstColumn?: boolean;
   /** Codes ISO des drapeaux, alignés sur les lignes (colonne pays). */
   rowFlags?: string[];
+  /**
+   * En-têtes et accents orange (tokens `--ds-brand`), sans modifier les autres tableaux.
+   * Aligné sur le survol / les fonds chauds des tableaux SMIC Europe.
+   */
+  accent?: "brand";
+  /** Colonnes après la première : montants alignés à droite, sans retour à la ligne. */
+  numeric?: boolean;
 }
 
 /** Identifiant d'illustration vectorielle (réservé aux futurs guides) */
@@ -278,6 +285,11 @@ export interface Guide {
   /** Identifiant d'ancre de la section FAQ (défaut : « faq ») */
   faqSectionId?: string;
   conclusion: GuideConclusion;
+  /**
+   * Bibliographie rendue après la FAQ et la conclusion.
+   * Si absente, les sources restent dans `sections` (ordre historique des autres guides).
+   */
+  bibliography?: GuideSection;
   sidebar: GuideSidebarLinks;
   /** true uniquement pour le modèle de référence /modele : exclu du sitemap */
   isTemplate?: boolean;
