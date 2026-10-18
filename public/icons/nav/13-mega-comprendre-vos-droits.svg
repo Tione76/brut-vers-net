@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+<title id="title">Comprendre vos droits</title>
+<circle cx="32" cy="32" r="32" fill="#f28539"/>
+<path d="M31 20c-5.7-4.4-12.4-5.7-19-3.3v29c7-2.5 13.4-1.2 19 3.2V20ZM33 20c5.7-4.4 12.4-5.7 19-3.3v29c-7-2.5-13.4-1.2-19 3.2V20Z" fill="white"/>
+ <path d="M32 21v27" stroke="#f28539" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

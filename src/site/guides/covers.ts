@@ -355,6 +355,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "prime-de-noel": cover(
+    "guides/prime-de-noel.webp",
+    "Cadeaux de Noël emballés avec des rubans verts devant une cheminée aux lumières dorées",
+    {
+      photographer: "Gabriel Groza",
+      source: "Pexels",
+      text: "Photo de Gabriel Groza via Pexels",
+    },
+    1200,
+    800,
+  ),
 };
 
 export function getCalculatorCover(id: string): GuideCoverImage {
@@ -410,6 +421,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/prime-activite") {
     return getGuideCover("prime-activite");
+  }
+  if (href === "/prime-de-noel") {
+    return getGuideCover("prime-de-noel");
   }
   return undefined;
 }

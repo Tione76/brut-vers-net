@@ -49,6 +49,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Votre salaire net a changé en septembre 2026 ? Vérifiez le taux de prélèvement à la source et comparez vos bulletins.",
   "prime-activite":
     "Prime d'activité : conditions, montants forfaitaires, plafonds et simulateur officiel de la CAF.",
+  "prime-de-noel":
+    "Prime de Noël : montants connus, conditions CAF / MSA / France Travail et date de versement.",
 };
 
 export function getGuideHubTeaser(slug: string): string | undefined {

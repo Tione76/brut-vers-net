@@ -78,7 +78,7 @@
 
 .guide-header {
   position: relative;
-  background: var(--ds-brand);
+  background: var(--ds-brand-header-bg);
   min-height: clamp(260px, 30vh, 340px);
   display: flex;
   flex-direction: column;

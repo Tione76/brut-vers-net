@@ -8,7 +8,7 @@ import {
 export const smicNavigation: NavDropdownItem[] = [
   {
     href: "/smic",
-    shortTitle: "SMIC: montants brut et net",
+    shortTitle: "SMIC : montants brut et net",
     title: "SMIC 2026 : quel est le montant brut et net ?",
   },
   {
@@ -25,5 +25,10 @@ export const smicNavigation: NavDropdownItem[] = [
     href: SMIC_HISTORY_PATH,
     shortTitle: "Évolution du SMIC depuis 1950",
     title: SMIC_HISTORY_H1,
+  },
+  {
+    href: "/smic-europe",
+    shortTitle: "SMIC en Europe",
+    title: "SMIC en Europe",
   },
 ];

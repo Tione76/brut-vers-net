@@ -1,15 +1,17 @@
 import type { NavLink } from "@/framework/types";
 import type { GuideNavItem } from "@/site/guides/navigation";
 import type { ToolNavItem } from "./tools";
-import type { NavDropdownItem } from "./NavDropdownMenu";
-import { buildGuidesMenuItems } from "./guide-nav-items";
-import { smicNavigation } from "./smic";
+import {
+  flattenMainNavLinks,
+  getMainNavItems,
+  type MainNavItem,
+} from "./main-nav-data";
 
 export type HeaderNavDropdown = {
   kind: "dropdown";
   id: string;
   label: string;
-  items: NavDropdownItem[];
+  items: { href: string; shortTitle: string; title: string }[];
 };
 
 export type HeaderNavLink = {
@@ -24,49 +26,64 @@ export type HeaderNavEntry = HeaderNavDropdown | HeaderNavLink;
 
 /**
  * Source unique d'entrées pour la navigation header (desktop et mobile).
- * Ordre et libellés alignés sur SiteNav historique.
+ * Alignée sur la maquette : Calculateurs, SMIC, Salaires & emploi, Aides & droits, Tous les guides.
  */
-export function buildHeaderNavEntries(input: {
+export function buildHeaderNavEntries(_input?: {
   toolsNavigation?: ToolNavItem[];
   guidesNavigation?: GuideNavItem[];
-  flatLinks: NavLink[];
+  flatLinks?: NavLink[];
 }): HeaderNavEntry[] {
-  const entries: HeaderNavEntry[] = [];
+  void _input;
+  return getMainNavItems().map((item) => toHeaderEntry(item));
+}
 
-  if (input.toolsNavigation && input.toolsNavigation.length > 0) {
-    entries.push({
-      kind: "dropdown",
-      id: "tools",
-      label: "Nos outils",
-      items: input.toolsNavigation,
-    });
-  }
-
-  entries.push({
-    kind: "dropdown",
-    id: "smic",
-    label: "SMIC",
-    items: smicNavigation,
-  });
-
-  if (input.guidesNavigation && input.guidesNavigation.length > 0) {
-    entries.push({
-      kind: "dropdown",
-      id: "guides",
-      label: "Nos guides",
-      items: buildGuidesMenuItems(input.guidesNavigation),
-    });
-  }
-
-  for (const link of input.flatLinks) {
-    entries.push({
+function toHeaderEntry(item: MainNavItem): HeaderNavEntry {
+  if (item.kind === "link") {
+    return {
       kind: "link",
-      id: `link-${link.href}`,
-      label: link.label,
-      href: link.href,
-      external: link.external,
-    });
+      id: item.id,
+      label: item.label,
+      href: item.href,
+    };
   }
 
-  return entries;
+  const links =
+    item.panel.kind === "simple"
+      ? item.panel.links
+      : item.panel.kind === "spotlight"
+        ? [
+            ...item.panel.links,
+            {
+              href: item.panel.cta.href,
+              label: item.panel.cta.buttonLabel,
+              title: item.panel.cta.title,
+            },
+          ]
+        : [
+            ...item.panel.columns.flatMap((column) => column.links),
+            ...(item.panel.cta
+              ? [
+                  {
+                    href: item.panel.cta.href,
+                    label: item.panel.cta.buttonLabel,
+                    title: item.panel.cta.title,
+                  },
+                ]
+              : []),
+          ];
+
+  return {
+    kind: "dropdown",
+    id: item.id,
+    label: item.label,
+    items: links.map((link) => ({
+      href: link.href,
+      shortTitle: link.label,
+      title: link.title ?? link.label,
+    })),
+  };
+}
+
+export function getAllHeaderHrefs(): string[] {
+  return flattenMainNavLinks().map((link) => link.href);
 }

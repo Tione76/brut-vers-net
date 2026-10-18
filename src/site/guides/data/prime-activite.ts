@@ -777,6 +777,11 @@ export const primeActiviteGuide: Guide = {
       title: "Pour aller plus loin",
       items: [
         {
+          title: "Prime de Noël",
+          description: "Montants de référence, date de versement et conditions CAF / MSA / France Travail.",
+          href: "/prime-de-noel",
+        },
+        {
           title: "SMIC brut et net",
           description: "Barème horaire et mensuel actuellement applicable.",
           href: SMIC_HREF,
@@ -830,6 +835,7 @@ export const primeActiviteGuide: Guide = {
       href: CALCULATEUR_HREF,
     },
     relatedGuides: [
+      { title: "Prime de Noël", href: "/prime-de-noel" },
       { title: "SMIC : montants officiels", href: SMIC_HREF },
       { title: "SMIC selon le nombre d'heures", href: SMIC_HOURS_HREF },
       { title: "Comment lire une fiche de paie", href: FICHE_PAIE_HREF },

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+<title id="title">Tous nos outils</title>
+<circle cx="32" cy="32" r="32" fill="#f28539"/>
+<rect x="19" y="12" width="26" height="40" rx="4.5" fill="white"/>
+ <rect x="23.5" y="17" width="17" height="9" rx="1.2" fill="#f28539"/>
+ <g fill="#f28539"><rect x="23.5" y="30" width="5" height="5" rx="1"/><rect x="30" y="30" width="5" height="5" rx="1"/><rect x="36.5" y="30" width="5" height="5" rx="1"/><rect x="23.5" y="37" width="5" height="5" rx="1"/><rect x="30" y="37" width="5" height="5" rx="1"/><rect x="36.5" y="37" width="5" height="5" rx="1"/><rect x="23.5" y="44" width="5" height="4.5" rx="1"/><rect x="30" y="44" width="5" height="4.5" rx="1"/><rect x="36.5" y="44" width="5" height="4.5" rx="1"/></g>
+</svg>

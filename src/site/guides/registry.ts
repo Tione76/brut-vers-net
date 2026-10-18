@@ -19,6 +19,7 @@ import { quelEstUnBonSalaireEnFranceGuide } from "./data/quel-est-un-bon-salaire
 import { salaireAlternanceGuide } from "./data/salaire-alternance";
 import { salaireMoyenFranceGuide } from "./data/salaire-moyen-france";
 import { primeActiviteGuide } from "./data/prime-activite";
+import { primeDeNoelGuide } from "./data/prime-de-noel";
 
 export { getGuidePublicPath } from "./paths";
 
@@ -43,6 +44,7 @@ export const guides: Guide[] = [
   attachGuideCover(prelevementALaSourceGuide),
   attachGuideCover(pourquoiSalaireNetChangeSeptembre2026Guide),
   attachGuideCover(primeActiviteGuide),
+  attachGuideCover(primeDeNoelGuide),
 ];
 
 export const GUIDE_MODEL_SLUG = "modele";

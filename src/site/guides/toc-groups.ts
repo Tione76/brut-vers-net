@@ -195,6 +195,25 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "À retenir", icon: "badge", start: 18, end: 19 },
     ],
   },
+
+  "prime-de-noel": {
+    groups: [
+      { title: "Montants et éligibilité", icon: "clipboard", start: 0, end: 2 },
+      { title: "Versement et organismes", icon: "clipboard", start: 2, end: 4 },
+      {
+        title: "Cas particuliers et territoires",
+        icon: "scale",
+        start: 4,
+        end: 7,
+      },
+      {
+        title: "Démarches, questions et sources",
+        icon: "badge",
+        start: 7,
+        end: 12,
+      },
+    ],
+  },
 };
 
 /** @deprecated Utiliser GUIDE_TOC_CONFIG ; conserve pour les tests et imports existants. */

@@ -392,7 +392,7 @@ describe("page pilier SMIC en Europe", () => {
     ).toContain("smic-europe-nav__text");
   });
 
-  it("est maillée depuis les pages SMIC proches, pas depuis le menu SMIC ni Nos guides", () => {
+  it("est maillée depuis les pages SMIC proches et le menu SMIC, pas depuis Nos guides", () => {
     const smic = JSON.stringify(getGuideBySlug("smic"));
     const hours = JSON.stringify(getGuideBySlug("smic-selon-nombre-heures"));
     const evolution = JSON.stringify(getGuideBySlug("evolution-smic"));
@@ -400,7 +400,7 @@ describe("page pilier SMIC en Europe", () => {
     expect(smic).toContain("voir les salaires minimums en Europe");
     expect(hours).toContain(path);
     expect(evolution).toContain(path);
-    expect(smicNavigation.some((item) => item.href === path)).toBe(false);
+    expect(smicNavigation.some((item) => item.href === path)).toBe(true);
     expect(guidesNavigation.some((item) => item.slug === slug)).toBe(false);
     expect(
       readFileSync(join(dirname(fileURLToPath(import.meta.url)), "../../app/smic-europe/page.tsx"), "utf8"),

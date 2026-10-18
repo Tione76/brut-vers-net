@@ -2,7 +2,7 @@
 
 .article-header {
   position: relative;
-  background: var(--ds-brand);
+  background: var(--ds-brand-header-bg);
   height: clamp(180px, 200px, 220px);
   display: flex;
   flex-direction: column;

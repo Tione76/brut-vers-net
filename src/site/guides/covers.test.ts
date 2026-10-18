@@ -57,6 +57,7 @@ describe("covers registry", () => {
         "quel-est-un-bon-salaire-en-france",
         "salaire-alternance",
         "prime-activite",
+        "prime-de-noel",
       ]),
     );
     expect(getGuideCover("comment-est-calcule-le-salaire-net")?.src).toContain(

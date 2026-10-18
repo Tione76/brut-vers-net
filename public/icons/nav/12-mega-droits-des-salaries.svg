@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+<title id="title">Droits des salariés</title>
+<circle cx="32" cy="32" r="32" fill="#f28539"/>
+<path d="M32 12c-5.2 4.3-12.4 6.2-17 7.2v12.1c0 10.5 5.8 17.6 17 22 11.2-4.4 17-11.5 17-22V19.2C44.4 18.2 37.2 16.3 32 12Z" fill="white"/>
+ <path d="m23 32 6.2 6.3L41 26" fill="none" stroke="#f28539" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

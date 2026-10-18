@@ -3,18 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { HeaderNavEntry } from "./header-nav";
+import {
+  isPathMatched,
+  type MainNavItem,
+} from "./main-nav-data";
+import { NavIconBadge } from "./NavIcons";
 
-const MOBILE_MQ = "(max-width: 639px)";
-
-function isItemActive(pathname: string, href: string, exact = false): boolean {
-  if (exact || href === "/") return pathname === href;
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
+const MOBILE_MQ = "(max-width: 1099px)";
 
 interface MobileSiteNavProps {
   panelId: string;
-  entries: HeaderNavEntry[];
+  items: MainNavItem[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
   toggleRef: React.RefObject<HTMLButtonElement | null>;
@@ -22,7 +21,7 @@ interface MobileSiteNavProps {
 
 export function MobileSiteNav({
   panelId,
-  entries,
+  items,
   open,
   onOpenChange,
   toggleRef,
@@ -123,44 +122,34 @@ export function MobileSiteNav({
           aria-label="Navigation principale"
         >
           <ul className="site-mobile-nav__list">
-            {entries.map((entry) => {
-              if (entry.kind === "link") {
-                const isActive = isItemActive(pathname, entry.href);
+            {items.map((item) => {
+              if (item.kind === "link") {
+                const isActive = isPathMatched(pathname, item.matchPaths);
                 return (
-                  <li key={entry.id} className="site-mobile-nav__item">
-                    {entry.external ? (
-                      <a
-                        href={entry.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="site-mobile-nav__link"
-                        onClick={close}
-                      >
-                        {entry.label}
-                      </a>
-                    ) : (
-                      <Link
-                        href={entry.href}
-                        className={`site-mobile-nav__link${isActive ? " site-mobile-nav__link--active" : ""}`}
-                        aria-current={isActive ? "page" : undefined}
-                        onClick={close}
-                      >
-                        {entry.label}
-                      </Link>
-                    )}
+                  <li key={item.id} className="site-mobile-nav__item">
+                    <Link
+                      href={item.href}
+                      className={`site-mobile-nav__link${isActive ? " is-current" : ""}`}
+                      aria-current={isActive ? "page" : undefined}
+                      onClick={close}
+                    >
+                      <span className="site-mobile-nav__link-main">
+                        <NavIconBadge id={item.icon} variant="square" />
+                        {item.label}
+                      </span>
+                    </Link>
                   </li>
                 );
               }
 
-              const accordionOpen = openAccordionId === entry.id;
-              const panelControlId = `${panelId}-${entry.id}`;
-          const sectionActive = entry.items.some((item) =>
-            isItemActive(pathname, item.href, item.variant === "hub"),
-          );
+              const accordionOpen = openAccordionId === item.id;
+              const panelControlId = `${panelId}-${item.id}`;
+              const sectionActive = isPathMatched(pathname, item.matchPaths);
+              const panel = item.panel;
 
               return (
                 <li
-                  key={entry.id}
+                  key={item.id}
                   className={`site-mobile-nav__item site-mobile-nav__item--accordion${accordionOpen ? " is-open" : ""}`}
                 >
                   <button
@@ -168,46 +157,104 @@ export function MobileSiteNav({
                     className={`site-mobile-nav__accordion-trigger${sectionActive ? " is-active" : ""}`}
                     aria-expanded={accordionOpen}
                     aria-controls={panelControlId}
-                    onClick={() => toggleAccordion(entry.id)}
+                    onClick={() => toggleAccordion(item.id)}
                   >
-                    <span>{entry.label}</span>
+                    <span className="site-mobile-nav__link-main">
+                      <NavIconBadge id={item.icon} variant="square" />
+                      {item.label}
+                    </span>
                     <span className="site-mobile-nav__chevron" aria-hidden="true" />
                   </button>
-                  <ul
-                    id={panelControlId}
-                    className="site-mobile-nav__sublist"
-                    hidden={!accordionOpen}
-                  >
-                    {entry.items.map((item) => {
-                      const isHub = item.variant === "hub";
-                      const isActive = isItemActive(pathname, item.href, isHub);
-                      return (
-                        <li
-                          key={item.href}
-                          className={isHub ? "site-mobile-nav__subitem--hub" : undefined}
-                        >
-                          <Link
-                            href={item.href}
-                            className={[
-                              "site-mobile-nav__sublink",
-                              isHub ? "site-mobile-nav__sublink--hub" : "",
-                              isActive ? "site-mobile-nav__sublink--active" : "",
-                            ]
-                              .filter(Boolean)
-                              .join(" ")}
-                            title={item.title}
-                            aria-current={isActive ? "page" : undefined}
-                            onClick={close}
-                          >
-                            <span>{item.shortTitle}</span>
-                            {isHub ? (
-                              <span className="site-nav__dropdown-hub-arrow" aria-hidden="true" />
-                            ) : null}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  <div id={panelControlId} hidden={!accordionOpen}>
+                    {panel.kind === "simple" || panel.kind === "spotlight" ? (
+                      <>
+                        <ul className="site-mobile-nav__sublist">
+                          {(panel.kind === "simple" ? panel.links : panel.links).map(
+                            (link) => (
+                              <li key={link.href}>
+                                <Link
+                                  href={link.href}
+                                  className="site-mobile-nav__sublink"
+                                  title={link.title}
+                                  onClick={close}
+                                >
+                                  {link.label}
+                                </Link>
+                              </li>
+                            ),
+                          )}
+                        </ul>
+                        {panel.kind === "spotlight" ? (
+                          <div className="site-mobile-nav__cta">
+                            <p className="site-mobile-nav__cta-title">{panel.cta.title}</p>
+                            <p className="site-mobile-nav__cta-desc">
+                              {panel.cta.description}
+                            </p>
+                            <Link
+                              href={panel.cta.href}
+                              className="site-mobile-nav__cta-button"
+                              onClick={close}
+                            >
+                              {panel.cta.buttonLabel}
+                              <span aria-hidden="true"> →</span>
+                            </Link>
+                          </div>
+                        ) : null}
+                      </>
+                    ) : (
+                      <>
+                        {panel.intro ? (
+                          <p className="site-mobile-nav__intro-desc">
+                            {panel.intro.description}
+                          </p>
+                        ) : null}
+                        {panel.columns.map((column) => (
+                          <div key={column.id} className="site-mobile-nav__group">
+                            <div className="site-mobile-nav__group-head">
+                              <NavIconBadge
+                                id={column.icon}
+                                variant="circle"
+                                size={36}
+                              />
+                              <p className="site-mobile-nav__group-label site-mobile-nav__group-label--inline">
+                                {column.title}
+                              </p>
+                            </div>
+                            <ul className="site-mobile-nav__sublist">
+                              {column.links.map((link) => (
+                                <li key={link.href}>
+                                  <Link
+                                    href={link.href}
+                                    className="site-mobile-nav__sublink"
+                                    title={link.title}
+                                    onClick={close}
+                                  >
+                                    {link.label}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                        {panel.cta ? (
+                          <div className="site-mobile-nav__cta">
+                            <p className="site-mobile-nav__cta-title">{panel.cta.title}</p>
+                            <p className="site-mobile-nav__cta-desc">
+                              {panel.cta.description}
+                            </p>
+                            <Link
+                              href={panel.cta.href}
+                              className="site-mobile-nav__cta-button"
+                              onClick={close}
+                            >
+                              {panel.cta.buttonLabel}
+                              <span aria-hidden="true"> →</span>
+                            </Link>
+                          </div>
+                        ) : null}
+                      </>
+                    )}
+                  </div>
                 </li>
               );
             })}

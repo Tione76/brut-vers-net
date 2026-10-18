@@ -63,6 +63,11 @@ export const guidesNavigation: GuideNavItem[] = [
     title: "Prime d'activité 2026 : montants, plafonds et conditions",
   },
   {
+    slug: "prime-de-noel",
+    shortTitle: "Prime de Noël",
+    title: "Prime de Noël 2026 : montant, date de versement et conditions",
+  },
+  {
     slug: "cotisations-salariales-pourquoi-brut-plus-eleve-que-net",
     shortTitle: "Comprendre les cotisations salariales",
     title: "Cotisations salariales : pourquoi mon salaire brut est-il plus élevé que mon salaire net ?",

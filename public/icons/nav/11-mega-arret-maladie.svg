@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+<title id="title">Arrêt maladie</title>
+<circle cx="32" cy="32" r="32" fill="#f28539"/>
+<path d="M25 12h14v13h13v14H39v13H25V39H12V25h13V12Z" fill="white" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+</svg>
