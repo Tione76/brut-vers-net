@@ -31,13 +31,13 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
 
     case "list": {
       const ListTag = block.ordered ? "ol" : "ul";
-      return (
+        return (
         <ListTag>
           {block.items.map((item) => {
             if (typeof item === "string") {
               return <li key={item}>{item}</li>;
-            }
-            return (
+      }
+      return (
               <li key={`${item.text}-${item.href}`}>
                 {item.text}{" "}
                 {item.href.startsWith("http") ? (
@@ -116,7 +116,7 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
                   ) : null}
                 </p>
                 {step.description ? (
-                  <p className="guide-steps__desc">{step.description}</p>
+                <p className="guide-steps__desc">{step.description}</p>
                 ) : null}
               </div>
             </li>
@@ -176,7 +176,7 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
                           </Cell>
                         );
                       })}
-                    </tr>
+                  </tr>
                   );
                 })}
               </tbody>
@@ -247,7 +247,7 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
               {block.label}
             </a>
           ) : (
-            <Link href={block.href}>{block.label}</Link>
+          <Link href={block.href}>{block.label}</Link>
           )}
         </p>
       );
@@ -646,28 +646,28 @@ export function GuideArticle({
       id={section.id}
       className={className ? `guide-section ${className}` : "guide-section"}
     >
-      <h2>{section.title}</h2>
+          <h2>{section.title}</h2>
       {sectionSlots?.[section.id] ?? null}
-      {section.blocks?.map((block, index) => (
-        <GuideBlockRenderer
-          key={blockKey(section.id, block, index)}
-          block={block}
-          isTemplate={isTemplate}
-        />
-      ))}
-      {section.subsections?.map((subsection) => (
-        <div key={subsection.id} id={subsection.id} className="guide-subsection">
-          <h3>{subsection.title}</h3>
-          {subsection.flagCode ? <CountryFlag code={subsection.flagCode} variant="section" /> : null}
-          {subsection.blocks.map((block, index) => (
+          {section.blocks?.map((block, index) => (
             <GuideBlockRenderer
-              key={blockKey(subsection.id, block, index)}
+              key={blockKey(section.id, block, index)}
               block={block}
               isTemplate={isTemplate}
             />
           ))}
-        </div>
-      ))}
+          {section.subsections?.map((subsection) => (
+            <div key={subsection.id} id={subsection.id} className="guide-subsection">
+              <h3>{subsection.title}</h3>
+          {subsection.flagCode ? <CountryFlag code={subsection.flagCode} variant="section" /> : null}
+              {subsection.blocks.map((block, index) => (
+                <GuideBlockRenderer
+                  key={blockKey(subsection.id, block, index)}
+                  block={block}
+                  isTemplate={isTemplate}
+                />
+              ))}
+            </div>
+          ))}
       {section.closingBlocks?.map((block, index) => (
         <GuideBlockRenderer
           key={blockKey(`${section.id}-closing`, block, index)}
@@ -758,25 +758,25 @@ export function GuideArticle({
       <section id="conclusion" className="guide-conclusion">
         <h2>{conclusion.title ?? "Conclusion"}</h2>
         {conclusion.keyPoints.length > 0 ? (
-          <div className="guide-conclusion__points">
+        <div className="guide-conclusion__points">
             {(conclusion.title ?? "Conclusion") !== "À retenir" ? (
-              <p className="guide-conclusion__points-title">À retenir</p>
+          <p className="guide-conclusion__points-title">À retenir</p>
             ) : null}
-            <ul className="guide-conclusion__list">
-              {conclusion.keyPoints.map((point) => (
-                <li key={point}>
-                  <span className="guide-conclusion__check" aria-hidden="true">✔</span>
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ul className="guide-conclusion__list">
+            {conclusion.keyPoints.map((point) => (
+              <li key={point}>
+                <span className="guide-conclusion__check" aria-hidden="true">✔</span>
+                {point}
+              </li>
+            ))}
+          </ul>
+        </div>
         ) : null}
         <p className="guide-conclusion__closing">{conclusion.closingText}</p>
         {conclusion.closingCta ? (
           <div className="guide-conclusion__cta-wrap">
             {isTemplate || isPlaceholderHref(conclusion.closingCta.href) ? (
-              <span className="guide-conclusion__cta">{conclusion.closingCta.label}</span>
+            <span className="guide-conclusion__cta">{conclusion.closingCta.label}</span>
             ) : (
               isExternalHref(conclusion.closingCta.href) ? (
                 <a
@@ -787,10 +787,10 @@ export function GuideArticle({
                 >
                   {conclusion.closingCta.label}
                 </a>
-              ) : (
-                <Link href={conclusion.closingCta.href} className="guide-conclusion__cta">
-                  {conclusion.closingCta.label}
-                </Link>
+          ) : (
+            <Link href={conclusion.closingCta.href} className="guide-conclusion__cta">
+              {conclusion.closingCta.label}
+            </Link>
               )
             )}
           </div>
