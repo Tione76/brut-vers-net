@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { GUIDE_COVERS, getGuideCover } from "./covers";
 import {
   resolveSidebarBundle,
   hasSidebarContent,
@@ -165,6 +166,32 @@ describe("resolveSidebarBundle", () => {
     for (const recent of bundle.recentGuides) {
       expect(related.has(recent.href)).toBe(false);
       expect(recent.href).not.toBe("/smic");
+    }
+  });
+
+  it("chaque lien guide de la sidebar a un slug avec cover registre dédiée", () => {
+    const bundle = resolveSidebarBundle({
+      pageType: "guide",
+      currentPath: "/prime-activite",
+      currentGuideSlug: "prime-activite",
+    });
+    const links = [...bundle.guides, ...bundle.recentGuides];
+    expect(links.length).toBeGreaterThan(5);
+
+    const spotlight = {
+      "prime-de-noel": "/images/covers/guides/prime-de-noel.webp",
+      "smic-europe": "/images/covers/guides/classement-smic-europe.webp",
+      "smic-hotelier": "/images/covers/guides/smic-hotelier.webp",
+    } as const;
+
+    for (const link of links) {
+      const cover = getGuideCover(link.slug);
+      expect(cover, link.slug).toBeDefined();
+      expect(cover?.src).toBe(GUIDE_COVERS[link.slug]?.src);
+      const expectedSpotlight = spotlight[link.slug as keyof typeof spotlight];
+      if (expectedSpotlight) {
+        expect(cover?.src).toBe(expectedSpotlight);
+      }
     }
   });
 });

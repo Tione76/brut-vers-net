@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ShareBlock } from "@/framework/design/components/ShareBlock";
-import { getGuideCoverByHref } from "./covers";
+import { getGuideCover } from "./covers";
 import { GuideCoverImage } from "./GuideCoverImage";
 import { CoverFigure } from "./CoverFigure";
 import type { GuideSidebarLink, SidebarTool } from "./sidebar";
@@ -329,7 +329,9 @@ function GuideSidebarGuideCards({ guides }: { guides: GuideSidebarLink[] }) {
   return (
     <div className="guide-sidebar-cards">
       {guides.map((guide) => {
-        const cover = getGuideCoverByHref(guide.href);
+        // Résolution par slug (registre GUIDE_COVERS), pas par href :
+        // évite la chaîne if/return sur les publicPath, fragile en minify prod.
+        const cover = getGuideCover(guide.slug);
         return (
           <Link
             key={guide.href}

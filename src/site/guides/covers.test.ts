@@ -16,8 +16,12 @@ import {
   getCalculatorCover,
   getCoverLicenseUrl,
   getGuideCover,
+  getGuideCoverByHref,
   toAbsoluteAssetUrl,
 } from "./covers";
+import { getGuidePublicPath } from "./paths";
+import { guides } from "./registry";
+import { resolveSidebarBundle } from "./sidebar";
 
 describe("covers registry", () => {
   it("maps each calculator to a dedicated webp under /images/covers/", () => {
@@ -325,5 +329,102 @@ describe("covers registry", () => {
     expect(toAbsoluteAssetUrl("https://www.brut-vers-net.fr", "/logo.png?v=2")).toBe(
       "https://www.brut-vers-net.fr/logo.png?v=2",
     );
+  });
+});
+
+describe("getGuideCover (résolution sidebar par slug)", () => {
+  /** Articles signalés en capture : publicPath racine + cover dédiée. */
+  const SPOTLIGHT: { slug: string; src: string }[] = [
+    { slug: "prime-activite", src: "/images/covers/guides/Prime-activite-montant-plafond.webp" },
+    { slug: "smic-europe", src: "/images/covers/guides/classement-smic-europe.webp" },
+    { slug: "smic-hotelier", src: "/images/covers/guides/smic-hotelier.webp" },
+    { slug: "prime-de-noel", src: "/images/covers/guides/prime-de-noel.webp" },
+  ];
+
+  it("associe chaque slug du registre à sa couverture de référence", () => {
+    for (const [slug, cover] of Object.entries(GUIDE_COVERS)) {
+      expect(getGuideCover(slug)?.src, slug).toBe(cover.src);
+    }
+  });
+
+  it("résout les articles spotlight vers leur cover dédiée (pas la cover Pourquoi…)", () => {
+    const pourquoiSrc =
+      GUIDE_COVERS["pourquoi-salaire-net-change-septembre-2026"]?.src;
+    expect(pourquoiSrc).toBeTruthy();
+
+    for (const { slug, src } of SPOTLIGHT) {
+      const cover = getGuideCover(slug);
+      expect(cover?.src, slug).toBe(src);
+      expect(cover?.src, slug).not.toBe(pourquoiSrc);
+    }
+
+    const spotlightSrcs = SPOTLIGHT.map((item) => getGuideCover(item.slug)?.src);
+    expect(new Set(spotlightSrcs).size).toBe(SPOTLIGHT.length);
+  });
+
+  it("couvre tous les guides publiés et gère un slug absent", () => {
+    const published = guides.filter((guide) => !guide.isTemplate);
+    for (const guide of published) {
+      const cover = getGuideCover(guide.slug);
+      expect(cover, guide.slug).toBeDefined();
+      expect(cover?.src, guide.slug).toBe(GUIDE_COVERS[guide.slug]?.src);
+    }
+    expect(getGuideCover("slug-inexistant-xyz")).toBeUndefined();
+  });
+
+  it("aligne slug et publicPath : racine et /guides/{slug}", () => {
+    const published = guides.filter((guide) => !guide.isTemplate);
+    for (const guide of published) {
+      const bySlug = getGuideCover(guide.slug);
+      const path = getGuidePublicPath(guide);
+      const byHref = getGuideCoverByHref(path);
+      expect(bySlug?.src, guide.slug).toBe(GUIDE_COVERS[guide.slug]?.src);
+      expect(byHref?.src, path).toBe(bySlug?.src);
+      if (guide.publicPath) {
+        expect(path.startsWith("/guides/"), guide.slug).toBe(false);
+      } else {
+        expect(path).toBe(`/guides/${guide.slug}`);
+      }
+    }
+  });
+
+  it("chaque carte sidebar résout sa cover via le slug (comportement GuideSidebarGuideCards)", () => {
+    const contexts = [
+      { pageType: "home" as const, currentPath: "/" },
+      {
+        pageType: "guide" as const,
+        currentPath: "/prime-activite",
+        currentGuideSlug: "prime-activite",
+      },
+      {
+        pageType: "guide" as const,
+        currentPath: "/smic-europe",
+        currentGuideSlug: "smic-europe",
+      },
+      {
+        pageType: "guide" as const,
+        currentPath: "/smic-hotelier",
+        currentGuideSlug: "smic-hotelier",
+      },
+      {
+        pageType: "guide" as const,
+        currentPath: "/prime-de-noel",
+        currentGuideSlug: "prime-de-noel",
+      },
+      { pageType: "calculator" as const, currentPath: "/" },
+    ];
+
+    let cardCount = 0;
+    for (const context of contexts) {
+      const bundle = resolveSidebarBundle(context);
+      for (const link of [...bundle.guides, ...bundle.recentGuides]) {
+        cardCount += 1;
+        expect(link.slug.length, link.href).toBeGreaterThan(0);
+        const cover = getGuideCover(link.slug);
+        expect(cover, `${link.slug} (${link.href})`).toBeDefined();
+        expect(cover?.src, link.slug).toBe(GUIDE_COVERS[link.slug]?.src);
+      }
+    }
+    expect(cardCount).toBeGreaterThan(20);
   });
 });
