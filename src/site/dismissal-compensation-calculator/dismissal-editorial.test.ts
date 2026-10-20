@@ -94,11 +94,12 @@ describe("contenu éditorial - indemnité de licenciement", () => {
       "exemples-indemnite",
       "en-resume",
       "faq-indemnite-licenciement",
+      "sources-officielles",
     ];
 
     for (const id of anchorIds) {
       expect(editorialSource).toContain(`id="${id}"`);
-      expect(editorialSource).toContain(`href="#${id}"`);
+      expect(editorialSource).toContain(`id: "${id}"`);
     }
 
     const matches = editorialSource.match(/id="([^"]+)"/g) ?? [];
@@ -107,14 +108,15 @@ describe("contenu éditorial - indemnité de licenciement", () => {
   });
 
   it("utilise des libellés raccourcis dans le sommaire", () => {
-    expect(editorialSource).toContain("Comment calculer l&apos;indemnité ?</a>");
-    expect(editorialSource).toContain("Quel salaire est retenu ?</a>");
-    expect(editorialSource).toContain("Indemnité jusqu&apos;à 10 ans</a>");
-    expect(editorialSource).toContain("Indemnité après 10 ans</a>");
-    expect(editorialSource).toContain("Convention collective</a>");
-    expect(editorialSource).toContain("Montants non inclus</a>");
+    expect(editorialSource).toContain('title: "Comment calculer l\'indemnité ?"');
+    expect(editorialSource).toContain('title: "Quel salaire est retenu ?"');
+    expect(editorialSource).toContain('title: "Indemnité jusqu\'à 10 ans"');
+    expect(editorialSource).toContain('title: "Indemnité après 10 ans"');
+    expect(editorialSource).toContain('title: "Convention collective"');
+    expect(editorialSource).toContain('title: "Montants non inclus"');
     expect(editorialSource).toMatch(/Situations nécessitant une vérification/);
-    expect(editorialSource).toContain("Exemples de calcul</a>");
+    expect(editorialSource).toContain('title: "Exemples de calcul"');
+    expect(editorialSource).toContain('title: "Sources officielles"');
   });
 
   it("utilise des titres H2 complets dans le corps de page", () => {
@@ -141,10 +143,11 @@ describe("contenu éditorial - indemnité de licenciement", () => {
   });
 
   it("expose une date de revue éditoriale explicite, non liée au build", () => {
-    expect(dataSource).toContain('export const DISMISSAL_CONTENT_REVIEW_DATE = "2026-07-16"');
+    expect(dataSource).toContain('export const DISMISSAL_CONTENT_REVIEW_DATE = "2026-10-20"');
     expect(dataSource).toContain("Ne pas dériver automatiquement du build");
     expect(dataSource).not.toContain("DISMISSAL_CONFIG.lastReviewedAt");
     expect(editorialSource).toContain("DISMISSAL_CONTENT_REVIEW_DATE");
+    expect(editorialSource).not.toContain("Contenu vérifié le");
   });
 
   it("présente deux cartes d'exemples avec montant final mis en valeur", () => {
@@ -153,9 +156,9 @@ describe("contenu éditorial - indemnité de licenciement", () => {
     expect(editorialSource).toContain("Reproduisez votre propre situation dans le calculateur");
   });
 
-  it("compacte légèrement la sidebar sans en retirer les visuels", () => {
-    expect(sidebarSource).toContain("dismissal-sidebar");
-    expect(readSource("dismissal-compensation-calculator.css")).toContain(".dismissal-sidebar");
+  it("délègue la sidebar au composant partagé ToolPageSidebar", () => {
+    expect(sidebarSource).toContain("ToolPageSidebar");
+    expect(sidebarSource).toContain("DISMISSAL_PATH");
   });
 
   it("aligne la FAQ visible et le JSON-LD sur la même source", () => {
@@ -178,13 +181,9 @@ describe("contenu éditorial - indemnité de licenciement", () => {
     expect(readSource("DismissalCalculatorCta.tsx")).toContain("scrollIntoView");
   });
 
-  it("limite la sidebar à trois outils et trois guides", () => {
-    expect(sidebarSource).toContain("CURATED_TOOL_IDS");
-    expect(sidebarSource).toContain("brut-vers-net");
-    expect(sidebarSource).toContain("augmentation-salaire");
-    expect(sidebarSource).toContain("salaire-heures-supplementaires");
-    expect(sidebarSource.match(/slug: "/g)?.length).toBe(3);
-    expect(sidebarSource).not.toContain("comment-calculer-son-salaire-net");
+  it("ne personnalise plus la curation d'outils dans le fichier sidebar", () => {
+    expect(sidebarSource).not.toContain("CURATED_TOOL_IDS");
+    expect(sidebarSource).toContain("ToolPageSidebar");
   });
 
   it("génère des exemples cohérents avec le moteur", () => {

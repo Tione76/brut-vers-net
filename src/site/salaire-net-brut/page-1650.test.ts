@@ -371,11 +371,10 @@ describe("prototype page 1 650 € net en brut", () => {
   it("compacte la sidebar 1650 et ajoute un CTA net→brut sans toucher aux autres fiches", () => {
     expect(PAGE_1650_SIDEBAR_TOOL_IDS).toEqual([
       "brut-vers-net",
-      "augmentation-salaire",
       "salaire-heures-supplementaires",
     ]);
-    expect(PAGE_1650_SIDEBAR_GUIDE_ENTRIES).toHaveLength(3);
-    expect(PAGE_1650_SIDEBAR_TOOL_IDS.length + PAGE_1650_SIDEBAR_GUIDE_ENTRIES.length).toBe(6);
+    expect(PAGE_1650_SIDEBAR_GUIDE_ENTRIES).toHaveLength(2);
+    expect(PAGE_1650_SIDEBAR_TOOL_IDS.length + PAGE_1650_SIDEBAR_GUIDE_ENTRIES.length).toBe(4);
     expect(PAGE_1650_END_CTA_HREF).toBe("/?net=1650&profil=non-cadre");
     expect(PAGE_1650_END_CTA_H2).toBe("Vous souhaitez convertir un autre montant ?");
     expect(PAGE_1650_END_CTA_LINK_LABEL).toBe("Calculer mon salaire net en brut");

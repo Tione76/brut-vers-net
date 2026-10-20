@@ -2,6 +2,33 @@ import type { Guide, GuideBlock, GuideTocEntry } from "./types";
 
 const WORDS_PER_MINUTE = 200;
 
+/** Temps de lecture à partir d'un texte libre (même rythme que les guides : ~200 mots/min). */
+export function computeReadingTimeFromText(text: string): number {
+  const words = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
+}
+
+/**
+ * Extrait le texte lisible d'un module TSX/TS éditorial (hors imports, classes et code).
+ * Sert aux pages calculateurs dont le contenu n'est pas un Guide structuré.
+ */
+export function extractReadableTextFromModuleSource(source: string): string {
+  return source
+    .replace(/\/\*[\s\S]*?\*\//g, " ")
+    .replace(/(^|[^:])\/\/.*$/gm, "$1 ")
+    .replace(/import\s+[\s\S]*?from\s+["'][^"']+["'];?/g, " ")
+    .replace(/export\s+(?:type|interface|default)\b/g, " ")
+    .replace(/className=(["'`])(?:(?!\1).)*\1/g, " ")
+    .replace(/className=\{[\s\S]*?\}/g, " ")
+    .replace(/\b(?:id|href|rel|target|aria-[\w-]+|dateTime|key)=(["'`])(?:(?!\1).)*\1/g, " ")
+    .replace(/<(?:\/)?[A-Za-z][\w.-]*[^>]*>/g, " ")
+    .replace(/\{[^}]*\}/g, " ")
+    .replace(/&(?:apos|quot|amp|lt|gt|#\d+);/gi, " ")
+    .replace(/["'`]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function countWordsInBlock(block: GuideBlock): number {
   switch (block.type) {
     case "paragraph":

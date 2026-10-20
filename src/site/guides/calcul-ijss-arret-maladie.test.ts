@@ -408,10 +408,16 @@ describe("page calcul IJSS arrêt maladie", () => {
     }
   });
 
-  it("synchronise le sommaire avec la FAQ", () => {
+  it("synchronise le sommaire avec la FAQ et place les sources en fin de page", () => {
     const guide = getGuideBySlug(slug)!;
     const toc = buildGuideTocH2(guide);
     expect(toc.some((entry) => entry.id === "questions-frequentes")).toBe(true);
+    expect(guide.bibliography?.id).toBe("sources-officielles");
+    const faqIdx = toc.findIndex((entry) => entry.id === "questions-frequentes");
+    const conclusionIdx = toc.findIndex((entry) => entry.id === "conclusion");
+    const sourcesIdx = toc.findIndex((entry) => entry.id === "sources-officielles");
+    expect(sourcesIdx).toBeGreaterThan(faqIdx);
+    expect(sourcesIdx).toBeGreaterThan(conclusionIdx);
     expect(guide.breadcrumbLabel).toBe("Calcul des IJSS");
     expect(IJSS_HUB_CARD_TITLE).toContain("IJSS");
   });

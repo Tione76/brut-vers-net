@@ -8,9 +8,9 @@ export interface EmploymentProfileConfig {
 }
 
 export const SALARY_CALCULATOR_META = {
-  updatedAt: "2026-07-13",
+  updatedAt: "2026-10-20",
   estimationNote:
-    "Coefficients indicatifs issus de taux moyens de retenues salariales ou de charges sociales observés en France. Ils ne remplacent pas une fiche de paie.",
+    "Coefficients indicatifs issus de taux moyens de retenues salariales ou de charges sociales observés en France. Ils ne remplacent pas une fiche de paie et ne sont pas des taux officiels URSSAF.",
 } as const;
 
 /**

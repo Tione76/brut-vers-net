@@ -10,6 +10,7 @@ import {
   buildWebPageJsonLd,
   buildAuthorJsonLd,
 } from "./pages";
+import { SITE_AUTHOR } from "@/site/author";
 import { getGuideBySlug } from "@/site/guides/registry";
 import { HOME_COVER, getCalculatorCover } from "@/site/guides/covers";
 
@@ -25,9 +26,14 @@ describe("schema datetime and author", () => {
   });
 
   it("émet Person avec le nom Antoine et l'URL de la page auteur", () => {
-    expect(buildPersonNode().name).toBe("Antoine");
-    expect(buildPersonNode()["@id"]).toBe("https://www.brut-vers-net.fr/#author");
-    expect(buildPersonNode().url).toBe("https://www.brut-vers-net.fr/auteur/antoine");
+    const person = buildPersonNode();
+    expect(person.name).toBe("Antoine");
+    expect(person["@id"]).toBe("https://www.brut-vers-net.fr/#author");
+    expect(person.url).toBe("https://www.brut-vers-net.fr/auteur/antoine");
+    expect(person.description).toBe(SITE_AUTHOR.schemaDescription);
+    expect(person.jobTitle).toBe(SITE_AUTHOR.role);
+    expect(person.worksFor).toEqual({ "@id": "https://www.brut-vers-net.fr/#organization" });
+    expect(person.image).toBe("https://www.brut-vers-net.fr/images/authors/Antoine.webp");
   });
 
   it("émet Article avec dates ISO complètes", () => {

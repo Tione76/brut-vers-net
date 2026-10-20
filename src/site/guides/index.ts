@@ -24,7 +24,13 @@ export {
   getGuidePublicPath,
   getPublishedGuideSlugs,
 } from "./registry";
-export { buildGuideToc, buildGuideTocH2, computeReadingTime } from "./utils";
+export {
+  buildGuideToc,
+  buildGuideTocH2,
+  computeReadingTime,
+  computeReadingTimeFromText,
+  extractReadableTextFromModuleSource,
+} from "./utils";
 export {
   attachGuideCover,
   coverToOgInput,
@@ -58,6 +64,8 @@ export {
   ToolsHubSidebar,
   HomePageSidebar,
   FaqPageSidebar,
+  AuthorPageSidebar,
+  InstitutionalPageSidebar,
   ToolPageSidebar,
 } from "./GuidePageSidebar";
 export {
@@ -67,11 +75,18 @@ export {
   getGuidesSidebarLinks,
   getRelatedGuidesForSlug,
   hasSidebarContent,
+  resolveSidebarBundle,
   SIDEBAR_CALCULATOR,
   SIDEBAR_LIMITS,
   SIDEBAR_TOOLS,
 } from "./sidebar";
-export type { GuideSidebarLink, SidebarContext, SidebarPageType, SidebarTool } from "./sidebar";
+export type {
+  GuideSidebarLink,
+  SidebarBundle,
+  SidebarContext,
+  SidebarPageType,
+  SidebarTool,
+} from "./sidebar";
 export { GuideCoverImage as GuideCoverImageComponent } from "./GuideCoverImage";
 export { CoverFigure } from "./CoverFigure";
 export { GuideAuthorMeta } from "./GuideAuthorMeta";

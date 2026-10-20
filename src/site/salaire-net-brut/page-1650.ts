@@ -129,10 +129,9 @@ export function buildRedesignEndCtaHref(netMonthly: number) {
 
 export const PAGE_1650_END_CTA_HREF = buildRedesignEndCtaHref(PAGE_1650_NET);
 
-/** Sidebar curatée : 3 outils + 3 guides, hors SMIC / arrêt maladie / licenciement. */
+/** Sidebar curatée : 2 outils + 2 guides (volumes alignés sur le moteur de reco). */
 export const PAGE_1650_SIDEBAR_TOOL_IDS = [
   "brut-vers-net",
-  "augmentation-salaire",
   "salaire-heures-supplementaires",
 ] as const;
 
@@ -140,10 +139,6 @@ export const PAGE_1650_SIDEBAR_GUIDE_ENTRIES = [
   {
     slug: "cotisations-salariales-pourquoi-brut-plus-eleve-que-net",
     title: "Cotisations salariales",
-  },
-  {
-    slug: "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
-    title: "Prélèvement à la source",
   },
   {
     slug: "comment-est-calcule-le-salaire-net",

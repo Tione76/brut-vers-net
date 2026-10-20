@@ -16,6 +16,8 @@ interface ToolCalculatorPageLayoutProps {
   editorial: ReactNode;
   sidebar: ReactNode;
   breadcrumb?: ReactNode;
+  /** Ligne « Par Antoine · X min · Dernière mise à jour » (sous le fil d'Ariane). */
+  authorMeta?: ReactNode;
   variant?: "default" | "margin";
   share: ShareBlockProps;
 }
@@ -75,6 +77,7 @@ function ToolCalculatorPageInner({
   editorial,
   sidebar,
   breadcrumb,
+  authorMeta,
   variant = "default",
   share,
 }: ToolCalculatorPageLayoutProps) {
@@ -111,6 +114,7 @@ function ToolCalculatorPageInner({
           <div className="article-layout">
             <div className="home-with-sidebar__main">
               {breadcrumb}
+              {authorMeta}
               {editorial}
               <div className="content-wrap">
                 <AdSlot position="after-result" />

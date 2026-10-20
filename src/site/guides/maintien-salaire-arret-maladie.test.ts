@@ -446,6 +446,12 @@ describe("page maintien de salaire arrêt maladie", () => {
       true,
     );
     expect(toc.some((entry) => entry.id === "questions-frequentes")).toBe(true);
+    expect(guide.bibliography?.id).toBe("sources-officielles");
+    const faqIdx = toc.findIndex((entry) => entry.id === "questions-frequentes");
+    const conclusionIdx = toc.findIndex((entry) => entry.id === "conclusion");
+    const sourcesIdx = toc.findIndex((entry) => entry.id === "sources-officielles");
+    expect(sourcesIdx).toBeGreaterThan(faqIdx);
+    expect(sourcesIdx).toBeGreaterThan(conclusionIdx);
     const pageSource = readFileSync(
       join(process.cwd(), "src/app/maintien-salaire-arret-maladie/page.tsx"),
       "utf8",

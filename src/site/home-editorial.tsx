@@ -26,12 +26,13 @@ const HOME_TOC = [
   { id: "limites-utilite", title: "Limites et utilité", level: 2 as const },
   { id: "methodologie", title: "Méthode de calcul brut vers net", level: 2 as const },
   { id: "faq", title: "FAQ", level: 2 as const },
+  { id: "sources-officielles", title: "Sources officielles", level: 2 as const },
 ];
 
 const HOME_TOC_GROUPS: GuideTocGroup[] = [
   { title: "Calculer et comprendre son salaire", icon: "calculator", start: 0, end: 3 },
   { title: "Exemples et fonctionnement du calcul", icon: "file", start: 3, end: 7 },
-  { title: "Questions fréquentes", icon: "badge", start: 7, end: 8 },
+  { title: "Questions et sources", icon: "badge", start: 7, end: 9 },
 ];
 
 const conversionRows = buildConversionTableRows();
@@ -75,9 +76,10 @@ export function HomeEditorial() {
               C&apos;est la référence la plus fréquente sur une offre ou un contrat.
             </p>
             <p>
-              Le net estimé avant impôt correspond au montant après cotisations salariales. Le net
-              après impôt est ce qui reste une fois le prélèvement à la source appliqué.
-          </p>
+              Le net estimé avant impôt correspond au montant après cotisations et contributions
+              salariales. Le net après impôt est ce qui reste une fois le prélèvement à la source
+              appliqué.
+            </p>
           <p>
               L&apos;écart entre les deux niveaux vient des cotisations prélevées sur la rémunération,
               qui financent la protection sociale (maladie, retraite, chômage).
@@ -153,7 +155,10 @@ export function HomeEditorial() {
               </tr>
               <tr>
                   <td>Net imposable estimé</td>
-                  <td>Base fiscale estimée pour calculer le prélèvement</td>
+                  <td>
+                    Base fiscale estimée (net avant impôt + CSG non déductible + CRDS), sans
+                    majoration forfaitaire de mutuelle
+                  </td>
                   <td>
                     Estimation interne du simulateur ; montant exact sur votre bulletin de salaire
                   </td>
@@ -174,31 +179,34 @@ export function HomeEditorial() {
               libellé utilisé ici.
             </p>
 
-            <h3>Cotisations prélevées sur le brut</h3>
+            <h3>Cotisations et contributions prélevées sur le brut</h3>
             <ul className="editorial-list editorial-list--neutral">
-              <li>Assurance maladie, maternité, invalidité et décès</li>
+              <li>Assurance maladie, maternité, invalidité et décès (selon le régime)</li>
               <li>Retraite de base et retraite complémentaire</li>
-              <li>Assurance chômage</li>
               <li>CSG et CRDS</li>
               <li>Cotisations liées au statut (cadre, non-cadre, fonction publique)</li>
             </ul>
             <p>
-              Deux personnes au même brut peuvent percevoir un net légèrement différent selon leur
-              contrat.
+              Pour les salariés du privé, la cotisation salariale d&apos;assurance chômage de droit
+              commun a été supprimée en 2018 : elle n&apos;apparaît plus comme une retenue salariale
+              standard. Deux personnes au même brut peuvent malgré tout percevoir un net légèrement
+              différent selon leur contrat.
             </p>
 
             <h3>Net avant impôt et net après impôt</h3>
             <p>
-              Le net avant impôt reste après cotisations. Le prélèvement à la source s&apos;applique
-              ensuite sur une base fiscale propre à votre foyer. Le net après impôt est le montant
-              versé après cette retenue.
+              Le net avant impôt reste après cotisations. Sur un bulletin réel, le prélèvement à la
+              source s&apos;applique ensuite au net imposable, avec un taux le plus souvent
+              personnalisé selon votre foyer. Dans le simulateur, le mode automatique utilise une
+              estimation de net imposable et un taux non personnalisé. Le net après impôt est le
+              montant restant après cette retenue.
             </p>
 
             <aside className="home-editorial__callout home-editorial__callout--warning">
               <strong>Attention</strong>
               <p>
-                Le taux de prélèvement dépend de votre situation fiscale. Il ne se déduit pas
-                fidèlement du seul salaire brut ou du net avant impôt.
+                Votre taux réel dépend de votre situation fiscale. Il ne se déduit pas fidèlement du
+                seul salaire brut ou du net avant impôt.
               </p>
             </aside>
           </div>
@@ -341,24 +349,31 @@ export function HomeEditorial() {
           <h2 id="prelevement-source">Comment le prélèvement à la source est-il estimé ?</h2>
           <div className="home-editorial__prose">
             <p>
-              L&apos;impôt sur le revenu est prélevé à la source sur les salaires. Le taux dépend de
-              votre foyer : revenus, parts fiscales, autres sources, crédits d&apos;impôt. Deux
-              salariés au même brut peuvent avoir des taux différents.
+              L&apos;impôt sur le revenu est prélevé à la source sur les salaires. Sur un bulletin
+              réel, le taux appliqué est le plus souvent un{" "}
+              <strong>taux personnalisé</strong> calculé par l&apos;administration fiscale selon votre
+              foyer (revenus, situation familiale, personnes à charge, éventuelle modulation). Deux
+              salariés au même brut peuvent donc avoir des taux très différents.
             </p>
             <p>
-              Le simulateur ne connaît pas votre situation fiscale réelle. Il calcule d&apos;abord une
-              base imposable estimée à partir du net avant impôt, puis applique un taux indicatif
-              pour afficher un net après impôt.
+              Notre simulateur ne connaît pas votre foyer. En mode automatique, il estime d&apos;abord
+              un net imposable mensuel (net avant impôt + CSG non déductible + CRDS), sans ajouter
+              automatiquement de majoration forfaitaire au titre de la mutuelle patronale : cette
+              participation employeur peut figurer sur un bulletin réel, mais son montant varie
+              selon les contrats et n&apos;est pas connu ici. Il lit ensuite un{" "}
+              <strong>taux non personnalisé</strong> (aussi appelé taux neutre ou taux par défaut)
+              dans la grille officielle métropolitaine applicable depuis le 1er mai 2026, puis
+              applique ce taux à la base estimée.
             </p>
             <p>
-              Ce taux par défaut est une approximation : utile pour situer un ordre de grandeur,
-              pas pour reproduire votre bulletin. Connaissez-vous votre taux (bulletin, espace
-              impots.gouv.fr) ? Remplacez-le dans le curseur : le net après impôt devient alors
-              nettement plus proche de ce que vous percevez réellement.
-          </p>
-          <p>
+              Taux non personnalisé estimé selon le barème officiel. Votre taux réel, calculé par
+              l&apos;administration fiscale en fonction de votre situation, peut être différent. Vous
+              pouvez le renseigner manuellement dans le curseur pour rapprocher le net après impôt de
+              votre bulletin.
+            </p>
+            <p>
               À 0 %, vous isolez le net avant impôt et mesurez uniquement l&apos;effet des cotisations
-              sociales.
+              et contributions sociales.
             </p>
           </div>
 
@@ -376,7 +391,9 @@ export function HomeEditorial() {
               <li>Pas de primes, heures supplémentaires ni avantages en nature</li>
               <li>Pas de cas atypiques (apprenti, plusieurs employeurs, etc.)</li>
               <li>Estimation générale pour la fonction publique, hors indemnités spécifiques</li>
-              <li>Taux fiscal indicatif tant que vous n&apos;indiquez pas votre taux réel</li>
+              <li>
+                Taux non personnalisé estimé tant que vous n&apos;indiquez pas votre taux réel
+              </li>
             </ul>
 
             <h3>Situations où l&apos;outil est utile</h3>
@@ -502,13 +519,18 @@ export function HomeEditorial() {
 
             <h3>Prélèvement à la source</h3>
             <p>
-              Le simulateur estime d&apos;abord un net avant impôt, puis applique le taux de{" "}
+              Le simulateur estime d&apos;abord un net avant impôt, puis une base imposable
+              approximée : net avant impôt + CSG non déductible + CRDS. Aucun montant forfaitaire de
+              mutuelle patronale n&apos;est ajouté automatiquement. Sur un bulletin, la participation
+              employeur à la complémentaire santé peut pourtant augmenter le net imposable : son
+              montant dépend du contrat collectif et n&apos;est pas saisi ici. Le simulateur lit
+              ensuite le taux non personnalisé de la grille officielle sur cette base, puis
+              applique ce taux pour estimer le{" "}
               <Link href="/guides/prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne">
                 prélèvement à la source
-              </Link>{" "}
-              sélectionné. Le taux proposé par défaut est une estimation (barème neutre indicatif)
-              à partir d&apos;une base imposable approximée. Vous pouvez saisir votre taux réel pour
-              rapprocher le net après impôt de votre situation.
+              </Link>
+              . Vous pouvez saisir votre taux réel pour rapprocher le net après impôt de votre
+              situation.
             </p>
 
             <h3>Pourquoi les résultats restent indicatifs</h3>
@@ -537,15 +559,17 @@ export function HomeEditorial() {
                 Un seul moteur de calcul est utilisé, quel que soit le mode choisi. En mode horaire,
                 un montant mensuel équivalent est d&apos;abord calculé (base{" "}
                 {METHODOLOGY_MONTHLY_HOURS_LABEL}&nbsp;heures à temps plein). Les coefficients
-                appliqués sont ceux actuellement utilisés par le simulateur. Le prélèvement à la
-                source est ensuite appliqué séparément.
+                0,78 / 0,75 / 0,81 sont des approximations internes du simulateur, pas des taux
+                validés par l&apos;URSSAF. Le prélèvement à la source proposé par défaut suit la grille
+                officielle des taux non personnalisés.
               </p>
             </aside>
 
-          <p className="home-editorial__updated">
+            <p className="home-editorial__updated">
               Contenu révisé le <time dateTime={HOME_EDITORIAL_UPDATED_AT}>{revisedDateLabel}</time>
-              . Chiffres alignés sur les coefficients du simulateur au {revisedDateLabel}.
-          </p>
+              . Chiffres alignés sur les coefficients du simulateur et sur la grille PAS vérifiée
+              le {revisedDateLabel}.
+            </p>
           </div>
         </div>
       </div>

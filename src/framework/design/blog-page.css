@@ -214,18 +214,26 @@
 }
 
 /* ── Sidebar ── */
+/* Pas de sticky : la colonne défile naturellement avec le contenu. */
 
 .article-sidebar {
   display: flex;
   flex-direction: column;
   gap: 32px;
+  align-self: start;
+  width: 100%;
+  min-width: 0;
 }
 
-@media (min-width: 1024px) {
-  .article-sidebar {
-    position: sticky;
-    top: 24px;
-  }
+.article-sidebar__slot--ad {
+  display: none;
+}
+
+.article-sidebar__recommendations {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
 }
 
 .sidebar-block__title {

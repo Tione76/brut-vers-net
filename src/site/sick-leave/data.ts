@@ -7,8 +7,8 @@ export const SICK_LEAVE_PATH = "/salaire-arret-maladie";
 export const SICK_LEAVE_SLUG = "salaire-arret-maladie";
 
 export const SICK_LEAVE_PUBLISHED_AT = "2026-09-19";
-export const SICK_LEAVE_UPDATED_AT = "2026-09-20";
-export const SICK_LEAVE_UPDATED_AT_LABEL = "20 septembre 2026";
+export const SICK_LEAVE_UPDATED_AT = "2026-10-20";
+export const SICK_LEAVE_UPDATED_AT_LABEL = "20 octobre 2026";
 
 export const SICK_LEAVE_H1 =
   "Salaire en arrêt maladie dans le privé : combien allez-vous toucher ?";

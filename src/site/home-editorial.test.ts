@@ -7,6 +7,14 @@ const editorialSource = readFileSync(
   join(process.cwd(), "src/site/home-editorial.tsx"),
   "utf8",
 );
+const sourcesSource = readFileSync(
+  join(process.cwd(), "src/site/home-official-sources.tsx"),
+  "utf8",
+);
+const layoutSource = readFileSync(
+  join(process.cwd(), "src/framework/layouts/CalculatorPageLayout.tsx"),
+  "utf8",
+);
 
 const guideSlugs = [
   "comment-est-calcule-le-salaire-net",
@@ -18,18 +26,41 @@ const guideSlugs = [
 
 describe("home-editorial : méthodologie", () => {
   it("conserve l'ancre #methodologie et met à jour titre + sommaire", () => {
-    expect(editorialSource).toContain('href="#methodologie"');
-    expect(editorialSource).toContain(">Méthode de calcul brut vers net</a>");
+    expect(editorialSource).toContain('id: "methodologie"');
+    expect(editorialSource).toContain("Méthode de calcul brut vers net");
     expect(editorialSource).toContain('id="methodologie"');
     expect(editorialSource).toContain(
       "Comment notre calculateur convertit le salaire brut en net",
     );
     expect(editorialSource).not.toContain("Comment fonctionne notre calculateur ?");
 
-    const methodologieToc = editorialSource.indexOf('href="#methodologie"');
-    const faqToc = editorialSource.indexOf('href="#faq"');
+    const methodologieToc = editorialSource.indexOf('id: "methodologie"');
+    const faqToc = editorialSource.indexOf('id: "faq"');
+    const sourcesToc = editorialSource.indexOf('id: "sources-officielles"');
     expect(methodologieToc).toBeGreaterThan(-1);
     expect(faqToc).toBeGreaterThan(methodologieToc);
+    expect(sourcesToc).toBeGreaterThan(faqToc);
+  });
+
+  it("expose une section sources officielles après la FAQ", () => {
+    expect(editorialSource).toContain('id: "sources-officielles"');
+    expect(sourcesSource).toContain('id="sources-officielles"');
+    expect(sourcesSource).toContain("Sources officielles et références");
+    expect(sourcesSource).toContain("HOME_OFFICIAL_SOURCES");
+    expect(sourcesSource).toContain("taux non personnalisé");
+    expect(layoutSource).toContain("HomeOfficialSourcesSection");
+    const faqSectionIdx = layoutSource.indexOf('id="faq"');
+    const sourcesImportIdx = layoutSource.indexOf("<HomeOfficialSourcesSection");
+    expect(faqSectionIdx).toBeGreaterThan(-1);
+    expect(sourcesImportIdx).toBeGreaterThan(faqSectionIdx);
+    expect(editorialSource).not.toContain("Assurance chômage</li>");
+  });
+
+  it("ne décrit plus de majoration forfaitaire de mutuelle dans le net imposable", () => {
+    expect(editorialSource).not.toContain("40 €");
+    expect(editorialSource).not.toContain("40 euros");
+    expect(editorialSource).toMatch(/Aucun montant forfaitaire de\s+mutuelle patronale/);
+    expect(editorialSource).toContain("net avant impôt + CSG non déductible + CRDS");
   });
 
   it("documente coefficients, formules, sources et base horaire", () => {

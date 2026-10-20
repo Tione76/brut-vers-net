@@ -691,7 +691,7 @@ export const salaireArretMaladieGuide: Guide = {
     },
     {
       id: "methodologie-sources",
-      title: "Méthodologie et sources",
+      title: "Méthodologie",
       blocks: [
         {
           type: "paragraph",
@@ -738,19 +738,6 @@ export const salaireArretMaladieGuide: Guide = {
             `Pour ${formatEuro(2000)} brut par mois, 6 000 ÷ 91,25 = 65,7534... € puis × 50 % = 32,8767... €. Service-Public publie ${formatEuro(32.87)}. Le simulateur applique une troncature au centime.`,
             `Arrondi : troncature au centime après application de 50 %, puis plafonnement à l'IJ maximale publiée. Un écart d'un centime avec le relevé officiel peut exister (exemple au plafond : ${formatEuro(ex4000.dailyIjssGross)}).`,
           ],
-        },
-        {
-          type: "paragraph",
-          text: "Sources officielles :",
-        },
-        {
-          type: "list",
-          ordered: false,
-          items: Object.values(SICK_LEAVE_SOURCES).map((source) => ({
-            text: `${source.org} :`,
-            href: source.href,
-            label: source.label,
-          })),
         },
       ],
     },
@@ -852,6 +839,35 @@ export const salaireArretMaladieGuide: Guide = {
       {
         label: "Vérifier le complément légal de l'employeur",
         href: "/maintien-salaire-arret-maladie",
+      },
+    ],
+  },
+  bibliography: {
+    id: "sources-officielles",
+    title: "Sources officielles et références",
+    blocks: [
+      {
+        type: "paragraph",
+        text: SICK_LEAVE_FRESHNESS_LINE,
+      },
+      {
+        type: "paragraph",
+        text: "Ces références documentent le calcul des IJSS, le complément employeur et le cadre légal applicables aux salariés du privé. Elles ne constituent pas une certification de Brut vers Net par ces administrations.",
+      },
+      ...Object.values(SICK_LEAVE_SOURCES).map((source) => ({
+        type: "internal-link" as const,
+        variant: "guide" as const,
+        intro: `${source.org} :`,
+        label: source.label,
+        href: source.href,
+      })),
+      {
+        type: "callout",
+        variant: "legal",
+        paragraphs: [
+          SICK_LEAVE_SCOPE_DISCLAIMER,
+          "Le bulletin de paie, l'attestation de salaire, la convention collective, le relevé Ameli et la décision de la CPAM restent les références pour connaître les montants réellement dus et versés.",
+        ],
       },
     ],
   },

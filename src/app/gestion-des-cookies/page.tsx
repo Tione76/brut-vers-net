@@ -1,5 +1,5 @@
 import { config, seoConfig } from "@/site";
-import { FaqPageSidebar, GuidePageLayout } from "@/site/guides";
+import { GuidePageLayout } from "@/site/guides";
 import { CookiePolicyContent } from "@/site/legal/cookie-policy-content";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
@@ -32,7 +32,6 @@ export default function CookiePreferencesPage() {
       <GuidePageLayout
         title={page.title}
         subtitle={page.description}
-        sidebar={<FaqPageSidebar />}
       >
         <PageBreadcrumb
           items={[

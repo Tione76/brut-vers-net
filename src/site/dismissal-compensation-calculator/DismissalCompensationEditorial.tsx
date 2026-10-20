@@ -13,6 +13,10 @@ import {
   example129SecondBracketAmount,
   example4YearsAmount,
 } from "./dismissal-editorial-data";
+import {
+  DISMISSAL_OFFICIAL_SOURCES,
+  DISMISSAL_SOURCES_VERIFIED_AT_LABEL,
+} from "./dismissal-official-sources";
 import { DISMISSAL_CONFIG } from "./config";
 
 const revisedDateLabel = new Date(DISMISSAL_CONTENT_REVIEW_DATE).toLocaleDateString("fr-FR", {
@@ -41,12 +45,13 @@ const DISMISSAL_TOC = [
   { id: "exemples-indemnite", title: "Exemples de calcul", level: 2 as const },
   { id: "en-resume", title: "En résumé", level: 2 as const },
   { id: "faq-indemnite-licenciement", title: "Questions fréquentes", level: 2 as const },
+  { id: "sources-officielles", title: "Sources officielles", level: 2 as const },
 ];
 
 const DISMISSAL_TOC_GROUPS: GuideTocGroup[] = [
   { title: "Calcul de l'indemnité légale", icon: "calculator", start: 0, end: 7 },
   { title: "Cas particuliers et exemples de calcul", icon: "clipboard", start: 7, end: 11 },
-  { title: "Synthèse et questions fréquentes", icon: "badge", start: 11, end: 13 },
+  { title: "Synthèse, questions et sources", icon: "badge", start: 11, end: 14 },
 ];
 
 function DismissalFaqContent() {
@@ -71,6 +76,7 @@ function DismissalFaqContent() {
 
 export function DismissalCompensationEditorial() {
   return (
+    <>
     <section id="contenu" className="content-section">
       <div className="content-wrap">
         <div className="prose home-editorial increase-calc-editorial dismissal-editorial">
@@ -110,10 +116,6 @@ export function DismissalCompensationEditorial() {
               </Link>{" "}
               peut vous aider à mieux comprendre leur impact.
             </p>
-            <p className="dismissal-editorial__sources">
-              Références : Code du travail (articles L.1234-9, R.1234-2, L.1226-14, L.1226-16) et
-              fiche Service-Public « Indemnité de licenciement du salarié en CDI ».
-            </p>
           </div>
 
           <h2 id="qui-peut-recevoir" className="home-editorial__section-spaced">
@@ -123,16 +125,18 @@ export function DismissalCompensationEditorial() {
             <p>
               Dans le cas général, un salarié en CDI du secteur privé doit justifier d&apos;au moins{" "}
               {DISMISSAL_CONFIG.minSeniorityMonths} mois d&apos;ancienneté ininterrompue au service
-              du même employeur pour bénéficier de l&apos;indemnité légale de licenciement.
+              du même employeur pour bénéficier de l&apos;indemnité légale de licenciement. Cette
+              condition d&apos;ouverture du droit s&apos;apprécie à la date d&apos;envoi de la lettre
+              de licenciement.
             </p>
             <p>
               Une faute grave ou une faute lourde prive en principe de cette indemnité dans le cas
               général. À l&apos;inverse, une inaptitude d&apos;origine professionnelle liée à un
               accident du travail ou à une maladie professionnelle peut ouvrir droit à une indemnité
-              spéciale correspondant en principe au double de l&apos;indemnité légale, sauf
-              disposition plus favorable. Le salaire de référence obéit alors à une règle
-              particulière. L&apos;équivalent du préavis peut constituer une autre somme due et
-              n&apos;est pas inclus dans le montant principal du calculateur.
+              spéciale correspondant en principe au double de l&apos;indemnité légale, sans condition
+              d&apos;ancienneté minimale, sauf disposition plus favorable. Le salaire de référence
+              obéit alors à une règle particulière. L&apos;équivalent du préavis peut constituer une
+              autre somme due et n&apos;est pas inclus dans le montant principal du calculateur.
             </p>
             <p>
               Votre convention collective, votre contrat ou un usage peut prévoir une règle plus
@@ -170,15 +174,17 @@ export function DismissalCompensationEditorial() {
           </h2>
           <div className="home-editorial__prose">
             <p>
-              L&apos;ancienneté retenue pour le calcul est généralement déterminée jusqu&apos;à la
-              date effective de rupture, souvent à la fin du préavis, même lorsque celui-ci
-              n&apos;est pas exécuté dans certains cas. Les années complètes et les mois complets
-              supplémentaires sont pris en compte. Les simples jours incomplets ne doivent pas être
-              assimilés automatiquement à un mois complet.
+              Deux notions d&apos;ancienneté doivent être distinguées. L&apos;ancienneté requise pour
+              ouvrir droit à l&apos;indemnité légale s&apos;apprécie à la date d&apos;envoi de la
+              lettre de licenciement. L&apos;ancienneté retenue pour calculer le montant est
+              généralement déterminée jusqu&apos;à la date effective de rupture, souvent à la fin du
+              préavis, même lorsque celui-ci n&apos;est pas exécuté dans certains cas.
             </p>
             <p>
-              Une interruption, un changement de temps de travail ou une suspension du contrat peut
-              toutefois nécessiter un calcul adapté.
+              Les années complètes et les mois complets supplémentaires sont pris en compte. Les
+              simples jours incomplets ne doivent pas être assimilés automatiquement à un mois
+              complet. Une interruption, un changement de temps de travail ou une suspension du
+              contrat peut toutefois nécessiter un calcul adapté.
             </p>
           </div>
 
@@ -385,15 +391,51 @@ export function DismissalCompensationEditorial() {
             Questions fréquentes
           </h2>
           <DismissalFaqContent />
-
-          <p className="home-editorial__updated home-editorial__prose">
-            Contenu vérifié le{" "}
-            <time dateTime={DISMISSAL_CONTENT_REVIEW_DATE}>{revisedDateLabel}</time>. Estimation
-            indicative du minimum légal, hors situations particulières.
-          </p>
         </div>
       </div>
     </section>
+
+    <section id="sources-officielles" className="content-section content-section--border">
+      <div className="content-wrap">
+        <div className="prose home-editorial">
+          <h2>Sources officielles et références</h2>
+          <div className="home-editorial__prose">
+            <p>
+              Les résultats de ce calculateur sont indicatifs. Ils estiment le minimum légal à
+              partir du salaire brut de référence, de l&apos;ancienneté et du motif saisis. Ils ne
+              remplacent pas le solde de tout compte, une convention collective plus favorable ni un
+              conseil juridique.
+            </p>
+            <p>
+              Sources officielles vérifiées le {DISMISSAL_SOURCES_VERIFIED_AT_LABEL}. Elles
+              documentent les conditions d&apos;attribution, le barème légal, le salaire de
+              référence et les règles particulières d&apos;inaptitude professionnelle. Elles ne
+              constituent pas une certification de Brut vers Net par ces administrations.
+            </p>
+            {DISMISSAL_OFFICIAL_SOURCES.map((source) => (
+              <p key={source.href} className="guide-internal-link">
+                {source.org} :{" "}
+                <a href={source.href} rel="noopener noreferrer" target="_blank">
+                  {source.title}
+                </a>
+                . {source.note}
+              </p>
+            ))}
+            <aside className="home-editorial__callout home-editorial__callout--limit">
+              <strong>Périmètre réglementaire couvert</strong>
+              <p>
+                Salariés en CDI du secteur privé. Hors CDD, fonction publique, faute grave ou lourde
+                (sauf disposition plus favorable), et hors reconstitution automatique des cas
+                d&apos;alternance temps plein / temps partiel ou d&apos;arrêt maladie. Contenu
+                révisé le{" "}
+                <time dateTime={DISMISSAL_CONTENT_REVIEW_DATE}>{revisedDateLabel}</time>.
+              </p>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+    </>
   );
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 import Link from "next/link";
 import { useSite, CalculatorProvider } from "@/framework/SiteProvider";
 import { AdSlot } from "@/framework/AdSlot";
@@ -12,10 +12,13 @@ import { HomePageSidebar } from "@/site/guides/GuidePageSidebar";
 import { hasSidebarContent } from "@/site/guides/sidebar";
 import { HomeEditorial } from "@/site/home-editorial";
 import { HomeFaqContent } from "@/site/home-faq";
+import { HomeOfficialSourcesSection } from "@/site/home-official-sources";
 
 interface CalculatorPageLayoutProps {
   Calculator: ComponentType;
   share: ShareBlockProps;
+  /** Ligne « Par Antoine · X min · Dernière mise à jour » (sans fil d'Ariane sur l'accueil). */
+  authorMeta?: ReactNode;
 }
 
 function CalculatorHero({
@@ -37,7 +40,7 @@ function CalculatorHero({
   );
 }
 
-function CalculatorPageInner({ Calculator, share }: CalculatorPageLayoutProps) {
+function CalculatorPageInner({ Calculator, share, authorMeta }: CalculatorPageLayoutProps) {
   const site = useSite();
   const showSidebar = hasSidebarContent({ pageType: "home", currentPath: "/" });
 
@@ -64,6 +67,7 @@ function CalculatorPageInner({ Calculator, share }: CalculatorPageLayoutProps) {
         <div className="content-wrap content-wrap--wide home-with-sidebar">
           <div className={`article-layout${showSidebar ? "" : " article-layout--single"}`}>
             <div className="home-with-sidebar__main">
+              {authorMeta}
               <HomeEditorial />
 
         {site.blogPosts.length > 0 && (
@@ -113,6 +117,8 @@ function CalculatorPageInner({ Calculator, share }: CalculatorPageLayoutProps) {
           </div>
         </section>
 
+        <HomeOfficialSourcesSection />
+
               <ShareBlock {...share} variant="onLight" />
             </div>
             {showSidebar && <HomePageSidebar />}
@@ -129,10 +135,10 @@ function CalculatorPageInner({ Calculator, share }: CalculatorPageLayoutProps) {
   );
 }
 
-export function CalculatorPageLayout({ Calculator, share }: CalculatorPageLayoutProps) {
+export function CalculatorPageLayout({ Calculator, share, authorMeta }: CalculatorPageLayoutProps) {
   return (
     <CalculatorProvider>
-      <CalculatorPageInner Calculator={Calculator} share={share} />
+      <CalculatorPageInner Calculator={Calculator} share={share} authorMeta={authorMeta} />
     </CalculatorProvider>
   );
 }

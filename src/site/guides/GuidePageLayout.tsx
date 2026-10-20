@@ -14,6 +14,8 @@ interface GuidePageLayoutProps {
   prose?: boolean;
   /** Actions sous le sous-titre (bandeau compact, sans calculateur). */
   headerActions?: ReactNode;
+  /** Classe additionnelle sur le bandeau (ex. page auteur). */
+  headerClassName?: string;
 }
 
 /** Layout dédié aux guides : header hero, sans nom de site au-dessus du H1 */
@@ -24,16 +26,19 @@ export function GuidePageLayout({
   sidebar,
   prose = true,
   headerActions,
+  headerClassName,
 }: GuidePageLayoutProps) {
   const site = useSite();
+  const headerClasses = [
+    headerActions ? "guide-header guide-header--compact" : "guide-header",
+    headerClassName,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <>
-      <section
-        className={
-          headerActions ? "guide-header guide-header--compact" : "guide-header"
-        }
-      >
+      <section className={headerClasses}>
         <SiteNav
           siteName={site.name}
           nav={site.navigation.header}

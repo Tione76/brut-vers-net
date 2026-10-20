@@ -7,7 +7,7 @@ import type { DismissalCompensationInput } from "./types";
  * À mettre à jour manuellement après contrôle du texte et des règles affichées.
  * Ne pas dériver automatiquement du build ni de la date du jour.
  */
-export const DISMISSAL_CONTENT_REVIEW_DATE = "2026-07-16";
+export const DISMISSAL_CONTENT_REVIEW_DATE = "2026-10-20";
 
 /** Alias partagé par le contenu visible et le JSON-LD. */
 export const DISMISSAL_EDITORIAL_UPDATED_AT = DISMISSAL_CONTENT_REVIEW_DATE;
@@ -91,7 +91,7 @@ export const dismissalFaq: DismissalFaqItem[] = [
   {
     question: "Ai-je droit à une indemnité avec moins de 8 mois d'ancienneté ?",
     answer:
-      "Dans le cas général, l'indemnité légale de licenciement est ouverte à partir de 8 mois d'ancienneté ininterrompue chez le même employeur. Une convention collective ou une situation particulière peut toutefois prévoir une règle plus favorable.",
+      "Dans le cas général, l'indemnité légale de licenciement est ouverte à partir de 8 mois d'ancienneté ininterrompue chez le même employeur, appréciés à la date d'envoi de la lettre de licenciement. Une convention collective ou une situation particulière (notamment l'inaptitude d'origine professionnelle) peut toutefois prévoir une règle plus favorable.",
   },
   {
     question: "Quelle indemnité après 10 ans d'ancienneté ?",
@@ -120,7 +120,7 @@ export const dismissalFaq: DismissalFaqItem[] = [
   {
     question: "Que se passe-t-il en cas d'inaptitude professionnelle ?",
     answer:
-      "Lorsque l'inaptitude a une origine professionnelle (accident du travail ou maladie professionnelle), une indemnité spéciale minimale correspondant au double de l'indemnité légale peut être due, sauf disposition plus favorable. Le salaire de référence obéit alors à une règle particulière. Une indemnité compensatrice de préavis peut s'y ajouter ; elle n'est pas incluse dans le montant principal du calculateur.",
+      "Lorsque l'inaptitude a une origine professionnelle (accident du travail ou maladie professionnelle), une indemnité spéciale minimale correspondant au double de l'indemnité légale peut être due sans condition d'ancienneté minimale, sauf disposition plus favorable. Le salaire de référence obéit alors à une règle particulière. Une indemnité compensatrice de préavis peut s'y ajouter ; elle n'est pas incluse dans le montant principal du calculateur.",
   },
   {
     question: "Le calculateur fonctionne-t-il pour un CDD ?",

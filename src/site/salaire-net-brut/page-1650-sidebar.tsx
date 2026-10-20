@@ -3,6 +3,7 @@ import { getGuideBySlug } from "@/site/guides/registry";
 import { getGuidePublicPath } from "@/site/guides/paths";
 import {
   getAllSidebarTools,
+  getRecentGuideLinksForPath,
   type GuideSidebarLink,
   type SidebarTool,
 } from "@/site/guides/sidebar";
@@ -15,7 +16,6 @@ import {
 const TOOL_DESCRIPTION_OVERRIDES: Partial<Record<(typeof PAGE_1650_SIDEBAR_TOOL_IDS)[number], string>> =
   {
     "brut-vers-net": "Convertissez un autre salaire net en brut selon votre statut.",
-    "augmentation-salaire": "Mesurez l'impact d'une augmentation en net.",
     "salaire-heures-supplementaires": "Estimez vos heures sup en brut et en net.",
   };
 
@@ -46,21 +46,41 @@ function getCuratedGuides(): GuideSidebarLink[] {
         slug: guide.slug,
         title,
         href: getGuidePublicPath(guide),
+        description: guide.subtitle || guide.description,
       },
     ];
   });
 }
 
-export function Page1650Sidebar({ netMonthly }: { netMonthly: number }) {
+export function Page1650Sidebar({
+  netMonthly,
+  currentPath,
+}: {
+  netMonthly: number;
+  currentPath?: string;
+}) {
+  const curatedGuides = getCuratedGuides();
+  const path = currentPath ?? `/salaire-net/${netMonthly}-euros`;
+  const recentGuides = getRecentGuideLinksForPath(
+    [...curatedGuides.map((guide) => guide.href), path],
+    path,
+    10,
+  );
+
   return (
     <aside className="article-sidebar net-gross-1650-sidebar" aria-label="Maillage interne">
-      <GuideSidebar
-        tools={getCuratedTools(netMonthly)}
-        guides={getCuratedGuides()}
-        guidesSectionTitle="À lire aussi"
-        guidesBlockVariant="also-read"
-        showTools
-      />
+      <div className="article-sidebar__slot article-sidebar__slot--ad" hidden aria-hidden="true" />
+      <div className="article-sidebar__recommendations">
+        <GuideSidebar
+          tools={getCuratedTools(netMonthly)}
+          guides={curatedGuides}
+          recentGuides={recentGuides}
+          guidesSectionTitle="À lire aussi"
+          guidesBlockVariant="also-read"
+          showTools
+          toolsFirst
+        />
+      </div>
     </aside>
   );
 }

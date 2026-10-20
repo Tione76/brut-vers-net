@@ -691,8 +691,8 @@ function SalaryCalculator({
     withholdingRateMode === "manual"
       ? "Taux fixé manuellement."
       : withholdingResolution.hasSalary
-        ? "Taux neutre estimé automatiquement selon le revenu mensuel. Vous pouvez le modifier."
-        : "Le taux estimé sera proposé après la saisie d'un salaire.";
+        ? "Taux non personnalisé estimé selon le barème officiel. Votre taux réel, calculé par l'administration fiscale en fonction de votre situation, peut être différent. Vous pouvez le renseigner manuellement."
+        : "Le taux non personnalisé sera proposé après la saisie d'un salaire."
 
   return (
     <div className="salary-calc calc-fields" aria-live="polite" aria-atomic="true">

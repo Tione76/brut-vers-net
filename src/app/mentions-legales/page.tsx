@@ -1,5 +1,5 @@
 import { config, seoConfig } from "@/site";
-import { FaqPageSidebar, GuidePageLayout } from "@/site/guides";
+import { GuidePageLayout } from "@/site/guides";
 import { MentionsLegalesContent } from "@/site/legal/mentions-legales-content";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
@@ -32,7 +32,6 @@ export default function MentionsLegalesPage() {
       <GuidePageLayout
         title={page.title}
         subtitle={page.description}
-        sidebar={<FaqPageSidebar />}
       >
         <PageBreadcrumb
           items={[

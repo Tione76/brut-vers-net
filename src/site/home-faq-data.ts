@@ -30,7 +30,7 @@ export const homeFaq: FaqItem[] = [
   {
     question: "Le prélèvement à la source est-il inclus ?",
     answer:
-      "Oui. Un taux neutre estime le net après impôt. Remplacez-le par votre taux réel (bulletin ou impots.gouv.fr) pour un résultat plus proche de votre paie. Le taux dépend de votre foyer fiscal, pas du seul salaire.",
+      "Oui. En mode automatique, le simulateur estime un net imposable (net avant impôt + CSG non déductible + CRDS, sans majoration forfaitaire de mutuelle), puis applique un taux non personnalisé issu de la grille officielle métropolitaine. Remplacez-le par votre taux réel (bulletin ou impots.gouv.fr) pour un résultat plus proche de votre paie : le taux personnalisé dépend du foyer fiscal, pas du seul salaire.",
   },
   {
     question: "Le résultat du calculateur est-il fiable ?",

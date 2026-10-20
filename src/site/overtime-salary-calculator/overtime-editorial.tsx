@@ -20,6 +20,10 @@ import {
 } from "./overtime-editorial-data";
 import { OVERTIME_CONFIG_2026 } from "./overtime/2026/config";
 import { MONTHLY_HOURS_REFERENCE } from "./config";
+import {
+  OVERTIME_OFFICIAL_SOURCES,
+  OVERTIME_SOURCES_VERIFIED_AT_LABEL,
+} from "./overtime-official-sources";
 
 const revisedDateLabel = new Date(OVERTIME_EDITORIAL_UPDATED_AT).toLocaleDateString("fr-FR", {
   day: "numeric",
@@ -61,12 +65,13 @@ const OVERTIME_TOC = [
     level: 2 as const,
   },
   { id: "faq-heures-supplementaires", title: "Questions fréquentes", level: 2 as const },
+  { id: "sources-officielles", title: "Sources officielles", level: 2 as const },
 ];
 
 const OVERTIME_TOC_GROUPS: GuideTocGroup[] = [
   { title: "Calcul et majorations", icon: "calculator", start: 0, end: 5 },
   { title: "Exemples, fiscalité et cas particuliers", icon: "help", start: 5, end: 8 },
-  { title: "Questions fréquentes", icon: "badge", start: 8, end: 9 },
+  { title: "Questions et sources", icon: "badge", start: 8, end: 10 },
 ];
 
 const oneHour = exampleOneHourAt25();
@@ -110,7 +115,8 @@ export function OvertimeSalaryEditorial() {
 
             <p className="home-editorial__prose">
               La simulation s&apos;adresse aux salariés à temps plein du secteur privé sur une base
-              de 35 heures. Le résultat reste indicatif : votre{" "}
+              de 35 heures. Elle ne couvre pas les heures complémentaires du temps partiel ni les
+              forfaits jours. Le résultat reste indicatif, avant prélèvement à la source : votre{" "}
               <Link href="/guides/comment-lire-une-fiche-de-paie">fiche de paie</Link> fait toujours
               foi.
             </p>
@@ -206,12 +212,14 @@ export function OvertimeSalaryEditorial() {
                 .
               </p>
               <p>
-                L&apos;Urssaf présente notamment un taux maximal de réduction de{" "}
+                L&apos;Urssaf retient un taux maximal de réduction de{" "}
                 {(OVERTIME_CONFIG_2026.maxEmployeeContributionReliefRate * 100).toLocaleString(
                   "fr-FR",
                 )}{" "}
-                % dans son exemple 2026. Le calculateur estime donc un gain net distinct du gain
-                brut, avant prélèvement à la source.
+                % lorsque les taux de droit commun d&apos;assurance vieillesse et de retraite
+                complémentaire s&apos;appliquent. Ce n&apos;est pas une exonération totale de
+                cotisations. Le calculateur estime donc un gain net distinct du gain brut, avant
+                prélèvement à la source.
               </p>
               <p>
                 Pour une estimation globale de votre rémunération hors heures, utilisez aussi le{" "}
@@ -377,13 +385,47 @@ export function OvertimeSalaryEditorial() {
               Questions fréquentes sur le calculateur d&apos;heures supplémentaires
             </h2>
             <OvertimeFaqContent />
+          </div>
+        </div>
+      </section>
 
-            <p className="home-editorial__updated home-editorial__prose">
-              Contenu vérifié le{" "}
-              <time dateTime={OVERTIME_EDITORIAL_UPDATED_AT}>{revisedDateLabel}</time>. Sources :
-              Service-Public (heures supplémentaires, imposition) et Urssaf (réduction de
-              cotisations salariales). Montants indicatifs, hors primes et situations particulières.
-            </p>
+      <section id="sources-officielles" className="content-section content-section--border">
+        <div className="content-wrap">
+          <div className="prose home-editorial">
+            <h2>Sources officielles et références</h2>
+            <div className="home-editorial__prose">
+              <p>
+                Les résultats de ce calculateur sont indicatifs. Ils reposent sur les majorations
+                légales ou conventionnelles que vous saisissez, une base mensualisée de{" "}
+                {MONTHLY_HOURS_REFERENCE} heures, et une réduction de cotisations salariales plafonnée
+                au taux maximal de droit commun. Ils ne reproduisent pas une fiche de paie réelle
+                ni une validation URSSAF.
+              </p>
+              <p>
+                Sources officielles vérifiées le {OVERTIME_SOURCES_VERIFIED_AT_LABEL}. Elles
+                documentent le décompte des heures supplémentaires, les majorations, la réduction
+                de cotisations, l&apos;exonération d&apos;impôt et la durée légale du travail. Elles
+                ne constituent pas une certification de Brut vers Net par ces administrations.
+              </p>
+              {OVERTIME_OFFICIAL_SOURCES.map((source) => (
+                <p key={source.href} className="guide-internal-link">
+                  {source.org} :{" "}
+                  <a href={source.href} rel="noopener noreferrer" target="_blank">
+                    {source.title}
+                  </a>
+                  . {source.note}
+                </p>
+              ))}
+              <aside className="home-editorial__callout home-editorial__callout--limit">
+                <strong>Périmètre réglementaire couvert</strong>
+                <p>
+                  Salariés du secteur privé à temps plein sur une base de 35 heures. Hors heures
+                  complémentaires, forfaits jours, travail de nuit ou du dimanche spécifiques, et
+                  hors grilles ultramarines. Contenu révisé le{" "}
+                  <time dateTime={OVERTIME_EDITORIAL_UPDATED_AT}>{revisedDateLabel}</time>.
+                </p>
+              </aside>
+            </div>
           </div>
         </div>
       </section>

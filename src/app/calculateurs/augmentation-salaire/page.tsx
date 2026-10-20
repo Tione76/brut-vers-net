@@ -1,5 +1,6 @@
 import { config, seoConfig } from "@/site";
 import { coverToOgInput, getCalculatorCover } from "@/site/guides/covers";
+import { GuideAuthorMeta } from "@/site/guides";
 import { SalaryIncreasePageSidebar } from "@/site/salary-increase-calculator/salary-increase-sidebar";
 import { ToolCalculatorPageLayout } from "@/framework/layouts/ToolCalculatorPageLayout";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
@@ -7,6 +8,10 @@ import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { buildCalculatorJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
+import {
+  CALCULATOR_EDITORIAL_UPDATED_AT,
+  computeCalculatorEditorialReadingTime,
+} from "@/site/calculator-editorial-meta";
 import {
   INCREASE_DISCLAIMER,
   SALARY_INCREASE_PATH,
@@ -16,11 +21,15 @@ import {
   SalaryIncreaseEditorial,
   salaryIncreaseFaq,
 } from "@/site/salary-increase-calculator/salary-increase-editorial";
-import { SALARY_INCREASE_EDITORIAL_UPDATED_AT } from "@/site/salary-increase-calculator/salary-increase-editorial-data";
 
 const calc = seoConfig.calculators["augmentation-salaire"];
 const path = SALARY_INCREASE_PATH;
 const cover = getCalculatorCover("augmentation-salaire");
+const readingTime = computeCalculatorEditorialReadingTime([
+  "src/site/salary-increase-calculator/salary-increase-editorial.tsx",
+  "src/site/salary-increase-calculator/salary-increase-editorial-data.ts",
+  "src/site/salary-increase-calculator/salary-increase-official-sources.ts",
+]);
 
 export const metadata = buildPageMetadata(config, seoConfig, {
   title: calc.title,
@@ -40,7 +49,7 @@ export default function SalaryIncreaseCalculatorPage() {
           description: calc.description,
           cover,
           faq: salaryIncreaseFaq,
-          dateModified: SALARY_INCREASE_EDITORIAL_UPDATED_AT,
+          dateModified: CALCULATOR_EDITORIAL_UPDATED_AT,
         })}
       />
       <ToolCalculatorPageLayout
@@ -57,6 +66,12 @@ export default function SalaryIncreaseCalculatorPage() {
               { label: "Outils", href: seoConfig.toolsHub.path },
               { label: calc.h1 },
             ]}
+          />
+        }
+        authorMeta={
+          <GuideAuthorMeta
+            updatedAt={CALCULATOR_EDITORIAL_UPDATED_AT}
+            readingTime={readingTime}
           />
         }
         editorial={<SalaryIncreaseEditorial />}

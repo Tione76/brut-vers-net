@@ -287,8 +287,8 @@ describe("vague 1 de refonte net → brut", () => {
     }
   });
 
-  it("compacte la sidebar à six liens et préremplit le calculateur", () => {
-    expect(PAGE_1650_SIDEBAR_TOOL_IDS.length + PAGE_1650_SIDEBAR_GUIDE_ENTRIES.length).toBe(6);
+  it("compacte la sidebar à quatre liens et préremplit le calculateur", () => {
+    expect(PAGE_1650_SIDEBAR_TOOL_IDS.length + PAGE_1650_SIDEBAR_GUIDE_ENTRIES.length).toBe(4);
     expect(buildRedesignEndCtaHref(1500)).toBe("/?net=1500&profil=non-cadre");
     expect(buildRedesignEndCtaHref(5980)).toBe("/?net=5980&profil=non-cadre");
   });

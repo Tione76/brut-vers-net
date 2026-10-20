@@ -275,9 +275,17 @@ describe("page salaire arrêt maladie", () => {
     expect(guide.conclusion.keyPoints).toEqual([]);
   });
 
-  it("cite les sources officielles et les notions GEO clés", () => {
+  it("cite les sources officielles en fin de page et les notions GEO clés", () => {
     const guide = getGuideBySlug(slug)!;
     const blob = JSON.stringify(guide);
+    expect(guide.bibliography?.id).toBe("sources-officielles");
+    expect(guide.bibliography?.title).toBe("Sources officielles et références");
+    const toc = buildGuideTocH2(guide);
+    const faqIdx = toc.findIndex((entry) => entry.id === "questions-frequentes");
+    const conclusionIdx = toc.findIndex((entry) => entry.id === "conclusion");
+    const sourcesIdx = toc.findIndex((entry) => entry.id === "sources-officielles");
+    expect(sourcesIdx).toBeGreaterThan(faqIdx);
+    expect(sourcesIdx).toBeGreaterThan(conclusionIdx);
     for (const source of Object.values(SICK_LEAVE_SOURCES)) {
       expect(blob).toContain(source.href);
     }

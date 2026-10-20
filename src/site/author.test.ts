@@ -9,6 +9,10 @@ describe("auteur éditorial", () => {
   it("expose un chemin stable /auteur/antoine indexable", () => {
     expect(SITE_AUTHOR.path).toBe("/auteur/antoine");
     expect(SITE_AUTHOR.name).toBe("Antoine");
+    expect(SITE_AUTHOR.metaTitle).toContain("créateur de Brut vers Net");
+    expect(SITE_AUTHOR.ctaHref).toBe("/contact");
+    expect(SITE_AUTHOR.reportLinkHref).toBe("/contact");
+    expect(SITE_AUTHOR.portrait?.src).toBe("/images/authors/Antoine.webp");
     expect(isPathIndexable(SITE_AUTHOR.path)).toBe(true);
     expect(getAllPublicPages().some((p) => p.path === SITE_AUTHOR.path)).toBe(true);
   });

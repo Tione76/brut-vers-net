@@ -9,8 +9,8 @@ import { hourlyToMonthly, roundCent } from "@/site/salary-calculator/conversions
 import { formatCurrency } from "@/site/salary-calculator/parsing";
 import type { EmploymentProfile } from "@/site/salary-calculator/types";
 
-/** Date de révision éditoriale (alignée sur SALARY_CALCULATOR_META.updatedAt). */
-export const HOME_EDITORIAL_UPDATED_AT = "2026-07-13";
+/** Date de révision éditoriale (alignée sur la revue fiscale du 20 octobre 2026). */
+export const HOME_EDITORIAL_UPDATED_AT = "2026-10-20";
 
 /** Bruts mensuels affichés dans le tableau de conversion. */
 export const CONVERSION_TABLE_GROSS_MONTHLY = [

@@ -3013,7 +3013,8 @@ img.country-flag.country-flag--section {
 
 .guide-sidebar-block--also-read .guide-sidebar-block__title,
 .guide-sidebar-block--tools .guide-sidebar-block__title,
-.guide-sidebar-block--guides .guide-sidebar-block__title {
+.guide-sidebar-block--guides .guide-sidebar-block__title,
+.guide-sidebar-block--recent .guide-sidebar-block__title {
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.05em;

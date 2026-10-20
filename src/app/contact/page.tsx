@@ -1,5 +1,5 @@
 import { config, seoConfig } from "@/site";
-import { FaqPageSidebar, GuidePageLayout } from "@/site/guides";
+import { GuidePageLayout } from "@/site/guides";
 import { ContactPageContent } from "@/site/contact/ContactPageContent";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
@@ -33,7 +33,6 @@ export default function ContactPage() {
       <GuidePageLayout
         title={page.title}
         subtitle={contact.intro}
-        sidebar={<FaqPageSidebar />}
         prose={false}
       >
         <PageBreadcrumb

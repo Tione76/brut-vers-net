@@ -16,6 +16,10 @@ import {
   SALARY_INCREASE_EDITORIAL_UPDATED_AT,
   salaryIncreaseFaq,
 } from "./salary-increase-editorial-data";
+import {
+  INCREASE_OFFICIAL_SOURCES,
+  INCREASE_SOURCES_VERIFIED_AT_LABEL,
+} from "./salary-increase-official-sources";
 
 const practicalCases = buildIncreasePracticalCases();
 const quickReferenceRows = buildQuickReferenceRows();
@@ -35,12 +39,13 @@ const INCREASE_TOC = [
   { id: "bien-negocier", title: "Bien négocier", level: 2 as const },
   { id: "en-resume", title: "En résumé", level: 2 as const },
   { id: "faq", title: "FAQ", level: 2 as const },
+  { id: "sources-officielles", title: "Sources officielles", level: 2 as const },
 ];
 
 const INCREASE_TOC_GROUPS: GuideTocGroup[] = [
   { title: "Utiliser le calculateur d'augmentation", icon: "calculator", start: 0, end: 3 },
   { title: "Comprendre et négocier son augmentation", icon: "help", start: 3, end: 7 },
-  { title: "Synthèse et questions fréquentes", icon: "badge", start: 7, end: 9 },
+  { title: "Synthèse, questions et sources", icon: "badge", start: 7, end: 10 },
 ];
 
 const revisedDateLabel = new Date(SALARY_INCREASE_EDITORIAL_UPDATED_AT).toLocaleDateString("fr-FR", {
@@ -246,12 +251,14 @@ export function SalaryIncreaseEditorial() {
 
               <h3>L&apos;impact des cotisations salariales</h3>
               <p>
-                Maladie, retraite, chômage, CSG-CRDS : les{" "}
+                Retraite, CSG, CRDS et, selon le régime, d&apos;autres retenues : les{" "}
                 <Link href="/guides/cotisations-salariales-pourquoi-brut-plus-eleve-que-net">
-                  cotisations salariales
+                  cotisations et contributions salariales
                 </Link>{" "}
                 financent la protection sociale et réduisent le net par rapport au brut. Elles
-                s&apos;appliquent aussi sur la part de salaire issue de l&apos;augmentation.
+                s&apos;appliquent aussi sur la part de salaire issue de l&apos;augmentation. Pour
+                les salariés du privé, la cotisation salariale d&apos;assurance chômage de droit
+                commun a été supprimée en 2018.
               </p>
 
               <h3>L&apos;impact du prélèvement à la source</h3>
@@ -260,9 +267,14 @@ export function SalaryIncreaseEditorial() {
                 <Link href="/guides/prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne">
                   prélèvement à la source
                 </Link>{" "}
-                porte sur le net imposable. Une hausse de salaire peut augmenter le montant prélevé
-                chaque mois, même si votre taux reste stable. Le simulateur affiche le gain avant et
-                après prélèvement pour isoler cet effet.
+                porte sur le net imposable. En mode automatique, le simulateur estime cette base
+                (net avant impôt + CSG non déductible + CRDS), sans majoration forfaitaire de
+                mutuelle patronale, puis applique un{" "}
+                <strong>taux non personnalisé</strong> issu de la grille officielle. Ce n&apos;est
+                pas le taux personnalisé calculé par l&apos;administration pour votre foyer. Une
+                hausse de salaire peut augmenter le montant prélevé et, parfois, faire changer de
+                tranche. Le simulateur affiche le gain avant et après prélèvement pour isoler cet
+                effet ; vous pouvez saisir votre taux réel dans le formulaire.
               </p>
 
               <h3>Une augmentation augmente-t-elle les impôts ?</h3>
@@ -445,6 +457,46 @@ export function SalaryIncreaseEditorial() {
             Questions fréquentes sur l&apos;augmentation de salaire
           </h2>
           <SalaryIncreaseFaqContent />
+        </div>
+      </section>
+
+      <section id="sources-officielles" className="content-section content-section--border">
+        <div className="content-wrap">
+          <div className="prose home-editorial">
+            <h2>Sources officielles et références</h2>
+            <div className="home-editorial__prose">
+              <p>
+                Les résultats de ce calculateur sont indicatifs. Ils reposent sur le moteur
+                simplifié de Brut vers Net : coefficients internes 0,78 (non-cadre), 0,75 (cadre) et
+                0,81 (fonction publique), estimation du net imposable sans majoration forfaitaire de
+                mutuelle, puis taux non personnalisé de la grille officielle. Ce ne sont pas des
+                taux réglementaires universels ni une validation URSSAF.
+              </p>
+              <p>
+                Sources officielles vérifiées le {INCREASE_SOURCES_VERIFIED_AT_LABEL}. Elles
+                documentent la négociation salariale, les cotisations, la CSG/CRDS et le prélèvement
+                à la source. Elles ne constituent pas une certification de Brut vers Net par ces
+                administrations.
+              </p>
+              {INCREASE_OFFICIAL_SOURCES.map((source) => (
+                <p key={source.href} className="guide-internal-link">
+                  {source.org} :{" "}
+                  <a href={source.href} rel="noopener noreferrer" target="_blank">
+                    {source.title}
+                  </a>
+                  . {source.note}
+                </p>
+              ))}
+              <aside className="home-editorial__callout home-editorial__callout--limit">
+                <strong>Périmètre réglementaire couvert</strong>
+                <p>
+                  Grille métropolitaine des taux non personnalisés à compter du 1er mai 2026. Les
+                  grilles ultramarines ne sont pas appliquées ici. Votre taux personnalisé de foyer
+                  peut différer du taux proposé automatiquement.
+                </p>
+              </aside>
+            </div>
+          </div>
         </div>
       </section>
     </>

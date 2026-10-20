@@ -1,18 +1,15 @@
 /**
  * Paramètres métier des heures supplémentaires (révision 2026).
  *
- * Sources :
- * - Service-Public F2391 : heures supplémentaires d'un salarié du secteur privé
- *   (majoration légale 25 % / 50 %, plancher conventionnel 10 %)
- * - Urssaf : réduction de cotisations salariales sur les heures supplémentaires
- *   (taux maximal 11,31 % lorsque les taux de droit commun s'appliquent)
- * - Service-Public F2617 : exonération d'impôt sur le revenu des heures
- *   supplémentaires (plafond annuel de rémunération nette imposable)
+ * Sources (vérifiées le 20 octobre 2026) : voir overtime-official-sources.ts
+ * - Service-Public F2391 / Code du travail L3121-28, L3121-33, L3121-36
+ * - Urssaf : réduction salariale (taux maximal 11,31 % de droit commun)
+ * - Service-Public F2617 : exonération IR (plafond 7 500 € nette imposable)
  */
 
 export const OVERTIME_CONFIG_2026 = {
   year: 2026,
-  lastReviewedAt: "2026-07-16",
+  lastReviewedAt: "2026-10-20",
   legalMajorationGroup1: 25,
   legalMajorationGroup2: 50,
   minConventionalMajorationPercent: 10,

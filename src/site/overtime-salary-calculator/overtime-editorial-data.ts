@@ -157,7 +157,7 @@ export const overtimeFaq: OvertimeFaqItem[] = [
   {
     question: "Les heures supplémentaires sont-elles soumises aux cotisations ?",
     answer:
-      "Oui, mais elles bénéficient d'une réduction de cotisations salariales. L'Urssaf indique notamment un taux maximal de réduction de 11,31 % dans son exemple 2026 lorsque les taux de droit commun s'appliquent. Ce n'est pas une exonération totale de cotisations.",
+      "Oui, mais elles bénéficient d'une réduction de cotisations salariales d'assurance vieillesse et de retraite complémentaire. L'Urssaf retient un taux maximal de 11,31 % lorsque les taux de droit commun s'appliquent. Ce n'est pas une exonération totale de cotisations.",
   },
   {
     question: "Une convention collective peut-elle prévoir un autre taux ?",
@@ -197,7 +197,7 @@ export const overtimeFaq: OvertimeFaqItem[] = [
   {
     question: "Les heures supplémentaires sont-elles obligatoires ?",
     answer:
-      "L'employeur peut demander des heures supplémentaires dans le respect des limites légales et conventionnelles. Le salarié peut refuser dans certains cas, notamment si la demande est abusive ou incompatible avec des obligations importantes. En cas de doute, consultez votre convention collective ou un conseil compétent.",
+      "L'employeur peut demander des heures supplémentaires dans le respect des limites légales et conventionnelles. En principe, le salarié ne peut pas les refuser, sauf circonstances particulières, par exemple s'il n'a pas été prévenu suffisamment tôt. En cas de doute, consultez votre convention collective ou un conseil compétent.",
   },
 ];
 

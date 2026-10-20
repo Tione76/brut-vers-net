@@ -7,9 +7,9 @@ export const NEUTRAL_WITHHOLDING_RATE_SCHEDULE_2026: NeutralWithholdingRateSched
   sourceName: "BOFiP",
   sourceId: "BOI-BAREME-000037",
   legalReference: "Article 204 H du Code général des impôts",
-  lastReviewedAt: "2026-07-13",
+  lastReviewedAt: "2026-10-20",
   methodologyNote:
-    "Grille officielle des taux par défaut. Le calculateur applique ce barème à une estimation de revenu net imposable mensuel, qui reste indicative.",
+    "Grille officielle des taux non personnalisés (taux par défaut) pour la métropole, applicable aux revenus perçus à compter du 1er mai 2026 (CGI art. 204 H III et BOFiP BOI-BAREME-000037). Le taux est lu sur une estimation de net imposable mensuel (net avant impôt + CSG non déductible + CRDS). Ce n'est pas le taux personnalisé du foyer fiscal.",
   brackets: [
     { minInclusive: 0, maxExclusive: 1635, rate: 0 },
     { minInclusive: 1635, maxExclusive: 1698, rate: 0.5 },

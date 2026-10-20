@@ -4,7 +4,7 @@ import type { EmploymentProfile, SalaryMonths } from "@/site/salary-calculator/t
 import { calculateSalaryIncrease } from "./engine";
 import type { IncreaseType, SalaryIncreaseInput } from "./types";
 
-export const SALARY_INCREASE_EDITORIAL_UPDATED_AT = "2026-07-15";
+export const SALARY_INCREASE_EDITORIAL_UPDATED_AT = "2026-10-20";
 
 export const INCREASE_CASE_CALCULATOR_HINT =
   "Testez ce scénario directement dans le calculateur situé en haut de cette page.";
@@ -178,12 +178,12 @@ export const salaryIncreaseFaq: FaqItem[] = [
   {
     question: "200 € brut de plus, combien en net ?",
     answer:
-      "Le gain net est inférieur à 200 €, car les cotisations salariales s'appliquent aussi sur la part augmentée. Sur 2 500 € brut mensuels (non-cadre), comptez environ 156 € net avant prélèvement et un peu moins net après prélèvement à la source. Saisissez vos propres montants pour un résultat personnalisé.",
+      "Le gain net est inférieur à 200 €, car les cotisations et contributions salariales s'appliquent aussi sur la part augmentée. Sur 2 500 € brut mensuels (non-cadre), comptez environ 156 € net avant prélèvement et environ 125 € net après prélèvement à la source (taux non personnalisé estimé). Saisissez vos propres montants pour un résultat personnalisé.",
   },
   {
     question: "Une augmentation de 5 % représente combien ?",
     answer:
-      "5 % s'appliquent d'abord à votre brut mensuel. Sur 2 500 € brut, cela représente 125 € brut de plus par mois, puis un gain net estimé d'environ 98 € avant prélèvement (non-cadre). Le simulateur calcule automatiquement l'équivalent en euros lorsque vous choisissez le mode pourcentage.",
+      "5 % s'appliquent d'abord à votre brut mensuel. Sur 2 500 € brut, cela représente 125 € brut de plus par mois, puis un gain net estimé d'environ 97,50 € avant prélèvement (non-cadre). Le simulateur calcule automatiquement l'équivalent en euros lorsque vous choisissez le mode pourcentage.",
   },
   {
     question: "L'augmentation se calcule sur le brut ou le net ?",
@@ -193,12 +193,12 @@ export const salaryIncreaseFaq: FaqItem[] = [
   {
     question: "Pourquoi mon gain net est-il inférieur à l'augmentation brute ?",
     answer:
-      "Les cotisations salariales (sécurité sociale, retraite, chômage, etc.) sont prélevées sur la rémunération brute, y compris la part nouvelle. Seule une fraction du supplément brut devient net avant impôt. C'est normal et identique pour une augmentation de 100 €, 200 € ou 300 €.",
+      "Les cotisations et contributions salariales (retraite, CSG, CRDS, etc.) sont prélevées sur la rémunération brute, y compris la part nouvelle. Pour les salariés du privé, la cotisation salariale d'assurance chômage de droit commun a été supprimée en 2018. Seule une fraction du supplément brut devient net avant impôt. C'est normal et identique pour une augmentation de 100 €, 200 € ou 300 €.",
   },
   {
     question: "Le prélèvement à la source diminue-t-il mon augmentation ?",
     answer:
-      "Oui. Le prélèvement à la source porte sur le net imposable. Une hausse de salaire peut augmenter le montant prélevé chaque mois, même si votre taux personnel reste identique. Le simulateur affiche le gain net avant et après prélèvement pour isoler cet effet.",
+      "Oui. En mode automatique, le simulateur estime un net imposable (sans majoration forfaitaire de mutuelle) et applique un taux non personnalisé issu de la grille officielle. Une hausse de salaire peut augmenter le montant prélevé, et parfois faire changer de tranche. Ce taux n'est pas votre taux personnalisé de foyer. Le simulateur affiche le gain net avant et après prélèvement pour isoler cet effet.",
   },
   {
     question: "Comment calculer une augmentation annuelle ?",

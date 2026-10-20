@@ -89,7 +89,7 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Indemnisation et calcul du salaire", icon: "help", start: 3, end: 10 },
       { title: "Versement et vérification", icon: "clipboard", start: 10, end: 12 },
       { title: "Limites et méthodologie", icon: "file", start: 12, end: 14 },
-      { title: "Questions fréquentes et estimation", icon: "badge", start: 14, end: 16 },
+      { title: "Questions, estimation et sources", icon: "badge", start: 14, end: 17 },
     ],
   },
 
@@ -99,8 +99,8 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Comprendre le calcul des IJSS", icon: "help", start: 2, end: 8 },
       { title: "Conditions et versement des IJSS", icon: "clipboard", start: 8, end: 11 },
       { title: "Exemples et vérification du calcul", icon: "scale", start: 11, end: 14 },
-      { title: "Méthodologie et questions fréquentes", icon: "file", start: 14, end: 16 },
-      { title: "Estimer ses indemnités", icon: "badge", start: 16, end: 17 },
+      { title: "Limites et méthodologie", icon: "file", start: 14, end: 16 },
+      { title: "Questions, estimation et sources", icon: "badge", start: 16, end: 18 },
     ],
   },
 
@@ -110,8 +110,8 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Comprendre le maintien de salaire", icon: "help", start: 2, end: 6 },
       { title: "Calcul et situations particulières", icon: "scale", start: 6, end: 12 },
       { title: "Vérification et cas non couverts", icon: "clipboard", start: 12, end: 15 },
-      { title: "Méthodologie et questions fréquentes", icon: "file", start: 15, end: 17 },
-      { title: "Estimer son complément employeur", icon: "badge", start: 17, end: 18 },
+      { title: "Méthodologie", icon: "file", start: 15, end: 16 },
+      { title: "Questions, estimation et sources", icon: "badge", start: 16, end: 19 },
     ],
   },
 

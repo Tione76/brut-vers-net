@@ -1,6 +1,6 @@
 import { config, seoConfig } from "@/site";
 import { getPlanDuSiteSections } from "@/site/public-pages";
-import { FaqPageSidebar, GuidePageLayout } from "@/site/guides";
+import { GuidePageLayout } from "@/site/guides";
 import { SitemapPageContent } from "@/site/sitemap/SitemapPageContent";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { JsonLd } from "@/framework/JsonLd";
@@ -35,7 +35,6 @@ export default function SitemapPage() {
       <GuidePageLayout
         title={page.title}
         subtitle={page.description}
-        sidebar={<FaqPageSidebar />}
       >
         <PageBreadcrumb
           items={[

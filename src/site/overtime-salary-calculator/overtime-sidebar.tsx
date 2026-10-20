@@ -1,51 +1,6 @@
-import { GuideSidebar } from "@/site/guides/GuideRenderer";
-import { getAllSidebarTools, type GuideSidebarLink } from "@/site/guides/sidebar";
+import { ToolPageSidebar } from "@/site/guides/GuidePageSidebar";
 import { OVERTIME_PATH } from "./config";
 
-const CURATED_GUIDE_ENTRIES: { slug: string; title: string; href?: string }[] = [
-  {
-    slug: "salaire-interim-calcul-brut-net",
-    title: "Salaire en intérim (IFM et congés payés)",
-    href: "/salaire-interim-calcul-brut-net",
-  },
-  { slug: "comment-calculer-son-salaire-net", title: "Calcul du salaire net" },
-  {
-    slug: "cotisations-salariales-pourquoi-brut-plus-eleve-que-net",
-    title: "Cotisations salariales",
-  },
-  { slug: "comment-lire-une-fiche-de-paie", title: "Comprendre une fiche de paie" },
-  {
-    slug: "smic-hotelier",
-    title: "SMIC hôtelier et grille HCR",
-    href: "/smic-hotelier",
-  },
-  {
-    slug: "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne",
-    title: "Prélèvement à la source",
-  },
-  { slug: "comment-est-calcule-le-salaire-net", title: "Différence brut / net" },
-];
-
-function getCuratedGuides(): GuideSidebarLink[] {
-  return CURATED_GUIDE_ENTRIES.map(({ slug, title, href }) => ({
-    slug,
-    title,
-    href: href ?? `/guides/${slug}`,
-  }));
-}
-
 export function OvertimeSalaryPageSidebar() {
-  const tools = getAllSidebarTools().filter((tool) => tool.href !== OVERTIME_PATH);
-
-  return (
-    <aside className="article-sidebar" aria-label="Maillage interne">
-      <GuideSidebar
-        tools={tools}
-        guides={getCuratedGuides()}
-        guidesSectionTitle="À lire aussi"
-        guidesBlockVariant="also-read"
-        showTools
-      />
-    </aside>
-  );
+  return <ToolPageSidebar currentPath={OVERTIME_PATH} />;
 }

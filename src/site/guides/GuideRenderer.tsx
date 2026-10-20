@@ -394,41 +394,73 @@ function GuideSidebarToolCard({ tool }: { tool: SidebarTool }) {
 interface GuideSidebarProps {
   tools?: SidebarTool[];
   guides?: GuideSidebarLink[];
+  /** Guides récents (découverte, hors section contextuelle). */
+  recentGuides?: GuideSidebarLink[];
   guidesSectionTitle?: string;
+  recentGuidesSectionTitle?: string;
   guidesBlockVariant?: "guides" | "also-read";
   showTools?: boolean;
+  /** true = outils avant guides liés (calculateurs). false = guides liés avant outils. */
+  toolsFirst?: boolean;
 }
 
 export function GuideSidebar({
   tools = [],
   guides = [],
+  recentGuides = [],
   guidesSectionTitle = "À lire aussi",
+  recentGuidesSectionTitle = "Nos guides récents",
   guidesBlockVariant = "also-read",
   showTools = true,
+  toolsFirst = true,
 }: GuideSidebarProps) {
   const guidesBlockClass =
     guidesBlockVariant === "guides"
       ? "guide-sidebar-block--guides"
       : "guide-sidebar-block--also-read";
 
+  const toolsBlock =
+    showTools && tools.length > 0 ? (
+      <div className="guide-sidebar-block guide-sidebar-block--calculator guide-sidebar-block--tools">
+        <p className="guide-sidebar-block__title">Nos outils gratuits</p>
+        <div className="guide-sidebar-tools-list">
+          {tools.map((tool) => (
+            <GuideSidebarToolCard key={tool.id} tool={tool} />
+          ))}
+        </div>
+      </div>
+    ) : null;
+
+  const guidesBlock = (
+    <GuideSidebarGuidesSection
+      title={guidesSectionTitle}
+      guides={guides}
+      blockClassName={guidesBlockClass}
+    />
+  );
+
+  const recentBlock = (
+    <GuideSidebarGuidesSection
+      title={recentGuidesSectionTitle}
+      guides={recentGuides}
+      blockClassName="guide-sidebar-block--recent"
+    />
+  );
+
   return (
     <>
-      {showTools && tools.length > 0 && (
-        <div className="guide-sidebar-block guide-sidebar-block--calculator guide-sidebar-block--tools">
-          <p className="guide-sidebar-block__title">Nos outils gratuits</p>
-          <div className="guide-sidebar-tools-list">
-            {tools.map((tool) => (
-              <GuideSidebarToolCard key={tool.id} tool={tool} />
-            ))}
-          </div>
-        </div>
+      {toolsFirst ? (
+        <>
+          {toolsBlock}
+          {guidesBlock}
+        </>
+      ) : (
+        <>
+          {guidesBlock}
+          {toolsBlock}
+        </>
       )}
-
-      <GuideSidebarGuidesSection
-        title={guidesSectionTitle}
-        guides={guides}
-        blockClassName={guidesBlockClass}
-      />
+      {recentBlock}
     </>
   );
 }

@@ -1,9 +1,9 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { GuideSidebar } from "./GuideRenderer";
 import {
-  getSidebarGuides,
-  getSidebarTools,
   hasSidebarContent,
+  resolveSidebarBundle,
   type GuideSidebarLink,
   type SidebarPageType,
 } from "./sidebar";
@@ -16,31 +16,38 @@ export interface SiteSidebarProps {
   currentGuideSlug?: string;
 }
 
+function SidebarShell({ children }: { children: ReactNode }) {
+  return (
+    <aside className="article-sidebar" aria-label="Maillage interne">
+      {/* Emplacement futur publicité (non rendu). Aucun sticky. */}
+      <div className="article-sidebar__slot article-sidebar__slot--ad" hidden aria-hidden="true" />
+      <div className="article-sidebar__recommendations">{children}</div>
+    </aside>
+  );
+}
+
 /** Sidebar unique : filtre automatiquement la page courante */
 export function SiteSidebar({ pageType, currentPath, currentGuideSlug }: SiteSidebarProps) {
   const context = { pageType, currentPath, currentGuideSlug };
-  const tools = getSidebarTools(context);
-  const guides =
-    pageType === "guides-hub"
-      ? []
-      : getSidebarGuides(context);
-  const showTools = tools.length > 0;
-
   if (!hasSidebarContent(context)) return null;
+
+  const bundle = resolveSidebarBundle(context);
   const guidesSectionTitle =
     pageType === "home" || pageType === "tools-hub" ? "Nos guides" : "À lire aussi";
   const guidesBlockVariant = pageType === "home" || pageType === "tools-hub" ? "guides" : "also-read";
 
   return (
-    <aside className="article-sidebar" aria-label="Maillage interne">
+    <SidebarShell>
       <GuideSidebar
-        tools={tools}
-        guides={guides}
+        tools={bundle.tools}
+        guides={bundle.guides}
+        recentGuides={bundle.recentGuides}
         guidesSectionTitle={guidesSectionTitle}
         guidesBlockVariant={guidesBlockVariant}
-        showTools={showTools}
+        showTools={bundle.tools.length > 0}
+        toolsFirst={bundle.toolsFirst}
       />
-    </aside>
+    </SidebarShell>
   );
 }
 
@@ -77,7 +84,7 @@ function getToolsHubFeaturedGuides(): GuideSidebarLink[] {
         description: guide.subtitle || guide.description,
       },
     ];
-  });
+  }).slice(0, 3);
 }
 
 /**
@@ -89,19 +96,20 @@ export function ToolsHubSidebar() {
   if (guides.length === 0) return null;
 
   return (
-    <aside className="article-sidebar" aria-label="Guides à découvrir">
+    <SidebarShell>
       <GuideSidebar
         guides={guides}
         guidesSectionTitle="Guides à découvrir"
         guidesBlockVariant="guides"
         showTools={false}
+        toolsFirst={false}
       />
       <p className="tools-hub-sidebar-footer">
         <Link href="/guides" className="tools-hub-sidebar-footer__link">
           Voir tous les guides
         </Link>
       </p>
-    </aside>
+    </SidebarShell>
   );
 }
 
@@ -120,6 +128,16 @@ export function GuidePageSidebar({ slug }: { slug: string }) {
 /** Sidebar page FAQ */
 export function FaqPageSidebar() {
   return <SiteSidebar pageType="faq" currentPath="/faq" />;
+}
+
+/** Sidebar page auteur : 1–2 guides utiles (pas de bloc récents) */
+export function AuthorPageSidebar() {
+  return <SiteSidebar pageType="author" currentPath="/auteur/antoine" />;
+}
+
+/** Pages institutionnelles : pas de recommandations */
+export function InstitutionalPageSidebar() {
+  return null;
 }
 
 /** Sidebar pages calculateurs secondaires */

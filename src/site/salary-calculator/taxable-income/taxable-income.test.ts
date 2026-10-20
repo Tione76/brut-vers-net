@@ -35,7 +35,7 @@ describe("estimateTaxableIncome (2026)", () => {
     });
   });
 
-  it("produit un net imposable >= net (cas standard)", () => {
+  it("produit un net imposable >= net (cas standard) sans mutuelle forfaitaire", () => {
     const detail = buildTaxableIncomeEstimate({
       netMonthly: 1950,
       grossMonthly: 2500,
@@ -45,7 +45,7 @@ describe("estimateTaxableIncome (2026)", () => {
     expect(detail.taxableIncomeMonthly).toBeGreaterThanOrEqual(1950);
     expect(detail.nonDeductibleCsgMonthly).toBeGreaterThan(0);
     expect(detail.crdsMonthly).toBeGreaterThan(0);
-    expect(detail.employerHealthContributionMonthly).toBeGreaterThan(0);
+    expect(detail.employerHealthContributionMonthly).toBe(0);
   });
 
   it("applique le plafonnement de l'abattement CSG au-delà de 4 PASS", () => {
@@ -65,17 +65,18 @@ describe("estimateTaxableIncome (2026)", () => {
     const base = detail.csgBaseMonthly;
     expect(base).toBeGreaterThan(0);
 
-    // La base mensuelle doit être > (brut mensuel * 98,25 %) quand une portion est sans abattement.
     expect(base).toBeGreaterThan(
       grossMonthlyOverCeiling *
         TAXABLE_INCOME_CONFIG_2026.csgCrds.baseRateWhenAbatementApplies,
     );
   });
 
-  it("borne la mutuelle employeur entre min et max", () => {
+  it("n'ajoute plus de majoration forfaitaire de mutuelle", () => {
     const estimate = TAXABLE_INCOME_CONFIG_2026.employerHealthContributionEstimate;
-    expect(estimate.lowMonthlyAmount).toBeLessThanOrEqual(estimate.centralMonthlyAmount);
-    expect(estimate.centralMonthlyAmount).toBeLessThanOrEqual(estimate.highMonthlyAmount);
+    expect(estimate.centralMonthlyAmount).toBe(0);
+    expect(estimate.lowMonthlyAmount).toBe(0);
+    expect(estimate.highMonthlyAmount).toBe(0);
+    expect(estimate.methodology).toBe("omitted_unknown_contract_amount");
   });
 
   it("n'applique pas la CSG déductible dans le net imposable", () => {
@@ -96,7 +97,7 @@ describe("estimateTaxableIncome (2026)", () => {
     expect(detail.taxableIncomeMonthly).not.toBeCloseTo(recomposed + detail.deductibleCsgMonthly, 2);
   });
 
-  it("utilise une mutuelle forfaitaire identique quel que soit le salaire", () => {
+  it("garde CSG/CRDS proportionnels au salaire sans mutuelle fixe", () => {
     const low = buildTaxableIncomeEstimate({
       netMonthly: 1200,
       grossMonthly: 1500,
@@ -108,38 +109,20 @@ describe("estimateTaxableIncome (2026)", () => {
       salaryMonths: 12,
     });
 
-    expect(low.employerHealthContributionMonthly).toBe(
-      TAXABLE_INCOME_CONFIG_2026.employerHealthContributionEstimate.centralMonthlyAmount,
-    );
-    expect(high.employerHealthContributionMonthly).toBe(
-      TAXABLE_INCOME_CONFIG_2026.employerHealthContributionEstimate.centralMonthlyAmount,
-    );
+    expect(low.employerHealthContributionMonthly).toBe(0);
+    expect(high.employerHealthContributionMonthly).toBe(0);
     expect(low.csgBaseMonthly).not.toBe(high.csgBaseMonthly);
     expect(low.crdsMonthly).not.toBe(high.crdsMonthly);
   });
 
-  it("test de sensibilité: low/high peut changer la tranche PAS sans changer le résultat public", () => {
+  it("sélectionne la tranche PAS sur la base CSG/CRDS sans forfait mutuelle", () => {
     const base = buildTaxableIncomeEstimate({
       netMonthly: 1950,
       grossMonthly: 2500,
       salaryMonths: 12,
     });
 
-    const central = estimateNeutralWithholdingRate(base.taxableIncomeMonthly).rate;
-    const low = estimateNeutralWithholdingRate(
-      base.taxableIncomeMonthly -
-        (TAXABLE_INCOME_CONFIG_2026.employerHealthContributionEstimate.centralMonthlyAmount -
-          TAXABLE_INCOME_CONFIG_2026.employerHealthContributionEstimate.lowMonthlyAmount),
-    ).rate;
-    const high = estimateNeutralWithholdingRate(
-      base.taxableIncomeMonthly +
-        (TAXABLE_INCOME_CONFIG_2026.employerHealthContributionEstimate.highMonthlyAmount -
-          TAXABLE_INCOME_CONFIG_2026.employerHealthContributionEstimate.centralMonthlyAmount),
-    ).rate;
-
-    expect([low, central, high].every((rate) => Number.isFinite(rate))).toBe(true);
-    // Test de sensibilité: on accepte que ça reste identique ou que ça change de tranche selon le salaire choisi.
-    expect(central).toBeGreaterThanOrEqual(0);
+    expect(base.taxableIncomeMonthly).toBeCloseTo(2021.23, 2);
+    expect(estimateNeutralWithholdingRate(base.taxableIncomeMonthly).rate).toBe(2.9);
   });
 });
-

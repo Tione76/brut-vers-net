@@ -680,7 +680,7 @@ export const maintienSalaireArretMaladieGuide: Guide = {
     },
     {
       id: "methodologie-sources",
-      title: "Méthodologie et sources",
+      title: "Méthodologie",
       blocks: [
         {
           type: "paragraph",
@@ -693,72 +693,6 @@ export const maintienSalaireArretMaladieGuide: Guide = {
         {
           type: "paragraph",
           text: EMPLOYER_MAINTIEN_METHOD_NOTE,
-        },
-        {
-          type: "list",
-          ordered: false,
-          items: [
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.l1226.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.l1226.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.l1226.label,
-            },
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.d1226.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.d1226.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.d1226.label,
-            },
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.d1226_3.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.d1226_3.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.d1226_3.label,
-            },
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.d1226_4.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.d1226_4.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.d1226_4.label,
-            },
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.d1226_5.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.d1226_5.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.d1226_5.label,
-            },
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.d1226_6.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.d1226_6.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.d1226_6.label,
-            },
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.d1226_7.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.d1226_7.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.d1226_7.label,
-            },
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.d1226_8.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.d1226_8.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.d1226_8.label,
-            },
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.f3053.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.f3053.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.f3053.label,
-            },
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.ameli.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.ameli.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.ameli.label,
-            },
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.f490.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.f490.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.f490.label,
-            },
-            {
-              text: `${EMPLOYER_MAINTIEN_SOURCES.f491.org} : `,
-              href: EMPLOYER_MAINTIEN_SOURCES.f491.href,
-              label: EMPLOYER_MAINTIEN_SOURCES.f491.label,
-            },
-          ],
         },
       ],
     },
@@ -850,6 +784,34 @@ export const maintienSalaireArretMaladieGuide: Guide = {
       {
         label: "Estimer le revenu total perçu pendant l'arrêt",
         href: SALARY_DURING_SICK_LEAVE_PATH,
+      },
+    ],
+  },
+  bibliography: {
+    id: "sources-officielles",
+    title: "Sources officielles et références",
+    blocks: [
+      {
+        type: "paragraph",
+        text: EMPLOYER_MAINTIEN_FRESHNESS_LINE,
+      },
+      {
+        type: "paragraph",
+        text: "Ces références documentent le complément employeur légal, les conditions d'ancienneté, les délais et les durées d'indemnisation. Elles ne constituent pas une certification de Brut vers Net par ces administrations.",
+      },
+      ...Object.values(EMPLOYER_MAINTIEN_SOURCES).map((source) => ({
+        type: "internal-link" as const,
+        variant: "guide" as const,
+        intro: `${source.org} :`,
+        label: source.label,
+        href: source.href,
+      })),
+      {
+        type: "callout",
+        variant: "legal",
+        paragraphs: [
+          "Le simulateur estime uniquement le minimum légal pour un salarié du privé. Le bulletin de paie, la convention collective, l'attestation de salaire et la décision de la CPAM restent les références pour connaître les montants réellement dus et versés.",
+        ],
       },
     ],
   },

@@ -1,5 +1,6 @@
 import { config, seoConfig } from "@/site";
 import { coverToOgInput, getCalculatorCover } from "@/site/guides/covers";
+import { GuideAuthorMeta } from "@/site/guides";
 import { OvertimeSalaryPageSidebar } from "@/site/overtime-salary-calculator/overtime-sidebar";
 import { ToolCalculatorPageLayout } from "@/framework/layouts/ToolCalculatorPageLayout";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
@@ -7,6 +8,10 @@ import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { buildCalculatorJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
+import {
+  CALCULATOR_EDITORIAL_UPDATED_AT,
+  computeCalculatorEditorialReadingTime,
+} from "@/site/calculator-editorial-meta";
 import {
   OVERTIME_DISCLAIMER,
   OVERTIME_PATH,
@@ -16,11 +21,15 @@ import {
   OvertimeSalaryEditorial,
   overtimeFaq,
 } from "@/site/overtime-salary-calculator/overtime-editorial";
-import { OVERTIME_EDITORIAL_UPDATED_AT } from "@/site/overtime-salary-calculator/overtime-editorial-data";
 
 const calc = seoConfig.calculators["salaire-heures-supplementaires"];
 const path = OVERTIME_PATH;
 const cover = getCalculatorCover("salaire-heures-supplementaires");
+const readingTime = computeCalculatorEditorialReadingTime([
+  "src/site/overtime-salary-calculator/overtime-editorial.tsx",
+  "src/site/overtime-salary-calculator/overtime-editorial-data.ts",
+  "src/site/overtime-salary-calculator/overtime-official-sources.ts",
+]);
 
 export const metadata = buildPageMetadata(config, seoConfig, {
   title: calc.title,
@@ -40,7 +49,7 @@ export default function OvertimeSalaryCalculatorPage() {
           description: calc.description,
           cover,
           faq: overtimeFaq,
-          dateModified: OVERTIME_EDITORIAL_UPDATED_AT,
+          dateModified: CALCULATOR_EDITORIAL_UPDATED_AT,
         })}
       />
       <ToolCalculatorPageLayout
@@ -57,6 +66,12 @@ export default function OvertimeSalaryCalculatorPage() {
               { label: "Outils", href: seoConfig.toolsHub.path },
               { label: calc.h1 },
             ]}
+          />
+        }
+        authorMeta={
+          <GuideAuthorMeta
+            updatedAt={CALCULATOR_EDITORIAL_UPDATED_AT}
+            readingTime={readingTime}
           />
         }
         editorial={<OvertimeSalaryEditorial />}

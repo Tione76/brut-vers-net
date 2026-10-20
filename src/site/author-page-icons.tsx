@@ -56,21 +56,41 @@ export function AuthorShieldIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function AuthorMessageIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <IconBase {...props}>
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </IconBase>
+  );
+}
+
+export function AuthorSourceIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <IconBase {...props}>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <path d="M14 2v6h6" />
+      <path d="M8 13h8" />
+      <path d="M8 17h6" />
+    </IconBase>
+  );
+}
+
 const SECTION_ICONS: Record<
-  AuthorSectionIcon | "shield",
+  AuthorSectionIcon | "shield" | "message",
   (props: SVGProps<SVGSVGElement>) => ReactNode
 > = {
   user: AuthorUserIcon,
   book: AuthorBookIcon,
   target: AuthorTargetIcon,
   shield: AuthorShieldIcon,
+  message: AuthorMessageIcon,
 };
 
 export function AuthorSectionIcon({
   name,
   className,
 }: {
-  name: AuthorSectionIcon | "shield";
+  name: AuthorSectionIcon | "shield" | "message";
   className?: string;
 }) {
   const Icon = SECTION_ICONS[name];

@@ -702,7 +702,7 @@ export const calculIjssArretMaladieGuide: Guide = {
     },
     {
       id: "methodologie-sources",
-      title: "Méthodologie et sources",
+      title: "Méthodologie",
       blocks: [
         {
           type: "paragraph",
@@ -738,19 +738,6 @@ export const calculIjssArretMaladieGuide: Guide = {
             IJSS_SCOPE_DISCLAIMER,
             "Cette page ne constitue pas un conseil juridique, fiscal ou social personnalisé.",
           ],
-        },
-        {
-          type: "paragraph",
-          text: "Sources officielles :",
-        },
-        {
-          type: "list",
-          ordered: false,
-          items: Object.values(IJSS_SOURCES).map((source) => ({
-            text: `${source.org} :`,
-            href: source.href,
-            label: source.label,
-          })),
         },
       ],
     },
@@ -825,6 +812,35 @@ export const calculIjssArretMaladieGuide: Guide = {
       {
         label: "Estimer votre revenu total",
         href: SALARY_DURING_SICK_LEAVE_PATH,
+      },
+    ],
+  },
+  bibliography: {
+    id: "sources-officielles",
+    title: "Sources officielles et références",
+    blocks: [
+      {
+        type: "paragraph",
+        text: IJSS_FRESHNESS_LINE,
+      },
+      {
+        type: "paragraph",
+        text: "Ces références documentent le calcul des IJSS maladie, le plafond, la carence et les prélèvements CSG/CRDS. Elles ne constituent pas une certification de Brut vers Net par ces administrations.",
+      },
+      ...Object.values(IJSS_SOURCES).map((source) => ({
+        type: "internal-link" as const,
+        variant: "guide" as const,
+        intro: `${source.org} :`,
+        label: source.label,
+        href: source.href,
+      })),
+      {
+        type: "callout",
+        variant: "legal",
+        paragraphs: [
+          IJSS_SCOPE_DISCLAIMER,
+          "Le relevé de paiement Ameli, l'attestation de salaire transmise par l'employeur et la décision de la CPAM restent les références pour connaître le montant réellement versé.",
+        ],
       },
     ],
   },

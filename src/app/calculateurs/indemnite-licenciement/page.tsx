@@ -1,5 +1,6 @@
 import { config, seoConfig } from "@/site";
 import { coverToOgInput, getCalculatorCover } from "@/site/guides/covers";
+import { GuideAuthorMeta } from "@/site/guides";
 import { DismissalCompensationPageSidebar } from "@/site/dismissal-compensation-calculator/dismissal-sidebar";
 import { ToolCalculatorPageLayout } from "@/framework/layouts/ToolCalculatorPageLayout";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
@@ -7,6 +8,10 @@ import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { buildCalculatorJsonLd } from "@/site/schema";
 import { isPathIndexable } from "@/site/public-pages";
+import {
+  CALCULATOR_EDITORIAL_UPDATED_AT,
+  computeCalculatorEditorialReadingTime,
+} from "@/site/calculator-editorial-meta";
 import {
   DISMISSAL_DISCLAIMER,
   DISMISSAL_PATH,
@@ -16,11 +21,15 @@ import {
   DismissalCompensationEditorial,
   dismissalFaq,
 } from "@/site/dismissal-compensation-calculator/DismissalCompensationEditorial";
-import { DISMISSAL_CONTENT_REVIEW_DATE } from "@/site/dismissal-compensation-calculator/dismissal-editorial-data";
 
 const calc = seoConfig.calculators["indemnite-licenciement"];
 const path = DISMISSAL_PATH;
 const cover = getCalculatorCover("indemnite-licenciement");
+const readingTime = computeCalculatorEditorialReadingTime([
+  "src/site/dismissal-compensation-calculator/DismissalCompensationEditorial.tsx",
+  "src/site/dismissal-compensation-calculator/dismissal-editorial-data.ts",
+  "src/site/dismissal-compensation-calculator/dismissal-official-sources.ts",
+]);
 
 export const metadata = buildPageMetadata(config, seoConfig, {
   title: calc.title,
@@ -40,7 +49,7 @@ export default function DismissalCompensationCalculatorPage() {
           description: calc.description,
           cover,
           faq: dismissalFaq,
-          dateModified: DISMISSAL_CONTENT_REVIEW_DATE,
+          dateModified: CALCULATOR_EDITORIAL_UPDATED_AT,
         })}
       />
       <ToolCalculatorPageLayout
@@ -57,6 +66,12 @@ export default function DismissalCompensationCalculatorPage() {
               { label: "Outils", href: seoConfig.toolsHub.path },
               { label: calc.h1 },
             ]}
+          />
+        }
+        authorMeta={
+          <GuideAuthorMeta
+            updatedAt={CALCULATOR_EDITORIAL_UPDATED_AT}
+            readingTime={readingTime}
           />
         }
         editorial={<DismissalCompensationEditorial />}

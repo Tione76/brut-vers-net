@@ -14,8 +14,8 @@ export const IJSS_PATH = "/calcul-ijss-arret-maladie";
 export const IJSS_SLUG = "calcul-ijss-arret-maladie";
 
 export const IJSS_PUBLISHED_AT = "2026-09-19";
-export const IJSS_UPDATED_AT = "2026-09-20";
-export const IJSS_UPDATED_AT_LABEL = "20 septembre 2026";
+export const IJSS_UPDATED_AT = "2026-10-20";
+export const IJSS_UPDATED_AT_LABEL = "20 octobre 2026";
 
 export const IJSS_H1 = "Calculez vos IJSS en arrêt maladie (secteur privé) — barème 2026";
 
