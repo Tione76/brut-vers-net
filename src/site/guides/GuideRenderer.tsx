@@ -336,6 +336,7 @@ function GuideSidebarGuideCards({ guides }: { guides: GuideSidebarLink[] }) {
           <Link
             key={guide.href}
             href={guide.href}
+            prefetch={false}
             className="guide-sidebar-card guide-sidebar-card--cover"
           >
             {cover && (
@@ -377,7 +378,11 @@ function GuideSidebarGuidesSection({
 
 function GuideSidebarToolCard({ tool }: { tool: SidebarTool }) {
   return (
-    <Link href={tool.href} className="guide-sidebar-card guide-sidebar-card--calculator">
+    <Link
+      href={tool.href}
+      prefetch={false}
+      className="guide-sidebar-card guide-sidebar-card--calculator"
+    >
       <span className="guide-sidebar-card__cover">
         <GuideCoverImage cover={tool.cover} decorative className="guide-sidebar-card__cover-img" />
       </span>

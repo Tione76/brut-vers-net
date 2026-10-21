@@ -28,6 +28,7 @@ export function Page1650NearbySection({
             <li key={item.href}>
               <Link
                 href={item.href}
+                prefetch={false}
                 className="net-gross-1650__nearby-card"
                 aria-label={`${item.label} net en brut`}
               >

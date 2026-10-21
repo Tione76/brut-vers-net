@@ -77,6 +77,7 @@ export function GrossToNetHubPageContent() {
                   <Link
                     id={grossToNetHubFicheDomId(item.amount)}
                     href={item.href}
+                    prefetch={false}
                     className="gross-to-net-hub__fiche"
                   >
                     {item.label}
@@ -116,7 +117,9 @@ export function GrossToNetHubPageContent() {
         <ul className="net-gross-1500__nearby-list">
           {hub.furtherLinks.map((link) => (
             <li key={link.href + link.label}>
-              <Link href={link.href}>{link.label}</Link>
+              <Link href={link.href} prefetch={false}>
+                {link.label}
+              </Link>
             </li>
           ))}
         </ul>

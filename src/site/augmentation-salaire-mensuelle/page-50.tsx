@@ -208,7 +208,9 @@ export function MonthlyIncreaseSeriesPageContent({
           <ul className="net-gross-1500__nearby-list">
             {nearby.map((item) => (
               <li key={item.href}>
-                <Link href={item.href}>{item.label}</Link>
+                <Link href={item.href} prefetch={false}>
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>

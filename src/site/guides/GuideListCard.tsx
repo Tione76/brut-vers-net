@@ -16,7 +16,7 @@ export function GuideListCard({ guide }: GuideListCardProps) {
   const teaser = getGuideHubTeaser(guide.slug) ?? guide.description;
 
   return (
-    <Link href={getGuidePublicPath(guide)} className="guide-list-card">
+    <Link href={getGuidePublicPath(guide)} prefetch={false} className="guide-list-card">
       <span className="guide-list-card__cover">
         <GuideCoverImage
           cover={cover}

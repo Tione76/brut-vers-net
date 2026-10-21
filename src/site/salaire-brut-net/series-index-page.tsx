@@ -83,7 +83,9 @@ export function GrossToNetIndexPageContent() {
                   }
                 >
                   <th scope="row" className="gross-to-net-index__gross">
-                    <Link href={row.href}>{row.grossLabel}</Link>
+                    <Link href={row.href} prefetch={false}>
+                      {row.grossLabel}
+                    </Link>
                   </th>
                   <td>{formatEuroAmount(row.netNonExecutive)}</td>
                   <td>{formatEuroAmount(row.netExecutive)}</td>

@@ -167,7 +167,9 @@ export function NetToGrossPageContent({ netMonthly }: NetToGrossPageContentProps
         <ul className="net-gross__nearby-list">
           {nearby.map((item) => (
             <li key={item.href}>
-              <Link href={item.href}>{item.label} net en brut</Link>
+              <Link href={item.href} prefetch={false}>
+                {item.label} net en brut
+              </Link>
             </li>
           ))}
         </ul>

@@ -368,7 +368,9 @@ export function NetToGrossSeriesPageContent({
           <ul className="net-gross-1500__nearby-list">
             {nearby.map((item) => (
               <li key={item.href}>
-                <Link href={item.href}>{item.label} net en brut</Link>
+                <Link href={item.href} prefetch={false}>
+                  {item.label} net en brut
+                </Link>
               </li>
             ))}
           </ul>

@@ -13,7 +13,7 @@ export function ToolListCard({ tool }: ToolListCardProps) {
   const cta = getToolHubCta(tool.id);
 
   return (
-    <Link href={tool.path} className="tool-list-card tool-list-card--featured">
+    <Link href={tool.path} prefetch={false} className="tool-list-card tool-list-card--featured">
       <span className="tool-list-card__badge">Outil gratuit</span>
       <span className="tool-list-card__cover">
         <GuideCoverImage
