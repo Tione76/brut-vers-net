@@ -41,7 +41,7 @@ describe("schema datetime and author", () => {
     expect(guide).toBeTruthy();
     const article = buildArticleNode(guide!, `/guides/${guide!.slug}`);
     expect(article.datePublished).toBe("2026-07-14T09:00:00+02:00");
-    expect(article.dateModified).toBe("2026-07-15T09:00:00+02:00");
+    expect(article.dateModified).toBe("2026-10-21T09:00:00+02:00");
     expect(article.author).toEqual({ "@id": "https://www.brut-vers-net.fr/#author" });
   });
 });

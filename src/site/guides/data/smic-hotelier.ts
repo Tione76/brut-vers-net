@@ -524,78 +524,6 @@ export const smicHotelierGuide: Guide = {
         },
       ],
     },
-    {
-      id: "sources-limites",
-      title: "Sources et limites",
-      blocks: [
-        {
-          type: "paragraph",
-          text: `Vérification des textes le ${SMIC_HOTELIER_SOURCES_VERIFIED_AT_LABEL}. Les montants du SMIC et du minimum garanti s'appliquent depuis le ${SMIC_HOTELIER_SMIC_EFFECTIVE_FROM_LABEL}. La grille conventionnelle utilisée est celle de l'avenant n° 33, applicable depuis le ${HCR_GRID_EFFECTIVE_FROM_LABEL}.`,
-        },
-        {
-          type: "list",
-          items: [
-            {
-              text: `${SMIC_HOTELIER_SOURCES.arreteSmicJuin2026.label}.`,
-              href: SMIC_HOTELIER_SOURCES.arreteSmicJuin2026.href,
-              label: SMIC_HOTELIER_SOURCES.arreteSmicJuin2026.org,
-            },
-            {
-              text: `${SMIC_HOTELIER_SOURCES.servicePublicSmic.label}.`,
-              href: SMIC_HOTELIER_SOURCES.servicePublicSmic.href,
-              label: SMIC_HOTELIER_SOURCES.servicePublicSmic.org,
-            },
-            {
-              text: `${SMIC_HOTELIER_SOURCES.codeTravailSmic.label} ; ${SMIC_HOTELIER_SOURCES.codeTravailMinimumGaranti.label}.`,
-              href: SMIC_HOTELIER_SOURCES.codeTravailSmic.href,
-              label: "Légifrance",
-            },
-            {
-              text: `${SMIC_HOTELIER_SOURCES.avenant33Article2.label}.`,
-              href: SMIC_HOTELIER_SOURCES.avenant33Article2.href,
-              label: SMIC_HOTELIER_SOURCES.avenant33Article2.org,
-            },
-            {
-              text: `${SMIC_HOTELIER_SOURCES.ccnHcr.label}.`,
-              href: SMIC_HOTELIER_SOURCES.ccnHcr.href,
-              label: SMIC_HOTELIER_SOURCES.ccnHcr.org,
-            },
-            {
-              text: `${SMIC_HOTELIER_SOURCES.umihAvenant33.label}.`,
-              href: SMIC_HOTELIER_SOURCES.umihAvenant33.href,
-              label: SMIC_HOTELIER_SOURCES.umihAvenant33.org,
-            },
-            {
-              text: `${SMIC_HOTELIER_SOURCES.codeTravailDuree.label} ; ${SMIC_HOTELIER_SOURCES.codeTravailMajoration.label}.`,
-              href: SMIC_HOTELIER_SOURCES.codeTravailDuree.href,
-              label: "Légifrance",
-            },
-            {
-              text: `${SMIC_HOTELIER_SOURCES.umihRepas.label}.`,
-              href: SMIC_HOTELIER_SOURCES.umihRepas.href,
-              label: SMIC_HOTELIER_SOURCES.umihRepas.org,
-            },
-            {
-              text: `${SMIC_HOTELIER_SOURCES.urssafAvantages.label}.`,
-              href: SMIC_HOTELIER_SOURCES.urssafAvantages.href,
-              label: SMIC_HOTELIER_SOURCES.urssafAvantages.org,
-            },
-            {
-              text: `${SMIC_HOTELIER_SOURCES.tripalioAvenant36.label}.`,
-              href: SMIC_HOTELIER_SOURCES.tripalioAvenant36.href,
-              label: SMIC_HOTELIER_SOURCES.tripalioAvenant36.org,
-            },
-          ],
-        },
-        {
-          type: "callout",
-          variant: "vigilance",
-          paragraphs: [
-            "Hors périmètre : restauration rapide (IDCC 1501), aménagement du temps de travail sur l'année, forfait jours, apprentis (avenant salarial distinct), extras et saisonniers au-delà du minimum horaire, dimanche et jours fériés, Mayotte pour le tableau métropolitain. Un accord d'entreprise plus favorable s'applique en priorité sur la grille de branche.",
-          ],
-        },
-      ],
-    },
   ],
   faq: [
     {
@@ -667,6 +595,78 @@ export const smicHotelierGuide: Guide = {
         },
       ],
     },
+  },
+  bibliography: {
+    id: "sources-limites",
+    title: "Sources et limites",
+    blocks: [
+      {
+        type: "paragraph",
+        text: `Vérification des textes le ${SMIC_HOTELIER_SOURCES_VERIFIED_AT_LABEL}. Les montants du SMIC et du minimum garanti s'appliquent depuis le ${SMIC_HOTELIER_SMIC_EFFECTIVE_FROM_LABEL}. La grille conventionnelle utilisée est celle de l'avenant n° 33, applicable depuis le ${HCR_GRID_EFFECTIVE_FROM_LABEL}.`,
+      },
+      {
+        type: "list",
+        items: [
+          {
+            text: `${SMIC_HOTELIER_SOURCES.arreteSmicJuin2026.label}.`,
+            href: SMIC_HOTELIER_SOURCES.arreteSmicJuin2026.href,
+            label: SMIC_HOTELIER_SOURCES.arreteSmicJuin2026.org,
+          },
+          {
+            text: `${SMIC_HOTELIER_SOURCES.servicePublicSmic.label}.`,
+            href: SMIC_HOTELIER_SOURCES.servicePublicSmic.href,
+            label: SMIC_HOTELIER_SOURCES.servicePublicSmic.org,
+          },
+          {
+            text: `${SMIC_HOTELIER_SOURCES.codeTravailSmic.label} ; ${SMIC_HOTELIER_SOURCES.codeTravailMinimumGaranti.label}.`,
+            href: SMIC_HOTELIER_SOURCES.codeTravailSmic.href,
+            label: "Légifrance",
+          },
+          {
+            text: `${SMIC_HOTELIER_SOURCES.avenant33Article2.label}.`,
+            href: SMIC_HOTELIER_SOURCES.avenant33Article2.href,
+            label: SMIC_HOTELIER_SOURCES.avenant33Article2.org,
+          },
+          {
+            text: `${SMIC_HOTELIER_SOURCES.ccnHcr.label}.`,
+            href: SMIC_HOTELIER_SOURCES.ccnHcr.href,
+            label: SMIC_HOTELIER_SOURCES.ccnHcr.org,
+          },
+          {
+            text: `${SMIC_HOTELIER_SOURCES.umihAvenant33.label}.`,
+            href: SMIC_HOTELIER_SOURCES.umihAvenant33.href,
+            label: SMIC_HOTELIER_SOURCES.umihAvenant33.org,
+          },
+          {
+            text: `${SMIC_HOTELIER_SOURCES.codeTravailDuree.label} ; ${SMIC_HOTELIER_SOURCES.codeTravailMajoration.label}.`,
+            href: SMIC_HOTELIER_SOURCES.codeTravailDuree.href,
+            label: "Légifrance",
+          },
+          {
+            text: `${SMIC_HOTELIER_SOURCES.umihRepas.label}.`,
+            href: SMIC_HOTELIER_SOURCES.umihRepas.href,
+            label: SMIC_HOTELIER_SOURCES.umihRepas.org,
+          },
+          {
+            text: `${SMIC_HOTELIER_SOURCES.urssafAvantages.label}.`,
+            href: SMIC_HOTELIER_SOURCES.urssafAvantages.href,
+            label: SMIC_HOTELIER_SOURCES.urssafAvantages.org,
+          },
+          {
+            text: `${SMIC_HOTELIER_SOURCES.tripalioAvenant36.label}.`,
+            href: SMIC_HOTELIER_SOURCES.tripalioAvenant36.href,
+            label: SMIC_HOTELIER_SOURCES.tripalioAvenant36.org,
+          },
+        ],
+      },
+      {
+        type: "callout",
+        variant: "vigilance",
+        paragraphs: [
+          "Hors périmètre : restauration rapide (IDCC 1501), aménagement du temps de travail sur l'année, forfait jours, apprentis (avenant salarial distinct), extras et saisonniers au-delà du minimum horaire, dimanche et jours fériés, Mayotte pour le tableau métropolitain. Un accord d'entreprise plus favorable s'applique en priorité sur la grille de branche.",
+        ],
+      },
+    ],
   },
   sidebar: {
     calculator: {

@@ -385,7 +385,8 @@ describe("page maintien de salaire arrêt maladie", () => {
     expect(EMPLOYER_MAINTIEN_RESULT_ESTIMATE_NOTE).toContain(
       "salaire brut mensuel × 12 ÷ 365",
     );
-    const methodology = guide.sections.find((section) => section.id === "methodologie-sources");
+    const methodology = guide.bibliography;
+    expect(methodology?.id).toBe("methodologie-sources");
     const limits = guide.sections.find(
       (section) => section.id === EMPLOYER_MAINTIEN_LIMITS_SECTION_ID,
     );
@@ -446,12 +447,20 @@ describe("page maintien de salaire arrêt maladie", () => {
       true,
     );
     expect(toc.some((entry) => entry.id === "questions-frequentes")).toBe(true);
-    expect(guide.bibliography?.id).toBe("sources-officielles");
+    expect(guide.sections.some((section) => section.id === "methodologie-sources")).toBe(false);
+    expect(guide.bibliography?.id).toBe("methodologie-sources");
+    expect(guide.bibliography?.title).toBe("Méthodologie et sources");
+    expect(toc.some((entry) => entry.id === "sources-officielles")).toBe(false);
     const faqIdx = toc.findIndex((entry) => entry.id === "questions-frequentes");
     const conclusionIdx = toc.findIndex((entry) => entry.id === "conclusion");
-    const sourcesIdx = toc.findIndex((entry) => entry.id === "sources-officielles");
-    expect(sourcesIdx).toBeGreaterThan(faqIdx);
-    expect(sourcesIdx).toBeGreaterThan(conclusionIdx);
+    const methodoIdx = toc.findIndex((entry) => entry.id === "methodologie-sources");
+    expect(methodoIdx).toBeGreaterThan(faqIdx);
+    expect(methodoIdx).toBeGreaterThan(conclusionIdx);
+    expect(methodoIdx).toBe(toc.length - 1);
+    expect(JSON.stringify(guide.bibliography)).toContain(EMPLOYER_MAINTIEN_SOURCES.l1226.href);
+    expect(JSON.stringify(guide.bibliography)).toContain(EMPLOYER_MAINTIEN_SOURCES.d1226.href);
+    expect(JSON.stringify(guide.bibliography)).toContain(EMPLOYER_MAINTIEN_SOURCES.f3053.href);
+    expect(JSON.stringify(guide.bibliography)).toContain(EMPLOYER_MAINTIEN_SOURCES.ameli.href);
     const pageSource = readFileSync(
       join(process.cwd(), "src/app/maintien-salaire-arret-maladie/page.tsx"),
       "utf8",
@@ -461,6 +470,7 @@ describe("page maintien de salaire arrêt maladie", () => {
     expect(pageSource).toContain('current="maintien"');
     expect(pageSource).toContain("afterToc=");
     expect(pageSource).toContain('tocPlacement="after-slot"');
+    expect(pageSource).toContain("bibliography={guide.bibliography}");
     expect(pageSource).toContain("EMPLOYER_MAINTIEN_HEADER_PRIMARY_CTA");
     expect(pageSource).toContain("headerActions");
     expect(EMPLOYER_MAINTIEN_HEADER_PRIMARY_CTA).toBe("Calculer le complément employeur");

@@ -1,4 +1,4 @@
-﻿import type { GuideTocGroup } from "./GuideEditorialToc";
+import type { GuideTocGroup } from "./GuideEditorialToc";
 
 /**
  * Configuration visuelle du sommaire par slug de guide.
@@ -41,7 +41,7 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Calculer son SMIC selon ses heures", icon: "calculator", start: 0, end: 9 },
       { title: "Temps de travail et règles salariales", icon: "scale", start: 9, end: 14 },
       { title: "Vérifier et comprendre son salaire", icon: "clipboard", start: 14, end: 17 },
-      { title: "Méthodologie et questions fréquentes", icon: "file", start: 17, end: 19 },
+      { title: "Questions fréquentes et méthodologie", icon: "file", start: 17, end: 19 },
       { title: "Pour conclure", icon: "badge", start: 19, end: 20 },
     ],
   },
@@ -59,8 +59,8 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Lire et comparer", icon: "chart", start: 0, end: 4 },
       { title: "Les salaires par pays", icon: "scale", start: 4, end: 7 },
       { title: "Comparaisons et limites", icon: "help", start: 7, end: 10 },
-      { title: "Méthodologie et questions fréquentes", icon: "file", start: 10, end: 12 },
-      { title: "Pour conclure", icon: "badge", start: 12, end: 13 },
+      { title: "Questions fréquentes et conclusion", icon: "badge", start: 10, end: 12 },
+      { title: "Méthodologie et sources", icon: "file", start: 12, end: 13 },
     ],
   },
 
@@ -69,8 +69,8 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Vue d'ensemble", icon: "chart", start: 0, end: 2 },
       { title: "Histoire du SMIC par décennies", icon: "file", start: 2, end: 9 },
       { title: "Comprendre les augmentations du SMIC", icon: "help", start: 9, end: 11 },
-      { title: "Frise chronologique et sources", icon: "chart", start: 11, end: 13 },
-      { title: "Questions fréquentes et conclusion", icon: "badge", start: 13, end: 15 },
+      { title: "Frise et questions fréquentes", icon: "chart", start: 11, end: 13 },
+      { title: "Conclusion et sources", icon: "badge", start: 13, end: 15 },
     ],
   },
 
@@ -78,8 +78,8 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     groups: [
       { title: "Calculer son salaire en intérim", icon: "calculator", start: 0, end: 5 },
       { title: "Règles de rémunération et vérification", icon: "clipboard", start: 5, end: 9 },
-      { title: "Limites du calcul et méthodologie", icon: "help", start: 9, end: 11 },
-      { title: "Questions fréquentes et estimation", icon: "badge", start: 11, end: 13 },
+      { title: "Limites, FAQ et estimation", icon: "help", start: 9, end: 12 },
+      { title: "Méthodologie et sources", icon: "file", start: 12, end: 13 },
     ],
   },
 
@@ -99,8 +99,8 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Comprendre le calcul des IJSS", icon: "help", start: 2, end: 8 },
       { title: "Conditions et versement des IJSS", icon: "clipboard", start: 8, end: 11 },
       { title: "Exemples et vérification du calcul", icon: "scale", start: 11, end: 14 },
-      { title: "Limites et méthodologie", icon: "file", start: 14, end: 16 },
-      { title: "Questions, estimation et sources", icon: "badge", start: 16, end: 18 },
+      { title: "Questions fréquentes et estimation", icon: "badge", start: 14, end: 16 },
+      { title: "Méthodologie et sources", icon: "file", start: 16, end: 17 },
     ],
   },
 
@@ -110,8 +110,8 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Comprendre le maintien de salaire", icon: "help", start: 2, end: 6 },
       { title: "Calcul et situations particulières", icon: "scale", start: 6, end: 12 },
       { title: "Vérification et cas non couverts", icon: "clipboard", start: 12, end: 15 },
-      { title: "Méthodologie", icon: "file", start: 15, end: 16 },
-      { title: "Questions, estimation et sources", icon: "badge", start: 16, end: 19 },
+      { title: "Questions fréquentes et estimation", icon: "badge", start: 15, end: 17 },
+      { title: "Méthodologie et sources", icon: "file", start: 17, end: 18 },
     ],
   },
 
@@ -150,6 +150,7 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Comprendre le passage du brut au net", icon: "help", start: 0, end: 4 },
       { title: "Les différences et les exemples concrets", icon: "calculator", start: 4, end: 8 },
       { title: "Questions fréquentes et conclusion", icon: "badge", start: 8, end: 10 },
+      { title: "Méthodologie et sources", icon: "file", start: 10, end: 11 },
     ],
   },
 
@@ -158,6 +159,7 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Lire et comprendre sa fiche de paie", icon: "file", start: 0, end: 6 },
       { title: "Vérification et exemples pratiques", icon: "clipboard", start: 6, end: 9 },
       { title: "Questions fréquentes et conclusion", icon: "badge", start: 9, end: 11 },
+      { title: "Méthodologie et sources", icon: "file", start: 11, end: 12 },
     ],
   },
 
@@ -166,6 +168,7 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Calculer son salaire net étape par étape", icon: "calculator", start: 0, end: 4 },
       { title: "Comprendre et vérifier son calcul", icon: "help", start: 4, end: 7 },
       { title: "Questions fréquentes et conclusion", icon: "badge", start: 7, end: 9 },
+      { title: "Méthodologie et sources", icon: "file", start: 9, end: 10 },
     ],
   },
 
@@ -174,6 +177,7 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Comprendre les cotisations salariales", icon: "help", start: 0, end: 4 },
       { title: "Différences, erreurs et exemples", icon: "calculator", start: 4, end: 8 },
       { title: "Questions fréquentes et conclusion", icon: "badge", start: 8, end: 10 },
+      { title: "Méthodologie et sources", icon: "file", start: 10, end: 11 },
     ],
   },
 
@@ -183,6 +187,7 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Comprendre et gérer son taux", icon: "clipboard", start: 3, end: 8 },
       { title: "Effets sur le salaire et exemples", icon: "calculator", start: 8, end: 11 },
       { title: "Questions fréquentes et conclusion", icon: "badge", start: 11, end: 13 },
+      { title: "Méthodologie et sources", icon: "file", start: 13, end: 14 },
     ],
   },
 
@@ -191,8 +196,8 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Comprendre pourquoi le net change", icon: "help", start: 0, end: 6 },
       { title: "Identifier la cause du changement", icon: "clipboard", start: 6, end: 12 },
       { title: "Que faire après un changement ?", icon: "scale", start: 12, end: 16 },
-      { title: "Sources et questions fréquentes", icon: "file", start: 16, end: 18 },
-      { title: "À retenir", icon: "badge", start: 18, end: 19 },
+      { title: "Questions fréquentes et à retenir", icon: "badge", start: 16, end: 18 },
+      { title: "Méthodologie et sources", icon: "file", start: 18, end: 19 },
     ],
   },
 

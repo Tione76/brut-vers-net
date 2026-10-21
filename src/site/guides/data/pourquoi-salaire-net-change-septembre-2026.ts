@@ -22,7 +22,7 @@ export const pourquoiSalaireNetChangeSeptembre2026Guide: Guide = {
   subtitle:
     "Baisse ou hausse du montant versé : comment lire votre fiche de paie et vérifier le taux de prélèvement à la source.",
   publishedAt: "2026-09-04",
-  updatedAt: "2026-09-04",
+  updatedAt: "2026-10-21",
   introduction: [
     "En septembre 2026, le montant net effectivement versé peut changer même lorsque le salaire brut reste identique. L'une des premières causes à vérifier est l'actualisation du taux de prélèvement à la source après la déclaration de revenus 2025. Si le taux augmente, le montant versé peut diminuer ; s'il baisse, le montant versé peut augmenter. D'autres éléments de la fiche de paie peuvent néanmoins expliquer l'écart.",
     "Dans ce guide, « salaire net » désigne surtout le montant crédité sur votre compte, sauf lorsqu'une autre notion (net avant impôt, net imposable, montant net social) est nommée explicitement.",
@@ -546,58 +546,6 @@ export const pourquoiSalaireNetChangeSeptembre2026Guide: Guide = {
         },
       ],
     },
-    {
-      id: "sources-officielles",
-      title: "Sources officielles",
-      blocks: [
-        {
-          type: "paragraph",
-          text: "Sources officielles vérifiées le 4 septembre 2026. Les informations de ce guide s'appuient sur les pages suivantes :",
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Calendrier et application du taux au 1er septembre 2026 :",
-          label: "Service-Public – Quand doit-on payer ses impôts ? (F33890)",
-          href: "https://www.service-public.fr/particuliers/vosdroits/F33890",
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Fonctionnement du prélèvement à la source, taux et rôles :",
-          label: "Service-Public – Impôt sur le revenu : prélèvement à la source (F34009)",
-          href: "https://www.service-public.fr/particuliers/vosdroits/F34009",
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Modification, modulation et taux neutre :",
-          label: "Service-Public – Comment changer votre taux de prélèvement à la source ? (F35894)",
-          href: "https://www.service-public.fr/particuliers/vosdroits/F35894",
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Conditions de la modulation à la baisse (écart de plus de 5 %) :",
-          label: "BOFiP – BOI-IR-PAS-20-30-20-10",
-          href: "https://bofip.impots.gouv.fr/bofip/11263-PGP.html/identifiant=BOI-IR-PAS-20-30-20-10-20250507",
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Mise en œuvre de la modulation et responsabilité déclarative :",
-          label: "BOFiP – BOI-IR-PAS-20-30-20-20",
-          href: "https://bofip.impots.gouv.fr/bofip/11355-PGP.html/identifiant=BOI-IR-PAS-20-30-20-20-20250507",
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Espace personnel pour consulter et gérer votre taux :",
-          label: "impots.gouv.fr",
-          href: "https://www.impots.gouv.fr",
-        },
-      ],
-    },
   ],
   faqTitle: "Questions fréquentes",
   faqIntro:
@@ -660,6 +608,70 @@ export const pourquoiSalaireNetChangeSeptembre2026Guide: Guide = {
       label: "Estimer mon salaire net",
       href: "/",
     },
+  },
+  bibliography: {
+    id: "methodologie-sources",
+    title: "Méthodologie et sources",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Ce guide analyse les principales raisons pour lesquelles le salaire net effectivement versé peut changer entre août et septembre 2026, notamment l'actualisation annuelle du taux de prélèvement à la source après la déclaration des revenus 2025.",
+      },
+      {
+        type: "paragraph",
+        text: "La méthode consiste à comparer les bulletins d'août et septembre : salaire brut, net avant impôt, net imposable, taux et montant du prélèvement à la source, puis montant réellement versé. Les primes, absences, cotisations et régularisations doivent également être examinées.",
+      },
+      {
+        type: "paragraph",
+        text: "Les explications reposent sur Service-Public, la DGFiP et le BOFiP. Les exemples chiffrés sont pédagogiques et hypothétiques ; ils ne constituent pas une analyse personnalisée de paie ou de fiscalité. L'espace fiscal personnel et les bulletins de salaire restent les références pour vérifier une situation individuelle.",
+      },
+      {
+        type: "paragraph",
+        text: "Sources officielles vérifiées le 4 septembre 2026. Les informations de ce guide s'appuient sur les pages suivantes :",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Calendrier et application du taux au 1er septembre 2026 :",
+        label: "Service-Public – Quand doit-on payer ses impôts ? (F33890)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F33890",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Fonctionnement du prélèvement à la source, taux et rôles :",
+        label: "Service-Public – Impôt sur le revenu : prélèvement à la source (F34009)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F34009",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Modification, modulation et taux neutre :",
+        label: "Service-Public – Comment changer votre taux de prélèvement à la source ? (F35894)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F35894",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Conditions de la modulation à la baisse (écart de plus de 5 %) :",
+        label: "BOFiP – BOI-IR-PAS-20-30-20-10",
+        href: "https://bofip.impots.gouv.fr/bofip/11263-PGP.html/identifiant=BOI-IR-PAS-20-30-20-10-20250507",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Mise en œuvre de la modulation et responsabilité déclarative :",
+        label: "BOFiP – BOI-IR-PAS-20-30-20-20",
+        href: "https://bofip.impots.gouv.fr/bofip/11355-PGP.html/identifiant=BOI-IR-PAS-20-30-20-20-20250507",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Espace personnel pour consulter et gérer votre taux :",
+        label: "impots.gouv.fr",
+        href: "https://www.impots.gouv.fr",
+      },
+    ],
   },
   sidebar: {
     calculator: {

@@ -216,10 +216,12 @@ describe("page évolution du SMIC", () => {
       "decade-2020",
       "smic-inflation",
       "revalorisation",
-      "methodologie-sources",
+      "frise",
     ]) {
       expect(sectionIds).toContain(id);
     }
+    expect(sectionIds).not.toContain("methodologie-sources");
+    expect(guide.bibliography?.id).toBe("methodologie-sources");
     expect(guide.faqSectionId).toBe("questions-frequentes");
   });
 

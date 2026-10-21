@@ -153,7 +153,8 @@ describe("page salaire intérim", () => {
 
   it("n'affiche la fraîcheur qu'une seule fois dans la méthodologie", () => {
     const guide = getGuideBySlug(slug)!;
-    const methodo = guide.sections.find((s) => s.id === "methodologie-sources");
+    const methodo = guide.bibliography;
+    expect(methodo?.id).toBe("methodologie-sources");
     const methodoText = JSON.stringify(methodo);
     const matches = methodoText.match(/Règles et sources officielles vérifiées/g) ?? [];
     expect(matches.length).toBe(1);
@@ -209,9 +210,10 @@ describe("page salaire intérim", () => {
         "taux-horaire-interim-et-smic",
         "verifier-fiche-de-paie-interim",
         "situations-non-couvertes",
-        "methodologie-sources",
       ]),
     );
+    expect(ids).not.toContain("methodologie-sources");
+    expect(guide.bibliography?.id).toBe("methodologie-sources");
   });
 
   it("aligne les exemples éditoriaux sur le moteur avec net approximatif", () => {

@@ -99,7 +99,16 @@ export function computeReadingTime(guide: Guide): number {
   return Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
 }
 
-/** Sommaire H2 uniquement : sections + FAQ + conclusion */
+function bibliographyTocEntry(guide: Guide): GuideTocEntry | null {
+  if (!guide.bibliography) return null;
+  return {
+    id: guide.bibliography.id,
+    title: guide.bibliography.title,
+    level: 2,
+  };
+}
+
+/** Sommaire H2 uniquement : sections + FAQ + conclusion (+ bibliographie) */
 export function buildGuideTocH2(guide: Guide): GuideTocEntry[] {
   const entries: GuideTocEntry[] = guide.sections.map((section) => ({
     id: section.id,
@@ -113,17 +122,21 @@ export function buildGuideTocH2(guide: Guide): GuideTocEntry[] {
     title: guide.faqTitle ?? "Questions fréquentes",
     level: 2,
   });
+
+  const bibliographyEntry = bibliographyTocEntry(guide);
+  const bibliographyAfterFaq = guide.bibliographyPlacement === "after-faq";
+  if (bibliographyEntry && bibliographyAfterFaq) {
+    entries.push(bibliographyEntry);
+  }
+
   entries.push({
     id: "conclusion",
     title: guide.conclusion.title ?? "Conclusion",
     level: 2,
   });
-  if (guide.bibliography) {
-    entries.push({
-      id: guide.bibliography.id,
-      title: guide.bibliography.title,
-      level: 2,
-    });
+
+  if (bibliographyEntry && !bibliographyAfterFaq) {
+    entries.push(bibliographyEntry);
   }
 
   return entries;
@@ -146,17 +159,21 @@ export function buildGuideToc(guide: Guide): GuideTocEntry[] {
     title: guide.faqTitle ?? "Questions fréquentes",
     level: 2,
   });
+
+  const bibliographyEntry = bibliographyTocEntry(guide);
+  const bibliographyAfterFaq = guide.bibliographyPlacement === "after-faq";
+  if (bibliographyEntry && bibliographyAfterFaq) {
+    entries.push(bibliographyEntry);
+  }
+
   entries.push({
     id: "conclusion",
     title: guide.conclusion.title ?? "Conclusion",
     level: 2,
   });
-  if (guide.bibliography) {
-    entries.push({
-      id: guide.bibliography.id,
-      title: guide.bibliography.title,
-      level: 2,
-    });
+
+  if (bibliographyEntry && !bibliographyAfterFaq) {
+    entries.push(bibliographyEntry);
   }
 
   return entries;

@@ -13,7 +13,7 @@ export const commentLireUneFicheDePaieGuide: Guide = {
   subtitle:
     "Repérez les montants essentiels de votre bulletin de salaire en quelques minutes, sans jargon inutile.",
   publishedAt: "2026-07-14",
-  updatedAt: "2026-07-14",
+  updatedAt: "2026-10-21",
   introduction: [
     "Vous venez de recevoir votre premier bulletin de salaire et vous ne savez pas où regarder ? Vous n'êtes pas seul : une fiche de paie compte des dizaines de lignes, et toutes ne sont pas essentielles lors d'une première lecture.",
     "Ce document résume chaque mois ce que vous gagnez, ce qui est retenu et ce qui vous est versé. L'objectif n'est pas de tout mémoriser, mais de repérer les montants qui comptent vraiment.",
@@ -502,6 +502,64 @@ export const commentLireUneFicheDePaieGuide: Guide = {
       label: "Calculer mon salaire net",
       href: "/",
     },
+  },
+  bibliography: {
+    id: "methodologie-sources",
+    title: "Méthodologie et sources",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Ce guide présente une méthode pédagogique de lecture du bulletin de salaire, principalement pour les salariés du secteur privé. Il explique les principales rubriques : rémunération brute, cotisations salariales, net avant impôt, net imposable, montant net social, prélèvement à la source et net versé.",
+      },
+      {
+        type: "paragraph",
+        text: "Les explications s'appuient sur les informations officielles relatives aux mentions du bulletin de paie, aux cotisations sociales et au prélèvement à la source. La présentation des bulletins peut varier selon l'employeur, la convention collective et la situation du salarié.",
+      },
+      {
+        type: "paragraph",
+        text: "Les schémas et exemples chiffrés sont simplifiés et destinés à faciliter la compréhension. Les montants estimés à partir des coefficients du simulateur brut-vers-net.fr ne constituent pas une reconstitution réglementaire exacte d'un bulletin de paie. Ils ne remplacent pas les informations figurant sur le bulletin réel.",
+      },
+      {
+        type: "paragraph",
+        text: "Ces références documentent les mentions du bulletin de paie, les cotisations salariales, le prélèvement à la source et la retraite complémentaire. Elles ne constituent pas une certification de Brut vers Net par ces administrations.",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label:
+          "Fiche de paie : mentions obligatoires et présentation du bulletin (F559)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F559",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label: "Cotisations salariales - Salarié du secteur privé (F2302)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F2302",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Urssaf :",
+        label: "Taux de cotisations - Secteur privé",
+        href: "https://www.urssaf.fr/accueil/outils-documentation/taux-baremes/taux-cotisations-secteur-prive.html",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label: "Impôt sur le revenu - Prélèvement à la source (F34009)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F34009",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Agirc-Arrco :",
+        label: "Le calcul des cotisations de retraite complémentaire",
+        href: "https://www.agirc-arrco.fr/entreprises/mon-entreprise/calculer-et-declarer/le-calcul-des-cotisations-de-retraite-complementaire/",
+      },
+    ],
   },
   sidebar: {
     calculator: {

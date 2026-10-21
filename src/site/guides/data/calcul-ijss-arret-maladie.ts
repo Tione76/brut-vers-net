@@ -1,6 +1,7 @@
 import type { Guide } from "../types";
 import {
   calculateSickLeaveSalary,
+  SICK_LEAVE_SOURCES,
   type SickLeaveCalculationInput,
 } from "@/site/sick-leave";
 import {
@@ -700,47 +701,6 @@ export const calculIjssArretMaladieGuide: Guide = {
         },
       ],
     },
-    {
-      id: "methodologie-sources",
-      title: "Méthodologie",
-      blocks: [
-        {
-          type: "paragraph",
-          text: IJSS_FRESHNESS_LINE,
-        },
-        {
-          type: "paragraph",
-          text: "Périmètre du moteur : IJSS maladie du salarié mensualisé du privé (régime général), sans complément employeur. Seuls les arrêts débutant à compter du 1er juillet 2026 sont simulés, avec le plafond Ameli de 2 613,83 € et l'IJ maximale publiée de 42,97 €.",
-        },
-        {
-          type: "list",
-          ordered: false,
-          items: [
-            "Chaque salaire mensuel est plafonné séparément, puis la somme des trois montants retenus est divisée par 91,25",
-            "IJSS journalière brute = salaire journalier de base × 50 %, puis comparaison à l'IJ maximale publiée",
-            "IJSS totales = IJSS journalière × nombre de jours indemnisés après carence",
-            `IJSS après CSG/CRDS = IJSS brutes × (1 − ${pctFr(CSG_RATE_ON_IJSS)} % − ${pctFr(CRDS_RATE_ON_IJSS)} %), avant PAS`,
-            "Jours calendaires inclusifs entre date de début et date de fin",
-          ],
-        },
-        {
-          type: "paragraph",
-          text: `Arbitrage sur le plafond mensuel applicable à compter du 1er juillet 2026 : Ameli publie ${formatEuro(CURRENT_BAREME.monthlyCeiling)} ; Service-Public affiche parfois ${formatEuro(2613.82)}. Le calculateur retient la valeur Ameli. Pour juin 2026, les sources officielles consultées présentent une incohérence : aucune estimation n'est affichée.`,
-        },
-        {
-          type: "paragraph",
-          text: "Arrondi : aucune règle officielle uniforme de troncature ou d'arrondi au centime n'a été identifiée (R323-4, R323-5, circulaires DSS/CNAM, Ameli, Service-Public). Les exemples officiels consultés ne sont pas parfaitement homogènes. Le moteur conserve une méthode unique : troncature au centime après application des 50 %. Au plafond mensuel retenu, l'estimation atteint 42,96 € ; le plafond officiel publié reste de 42,97 € par jour. Un écart d'un centime peut exister avec le relevé CPAM.",
-        },
-        {
-          type: "callout",
-          variant: "legal",
-          paragraphs: [
-            IJSS_SCOPE_DISCLAIMER,
-            "Cette page ne constitue pas un conseil juridique, fiscal ou social personnalisé.",
-          ],
-        },
-      ],
-    },
   ],
   faqTitle: "Questions fréquentes",
   faqIntro:
@@ -816,8 +776,8 @@ export const calculIjssArretMaladieGuide: Guide = {
     ],
   },
   bibliography: {
-    id: "sources-officielles",
-    title: "Sources officielles et références",
+    id: "methodologie-sources",
+    title: "Méthodologie et sources",
     blocks: [
       {
         type: "paragraph",
@@ -825,22 +785,80 @@ export const calculIjssArretMaladieGuide: Guide = {
       },
       {
         type: "paragraph",
-        text: "Ces références documentent le calcul des IJSS maladie, le plafond, la carence et les prélèvements CSG/CRDS. Elles ne constituent pas une certification de Brut vers Net par ces administrations.",
+        text: "Périmètre du moteur : IJSS maladie du salarié mensualisé du privé (régime général), sans complément employeur. Seuls les arrêts débutant à compter du 1er juillet 2026 sont simulés, avec le plafond Ameli de 2 613,83 € et l'IJ maximale publiée de 42,97 €.",
       },
-      ...Object.values(IJSS_SOURCES).map((source) => ({
-        type: "internal-link" as const,
-        variant: "guide" as const,
-        intro: `${source.org} :`,
-        label: source.label,
-        href: source.href,
-      })),
+      {
+        type: "list",
+        ordered: false,
+        items: [
+          "Chaque salaire mensuel est plafonné séparément, puis la somme des trois montants retenus est divisée par 91,25",
+          "IJSS journalière brute = salaire journalier de base × 50 %, puis comparaison à l'IJ maximale publiée",
+          "IJSS totales = IJSS journalière × nombre de jours indemnisés après carence",
+          `IJSS après CSG/CRDS = IJSS brutes × (1 − ${pctFr(CSG_RATE_ON_IJSS)} % − ${pctFr(CRDS_RATE_ON_IJSS)} %), avant PAS`,
+          "Jours calendaires inclusifs entre date de début et date de fin",
+        ],
+      },
+      {
+        type: "paragraph",
+        text: `Arbitrage sur le plafond mensuel applicable à compter du 1er juillet 2026 : Ameli publie ${formatEuro(CURRENT_BAREME.monthlyCeiling)} ; Service-Public affiche parfois ${formatEuro(2613.82)}. Le calculateur retient la valeur Ameli. Pour juin 2026, les sources officielles consultées présentent une incohérence : aucune estimation n'est affichée.`,
+      },
+      {
+        type: "paragraph",
+        text: "Arrondi : aucune règle officielle uniforme de troncature ou d'arrondi au centime n'a été identifiée (R323-4, R323-5, circulaires DSS/CNAM, Ameli, Service-Public). Les exemples officiels consultés ne sont pas parfaitement homogènes. Le moteur conserve une méthode unique : troncature au centime après application des 50 %. Au plafond mensuel retenu, l'estimation atteint 42,96 € ; le plafond officiel publié reste de 42,97 € par jour. Un écart d'un centime peut exister avec le relevé CPAM.",
+      },
       {
         type: "callout",
         variant: "legal",
         paragraphs: [
           IJSS_SCOPE_DISCLAIMER,
-          "Le relevé de paiement Ameli, l'attestation de salaire transmise par l'employeur et la décision de la CPAM restent les références pour connaître le montant réellement versé.",
+          "Cette page ne constitue pas un conseil juridique, fiscal ou social personnalisé.",
         ],
+      },
+      {
+        type: "paragraph",
+        text: "Ces références documentent le calcul des IJSS maladie, le plafond, la carence et les prélèvements CSG/CRDS. Elles ne constituent pas une certification de Brut vers Net par ces administrations.",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${IJSS_SOURCES.ameli.org} :`,
+        label: IJSS_SOURCES.ameli.label,
+        href: IJSS_SOURCES.ameli.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${IJSS_SOURCES.servicePublic.org} :`,
+        label: IJSS_SOURCES.servicePublic.label,
+        href: IJSS_SOURCES.servicePublic.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${IJSS_SOURCES.cssR3234.org} :`,
+        label: IJSS_SOURCES.cssR3234.label,
+        href: IJSS_SOURCES.cssR3234.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${IJSS_SOURCES.cssL323.org} :`,
+        label: IJSS_SOURCES.cssL323.label,
+        href: IJSS_SOURCES.cssL323.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${IJSS_SOURCES.urssafCsg.org} :`,
+        label: IJSS_SOURCES.urssafCsg.label,
+        href: IJSS_SOURCES.urssafCsg.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${SICK_LEAVE_SOURCES.servicePublicCsg.org} :`,
+        label: SICK_LEAVE_SOURCES.servicePublicCsg.label,
+        href: SICK_LEAVE_SOURCES.servicePublicCsg.href,
       },
     ],
   },

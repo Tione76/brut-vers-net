@@ -13,8 +13,8 @@ export const EMPLOYER_MAINTIEN_SLUG = "maintien-salaire-arret-maladie";
 export const EMPLOYER_MAINTIEN_CALCULATOR_ID = "simulateur-maintien-salaire";
 
 export const EMPLOYER_MAINTIEN_PUBLISHED_AT = "2026-09-20";
-export const EMPLOYER_MAINTIEN_UPDATED_AT = "2026-10-20";
-export const EMPLOYER_MAINTIEN_UPDATED_AT_LABEL = "20 octobre 2026";
+export const EMPLOYER_MAINTIEN_UPDATED_AT = "2026-10-21";
+export const EMPLOYER_MAINTIEN_UPDATED_AT_LABEL = "21 octobre 2026";
 
 export const EMPLOYER_MAINTIEN_H1 =
   "Maintien de salaire en arrêt maladie dans le privé : calcul et conditions";

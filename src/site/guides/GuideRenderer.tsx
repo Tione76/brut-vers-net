@@ -510,8 +510,10 @@ interface GuideArticleProps {
   sectionSlots?: Record<string, import("react").ReactNode>;
   /** Identifiant d'ancre de la section FAQ (défaut : faq). */
   faqSectionId?: string;
-  /** Bibliographie affichée après la conclusion, avant le bloc de partage. */
+  /** Bibliographie / méthodologie hors du flux principal des sections. */
   bibliography?: import("./types").GuideSection;
+  /** Placement de la bibliographie (défaut : after-conclusion). */
+  bibliographyPlacement?: "after-conclusion" | "after-faq";
   /** @deprecated Le design éditorial orange est le défaut pour tous les guides. */
   tocVariant?: GuideTocVariant;
   /** Groupes visuels optionnels, dérivés de la liste TOC existante (indices consécutifs). */
@@ -647,6 +649,7 @@ export function GuideArticle({
   sectionSlots,
   faqSectionId = "faq",
   bibliography,
+  bibliographyPlacement = "after-conclusion",
   tocVariant,
   tocGroups,
   tocLeftColumnGroups,
@@ -794,6 +797,10 @@ export function GuideArticle({
         </div>
       </section>
 
+      {bibliographyPlacement === "after-faq" && bibliography
+        ? renderSection(bibliography)
+        : null}
+
       <section id="conclusion" className="guide-conclusion">
         <h2>{conclusion.title ?? "Conclusion"}</h2>
         {conclusion.keyPoints.length > 0 ? (
@@ -873,7 +880,9 @@ export function GuideArticle({
         ) : null}
       </section>
 
-      {bibliography ? renderSection(bibliography) : null}
+      {bibliographyPlacement !== "after-faq" && bibliography
+        ? renderSection(bibliography)
+        : null}
 
       <ShareBlock
         url={share.url}

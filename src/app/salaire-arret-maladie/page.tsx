@@ -115,6 +115,7 @@ export default async function SalaireArretMaladiePage() {
           coverPlacement="after-slot"
           tocPlacement="after-slot"
           faqSectionId={guide.faqSectionId}
+          bibliography={guide.bibliography}
         />
       </GuidePageLayout>
     </>

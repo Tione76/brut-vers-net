@@ -89,6 +89,7 @@ export default async function SalaireInterimPage() {
           afterIntroduction={<InterimSalaryCalculator />}
           coverPlacement="after-slot"
           faqSectionId={guide.faqSectionId}
+          bibliography={guide.bibliography}
         />
       </GuidePageLayout>
     </>

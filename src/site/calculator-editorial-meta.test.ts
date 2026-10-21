@@ -35,9 +35,12 @@ describe("calculateurs : meta éditoriale harmonisée", () => {
     expect(OVERTIME_EDITORIAL_UPDATED_AT).toBe("2026-10-20");
     expect(SALARY_INCREASE_EDITORIAL_UPDATED_AT).toBe("2026-10-20");
     expect(DISMISSAL_CONTENT_REVIEW_DATE).toBe("2026-10-20");
-    expect(SICK_LEAVE_UPDATED_AT).toBe("2026-10-20");
-    expect(IJSS_UPDATED_AT).toBe("2026-10-20");
-    expect(EMPLOYER_MAINTIEN_UPDATED_AT).toBe("2026-10-20");
+  });
+
+  it("fixe la date de mise à jour des guides arrêt maladie au 21 octobre 2026", () => {
+    expect(SICK_LEAVE_UPDATED_AT).toBe("2026-10-21");
+    expect(IJSS_UPDATED_AT).toBe("2026-10-21");
+    expect(EMPLOYER_MAINTIEN_UPDATED_AT).toBe("2026-10-21");
   });
 
   it("ajoute GuideAuthorMeta sur l'accueil et les 3 pages /calculateurs", () => {

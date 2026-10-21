@@ -16,7 +16,7 @@ export const prelevementALaSourceGuide: Guide = {
   subtitle:
     "Qu'est-ce que le prélèvement à la source, pourquoi apparaît-il sur votre fiche de paie et comment influence-t-il le salaire net versé ?",
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-10-21",
   introduction: [
     "Vous consultez votre fiche de paie et vous remarquez une ligne « Prélèvement à la source ». À quoi correspond-elle ? Pourquoi ce montant est-il retenu sur votre salaire ? Et comment fonctionne-t-il au quotidien ?",
     "Le prélèvement à la source est le mécanisme par lequel l'impôt sur le revenu est retenu directement sur votre rémunération, avant le virement sur votre compte. Il intervient après les cotisations salariales, sur une base fiscale appelée net imposable.",
@@ -224,7 +224,7 @@ export const prelevementALaSourceGuide: Guide = {
         },
         {
           type: "paragraph",
-          text: "Ce taux s'appuie sur votre déclaration annuelle de revenus : revenus du foyer fiscal, situation familiale, autres sources de revenus le cas échéant. Il peut prendre la forme d'un taux individualisé ou d'un taux commun, selon les options retenues.",
+          text: "Ce taux s'appuie sur votre déclaration annuelle de revenus : revenus du foyer fiscal, situation familiale, autres sources de revenus le cas échéant. Depuis le 1er septembre 2025, si vous êtes marié ou pacsé et imposé en commun, le taux individualisé s'applique par défaut à vos revenus personnels. Vous pouvez toutefois opter pour le taux commun du foyer. Un taux non personnalisé (taux neutre) peut aussi s'appliquer dans certains cas, notamment si vous refusez de transmettre votre taux personnalisé à l'employeur.",
         },
         {
           type: "list",
@@ -254,7 +254,7 @@ export const prelevementALaSourceGuide: Guide = {
         },
         {
           type: "paragraph",
-          text: "En tant que salarié, vous pouvez consulter votre taux dans votre espace personnel sur impots.gouv.fr. Si votre situation a changé (revenus du conjoint, naissance, baisse ou hausse de revenus), vous pouvez demander une actualisation.",
+          text: "En tant que salarié, vous pouvez consulter votre taux dans votre espace personnel sur impots.gouv.fr. Si votre situation a changé (revenus du conjoint, naissance, baisse ou hausse de revenus), vous pouvez demander une actualisation. Marié ou pacsé, vous pouvez aussi choisir le taux commun du foyer à la place du taux individualisé.",
         },
         {
           type: "paragraph",
@@ -315,7 +315,7 @@ export const prelevementALaSourceGuide: Guide = {
           items: [
             "Revenus du foyer fiscal : le conjoint ou d'autres sources de revenus influencent le taux.",
             "Situation familiale : nombre de parts, personnes à charge, changements récents.",
-            "Type de taux : taux individualisé, taux non personnalisé ou taux commun du foyer, selon les options retenues.",
+            "Type de taux : taux individualisé (défaut pour les couples mariés ou pacsés imposés en commun), taux commun du foyer sur option, ou taux non personnalisé.",
             "Actualisation : une déclaration annuelle de revenus ou un changement de situation modifie le taux transmis à l'employeur.",
           ],
         },
@@ -605,7 +605,7 @@ export const prelevementALaSourceGuide: Guide = {
     {
       question: "Pourquoi mon collègue a-t-il un taux de prélèvement différent ?",
       answer:
-        "Le taux dépend de la situation fiscale personnelle, pas uniquement du salaire affiché. Revenus du conjoint, parts fiscales et options retenues expliquent les différences entre salariés.",
+        "Le taux dépend de la situation fiscale personnelle, pas uniquement du salaire affiché. Revenus du conjoint, parts fiscales et choix entre taux individualisé et taux du foyer expliquent les différences entre salariés.",
     },
     {
       question: "Pourquoi mon salaire net versé est-il inférieur au net avant impôt ?",
@@ -633,6 +633,72 @@ export const prelevementALaSourceGuide: Guide = {
       label: "Calculer mon salaire net",
       href: "/",
     },
+  },
+  bibliography: {
+    id: "methodologie-sources",
+    title: "Méthodologie et sources",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Ce guide présente le fonctionnement général du prélèvement à la source de l'impôt sur le revenu appliqué aux salaires en France. Il décrit la détermination du taux par l'administration fiscale, sa transmission à l'employeur, son application sur la rémunération nette imposable et son effet sur le salaire net versé.",
+      },
+      {
+        type: "paragraph",
+        text: "Les explications reposent sur les informations officielles de la Direction générale des Finances publiques (DGFiP), d'impots.gouv.fr et de Service-Public. Le taux peut évoluer à la suite d'une déclaration annuelle, d'une modification des revenus ou d'un changement de situation familiale. Les modalités applicables dépendent également du type de taux utilisé.",
+      },
+      {
+        type: "paragraph",
+        text: "Les exemples chiffrés de salaire brut et net sont des illustrations pédagogiques fondées sur les coefficients indicatifs du simulateur brut-vers-net.fr. Le calculateur ne détermine pas le taux fiscal personnel de l'utilisateur et ne remplace ni le bulletin de paie ni les informations de son espace fiscal. Le prélèvement à la source constitue un mode de paiement de l'impôt : son montant mensuel ne correspond pas nécessairement à l'impôt définitif, qui est régularisé après la déclaration annuelle des revenus.",
+      },
+      {
+        type: "paragraph",
+        text: "Ces références documentent le prélèvement à la source, la gestion du taux, les grilles de taux non personnalisés et les mentions du bulletin de paie. Elles ne constituent pas une certification de Brut vers Net par ces administrations.",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label: "Impôt sur le revenu - Prélèvement à la source (F34009)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F34009",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label: "Fiche de paie : mentions obligatoires (F559)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F559",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label:
+          "Impôt sur le revenu - Comment changer votre taux de prélèvement à la source ? (F35894)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F35894",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "DGFiP / impots.gouv.fr :",
+        label: "Gérer mon prélèvement à la source",
+        href: "https://www.impots.gouv.fr/gerer-mon-prelevement-la-source",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "DGFiP / impots.gouv.fr :",
+        label: "Le taux foyer du prélèvement à la source (individualisation des taux)",
+        href: "https://www.impots.gouv.fr/particulier/lindividualisation-des-taux-de-prelevement",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "BOFiP - DGFiP :",
+        label:
+          "Grilles des taux par défaut du prélèvement à la source (BOI-BAREME-000037)",
+        href: "https://bofip.impots.gouv.fr/bofip/11255-PGP.html/identifiant=BOI-BAREME-000037-20260706",
+      },
+    ],
   },
   sidebar: {
     calculator: {

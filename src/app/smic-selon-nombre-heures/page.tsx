@@ -92,6 +92,8 @@ export default async function SmicSelonNombreHeuresPage() {
             "tableau-smic": <SmicHoursTable />,
           }}
           faqSectionId={guide.faqSectionId}
+          bibliography={guide.bibliography}
+          bibliographyPlacement={guide.bibliographyPlacement}
         />
       </GuidePageLayout>
     </>

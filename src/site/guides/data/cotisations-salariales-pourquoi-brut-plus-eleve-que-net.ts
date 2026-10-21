@@ -16,7 +16,7 @@ export const cotisationsSalarialesGuide: Guide = {
   subtitle:
     "Pourquoi votre salaire brut est supérieur à votre salaire net : maladie, retraite, CSG et le rôle des cotisations salariales expliqué simplement.",
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-10-21",
   introduction: [
     "Vous consultez votre fiche de paie et vous constatez que votre salaire net est nettement inférieur à votre salaire brut. Une grande partie de cette différence provient des cotisations salariales. Mais à quoi servent-elles réellement, et pourquoi le salaire brut est-il plus élevé que le salaire net ?",
     "Les cotisations salariales sont des retenues prélevées sur votre rémunération brute. Elles financent la protection sociale : santé, retraite, famille et d'autres dispositifs collectifs.",
@@ -580,6 +580,70 @@ export const cotisationsSalarialesGuide: Guide = {
       label: "Calculer mon salaire net",
       href: "/",
     },
+  },
+  bibliography: {
+    id: "methodologie-sources",
+    title: "Méthodologie et sources",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Cet article présente le fonctionnement général des cotisations et contributions salariales, principalement pour les salariés du secteur privé. Il distingue les retenues salariales des cotisations patronales et du prélèvement à la source de l'impôt sur le revenu.",
+      },
+      {
+        type: "paragraph",
+        text: "Les explications reposent sur les informations officielles de l'Urssaf, de la Sécurité sociale, de Service-Public et des organismes de retraite complémentaire. Les différentes contributions ne financent pas toutes les mêmes dispositifs et ne créent pas nécessairement chacune un droit individuel direct.",
+      },
+      {
+        type: "paragraph",
+        text: "Les exemples chiffrés sont indicatifs et utilisent les coefficients simplifiés du simulateur brut-vers-net.fr. Ces coefficients ne sont pas des taux réglementaires universels. Les retenues réelles varient selon la rémunération, le statut, les plafonds applicables, la mutuelle, la prévoyance et les dispositions conventionnelles. Le bulletin de paie reste la référence pour connaître les montants effectivement prélevés.",
+      },
+      {
+        type: "paragraph",
+        text: "Ces références documentent les cotisations salariales, la CSG-CRDS, le bulletin de paie, la retraite complémentaire et l'organisation de la protection sociale. Elles ne constituent pas une certification de Brut vers Net par ces administrations.",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Urssaf :",
+        label: "Taux de cotisations - Secteur privé",
+        href: "https://www.urssaf.fr/accueil/outils-documentation/taux-baremes/taux-cotisations-secteur-prive.html",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label: "Cotisations salariales - Salarié du secteur privé (F2302)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F2302",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label: "Fiche de paie : mentions obligatoires (F559)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F559",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Agirc-Arrco :",
+        label: "Le calcul des cotisations de retraite complémentaire",
+        href: "https://www.agirc-arrco.fr/entreprises/mon-entreprise/calculer-et-declarer/le-calcul-des-cotisations-de-retraite-complementaire/",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Urssaf :",
+        label: "CSG et CRDS sur les revenus d'activité",
+        href: "https://www.urssaf.fr/accueil/employeur/cotisations/liste-cotisations/csg-crds.html",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Sécurité sociale :",
+        label: "Organisation de la protection sociale : les branches",
+        href: "https://www.securite-sociale.fr/la-secu-cest-quoi/organisation/les-branches",
+      },
+    ],
   },
   sidebar: {
     calculator: {

@@ -78,6 +78,9 @@ export default async function EvolutionSmicPage() {
           faq={guide.faq}
           faqTitle={guide.faqTitle}
           faqIntro={guide.faqIntro}
+          faqSectionId={guide.faqSectionId}
+          bibliography={guide.bibliography}
+          bibliographyPlacement={guide.bibliographyPlacement}
           conclusion={guide.conclusion}
           cover={resolveGuideCover(guide)}
           share={{

@@ -79,6 +79,7 @@ export default async function SmicHotelierPage() {
           faqTitle={guide.faqTitle}
           faqIntro={guide.faqIntro}
           faqSectionId={guide.faqSectionId}
+          bibliography={guide.bibliography}
           conclusion={guide.conclusion}
           cover={resolveGuideCover(guide)}
           share={{

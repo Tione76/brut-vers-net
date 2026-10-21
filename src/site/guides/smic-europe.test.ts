@@ -78,15 +78,9 @@ describe("page pilier SMIC en Europe", () => {
     expect(guide.description).not.toMatch(/20\d{2}/);
     expect(SMIC_EUROPE_META_LENGTH).toBe(SMIC_EUROPE_META_DESCRIPTION.length);
     expect(guide.introduction.join(" ")).not.toContain("earn_mw_cur");
-    expect(
-      JSON.stringify(guide.sections.find((section) => section.id === "methodologie-sources")),
-    ).toContain("earn_mw_cur");
-    expect(
-      JSON.stringify(guide.sections.find((section) => section.id === "methodologie-sources")),
-    ).toContain("https://www.drapeauxdespays.fr/");
-    expect(
-      JSON.stringify(guide.sections.find((section) => section.id === "methodologie-sources")),
-    ).toContain("Icônes de drapeaux provenant du site");
+    expect(JSON.stringify(guide.bibliography)).toContain("earn_mw_cur");
+    expect(JSON.stringify(guide.bibliography)).toContain("https://www.drapeauxdespays.fr/");
+    expect(JSON.stringify(guide.bibliography)).toContain("Icônes de drapeaux provenant du site");
     expect(guide.includeFaqSchema).toBe(false);
     expect(guide.faqSectionId).toBe("questions-frequentes");
     expect(guide.includeWebApplicationSchema).toBeFalsy();
@@ -322,7 +316,8 @@ describe("page pilier SMIC en Europe", () => {
     expect(subsectionIds).toHaveLength(COUNTRIES_WITH_SECTIONS.length);
     expect(guide.sections.some((section) => section.id === "tableau-salaires-minimums")).toBe(true);
     expect(guide.sections.some((section) => section.id === "pays-sans-minimum-national")).toBe(true);
-    expect(guide.sections.some((section) => section.id === "methodologie-sources")).toBe(true);
+    expect(guide.sections.some((section) => section.id === "methodologie-sources")).toBe(false);
+    expect(guide.bibliography?.id).toBe("methodologie-sources");
     expect(JSON.stringify(guide.sections.find((section) => section.id === "tableau-salaires-minimums"))).not.toMatch(
       /Classement des SMIC/i,
     );

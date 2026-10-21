@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getGuideBySlug, getGuidePublicPath, guides } from "@/site/guides/registry";
+import { buildGuideTocH2 } from "@/site/guides/utils";
 import { buildGuideJsonLd } from "@/site/schema";
 import {
   formatCoverCredit,
@@ -276,6 +277,15 @@ describe("page SMIC selon le nombre d'heures", () => {
     expect(guide.sections.some((s) => s.id === "smic-39-heures")).toBe(true);
     expect(guide.sections.some((s) => s.id === "moins-de-24h")).toBe(true);
     expect(guide.sections.some((s) => s.id === "differences-heures")).toBe(true);
-    expect(guide.sections.some((s) => s.id === "methodologie-sources")).toBe(true);
+    expect(guide.sections.some((s) => s.id === "methodologie-sources")).toBe(false);
+    expect(guide.bibliography?.id).toBe("methodologie-sources");
+    expect(guide.bibliographyPlacement).toBe("after-faq");
+
+    const toc = buildGuideTocH2(guide);
+    const faqIdx = toc.findIndex((entry) => entry.id === "questions-frequentes");
+    const methodoIdx = toc.findIndex((entry) => entry.id === "methodologie-sources");
+    const conclusionIdx = toc.findIndex((entry) => entry.id === "conclusion");
+    expect(methodoIdx).toBe(faqIdx + 1);
+    expect(conclusionIdx).toBe(methodoIdx + 1);
   });
 });

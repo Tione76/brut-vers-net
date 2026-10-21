@@ -253,6 +253,7 @@ describe("planTocColumns", () => {
       "Lire et comprendre sa fiche de paie",
       "Vérification et exemples pratiques",
       "Questions fréquentes et conclusion",
+      "Méthodologie et sources",
     ]);
     if (plan.split) {
       expect(plan.right[0]?.kind).toBe("loose");

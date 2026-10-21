@@ -19,7 +19,7 @@ export const commentEstCalculeLeSalaireNetGuide: Guide = {
   subtitle:
     "Pourquoi 2 500 € brut ne deviennent jamais 2 500 € sur votre compte : cotisations, nets et prélèvement à la source expliqués.",
   publishedAt: "2026-07-14",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-10-21",
   introduction: [
     "Pourquoi un salaire de 2 500 € brut ne devient-il jamais 2 500 € sur votre compte ? C'est la question derrière toute la différence entre salaire brut et salaire net.",
     "Entre le montant affiché au contrat et le virement sur votre compte, plusieurs montants se succèdent : salaire brut, cotisations salariales, salaire net avant impôt, net imposable, prélèvement à la source et salaire net versé.",
@@ -470,6 +470,64 @@ export const commentEstCalculeLeSalaireNetGuide: Guide = {
       label: "Calculer mon salaire net",
       href: "/",
     },
+  },
+  bibliography: {
+    id: "methodologie-sources",
+    title: "Méthodologie et sources",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Ce guide est un contenu pédagogique destiné à expliquer les différences entre salaire brut, salaire net avant impôt, net imposable et salaire net versé. Les règles générales relatives aux cotisations sociales et au prélèvement à la source s'appuient sur les informations publiées par les organismes officiels.",
+      },
+      {
+        type: "paragraph",
+        text: "Les exemples chiffrés sont indicatifs. Ils reposent sur les coefficients simplifiés du simulateur brut-vers-net.fr. Ces coefficients ne sont pas des taux réglementaires officiels et ne remplacent pas le calcul détaillé des cotisations figurant sur un bulletin de paie.",
+      },
+      {
+        type: "paragraph",
+        text: "Les montants réellement perçus dépendent notamment du statut, des cotisations applicables, de la complémentaire santé, de la prévoyance et de la situation fiscale.",
+      },
+      {
+        type: "paragraph",
+        text: "Ces références documentent les cotisations salariales, le bulletin de paie, le prélèvement à la source et la retraite complémentaire. Elles ne constituent pas une certification de Brut vers Net par ces administrations.",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Urssaf :",
+        label: "Taux de cotisations - Secteur privé",
+        href: "https://www.urssaf.fr/accueil/outils-documentation/taux-baremes/taux-cotisations-secteur-prive.html",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label: "Cotisations salariales - Salarié du secteur privé (F2302)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F2302",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label:
+          "Fiche de paie : mentions obligatoires, nets et montant net social (F559)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F559",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label: "Impôt sur le revenu - Prélèvement à la source (F34009)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F34009",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Agirc-Arrco :",
+        label: "Le calcul des cotisations de retraite complémentaire",
+        href: "https://www.agirc-arrco.fr/entreprises/mon-entreprise/calculer-et-declarer/le-calcul-des-cotisations-de-retraite-complementaire/",
+      },
+    ],
   },
   sidebar: {
     calculator: {

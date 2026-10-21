@@ -289,6 +289,16 @@ describe("page salaire arrêt maladie", () => {
     for (const source of Object.values(SICK_LEAVE_SOURCES)) {
       expect(blob).toContain(source.href);
     }
+    expect(SICK_LEAVE_SOURCES.travailL1226.href).toContain("LEGIARTI000054331868");
+    expect(SICK_LEAVE_SOURCES.travailD1226.href).toContain("LEGISCTA000018482982");
+    expect(blob).not.toContain("LEGIARTI000006900863");
+    expect(blob).not.toContain("LEGISCTA000018537808");
+    expect(SICK_LEAVE_SOURCES.travailL1226.href).toBe(
+      "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000054331868",
+    );
+    expect(SICK_LEAVE_SOURCES.travailD1226.href).toBe(
+      "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006072050/LEGISCTA000018482982/",
+    );
     expect(blob).toContain("91,25");
     expect(blob).toContain("50 %");
     expect(blob).toMatch(/3 jours|trois jours/);
@@ -396,6 +406,7 @@ describe("page salaire arrêt maladie", () => {
     expect(pageSource).toContain('current="revenu"');
     expect(pageSource).toContain("afterToc=");
     expect(pageSource).toContain('tocPlacement="after-slot"');
+    expect(pageSource).toContain("bibliography={guide.bibliography}");
     expect(pageSource).not.toMatch(/afterIntroduction=\{<SickLeaveSalaryCalculator/);
     expect(pageSource).toContain("SICK_LEAVE_HEADER_PRIMARY_CTA");
     expect(pageSource).toContain("SICK_LEAVE_HEADER_SECONDARY_CTA");

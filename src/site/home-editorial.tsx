@@ -74,8 +74,8 @@ export function HomeEditorial() {
             <p>
               Le salaire brut est la rémunération convenue avec l&apos;employeur, avant toute retenue.
               C&apos;est la référence la plus fréquente sur une offre ou un contrat.
-            </p>
-            <p>
+          </p>
+          <p>
               Le net estimé avant impôt correspond au montant après cotisations et contributions
               salariales. Le net après impôt est ce qui reste une fois le prélèvement à la source
               appliqué.
@@ -370,8 +370,8 @@ export function HomeEditorial() {
               l&apos;administration fiscale en fonction de votre situation, peut être différent. Vous
               pouvez le renseigner manuellement dans le curseur pour rapprocher le net après impôt de
               votre bulletin.
-            </p>
-            <p>
+          </p>
+          <p>
               À 0 %, vous isolez le net avant impôt et mesurez uniquement l&apos;effet des cotisations
               et contributions sociales.
             </p>
@@ -393,7 +393,7 @@ export function HomeEditorial() {
               <li>Estimation générale pour la fonction publique, hors indemnités spécifiques</li>
               <li>
                 Taux non personnalisé estimé tant que vous n&apos;indiquez pas votre taux réel
-              </li>
+            </li>
             </ul>
 
             <h3>Situations où l&apos;outil est utile</h3>
@@ -565,11 +565,11 @@ export function HomeEditorial() {
               </p>
             </aside>
 
-            <p className="home-editorial__updated">
+          <p className="home-editorial__updated">
               Contenu révisé le <time dateTime={HOME_EDITORIAL_UPDATED_AT}>{revisedDateLabel}</time>
               . Chiffres alignés sur les coefficients du simulateur et sur la grille PAS vérifiée
               le {revisedDateLabel}.
-            </p>
+          </p>
           </div>
         </div>
       </div>

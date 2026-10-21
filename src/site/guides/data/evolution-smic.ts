@@ -447,67 +447,6 @@ export const evolutionSmicGuide: Guide = {
         },
       ],
     },
-    {
-      id: "methodologie-sources",
-      title: "Méthodologie et sources",
-      blocks: [
-        {
-          type: "paragraph",
-          text: `Les taux à date d'effet (1980-${SMIC_HISTORY_EDITORIAL_YEAR}) sont repris du fichier Insee marc-salair-smic.xlsx, publié avec la page « Salaire minimum interprofessionnel de croissance ». Plusieurs lignes peuvent apparaître pour une même année dès que le Journal officiel fixe un nouveau taux.`,
-        },
-        {
-          type: "paragraph",
-          text: "Les montants mensuels dépendent de la durée de travail de référence publiée à l'époque. Cette page n'applique pas silencieusement 151,67 heures aux années antérieures aux 35 heures.",
-        },
-        {
-          type: "paragraph",
-          text: "Les montants antérieurs à l'euro sont lus en francs, puis éventuellement convertis au taux officiel. Conversion monétaire et pouvoir d'achat sont deux notions différentes. Les moyennes annuelles 1951-1979 viennent de la série Insee SMIC39, déjà exprimée en euros : elles ne sont pas des taux du Journal officiel.",
-        },
-        {
-          type: "paragraph",
-          text: "Les archives officielles présentent principalement les montants bruts. Le net historique dépendait des cotisations applicables à l'époque et ne peut pas être obtenu en appliquant le taux actuel. Aucun net ancien n'est donc estimé ici.",
-        },
-        {
-          type: "paragraph",
-          text: `Dernière vérification des séries : ${SMIC_HISTORY_VERIFIED_ON_LABEL}. Le graphique du SMIC horaire utilise les taux légaux Insee. Le graphique SMIC / prix utilise les indices trimestriels Insee, base 100 en mars 1990.`,
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: `${SMIC_HISTORY_SOURCES.inseeAnnual.org} :`,
-          label: SMIC_HISTORY_SOURCES.inseeAnnual.label,
-          href: SMIC_HISTORY_SOURCES.inseeAnnual.href,
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: `${SMIC_HISTORY_SOURCES.inseeLongSeries.org} :`,
-          label: SMIC_HISTORY_SOURCES.inseeLongSeries.label,
-          href: SMIC_HISTORY_SOURCES.inseeLongSeries.href,
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: `${SMIC_HISTORY_SOURCES.loi1970.org} :`,
-          label: SMIC_HISTORY_SOURCES.loi1970.label,
-          href: SMIC_HISTORY_SOURCES.loi1970.href,
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: `${SMIC_HISTORY_SOURCES.servicePublic.org} :`,
-          label: SMIC_HISTORY_SOURCES.servicePublic.label,
-          href: SMIC_HISTORY_SOURCES.servicePublic.href,
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Pour comprendre pourquoi le brut et le net d'aujourd'hui diffèrent,",
-          label: "voir le guide sur les cotisations salariales",
-          href: COTISATIONS_HREF,
-        },
-      ],
-    },
   ],
   faqTitle: "Questions fréquentes sur l'évolution du SMIC",
   faqIntro: "Réponses courtes, fondées sur les séries officielles rassemblées dans le tableau.",
@@ -614,6 +553,67 @@ export const evolutionSmicGuide: Guide = {
         },
       ],
     },
+  },
+  bibliography: {
+    id: "methodologie-sources",
+    title: "Méthodologie et sources",
+    blocks: [
+      {
+        type: "paragraph",
+        text: `Les taux à date d'effet (1980-${SMIC_HISTORY_EDITORIAL_YEAR}) sont repris du fichier Insee marc-salair-smic.xlsx, publié avec la page « Salaire minimum interprofessionnel de croissance ». Plusieurs lignes peuvent apparaître pour une même année dès que le Journal officiel fixe un nouveau taux.`,
+      },
+      {
+        type: "paragraph",
+        text: "Les montants mensuels dépendent de la durée de travail de référence publiée à l'époque. Cette page n'applique pas silencieusement 151,67 heures aux années antérieures aux 35 heures.",
+      },
+      {
+        type: "paragraph",
+        text: "Les montants antérieurs à l'euro sont lus en francs, puis éventuellement convertis au taux officiel. Conversion monétaire et pouvoir d'achat sont deux notions différentes. Les moyennes annuelles 1951-1979 viennent de la série Insee SMIC39, déjà exprimée en euros : elles ne sont pas des taux du Journal officiel.",
+      },
+      {
+        type: "paragraph",
+        text: "Les archives officielles présentent principalement les montants bruts. Le net historique dépendait des cotisations applicables à l'époque et ne peut pas être obtenu en appliquant le taux actuel. Aucun net ancien n'est donc estimé ici.",
+      },
+      {
+        type: "paragraph",
+        text: `Dernière vérification des séries : ${SMIC_HISTORY_VERIFIED_ON_LABEL}. Le graphique du SMIC horaire utilise les taux légaux Insee. Le graphique SMIC / prix utilise les indices trimestriels Insee, base 100 en mars 1990.`,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${SMIC_HISTORY_SOURCES.inseeAnnual.org} :`,
+        label: SMIC_HISTORY_SOURCES.inseeAnnual.label,
+        href: SMIC_HISTORY_SOURCES.inseeAnnual.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${SMIC_HISTORY_SOURCES.inseeLongSeries.org} :`,
+        label: SMIC_HISTORY_SOURCES.inseeLongSeries.label,
+        href: SMIC_HISTORY_SOURCES.inseeLongSeries.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${SMIC_HISTORY_SOURCES.loi1970.org} :`,
+        label: SMIC_HISTORY_SOURCES.loi1970.label,
+        href: SMIC_HISTORY_SOURCES.loi1970.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${SMIC_HISTORY_SOURCES.servicePublic.org} :`,
+        label: SMIC_HISTORY_SOURCES.servicePublic.label,
+        href: SMIC_HISTORY_SOURCES.servicePublic.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Pour comprendre pourquoi le brut et le net d'aujourd'hui diffèrent,",
+        label: "voir le guide sur les cotisations salariales",
+        href: COTISATIONS_HREF,
+      },
+    ],
   },
   sidebar: {
     calculator: {

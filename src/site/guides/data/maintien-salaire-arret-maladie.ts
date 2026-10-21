@@ -31,6 +31,7 @@ import {
   IJSS_CALCULATOR_PATH,
   SALARY_DURING_SICK_LEAVE_PATH,
 } from "@/site/employer-maintien/data";
+import { SICK_LEAVE_SOURCES } from "@/site/sick-leave";
 import {
   ex7j,
   ex14j,
@@ -678,24 +679,6 @@ export const maintienSalaireArretMaladieGuide: Guide = {
         },
       ],
     },
-    {
-      id: "methodologie-sources",
-      title: "Méthodologie",
-      blocks: [
-        {
-          type: "paragraph",
-          text: EMPLOYER_MAINTIEN_FRESHNESS_LINE,
-        },
-        {
-          type: "paragraph",
-          text: EMPLOYER_MAINTIEN_METHODOLOGY_NOTE,
-        },
-        {
-          type: "paragraph",
-          text: EMPLOYER_MAINTIEN_METHOD_NOTE,
-        },
-      ],
-    },
   ],
   faqTitle: "Questions fréquentes sur le maintien de salaire",
   faqIntro:
@@ -788,8 +771,8 @@ export const maintienSalaireArretMaladieGuide: Guide = {
     ],
   },
   bibliography: {
-    id: "sources-officielles",
-    title: "Sources officielles et références",
+    id: "methodologie-sources",
+    title: "Méthodologie et sources",
     blocks: [
       {
         type: "paragraph",
@@ -797,15 +780,51 @@ export const maintienSalaireArretMaladieGuide: Guide = {
       },
       {
         type: "paragraph",
+        text: EMPLOYER_MAINTIEN_METHODOLOGY_NOTE,
+      },
+      {
+        type: "paragraph",
+        text: EMPLOYER_MAINTIEN_METHOD_NOTE,
+      },
+      {
+        type: "paragraph",
         text: "Ces références documentent le complément employeur légal, les conditions d'ancienneté, les délais et les durées d'indemnisation. Elles ne constituent pas une certification de Brut vers Net par ces administrations.",
       },
-      ...Object.values(EMPLOYER_MAINTIEN_SOURCES).map((source) => ({
-        type: "internal-link" as const,
-        variant: "guide" as const,
-        intro: `${source.org} :`,
-        label: source.label,
-        href: source.href,
-      })),
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${EMPLOYER_MAINTIEN_SOURCES.l1226.org} :`,
+        label: EMPLOYER_MAINTIEN_SOURCES.l1226.label,
+        href: EMPLOYER_MAINTIEN_SOURCES.l1226.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${EMPLOYER_MAINTIEN_SOURCES.d1226.org} :`,
+        label: EMPLOYER_MAINTIEN_SOURCES.d1226.label,
+        href: EMPLOYER_MAINTIEN_SOURCES.d1226.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${SICK_LEAVE_SOURCES.codeTravail.org} :`,
+        label: SICK_LEAVE_SOURCES.codeTravail.label,
+        href: SICK_LEAVE_SOURCES.codeTravail.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${EMPLOYER_MAINTIEN_SOURCES.f3053.org} :`,
+        label: EMPLOYER_MAINTIEN_SOURCES.f3053.label,
+        href: EMPLOYER_MAINTIEN_SOURCES.f3053.href,
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: `${EMPLOYER_MAINTIEN_SOURCES.ameli.org} :`,
+        label: EMPLOYER_MAINTIEN_SOURCES.ameli.label,
+        href: EMPLOYER_MAINTIEN_SOURCES.ameli.href,
+      },
       {
         type: "callout",
         variant: "legal",

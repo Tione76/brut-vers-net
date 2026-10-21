@@ -22,7 +22,7 @@ export const commentCalculerSonSalaireNetGuide: Guide = {
   subtitle:
     "Du salaire brut au net versé : calculez vous-même votre salaire net, étape par étape, puis vérifiez avec le simulateur.",
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-10-21",
   introduction: [
     "Vous connaissez votre salaire brut mais vous voulez savoir ce que vous toucherez réellement ? C'est la question la plus fréquente en entretien ou en négociation.",
     "Le calcul suit une chaîne simple : salaire brut, cotisations salariales, salaire net avant impôt, prélèvement à la source, salaire net versé. Le net imposable sert de base fiscale à cette dernière étape.",
@@ -446,6 +446,63 @@ export const commentCalculerSonSalaireNetGuide: Guide = {
       label: "Calculer mon salaire net",
       href: "/",
     },
+  },
+  bibliography: {
+    id: "methodologie-sources",
+    title: "Méthodologie et sources",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Ce guide présente les étapes générales permettant de passer du salaire brut au salaire net : prise en compte des cotisations salariales, détermination du salaire net avant impôt, utilisation du net imposable comme base du prélèvement à la source, puis estimation du salaire net versé.",
+      },
+      {
+        type: "paragraph",
+        text: "Les exemples chiffrés utilisent les coefficients simplifiés du simulateur brut-vers-net.fr, selon le profil renseigné. Ces coefficients sont indicatifs et ne correspondent pas à des taux réglementaires universels. Le simulateur ne reconstitue pas individuellement chaque ligne de cotisation.",
+      },
+      {
+        type: "paragraph",
+        text: "Le résultat réel dépend notamment du statut, de la rémunération, des cotisations applicables, de la mutuelle, de la prévoyance, des primes et du taux de prélèvement à la source. Le bulletin de paie reste la référence pour vérifier les montants effectivement calculés et versés.",
+      },
+      {
+        type: "paragraph",
+        text: "Ces références documentent les cotisations salariales, le bulletin de paie, le prélèvement à la source et la retraite complémentaire. Elles ne constituent pas une certification de Brut vers Net par ces administrations.",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Urssaf :",
+        label: "Taux de cotisations - Secteur privé",
+        href: "https://www.urssaf.fr/accueil/outils-documentation/taux-baremes/taux-cotisations-secteur-prive.html",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label: "Cotisations salariales - Salarié du secteur privé (F2302)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F2302",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label: "Fiche de paie : mentions obligatoires (F559)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F559",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Service-Public :",
+        label: "Impôt sur le revenu - Prélèvement à la source (F34009)",
+        href: "https://www.service-public.fr/particuliers/vosdroits/F34009",
+      },
+      {
+        type: "internal-link",
+        variant: "guide",
+        intro: "Agirc-Arrco :",
+        label: "Le calcul des cotisations de retraite complémentaire",
+        href: "https://www.agirc-arrco.fr/entreprises/mon-entreprise/calculer-et-declarer/le-calcul-des-cotisations-de-retraite-complementaire/",
+      },
+    ],
   },
   sidebar: {
     calculator: {

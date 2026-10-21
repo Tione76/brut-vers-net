@@ -610,56 +610,6 @@ export const salaireInterimGuide: Guide = {
         },
       ],
     },
-    {
-      id: "methodologie-sources",
-      title: "Méthodologie et sources",
-      blocks: [
-        {
-          type: "paragraph",
-          text: INTERIM_FRESHNESS_LINE,
-        },
-        {
-          type: "paragraph",
-          text: "Formules retenues par le calculateur :",
-        },
-        {
-          type: "list",
-          ordered: false,
-          items: [
-            "Brut de mission (mode horaire) = heures normales × taux + HS 25 % × taux × 1,25 + HS 50 % × taux × 1,50 + autres éléments bruts",
-            "IFM = brut de mission × taux IFM (10 % dans le cas général, sauf dispositions conventionnelles) si incluse, sinon 0",
-            "ICCP = (brut de mission + IFM) × taux ICCP (minimum légal 10 %)",
-            "Total brut = brut de mission + IFM + ICCP",
-            "Net estimé = moteur central brut/net du site (profil non-cadre, avant prélèvement à la source), affiché arrondi à l'euro",
-            "Arrondi des bruts : chaque composante monétaire au centime (fonction roundCent partagée)",
-            "Remboursements de frais : hors assiette IFM/ICCP et hors net salarial, ligne séparée",
-          ],
-        },
-        {
-          type: "callout",
-          variant: "legal",
-          paragraphs: [
-            INTERIM_SCOPE_DISCLAIMER,
-            INTERIM_NET_DISCLAIMER,
-            INTERIM_HS_NET_WARNING,
-            "Cette page ne constitue pas un conseil juridique, fiscal ou social personnalisé.",
-          ],
-        },
-        {
-          type: "paragraph",
-          text: "Sources officielles :",
-        },
-        {
-          type: "list",
-          ordered: false,
-          items: Object.values(INTERIM_SOURCES).map((source) => ({
-            text: `${source.org} :`,
-            href: source.href,
-            label: source.label,
-          })),
-        },
-      ],
-    },
   ],
   faqTitle: "Questions fréquentes",
   faqIntro:
@@ -751,6 +701,56 @@ export const salaireInterimGuide: Guide = {
       label: "Recalculer mon salaire en intérim",
       href: `${INTERIM_PATH}#calculateur-salaire-interim`,
     },
+  },
+  bibliography: {
+    id: "methodologie-sources",
+    title: "Méthodologie et sources",
+    blocks: [
+      {
+        type: "paragraph",
+        text: INTERIM_FRESHNESS_LINE,
+      },
+      {
+        type: "paragraph",
+        text: "Formules retenues par le calculateur :",
+      },
+      {
+        type: "list",
+        ordered: false,
+        items: [
+          "Brut de mission (mode horaire) = heures normales × taux + HS 25 % × taux × 1,25 + HS 50 % × taux × 1,50 + autres éléments bruts",
+          "IFM = brut de mission × taux IFM (10 % dans le cas général, sauf dispositions conventionnelles) si incluse, sinon 0",
+          "ICCP = (brut de mission + IFM) × taux ICCP (minimum légal 10 %)",
+          "Total brut = brut de mission + IFM + ICCP",
+          "Net estimé = moteur central brut/net du site (profil non-cadre, avant prélèvement à la source), affiché arrondi à l'euro",
+          "Arrondi des bruts : chaque composante monétaire au centime (fonction roundCent partagée)",
+          "Remboursements de frais : hors assiette IFM/ICCP et hors net salarial, ligne séparée",
+        ],
+      },
+      {
+        type: "callout",
+        variant: "legal",
+        paragraphs: [
+          INTERIM_SCOPE_DISCLAIMER,
+          INTERIM_NET_DISCLAIMER,
+          INTERIM_HS_NET_WARNING,
+          "Cette page ne constitue pas un conseil juridique, fiscal ou social personnalisé.",
+        ],
+      },
+      {
+        type: "paragraph",
+        text: "Sources officielles :",
+      },
+      {
+        type: "list",
+        ordered: false,
+        items: Object.values(INTERIM_SOURCES).map((source) => ({
+          text: `${source.org} :`,
+          href: source.href,
+          label: source.label,
+        })),
+      },
+    ],
   },
   sidebar: {
     calculator: {

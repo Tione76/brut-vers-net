@@ -92,6 +92,8 @@ export default async function GuideDetailPage({ params }: GuidePageProps) {
           faqTitle={guide.faqTitle}
           faqIntro={guide.faqIntro}
           conclusion={guide.conclusion}
+          bibliography={guide.bibliography}
+          bibliographyPlacement={guide.bibliographyPlacement}
           cover={resolveGuideCover(guide)}
           share={{
             url: getCanonicalUrl(config.url, path),

@@ -286,10 +286,17 @@ export interface Guide {
   faqSectionId?: string;
   conclusion: GuideConclusion;
   /**
-   * Bibliographie rendue après la FAQ et la conclusion.
+   * Bibliographie / méthodologie hors du flux principal des `sections`.
+   * Placement par défaut : après la FAQ et la conclusion.
    * Si absente, les sources restent dans `sections` (ordre historique des autres guides).
    */
   bibliography?: GuideSection;
+  /**
+   * Où rendre `bibliography` dans la page et le sommaire.
+   * - `after-conclusion` (défaut) : FAQ → conclusion → bibliographie
+   * - `after-faq` : FAQ → bibliographie → conclusion
+   */
+  bibliographyPlacement?: "after-conclusion" | "after-faq";
   sidebar: GuideSidebarLinks;
   /** true uniquement pour le modèle de référence /modele : exclu du sitemap */
   isTemplate?: boolean;

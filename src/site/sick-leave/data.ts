@@ -7,8 +7,8 @@ export const SICK_LEAVE_PATH = "/salaire-arret-maladie";
 export const SICK_LEAVE_SLUG = "salaire-arret-maladie";
 
 export const SICK_LEAVE_PUBLISHED_AT = "2026-09-19";
-export const SICK_LEAVE_UPDATED_AT = "2026-10-20";
-export const SICK_LEAVE_UPDATED_AT_LABEL = "20 octobre 2026";
+export const SICK_LEAVE_UPDATED_AT = "2026-10-21";
+export const SICK_LEAVE_UPDATED_AT_LABEL = "21 octobre 2026";
 
 export const SICK_LEAVE_H1 =
   "Salaire en arrêt maladie dans le privé : combien allez-vous toucher ?";
@@ -65,13 +65,23 @@ export const SICK_LEAVE_SOURCES = {
   },
   travailL1226: {
     org: "Légifrance",
-    label: "Code du travail, articles L1226-1 et L1226-1-1",
-    href: "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006900863",
+    label: "Code du travail, article L1226-1",
+    href: "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000054331868",
   },
   travailD1226: {
     org: "Légifrance",
     label: "Code du travail, articles D1226-1 à D1226-8",
-    href: "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006072050/LEGISCTA000018537808/",
+    href: "https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006072050/LEGISCTA000018482982/",
+  },
+  urssafCsg: {
+    org: "Urssaf",
+    label: "CSG et CRDS sur les revenus de remplacement",
+    href: "https://www.urssaf.fr/accueil/employeur/cotisations/liste-cotisations/csg-crds/revenus-remplacement.html",
+  },
+  servicePublicCsg: {
+    org: "Service-Public",
+    label: "CSG et CRDS sur les revenus d'activité et de remplacement (F2971)",
+    href: "https://www.service-public.fr/particuliers/vosdroits/F2971",
   },
 } as const;
 

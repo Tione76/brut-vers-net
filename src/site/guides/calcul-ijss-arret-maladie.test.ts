@@ -32,6 +32,7 @@ import {
 import {
   calculateSickLeaveSalary,
   formatEuro,
+  SICK_LEAVE_SOURCES,
 } from "@/site/sick-leave";
 import {
   PEXELS_LICENSE_URL,
@@ -300,10 +301,10 @@ describe("page calcul IJSS arrêt maladie", () => {
     expect(blob).not.toContain("0.5 %");
     expect(blob).toContain(IJSS_SOURCES.cssR3234.href);
     expect(blob).toContain("LEGIARTI000051226486");
-    expect(blob).toContain(IJSS_SOURCES.cssR3235.href);
+    expect(blob).toContain("R323-5");
     expect(IJSS_SOURCES.cssR3235.href).toContain("legifrance.gouv.fr");
+    expect(IJSS_SOURCES.cssR3235.href).toContain("LEGIARTI000006749269");
     expect(blob).not.toContain("doctrine.fr");
-    expect(blob).toContain(IJSS_SOURCES.smicJuin2026.href);
     expect(IJSS_SOURCES.smicJuin2026.href).toContain("JORFTEXT000054126589");
     expect(blob).not.toContain("revalorisation-annuelle-du-smic-au-1er-janvier-2026");
     expect(blob).not.toContain("2 552,24");
@@ -408,16 +409,26 @@ describe("page calcul IJSS arrêt maladie", () => {
     }
   });
 
-  it("synchronise le sommaire avec la FAQ et place les sources en fin de page", () => {
+  it("synchronise le sommaire avec la FAQ et place la méthodologie et les sources en fin de page", () => {
     const guide = getGuideBySlug(slug)!;
     const toc = buildGuideTocH2(guide);
     expect(toc.some((entry) => entry.id === "questions-frequentes")).toBe(true);
-    expect(guide.bibliography?.id).toBe("sources-officielles");
+    expect(guide.sections.some((section) => section.id === "methodologie-sources")).toBe(false);
+    expect(guide.bibliography?.id).toBe("methodologie-sources");
+    expect(guide.bibliography?.title).toBe("Méthodologie et sources");
+    expect(toc.some((entry) => entry.id === "sources-officielles")).toBe(false);
     const faqIdx = toc.findIndex((entry) => entry.id === "questions-frequentes");
     const conclusionIdx = toc.findIndex((entry) => entry.id === "conclusion");
-    const sourcesIdx = toc.findIndex((entry) => entry.id === "sources-officielles");
-    expect(sourcesIdx).toBeGreaterThan(faqIdx);
-    expect(sourcesIdx).toBeGreaterThan(conclusionIdx);
+    const methodoIdx = toc.findIndex((entry) => entry.id === "methodologie-sources");
+    expect(methodoIdx).toBeGreaterThan(faqIdx);
+    expect(methodoIdx).toBeGreaterThan(conclusionIdx);
+    expect(methodoIdx).toBe(toc.length - 1);
+    expect(JSON.stringify(guide.bibliography)).toContain(IJSS_SOURCES.ameli.href);
+    expect(JSON.stringify(guide.bibliography)).toContain(IJSS_SOURCES.servicePublic.href);
+    expect(JSON.stringify(guide.bibliography)).toContain(IJSS_SOURCES.cssR3234.href);
+    expect(JSON.stringify(guide.bibliography)).toContain(IJSS_SOURCES.cssL323.href);
+    expect(JSON.stringify(guide.bibliography)).toContain(IJSS_SOURCES.urssafCsg.href);
+    expect(JSON.stringify(guide.bibliography)).toContain(SICK_LEAVE_SOURCES.servicePublicCsg.href);
     expect(guide.breadcrumbLabel).toBe("Calcul des IJSS");
     expect(IJSS_HUB_CARD_TITLE).toContain("IJSS");
   });
@@ -467,6 +478,7 @@ describe("page calcul IJSS arrêt maladie", () => {
     expect(pageSource).toContain('current="ijss"');
     expect(pageSource).toContain("afterToc=");
     expect(pageSource).toContain('tocPlacement="after-slot"');
+    expect(pageSource).toContain("bibliography={guide.bibliography}");
     expect(pageSource).not.toContain("afterIntroduction={<IjssCalculator />}");
     expect(pageSource).toContain("IJSS_HEADER_PRIMARY_CTA");
     expect(pageSource).toContain("IJSS_HEADER_SECONDARY_CTA");
