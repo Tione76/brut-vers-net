@@ -48,6 +48,7 @@ const GUIDE_TOPIC_TOOLS: Record<string, readonly string[]> = {
   "quel-est-un-bon-salaire-en-france": ["brut-vers-net", "augmentation-salaire"],
   "salaire-interim-calcul-brut-net": ["brut-vers-net", "salaire-heures-supplementaires"],
   "salaire-alternance": ["brut-vers-net"],
+  "solde-de-tout-compte": ["indemnite-licenciement", "brut-vers-net"],
 };
 
 /** Guides de secours thématiques si relatedGuides est trop court. */
@@ -58,6 +59,11 @@ const GUIDE_TOPIC_RELATED: Record<string, readonly string[]> = {
   "smic-hotelier": ["smic", "smic-selon-nombre-heures", "evolution-smic"],
   "prime-de-noel": ["prime-activite", "smic", "salaire-moyen-france"],
   "prime-activite": ["prime-de-noel", "smic", "salaire-moyen-france"],
+  "solde-de-tout-compte": [
+    "comment-lire-une-fiche-de-paie",
+    "salaire-interim-calcul-brut-net",
+    "comment-est-calcule-le-salaire-net",
+  ],
 };
 
 export type SidebarPageType =

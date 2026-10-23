@@ -20,6 +20,7 @@ import { salaireAlternanceGuide } from "./data/salaire-alternance";
 import { salaireMoyenFranceGuide } from "./data/salaire-moyen-france";
 import { primeActiviteGuide } from "./data/prime-activite";
 import { primeDeNoelGuide } from "./data/prime-de-noel";
+import { soldeDeToutCompteGuide } from "./data/solde-de-tout-compte";
 
 export { getGuidePublicPath } from "./paths";
 
@@ -45,6 +46,7 @@ export const guides: Guide[] = [
   attachGuideCover(pourquoiSalaireNetChangeSeptembre2026Guide),
   attachGuideCover(primeActiviteGuide),
   attachGuideCover(primeDeNoelGuide),
+  attachGuideCover(soldeDeToutCompteGuide),
 ];
 
 export const GUIDE_MODEL_SLUG = "modele";

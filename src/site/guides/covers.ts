@@ -366,6 +366,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "solde-de-tout-compte": cover(
+    "guides/solde-de-tout-compte.webp",
+    "Personne en costume tenant un stylo au-dessus de documents ouverts sur un bureau",
+    {
+      photographer: "Kampus Production",
+      source: "Pexels",
+      text: "Photo fr Kampus Production via Pexels",
+    },
+    1200,
+    801,
+  ),
 };
 
 export function getCalculatorCover(id: string): GuideCoverImage {
@@ -424,6 +435,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/prime-de-noel") {
     return getGuideCover("prime-de-noel");
+  }
+  if (href === "/solde-de-tout-compte") {
+    return getGuideCover("solde-de-tout-compte");
   }
   return undefined;
 }

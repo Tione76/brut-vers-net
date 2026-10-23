@@ -219,6 +219,36 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       },
     ],
   },
+
+  "solde-de-tout-compte": {
+    groups: [
+      { title: "Comprendre le document", icon: "help", start: 0, end: 4 },
+      {
+        title: "Vérifier et selon le départ",
+        icon: "clipboard",
+        start: 4,
+        end: 9,
+      },
+      {
+        title: "CDD, intérim, fiscalité et exemples",
+        icon: "calculator",
+        start: 9,
+        end: 13,
+      },
+      {
+        title: "Délais, signature et recours",
+        icon: "scale",
+        start: 13,
+        end: 17,
+      },
+      {
+        title: "Documents, erreurs et sources",
+        icon: "badge",
+        start: 17,
+        end: 21,
+      },
+    ],
+  },
 };
 
 /** @deprecated Utiliser GUIDE_TOC_CONFIG ; conserve pour les tests et imports existants. */
