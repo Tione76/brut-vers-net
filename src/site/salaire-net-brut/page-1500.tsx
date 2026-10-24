@@ -39,7 +39,10 @@ import {
 import { Page1650NearbySection } from "./page-1650-nearby";
 import { Page1650EndCta, Page1650PedagogySections } from "./page-1650-sections";
 import { Page1650ResultCards } from "./page-1650-result-cards";
-import { REDESIGN_WAVE1_DATE_MODIFIED, isNetToGrossRedesign } from "./redesign-wave";
+import {
+  getNetToGrossRedesignDateModified,
+  isNetToGrossRedesign,
+} from "./redesign-wave";
 import "./salaire-net-brut.css";
 import "./page-1500.css";
 import "./page-1650.css";
@@ -158,7 +161,9 @@ export function NetToGrossSeriesPageContent({
   const redesignSeo = isRedesign ? buildRedesignSeoMeta(netMonthly) : null;
   const redesignTable = isRedesign ? buildRedesignTableCopy(netMonthly) : null;
   const redesignNearby = isRedesign ? buildRedesignNearbyCopy(netMonthly) : null;
-  const pageUpdatedAt = isRedesign ? REDESIGN_WAVE1_DATE_MODIFIED : NET_TO_GROSS_UPDATED_AT;
+  const pageUpdatedAt = isRedesign
+    ? getNetToGrossRedesignDateModified(netMonthly)
+    : NET_TO_GROSS_UPDATED_AT;
   const revisedLabel = new Date(pageUpdatedAt).toLocaleDateString("fr-FR", {
     day: "numeric",
     month: "long",

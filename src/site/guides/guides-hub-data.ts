@@ -51,6 +51,10 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Prime d'activité : conditions, montants forfaitaires, plafonds et simulateur officiel de la CAF.",
   "prime-de-noel":
     "Prime de Noël : montants connus, conditions CAF / MSA / France Travail et date de versement.",
+  "solde-de-tout-compte":
+    "Solde de tout compte : vérifier les sommes dues, les congés, les délais de signature et de contestation.",
+  "conges-payes":
+    "Congés payés : droits, période de prise, refus, jours fériés et règles pour poser vos vacances.",
 };
 
 export function getGuideHubTeaser(slug: string): string | undefined {

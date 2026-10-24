@@ -56,14 +56,51 @@ describe("finitions UX heures supplémentaires (copie & structure)", () => {
     expect(calculatorSource).not.toContain("Heures supplémentaires à 25 %");
   });
 
-  it("met le mot Soit en blanc via une classe dédiée", () => {
-    expect(resultsSource).toContain('className="overtime-results__soit"');
-    expect(cssSource).toMatch(/\.overtime-results__soit\s*\{[^}]*color:\s*#ffffff/s);
+  it("met en avant le gain net puis le gain brut du moteur", () => {
+    expect(resultsSource).toContain('className="ot-sim ot-sim--filled"');
+    expect(resultsSource).toContain("Votre gain mensuel estimé");
+    expect(resultsSource).toContain("formatSignedCurrency(computed.overtimeNetGain)");
+    expect(resultsSource).toContain("formatSignedCurrency(computed.overtimeGrossTotal)");
+    expect(resultsSource).toContain("Net estimé avant prélèvement à la source");
+    expect(resultsSource).not.toContain("summaryBrief");
+    expect(cssSource).toContain("--ot-card: #fffdf9");
+    expect(cssSource).toContain("#d1fae5");
+    expect(cssSource).not.toContain("#8fe0a8");
+  });
+
+  it("affiche un vrai tableau comparatif avant / après", () => {
+    expect(resultsSource).toContain("<table");
+    expect(resultsSource).toContain("Votre rémunération avant / après");
+    expect(resultsSource).toContain('scope="col"');
+    expect(resultsSource).toContain("Avant");
+    expect(resultsSource).toContain("Après");
+    expect(resultsSource).toContain(
+      "Projection annuelle sur 12 mois, avec les mêmes heures supplémentaires chaque mois.",
+    );
+    expect(cssSource).toContain(".ot-sim__col--before");
+    expect(cssSource).toContain(".ot-sim__col--after");
+  });
+
+  it("propose un état vide accueillant, sans montants fictifs", () => {
+    expect(resultsSource).toContain("Votre estimation");
+    expect(resultsSource).toContain("Découvrez votre gain en brut et en net");
+    expect(resultsSource).toContain(
+      "Renseignez votre salaire et vos heures supplémentaires pour découvrir votre nouvelle rémunération.",
+    );
+    expect(resultsSource).not.toContain("\u2014");
+  });
+
+  it("n'annonce pas toute la carte aux lecteurs d'écran à chaque saisie", () => {
+    expect(resultsSource).toContain('aria-live="off"');
+    expect(resultsSource).toContain('role="status"');
   });
 
   it("conserve le détail du calcul et retire l'impact fiscal", () => {
-    expect(resultsSource).toContain("Voir le détail du calcul");
-    expect(resultsSource).toContain("Nouveau salaire brut mensuel");
+    expect(resultsSource).toContain("Comprendre mon calcul");
+    expect(resultsSource).toContain("Taux horaire brut estimé");
+    expect(resultsSource).toContain("Salaire brut mensuel de base");
+    expect(resultsSource).toContain("Rémunération brute des heures supplémentaires");
+    expect(resultsSource).toContain("Réduction estimée de cotisations salariales");
     expect(resultsSource).not.toContain("Voir l&apos;impact fiscal estimé");
     expect(resultsSource).not.toContain("impact fiscal");
   });

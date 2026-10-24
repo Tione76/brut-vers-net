@@ -85,23 +85,23 @@ describe("salaire-net-brut série mensuelle", () => {
     expect(rows5000.map((row) => row.netMonthly)).toEqual([4900, 4950, 5000, 5050, 5100]);
   });
 
-  it("applique le SEO modèle sans tiret cadratin et sans 1 500 € sur les autres pages", () => {
+  it("applique le SEO modèle refondu sans tiret cadratin et sans 1 500 € sur les autres pages", () => {
     const seo1510 = buildSeriesSeoMeta(1510);
     const seo2000 = buildSeriesSeoMeta(2000);
     const seo1510Faq = buildSeriesFaqItems(1510, buildAllProfileEstimates(1510));
     const editorial1510 = buildSeriesEditorial(1510, buildAllProfileEstimates(1510));
     const seo6000 = buildSeriesSeoMeta(6000);
 
-    expect(seo1510.h1).toContain("par mois");
-    expect(seo1510.title).toMatch(/brut mensuel/);
+    expect(seo1510.h1).toBe("1 510 € net en brut : combien ça fait ?");
+    expect(seo1510.title).toBe("1 510 € net en brut : calcul et conversion");
     expect(seo1510.title).not.toContain("| Calcul gratuit");
     expect([...seo1510.title].length).toBeLessThanOrEqual(60);
     expect(seo1510.description).toContain("1");
-    expect(seo1510.description).not.toContain("non-cadre");
+    expect(seo1510.description).toContain("non-cadre");
     expect(seo2000.title).toBe("2 000 € net en brut : calcul et conversion");
     expect(seo2000.description).toContain("non-cadre");
     expect(seo2000.title).not.toMatch(/1[\u00a0\u202f]500/);
-    expect(seo6000.h1).toContain("6");
+    expect(seo6000.h1).toBe("6 000 € net en brut : combien ça fait ?");
     expect(seo6000.title).not.toMatch(/1[\u00a0\u202f]500/);
 
     const blob = [

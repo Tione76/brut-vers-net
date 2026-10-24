@@ -1,4 +1,4 @@
-/* Libellés heures supplémentaires : périodicité secondaire */
+﻿/* Libellés heures supplémentaires : périodicité secondaire */
 .overtime-hours-label__period {
   font-size: 0.85em;
   font-weight: 500;
@@ -20,58 +20,680 @@
   color: rgba(255, 255, 255, 0.92);
 }
 
-.overtime-results__hero-amount {
+/* ------------------------------------------------------------------ */
+/* Résultats : simulateur financier (gain, comparatif, détail)         */
+/* ------------------------------------------------------------------ */
+
+.ot-sim-root {
+  --ot-card: #fffdf9;
+  --ot-ink: #111827;
+  --ot-ink-soft: #374151;
+  --ot-muted: #4b5563;
+  --ot-green-ink: #0f3d2e;
+  --ot-green: #065f46;
+  --ot-mint: #e7f5ec;
+  --ot-mint-strong: #d1fae5;
+  --ot-sage-line: #b8d9c4;
+  --ot-before: #f1f2f4;
+  --ot-line: rgba(15, 23, 42, 0.07);
+}
+
+.ot-sim {
+  container: ot-sim / inline-size;
+  padding: 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: var(--ot-card);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 12px 32px -20px rgba(15, 23, 42, 0.28);
+  color: var(--ot-ink);
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+
+.ot-sim__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ot-sim__eyebrow {
   margin: 0;
-  text-align: center;
-  font-size: clamp(2.0625rem, 1.35rem + 2.45vw, 2.8125rem);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ot-green);
+}
+
+/* Zone A : gain principal ------------------------------------------- */
+
+.ot-sim__hero {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 18px 18px;
+  border-radius: 14px;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0) 55%),
+    var(--ot-mint);
+  box-shadow: inset 0 0 0 1px rgba(6, 95, 70, 0.08);
+}
+
+@container ot-sim (min-width: 400px) {
+  .ot-sim__hero {
+    padding: 24px 24px 20px;
+  }
+}
+
+.ot-sim__hero-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.ot-sim__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(6, 95, 70, 0.14);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--ot-green-ink);
+}
+
+.ot-sim__gain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 10px;
+  margin: 12px 0 0;
+  color: var(--ot-green);
+}
+
+.ot-sim__gain-value {
+  font-size: clamp(2.375rem, 11cqi, 3.25rem);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
 }
 
-.overtime-results__hero-amount .increase-calc__gain-value {
-  color: #8fe0a8;
+.ot-sim__gain-unit {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ot-green);
 }
 
-.overtime-results__hero-label {
-  margin: 6px 0 0;
-  text-align: center;
+.ot-sim__gross {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 8px;
+  margin: 14px 0 0;
+  padding: 6px 12px 7px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.ot-sim__gross-prefix {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ot-muted);
+}
+
+.ot-sim__gross-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: var(--ot-green-ink);
+}
+
+.ot-sim__hero-note {
+  margin: 12px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--ot-muted);
+}
+
+/* Alertes ----------------------------------------------------------- */
+
+.ot-sim__warning {
+  margin: 8px 0 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #fffbeb;
+  box-shadow: inset 0 0 0 1px rgba(146, 64, 14, 0.2);
+  color: #92400e;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.ot-sim__hero--error {
+  background: #fff7f5;
+  box-shadow: inset 0 0 0 1px rgba(127, 29, 29, 0.12);
+}
+
+.ot-sim__hero--error .ot-sim__eyebrow {
+  color: #7f1d1d;
+}
+
+.ot-sim__error {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #7f1d1d;
+}
+
+/* Zone B : comparatif avant / après --------------------------------- */
+
+.ot-sim__compare {
+  container: ot-table / inline-size;
+  padding: 20px 10px 4px;
+}
+
+@container ot-sim (min-width: 400px) {
+  .ot-sim__compare {
+    padding: 22px 16px 6px;
+  }
+}
+
+.ot-sim__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9375rem;
+}
+
+.ot-sim__compare-title {
+  margin: 0 0 12px;
+  caption-side: top;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ot-ink);
+}
+
+:where(.ot-sim__table) th,
+:where(.ot-sim__table) td {
+  padding: 0;
+  font-weight: 400;
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.ot-sim__th-period {
+  padding: 0 8px 10px 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ot-muted);
+}
+
+.ot-sim__col {
+  width: 38%;
+  background-clip: padding-box;
+}
+
+.ot-sim__col--before {
+  background-color: var(--ot-before);
+}
+
+.ot-sim__col--after {
+  border-left: 6px solid var(--ot-card);
+  background-color: var(--ot-mint);
+}
+
+thead .ot-sim__col {
+  padding: 10px 12px 8px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+thead .ot-sim__col--before {
+  color: var(--ot-muted);
+}
+
+thead .ot-sim__col--after {
+  color: var(--ot-green);
+}
+
+.ot-sim__group-label {
+  padding: 14px 8px 4px 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ot-ink-soft);
+}
+
+.ot-sim__group-row .ot-sim__col {
+  padding: 0;
+}
+
+.ot-sim__group--gross .ot-sim__group-row > * {
+  box-shadow: inset 0 1px 0 var(--ot-line);
+}
+
+.ot-sim__group--gross .ot-sim__group-row .ot-sim__col--after {
+  box-shadow: inset 0 1px 0 rgba(6, 95, 70, 0.1);
+}
+
+.ot-sim__period {
+  padding: 7px 8px 7px 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ot-muted);
+  white-space: nowrap;
+}
+
+.ot-sim__amount {
+  padding: 7px 12px;
+  text-align: right;
+  white-space: nowrap;
+  font-size: clamp(0.875rem, 4.6cqi, 1.0625rem);
+}
+
+.ot-sim__amount.ot-sim__col--before {
+  font-weight: 500;
+  color: var(--ot-ink-soft);
+}
+
+.ot-sim__amount.ot-sim__col--after {
+  font-weight: 700;
+  color: var(--ot-green-ink);
+}
+
+.ot-sim__group--net .ot-sim__amount.ot-sim__col--after {
+  font-weight: 800;
+}
+
+.ot-sim__group--gross .ot-sim__amount {
+  font-size: clamp(0.8125rem, 4.2cqi, 0.96875rem);
+}
+
+.ot-sim__group--gross .ot-sim__row:last-child .ot-sim__col {
+  padding-bottom: 12px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.ot-sim__footnote {
+  margin: 10px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--ot-muted);
+}
+
+@container ot-table (max-width: 360px) {
+  thead .ot-sim__col {
+    padding: 9px 8px 7px;
+  }
+
+  .ot-sim__amount {
+    padding: 7px 8px;
+  }
+
+  .ot-sim__period,
+  .ot-sim__th-period,
+  .ot-sim__group-label {
+    padding-right: 6px;
+  }
+
+  .ot-sim__col--after {
+    border-left-width: 4px;
+  }
+
+  .ot-sim__group-prefix {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+}
+
+/* Très petites largeurs : la période passe au-dessus des montants */
+@container ot-table (max-width: 270px) {
+  .ot-sim__table tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .ot-sim__table thead,
+  .ot-sim__table tbody {
+    display: block;
+  }
+
+  .ot-sim__th-period {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .ot-sim__group-label,
+  .ot-sim__period {
+    grid-column: 1 / -1;
+  }
+
+  .ot-sim__group-row .ot-sim__col {
+    display: none;
+  }
+
+  .ot-sim__group-label {
+    padding: 14px 10px 2px;
+    background: linear-gradient(90deg, var(--ot-before) 50%, var(--ot-mint) 50%);
+  }
+
+  .ot-sim__period {
+    padding: 6px 10px 0;
+    font-size: 0.8125rem;
+    background: linear-gradient(90deg, var(--ot-before) 50%, var(--ot-mint) 50%);
+  }
+
+  .ot-sim__col--after {
+    border-left: 0;
+  }
+
+  .ot-sim__col {
+    width: auto;
+  }
+
+  .ot-sim__amount {
+    padding: 2px 10px 8px;
+    font-size: 0.9375rem;
+  }
+
+  .ot-sim__group--gross .ot-sim__amount {
+    font-size: 0.875rem;
+  }
+
+  .ot-sim__group--gross .ot-sim__row:last-child .ot-sim__col--before {
+    border-bottom-right-radius: 0;
+  }
+
+  .ot-sim__group--gross .ot-sim__row:last-child .ot-sim__col--after {
+    border-bottom-left-radius: 0;
+  }
+
+  thead .ot-sim__col--before {
+    border-top-right-radius: 0;
+  }
+
+  thead .ot-sim__col--after {
+    border-top-left-radius: 0;
+  }
+}
+
+/* Zone C : détail repliable ----------------------------------------- */
+
+.ot-sim__details {
+  margin: 14px 2px 2px;
+  border-radius: 12px;
+  interpolate-size: allow-keywords;
+}
+
+.ot-sim__details-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  list-style: none;
   font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1.35;
-  color: #ffffff;
+  color: var(--ot-green);
+  box-shadow: inset 0 0 0 1px var(--ot-line);
+  transition: background-color 0.15s ease;
 }
 
-.overtime-results__secondary-amount {
-  margin: 14px 0 0;
-  text-align: center;
-  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.625rem);
-  font-weight: 800;
-  line-height: 1.15;
-  color: #ffffff;
+.ot-sim__details-summary::-webkit-details-marker {
+  display: none;
 }
 
-.overtime-results__soit {
-  color: #ffffff;
-  font-weight: 700;
+.ot-sim__details-summary:hover {
+  background: rgba(209, 250, 229, 0.45);
 }
 
-.overtime-results__secondary-amount .increase-calc__gain-value {
-  color: #8fe0a8;
+.ot-sim__details-summary:focus-visible {
+  outline: 2px solid var(--ot-green);
+  outline-offset: 2px;
 }
 
-.overtime-results__secondary-label {
-  margin: 4px 0 0;
-  text-align: center;
+.ot-sim__details[open] > .ot-sim__details-summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.ot-sim__chevron {
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 4px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.ot-sim__details[open] .ot-sim__chevron {
+  transform: translateY(2px) rotate(-135deg);
+}
+
+.ot-sim__details::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size 0.25s ease,
+    content-visibility 0.25s allow-discrete;
+}
+
+.ot-sim__details[open]::details-content {
+  block-size: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ot-sim__details-summary,
+  .ot-sim__chevron,
+  .ot-sim__details::details-content {
+    transition: none;
+  }
+}
+
+.ot-sim__details-body {
+  padding: 4px 14px 14px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  box-shadow:
+    inset 1px 0 0 var(--ot-line),
+    inset -1px 0 0 var(--ot-line),
+    inset 0 -1px 0 var(--ot-line);
+}
+
+.ot-sim__lines {
+  margin: 0;
+}
+
+.ot-sim__line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 0;
   font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.4;
 }
 
-.overtime-results__summary {
-  margin: 12px 0 0;
+.ot-sim__line + .ot-sim__line {
+  box-shadow: inset 0 1px 0 var(--ot-line);
+}
+
+.ot-sim__line dt {
+  min-width: 0;
+  margin: 0;
+  color: var(--ot-ink-soft);
+}
+
+.ot-sim__line dd {
+  flex-shrink: 0;
+  margin: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ot-ink);
+}
+
+.ot-sim__line--total dt,
+.ot-sim__line--total dd {
+  font-weight: 700;
+  color: var(--ot-green-ink);
+}
+
+.ot-sim__line-sub {
+  display: block;
+  margin-top: 2px;
   font-size: 0.8125rem;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.78);
-  text-align: center;
+  color: var(--ot-muted);
+}
+
+.ot-sim__assumptions {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--ot-before);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ot-muted);
+}
+
+/* État vide --------------------------------------------------------- */
+
+.ot-sim__hero--empty {
+  padding-top: 22px;
+  padding-bottom: 20px;
+}
+
+.ot-sim__empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px var(--ot-sage-line);
+}
+
+.ot-sim__empty-icon img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 58%;
+  max-height: 58%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.ot-sim__empty-title {
+  margin: 8px 0 0;
+  font-size: clamp(1.25rem, 6.2cqi, 1.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ot-green-ink);
+}
+
+.ot-sim__empty-note {
+  margin: 8px 0 0;
+  max-width: 32rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ot-ink-soft);
+}
+
+.ot-sim__steps {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 10px 6px 4px;
+  list-style: none;
+}
+
+.ot-sim__step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: var(--ot-ink-soft);
+}
+
+.ot-sim__step + .ot-sim__step {
+  box-shadow: inset 0 1px 0 var(--ot-line);
+}
+
+.ot-sim__step-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1.5px #9ca3af;
+  color: #ffffff;
+}
+
+.ot-sim__step--done .ot-sim__step-mark {
+  background: var(--ot-green);
+  box-shadow: none;
+}
+
+.ot-sim__step-label {
+  font-weight: 600;
+  color: var(--ot-ink);
+}
+
+.ot-sim__step-state {
+  font-size: 0.8125rem;
+  color: var(--ot-muted);
+  white-space: nowrap;
+}
+
+.ot-sim__step--done .ot-sim__step-state {
+  font-weight: 600;
+  color: var(--ot-green);
 }

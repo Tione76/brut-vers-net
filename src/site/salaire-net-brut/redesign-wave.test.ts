@@ -2,19 +2,17 @@ import { describe, expect, it } from "vitest";
 import { getProfileCoefficient } from "@/site/salary-calculator/config";
 import { roundCent } from "@/site/salary-calculator/conversions";
 import { getAllPublicPages, isPathIndexable } from "@/site/public-pages";
-import { buildWebPageJsonLd, schemaIds } from "@/site/schema";
+import { schemaIds } from "@/site/schema";
 import { NET_TO_GROSS_SERIES_COVER } from "@/site/guides/covers";
 import {
   NET_TO_GROSS_AMOUNTS,
   NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
   NET_TO_GROSS_HUB_PATH,
-  NET_TO_GROSS_UPDATED_AT,
   isNetToGrossAmount,
   netToGrossPath,
 } from "./config";
 import {
   buildAllProfileEstimates,
-  buildComparisonRows,
   estimateGrossMonthlyFromNet,
 } from "./data";
 import {
@@ -44,13 +42,16 @@ import {
   REDESIGN_WAVE1_DATE_MODIFIED,
   REDESIGN_WAVE1_EVEN_MAX,
   REDESIGN_WAVE1_EXCEPTION_NET,
+  REDESIGN_WAVE2_DATE_MODIFIED,
   getControlWave1Amounts,
+  getNetToGrossRedesignDateModified,
   getRedesignWave1Amounts,
+  getRedesignWave2Amounts,
   isNetToGrossRedesign,
 } from "./redesign-wave";
 
-const SAMPLE_REDESIGN = [1500, 1520, 1640, 1650, 1660, 2000, 3500, 5980] as const;
-const SAMPLE_CONTROL = [1510, 1630, 1670, 5990, 6000] as const;
+const SAMPLE_WAVE1 = [1500, 1520, 1640, 1650, 1660, 2000, 3500, 5980] as const;
+const SAMPLE_WAVE2 = [1510, 1630, 1670, 5990, 6000] as const;
 
 function jsonLdInput(netMonthly: number) {
   const seo = buildSeriesSeoMeta(netMonthly);
@@ -67,61 +68,55 @@ function jsonLdInput(netMonthly: number) {
     cover: NET_TO_GROSS_SERIES_COVER,
     faq: buildSeriesFaqItems(netMonthly, buildAllProfileEstimates(netMonthly)),
     withAuthor: true,
-    dateModified: isNetToGrossRedesign(netMonthly)
-      ? REDESIGN_WAVE1_DATE_MODIFIED
-      : NET_TO_GROSS_UPDATED_AT,
-    datePublished: isNetToGrossRedesign(netMonthly)
-      ? REDESIGN_DATE_PUBLISHED
-      : NET_TO_GROSS_UPDATED_AT,
+    dateModified: getNetToGrossRedesignDateModified(netMonthly),
+    datePublished: REDESIGN_DATE_PUBLISHED,
   };
 }
 
-describe("vague 1 de refonte net → brut", () => {
-  it("répartit exactement 226 fiches refondues et 225 témoins sur 451 montants", () => {
-    const redesigned = getRedesignWave1Amounts();
+describe("vagues 1 et 2 de refonte net → brut", () => {
+  it("répartit exactement 226 + 225 = 451, sans groupe témoin restant", () => {
+    const wave1 = getRedesignWave1Amounts();
+    const wave2 = getRedesignWave2Amounts();
     const control = getControlWave1Amounts();
 
     expect(NET_TO_GROSS_AMOUNTS).toHaveLength(451);
-    expect(redesigned).toHaveLength(226);
-    expect(control).toHaveLength(225);
-    expect(new Set([...redesigned, ...control]).size).toBe(451);
-    expect(redesigned.every((amount) => isNetToGrossAmount(amount))).toBe(true);
-    expect(control.every((amount) => isNetToGrossAmount(amount))).toBe(true);
+    expect(wave1).toHaveLength(226);
+    expect(wave2).toHaveLength(225);
+    expect(control).toHaveLength(0);
+    expect(new Set([...wave1, ...wave2]).size).toBe(451);
+    expect(wave1.every((amount) => isNetToGrossAmount(amount))).toBe(true);
+    expect(wave2.every((amount) => isNetToGrossAmount(amount))).toBe(true);
+    expect(NET_TO_GROSS_AMOUNTS.every((amount) => isNetToGrossRedesign(amount))).toBe(true);
 
-    expect(redesigned[0]).toBe(1500);
-    expect(redesigned.at(-1)).toBe(REDESIGN_WAVE1_EVEN_MAX);
-    expect(redesigned).toContain(REDESIGN_WAVE1_EXCEPTION_NET);
-    expect(redesigned).not.toContain(CONTROL_ENDPOINT_NET);
+    expect(wave1[0]).toBe(1500);
+    expect(wave1.at(-1)).toBe(REDESIGN_WAVE1_EVEN_MAX);
+    expect(wave1).toContain(REDESIGN_WAVE1_EXCEPTION_NET);
+    expect(wave1).not.toContain(CONTROL_ENDPOINT_NET);
 
-    expect(control[0]).toBe(1510);
-    expect(control.at(-1)).toBe(CONTROL_ENDPOINT_NET);
-    expect(control).not.toContain(REDESIGN_WAVE1_EXCEPTION_NET);
+    expect(wave2[0]).toBe(1510);
+    expect(wave2.at(-1)).toBe(CONTROL_ENDPOINT_NET);
+    expect(wave2).not.toContain(REDESIGN_WAVE1_EXCEPTION_NET);
 
-    const evenWithoutException = redesigned.filter((amount) => amount !== 1650);
+    const evenWithoutException = wave1.filter((amount) => amount !== 1650);
     expect(evenWithoutException).toHaveLength(225);
     expect(evenWithoutException.every((amount) => (amount - 1500) % 20 === 0)).toBe(true);
   });
 
-  it("marque 1 650 € comme exception et 6 000 € comme témoin", () => {
-    expect(isNetToGrossRedesign(1650)).toBe(true);
-    expect(isNetToGrossRedesign(1500)).toBe(true);
-    expect(isNetToGrossRedesign(1520)).toBe(true);
-    expect(isNetToGrossRedesign(1640)).toBe(true);
-    expect(isNetToGrossRedesign(1660)).toBe(true);
-    expect(isNetToGrossRedesign(5980)).toBe(true);
-    expect(isNetToGrossRedesign(1510)).toBe(false);
-    expect(isNetToGrossRedesign(1630)).toBe(false);
-    expect(isNetToGrossRedesign(1670)).toBe(false);
-    expect(isNetToGrossRedesign(5990)).toBe(false);
-    expect(isNetToGrossRedesign(6000)).toBe(false);
+  it("applique le modèle refondu à toute la série, y compris 6 000 €", () => {
+    for (const amount of [...SAMPLE_WAVE1, ...SAMPLE_WAVE2]) {
+      expect(isNetToGrossRedesign(amount)).toBe(true);
+    }
+    expect(isNetToGrossRedesign(6000)).toBe(true);
+    expect(isNetToGrossRedesign(1490)).toBe(false);
   });
 
-  it("produit des title, H1, meta, canonical et og:type uniques pour les fiches refondues", () => {
+  it("produit des title, H1, meta, canonical et og:type uniques sur les deux vagues", () => {
     const titles = new Set<string>();
     const h1s = new Set<string>();
     const descriptions = new Set<string>();
+    const sample = [...SAMPLE_WAVE1, ...SAMPLE_WAVE2];
 
-    for (const amount of SAMPLE_REDESIGN) {
+    for (const amount of sample) {
       const seo = buildSeriesSeoMeta(amount);
       const expected = buildRedesignSeoMeta(amount);
       const path = netToGrossPath(amount);
@@ -148,40 +143,26 @@ describe("vague 1 de refonte net → brut", () => {
       descriptions.add(seo.description);
     }
 
-    expect(titles.size).toBe(SAMPLE_REDESIGN.length);
-    expect(h1s.size).toBe(SAMPLE_REDESIGN.length);
-    expect(descriptions.size).toBe(SAMPLE_REDESIGN.length);
+    expect(titles.size).toBe(sample.length);
+    expect(h1s.size).toBe(sample.length);
+    expect(descriptions.size).toBe(sample.length);
     expect(buildSeriesSeoMeta(1650).title).toBe(PAGE_1650_SEO.title);
     expect(buildSeriesSeoMeta(1650).h1).toBe(PAGE_1650_H1);
   });
 
-  it("conserve le SEO, le JSON-LD article et les dates des fiches témoins", () => {
-    for (const amount of SAMPLE_CONTROL) {
-      const seo = buildSeriesSeoMeta(amount);
-      expect(seo.h1).toContain("par mois");
-      expect(seo.title).toMatch(/brut mensuel/);
-      expect(seo.title).not.toContain("net en brut : calcul");
-      expect(netToGrossOpenGraphType(amount)).toBe("article");
-      expect(buildSeriesFaqItems(amount, buildAllProfileEstimates(amount))).toHaveLength(3);
-      expect(buildSeriesEditorial(amount, buildAllProfileEstimates(amount))[0]?.title).toMatch(
-        /^Quel salaire brut pour toucher/,
-      );
-      expect(buildComparisonRows(amount)).toHaveLength(5);
-
-      const page = (buildWebPageJsonLd(jsonLdInput(amount))["@graph"] as Record<string, unknown>[]).find(
-        (node) => node["@type"] === "WebPage",
-      ) as Record<string, unknown>;
-      expect(page.about).toEqual({ "@id": schemaIds.organization() });
-      expect(page.mainEntity).toEqual({ "@id": schemaIds.faq(netToGrossPath(amount)) });
-      expect(page).not.toHaveProperty("publisher");
-      expect(page).not.toHaveProperty("hasPart");
-      expect(page.datePublished).toBe("2026-07-15T09:00:00+02:00");
-      expect(page.dateModified).toBe("2026-07-15T09:00:00+02:00");
-    }
+  it("préserve dateModified vague 1 et applique la date vague 2", () => {
+    expect(getNetToGrossRedesignDateModified(1500)).toBe(REDESIGN_WAVE1_DATE_MODIFIED);
+    expect(getNetToGrossRedesignDateModified(1650)).toBe(REDESIGN_WAVE1_DATE_MODIFIED);
+    expect(getNetToGrossRedesignDateModified(5980)).toBe(REDESIGN_WAVE1_DATE_MODIFIED);
+    expect(getNetToGrossRedesignDateModified(1510)).toBe(REDESIGN_WAVE2_DATE_MODIFIED);
+    expect(getNetToGrossRedesignDateModified(1630)).toBe(REDESIGN_WAVE2_DATE_MODIFIED);
+    expect(getNetToGrossRedesignDateModified(6000)).toBe(REDESIGN_WAVE2_DATE_MODIFIED);
+    expect(PAGE_1650_DATE_PUBLISHED).toBe(REDESIGN_DATE_PUBLISHED);
+    expect(PAGE_1650_DATE_MODIFIED).toBe(REDESIGN_WAVE1_DATE_MODIFIED);
   });
 
-  it("aligne JSON-LD, FAQ visible et dates de la vague 1 sans pointer vers 1 650 €", () => {
-    for (const amount of SAMPLE_REDESIGN) {
+  it("aligne JSON-LD, FAQ visible et dates sans pointer vers 1 650 € hors exception", () => {
+    for (const amount of [...SAMPLE_WAVE1, ...SAMPLE_WAVE2]) {
       const seo = buildSeriesSeoMeta(amount);
       const document = buildRedesignPageJsonLd(jsonLdInput(amount));
       const graph = document["@graph"] as Record<string, unknown>[];
@@ -192,6 +173,7 @@ describe("vague 1 de refonte net → brut", () => {
       };
       const serialized = JSON.stringify(document);
       const visibleFaq = buildSeriesFaqItems(amount, buildAllProfileEstimates(amount));
+      const expectedModified = getNetToGrossRedesignDateModified(amount);
 
       expect(() => JSON.parse(serialized)).not.toThrow();
       expect(page.name).toBe(seo.title);
@@ -202,12 +184,14 @@ describe("vague 1 de refonte net → brut", () => {
       expect(page.publisher).toEqual({ "@id": schemaIds.organization() });
       expect(page.hasPart).toEqual([{ "@id": schemaIds.faq(netToGrossPath(amount)) }]);
       expect(page.datePublished).toBe("2026-07-15T09:00:00+02:00");
-      expect(page.dateModified).toBe("2026-10-09T09:00:00+02:00");
+      expect(page.dateModified).toBe(`${expectedModified}T09:00:00+02:00`);
       expect(faq["@id"]).toBe(schemaIds.faq(netToGrossPath(amount)));
       expect(faq.mainEntity.map((item) => item.name)).toEqual(visibleFaq.map((item) => item.question));
       expect(faq.mainEntity.map((item) => item.acceptedAnswer.text)).toEqual(
         visibleFaq.map((item) => item.answer),
       );
+      expect(visibleFaq).toHaveLength(4);
+      expect(buildSeriesEditorial(amount, buildAllProfileEstimates(amount))).toHaveLength(3);
       expect(graph.some((node) => node["@type"] === "Article")).toBe(false);
       expect(graph.some((node) => node["@type"] === "HowTo")).toBe(false);
 
@@ -216,13 +200,10 @@ describe("vague 1 de refonte net → brut", () => {
         expect(JSON.stringify(visibleFaq)).not.toContain("1 650");
       }
     }
-
-    expect(PAGE_1650_DATE_PUBLISHED).toBe("2026-07-15");
-    expect(PAGE_1650_DATE_MODIFIED).toBe("2026-10-09");
   });
 
   it("calcule brut mensuel et annuel au moteur existant pour les échantillons", () => {
-    for (const amount of SAMPLE_REDESIGN) {
+    for (const amount of [...SAMPLE_WAVE1, ...SAMPLE_WAVE2]) {
       const estimates = buildAllProfileEstimates(amount);
       expect(estimates.nonExecutive.grossMonthly).toBe(
         roundCent(amount / getProfileCoefficient("nonExecutive")),
@@ -237,9 +218,9 @@ describe("vague 1 de refonte net → brut", () => {
     }
   });
 
-  it("construit des tableaux N-5 à N+4 sans chevauchement dans la vague 1", () => {
+  it("construit des tableaux N-5 à N+4 sans chevauchement sur les 451 fiches", () => {
     const seen = new Map<number, number>();
-    for (const amount of getRedesignWave1Amounts()) {
+    for (const amount of NET_TO_GROSS_AMOUNTS) {
       const nets = buildRedesignIntermediateNets(amount);
       expect(nets).toHaveLength(10);
       expect(nets[0]).toBe(amount - 5);
@@ -253,33 +234,11 @@ describe("vague 1 de refonte net → brut", () => {
       }
       expect(assertRedesignIntermediateHasNoDedicatedUrls(amount)).toHaveLength(9);
     }
-  });
-
-  it("signale les chevauchements hérités entre tableaux refondus et tableaux témoins ±50 €", () => {
-    const redesignNets = new Map<number, number>();
-    for (const amount of getRedesignWave1Amounts()) {
-      for (const net of buildRedesignIntermediateNets(amount)) {
-        redesignNets.set(net, amount);
-      }
-    }
-
-    const inherited: Array<{ control: number; net: number; redesignOwner: number }> = [];
-    for (const amount of getControlWave1Amounts()) {
-      for (const row of buildComparisonRows(amount)) {
-        const owner = redesignNets.get(row.netMonthly);
-        if (owner !== undefined) {
-          inherited.push({ control: amount, net: row.netMonthly, redesignOwner: owner });
-        }
-      }
-    }
-
-    expect(inherited.length).toBeGreaterThan(0);
-    expect(inherited.every((item) => item.net % 10 === 0)).toBe(true);
-    expect(inherited.some((item) => item.control === 1510 && item.net === 1560)).toBe(true);
+    expect(seen.size).toBe(4510);
   });
 
   it("maille uniquement des URLs publiées, hors page courante", () => {
-    for (const amount of [...SAMPLE_REDESIGN, ...SAMPLE_CONTROL]) {
+    for (const amount of [...SAMPLE_WAVE1, ...SAMPLE_WAVE2]) {
       const nearby = getSeriesNearbyAmounts(amount);
       expect(nearby).toHaveLength(7);
       expect(nearby).not.toContain(amount);
@@ -290,10 +249,11 @@ describe("vague 1 de refonte net → brut", () => {
   it("compacte la sidebar à quatre liens et préremplit le calculateur", () => {
     expect(PAGE_1650_SIDEBAR_TOOL_IDS.length + PAGE_1650_SIDEBAR_GUIDE_ENTRIES.length).toBe(4);
     expect(buildRedesignEndCtaHref(1500)).toBe("/?net=1500&profil=non-cadre");
-    expect(buildRedesignEndCtaHref(5980)).toBe("/?net=5980&profil=non-cadre");
+    expect(buildRedesignEndCtaHref(1510)).toBe("/?net=1510&profil=non-cadre");
+    expect(buildRedesignEndCtaHref(6000)).toBe("/?net=6000&profil=non-cadre");
   });
 
-  it("met à jour lastModified du sitemap uniquement pour la vague 1", () => {
+  it("met à jour lastModified du sitemap selon la vague", () => {
     const pages = getAllPublicPages();
     expect(pages.find((page) => page.path === netToGrossPath(1650))?.lastModified).toBe(
       REDESIGN_WAVE1_DATE_MODIFIED,
@@ -302,10 +262,10 @@ describe("vague 1 de refonte net → brut", () => {
       REDESIGN_WAVE1_DATE_MODIFIED,
     );
     expect(pages.find((page) => page.path === netToGrossPath(1510))?.lastModified).toBe(
-      NET_TO_GROSS_UPDATED_AT,
+      REDESIGN_WAVE2_DATE_MODIFIED,
     );
     expect(pages.find((page) => page.path === netToGrossPath(6000))?.lastModified).toBe(
-      NET_TO_GROSS_UPDATED_AT,
+      REDESIGN_WAVE2_DATE_MODIFIED,
     );
   });
 

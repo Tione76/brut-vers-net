@@ -10,7 +10,6 @@ import {
   NET_TO_GROSS_AMOUNTS,
   NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
   NET_TO_GROSS_HUB_PATH,
-  NET_TO_GROSS_UPDATED_AT,
   NetToGrossSeriesPageContent,
   NetToGrossPageSidebar,
   buildNetToGrossOgImageInput,
@@ -29,7 +28,7 @@ import {
 } from "@/site/salaire-net-brut/page-1650";
 import {
   REDESIGN_DATE_PUBLISHED,
-  REDESIGN_WAVE1_DATE_MODIFIED,
+  getNetToGrossRedesignDateModified,
   isNetToGrossRedesign,
 } from "@/site/salaire-net-brut/redesign-wave";
 
@@ -94,12 +93,8 @@ export default async function NetToGrossAmountPage({ params }: PageProps) {
     cover: NET_TO_GROSS_SERIES_COVER,
     faq,
     withAuthor: true,
-    dateModified: isNetToGrossRedesign(netMonthly)
-      ? REDESIGN_WAVE1_DATE_MODIFIED
-      : NET_TO_GROSS_UPDATED_AT,
-    datePublished: isNetToGrossRedesign(netMonthly)
-      ? REDESIGN_DATE_PUBLISHED
-      : NET_TO_GROSS_UPDATED_AT,
+    dateModified: getNetToGrossRedesignDateModified(netMonthly),
+    datePublished: REDESIGN_DATE_PUBLISHED,
   };
 
   return (

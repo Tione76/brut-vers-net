@@ -398,6 +398,10 @@ function buildAidesDroitsPanel(): MainNavMegaPanel {
         icon: "shield",
         links: [
           {
+            href: guideHref("conges-payes", "/conges-payes"),
+            label: "Congés payés (privé)",
+          },
+          {
             href: guideHref("solde-de-tout-compte", "/solde-de-tout-compte"),
             label: "Solde de tout compte",
           },
@@ -493,6 +497,7 @@ export function getMainNavItems(): MainNavItem[] {
         "/calcul-ijss-arret-maladie",
         "/maintien-salaire-arret-maladie",
         "/pourquoi-salaire-net-change-septembre-2026",
+        "/conges-payes",
         "/solde-de-tout-compte",
         "/calculateurs/indemnite-licenciement",
       ],

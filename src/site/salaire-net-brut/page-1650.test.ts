@@ -4,13 +4,12 @@ import { describe, expect, it } from "vitest";
 import { getProfileCoefficient } from "@/site/salary-calculator/config";
 import { monthlyToAnnual, roundCent } from "@/site/salary-calculator/conversions";
 import { isPathIndexable } from "@/site/public-pages";
-import { buildWebPageJsonLd, schemaIds } from "@/site/schema";
+import { schemaIds } from "@/site/schema";
 import { NET_TO_GROSS_SERIES_COVER } from "@/site/guides/covers";
 import {
   NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
   NET_TO_GROSS_HUB_PATH,
   NET_TO_GROSS_SALARY_MONTHS,
-  NET_TO_GROSS_UPDATED_AT,
   isNetToGrossAmount,
   netToGrossPath,
 } from "./config";
@@ -100,10 +99,10 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(seo1650.title).not.toContain("\u2014");
     expect(seo1650.description).not.toContain("\u2014");
 
-    expect(seo1510.title).toMatch(/brut mensuel/);
+    expect(seo1510.title).toBe("1 510 € net en brut : calcul et conversion");
     expect(seo1510.title).not.toBe(PAGE_1650_SEO.title);
     expect(seo1510.description).not.toBe(PAGE_1650_SEO.description);
-    expect(seo1510.h1).toContain("par mois");
+    expect(seo1510.h1).toBe("1 510 € net en brut : combien ça fait ?");
     expect(seo1510.h1).not.toBe(PAGE_1650_H1);
   });
 
@@ -182,20 +181,19 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(pageSource).toContain("Page1650NearbySection");
   });
 
-  it("n'expose qu'un tableau 1645-1654 et laisse les autres fiches sur ±50 €", () => {
+  it("expose le tableau 1645-1654 et applique le même modèle aux fiches voisines", () => {
     const rows1650 = build1650IntermediateRows();
     expect(rows1650.map((row) => row.netMonthly)).toEqual([
       1645, 1646, 1647, 1648, 1649, 1650, 1651, 1652, 1653, 1654,
     ]);
+    // buildComparisonRows reste disponible pour d'autres usages, mais le SEO série est unifié
     expect(buildComparisonRows(1630).map((row) => row.netMonthly)).toEqual([
       1530, 1580, 1630, 1680, 1730,
     ]);
-    expect(buildComparisonRows(1670).map((row) => row.netMonthly)).toEqual([
-      1570, 1620, 1670, 1720, 1770,
-    ]);
-    expect(buildSeriesSeoMeta(1630).title).toMatch(/brut mensuel/);
-    expect(buildSeriesSeoMeta(1670).title).toMatch(/brut mensuel/);
+    expect(buildSeriesSeoMeta(1630).title).toBe("1 630 € net en brut : calcul et conversion");
+    expect(buildSeriesSeoMeta(1670).title).toBe("1 670 € net en brut : calcul et conversion");
     expect(buildSeriesSeoMeta(1510).title).not.toBe(PAGE_1650_SEO.title);
+    expect(buildSeriesSeoMeta(1510).h1).toContain("1 510 € net en brut");
   });
 
   it("aligne la pédagogie et l'annuel sur le moteur existant, sans exemple fiscal fictif", () => {
@@ -227,7 +225,7 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(cssSource).not.toContain("net-gross-1650__tax");
   });
 
-  it("raccourcit l'éditorial et la FAQ sans toucher aux autres fiches", () => {
+  it("raccourcit l'éditorial et la FAQ sur toute la série refondue", () => {
     const estimates1650 = buildAllProfileEstimates(1650);
     const estimates1510 = buildAllProfileEstimates(1510);
     const editorial1650 = buildSeriesEditorial(1650, estimates1650);
@@ -237,15 +235,14 @@ describe("prototype page 1 650 € net en brut", () => {
 
     expect(editorial1650).toHaveLength(3);
     expect(editorial1650[0]?.title).toMatch(/^Quel brut pour toucher/);
-    expect(editorial1650.flatMap((section) => section.paragraphs).length).toBeLessThan(
-      editorial1510.flatMap((section) => section.paragraphs).length,
-    );
+    expect(editorial1510).toHaveLength(3);
+    expect(editorial1510[0]?.title).toMatch(/^Quel brut pour toucher/);
     expect(faq1650).toHaveLength(4);
     expect(faq1650.some((item) => item.question.includes("Combien faut-il gagner"))).toBe(false);
     expect(faq1650.some((item) => item.question.includes("avant ou après impôt"))).toBe(true);
     expect(faq1650.some((item) => item.question.includes("selon le statut"))).toBe(true);
-    expect(faq1510).toHaveLength(3);
-    expect(faq1510[0]?.question).toContain("Combien faut-il gagner");
+    expect(faq1510).toHaveLength(4);
+    expect(faq1510.some((item) => item.question.includes("avant ou après impôt"))).toBe(true);
 
     const nearby = getSeriesNearbyAmounts(1650);
     expect(nearby).toEqual([1640, 1660, 1630, 1670, 1620, 1680, 1610]);
@@ -277,7 +274,7 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(otherCssSource).not.toContain(".net-gross-1650");
   });
 
-  it("isole le JSON-LD WebPage et l'og:type website sans toucher aux fiches témoins", () => {
+  it("applique le JSON-LD WebPage refondu et og:type website à toute la série", () => {
     const jsonLdInput = (netMonthly: number) => {
       const seo = buildSeriesSeoMeta(netMonthly);
       const path = netToGrossPath(netMonthly);
@@ -294,10 +291,8 @@ describe("prototype page 1 650 € net en brut", () => {
         cover: NET_TO_GROSS_SERIES_COVER,
         faq: buildSeriesFaqItems(netMonthly, estimates),
         withAuthor: true,
-        dateModified:
-          netMonthly === 1650 ? PAGE_1650_DATE_MODIFIED : NET_TO_GROSS_UPDATED_AT,
-        datePublished:
-          netMonthly === 1650 ? PAGE_1650_DATE_PUBLISHED : NET_TO_GROSS_UPDATED_AT,
+        dateModified: netMonthly === 1650 ? PAGE_1650_DATE_MODIFIED : "2026-10-24",
+        datePublished: PAGE_1650_DATE_PUBLISHED,
       };
     };
 
@@ -339,36 +334,35 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(serialized).not.toContain("82,50");
     expect(serialized).not.toContain("1 567,50");
 
-    const graph1630 = buildWebPageJsonLd(jsonLdInput(1630))["@graph"] as Record<string, unknown>[];
+    const document1630 = build1650PageJsonLd(jsonLdInput(1630));
+    const graph1630 = document1630["@graph"] as Record<string, unknown>[];
     const page1630 = graph1630.find((node) => node["@type"] === "WebPage") as Record<
       string,
       unknown
     >;
-    expect(page1630.about).toEqual({ "@id": schemaIds.organization() });
-    expect(page1630.mainEntity).toEqual({ "@id": schemaIds.faq(netToGrossPath(1630)) });
-    expect(page1630).not.toHaveProperty("publisher");
-    expect(page1630).not.toHaveProperty("hasPart");
+    expect(page1630).not.toHaveProperty("about");
+    expect(page1630).not.toHaveProperty("mainEntity");
+    expect(page1630.publisher).toEqual({ "@id": schemaIds.organization() });
+    expect(page1630.hasPart).toEqual([{ "@id": schemaIds.faq(netToGrossPath(1630)) }]);
     expect(page1630.datePublished).toBe("2026-07-15T09:00:00+02:00");
-    expect(page1630.dateModified).toBe("2026-07-15T09:00:00+02:00");
+    expect(page1630.dateModified).toBe("2026-10-24T09:00:00+02:00");
 
-    const graph1670 = buildWebPageJsonLd(jsonLdInput(1670))["@graph"] as Record<string, unknown>[];
-    const page1670 = graph1670.find((node) => node["@type"] === "WebPage") as Record<
-      string,
-      unknown
-    >;
-    expect(page1670.about).toEqual({ "@id": schemaIds.organization() });
-    expect(page1670.mainEntity).toEqual({ "@id": schemaIds.faq(netToGrossPath(1670)) });
-    expect(page1670).not.toHaveProperty("publisher");
+    const document1670 = build1650PageJsonLd(jsonLdInput(1670));
+    const page1670 = (document1670["@graph"] as Record<string, unknown>[]).find(
+      (node) => node["@type"] === "WebPage",
+    ) as Record<string, unknown>;
+    expect(page1670.publisher).toEqual({ "@id": schemaIds.organization() });
+    expect(page1670.hasPart).toEqual([{ "@id": schemaIds.faq(netToGrossPath(1670)) }]);
 
     expect(netToGrossOpenGraphType(1650)).toBe("website");
-    expect(netToGrossOpenGraphType(1630)).toBe("article");
-    expect(netToGrossOpenGraphType(1670)).toBe("article");
+    expect(netToGrossOpenGraphType(1630)).toBe("website");
+    expect(netToGrossOpenGraphType(1670)).toBe("website");
     expect(routeSource).toContain("netToGrossOpenGraphType(netMonthly)");
     expect(routeSource).toContain("buildRedesignPageJsonLd");
-    expect(routeSource).toContain("buildWebPageJsonLd(jsonLdInput)");
+    expect(routeSource).toContain("getNetToGrossRedesignDateModified");
   });
 
-  it("compacte la sidebar 1650 et ajoute un CTA net→brut sans toucher aux autres fiches", () => {
+  it("compacte la sidebar 1650 et ajoute un CTA net→brut partagé", () => {
     expect(PAGE_1650_SIDEBAR_TOOL_IDS).toEqual([
       "brut-vers-net",
       "salaire-heures-supplementaires",

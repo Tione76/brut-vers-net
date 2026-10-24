@@ -249,6 +249,30 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       },
     ],
   },
+
+  "conges-payes": {
+    groups: [
+      { title: "Comprendre le droit", icon: "help", start: 0, end: 3 },
+      {
+        title: "Poser, refuser et imposer",
+        icon: "clipboard",
+        start: 3,
+        end: 7,
+      },
+      {
+        title: "Décompte, durée et report",
+        icon: "scale",
+        start: 7,
+        end: 11,
+      },
+      {
+        title: "Questions et sources",
+        icon: "badge",
+        start: 11,
+        end: 14,
+      },
+    ],
+  },
 };
 
 /** @deprecated Utiliser GUIDE_TOC_CONFIG ; conserve pour les tests et imports existants. */

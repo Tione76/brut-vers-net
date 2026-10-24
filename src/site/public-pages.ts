@@ -18,8 +18,7 @@ import {
 } from "./salaire-net-brut/config";
 import { buildSeriesSeoMeta } from "./salaire-net-brut/page-1500-content";
 import {
-  REDESIGN_WAVE1_DATE_MODIFIED,
-  isNetToGrossRedesign,
+  getNetToGrossRedesignDateModified,
 } from "./salaire-net-brut/redesign-wave";
 import { buildNetToGrossHubSeo } from "./salaire-net-brut/hub";
 import { buildNetToGrossIndexSeo } from "./salaire-net-brut/series-index";
@@ -239,9 +238,7 @@ export function getAllPublicPages(): PublicPage[] {
     changefreq: "monthly" as const,
     priority: 0.72,
     indexable: true,
-    lastModified: isNetToGrossRedesign(amount)
-      ? REDESIGN_WAVE1_DATE_MODIFIED
-      : NET_TO_GROSS_UPDATED_AT,
+    lastModified: getNetToGrossRedesignDateModified(amount),
   }));
 
   const monthlyIncreasePages: PublicPage[] = MONTHLY_INCREASE_AMOUNTS.map((amount) => ({

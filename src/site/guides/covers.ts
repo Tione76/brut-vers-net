@@ -377,6 +377,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     801,
   ),
+  "conges-payes": cover(
+    "guides/conges-payes.webp",
+    "Plage de sable blanc avec chaises longues en bois, parasol jaune et palmiers face à une mer turquoise",
+    {
+      photographer: "allPhoto Bangkok",
+      source: "Pexels",
+      text: "Photo de allPhoto Bangkok via Pexels",
+    },
+    1200,
+    800,
+  ),
 };
 
 export function getCalculatorCover(id: string): GuideCoverImage {
@@ -438,6 +449,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/solde-de-tout-compte") {
     return getGuideCover("solde-de-tout-compte");
+  }
+  if (href === "/conges-payes") {
+    return getGuideCover("conges-payes");
   }
   return undefined;
 }
