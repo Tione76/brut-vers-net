@@ -1,76 +1,24 @@
+import { useEffect, useState, type ReactNode } from "react";
+import Image from "next/image";
 import { formatCurrency } from "@/site/salary-calculator";
-import type { SalaryMonths } from "@/site/salary-calculator/types";
+import { EMPLOYMENT_PROFILES } from "@/site/salary-calculator/config";
+import type { EmploymentProfile, SalaryMonths } from "@/site/salary-calculator/types";
 import { formatWithholdingRatePercent } from "@/site/salary-calculator/tax/format-withholding-rate";
-import type { IncreaseReferenceField, IncreaseType, SalaryIncreaseResult } from "./types";
 import { formatPercentFr } from "./format-percent";
-
-function GainAmount({ value, prefix = "+" }: { value: number; prefix?: string }) {
-  return (
-    <span className="increase-calc__gain-value" aria-label={`${prefix} ${formatCurrency(value)}`}>
-      {prefix} {formatCurrency(value)}
-    </span>
-  );
-}
-
-function GainTile({
-  value,
-  label,
-  primary = false,
-}: {
-  value: number;
-  label: string;
-  primary?: boolean;
-}) {
-  return (
-    <div className={`increase-calc__gain-tile${primary ? " increase-calc__gain-tile--primary" : ""}`}>
-      <p className="increase-calc__gain-tile-amount">
-        <GainAmount value={value} />
-        <span className="increase-calc__gain-unit"> / mois</span>
-      </p>
-      <p className="increase-calc__gain-tile-label">{label}</p>
-    </div>
-  );
-}
-
-function EmptyGainCard({ footerHint }: { footerHint: string }) {
-  return (
-    <div
-      className="increase-calc__gain-card increase-calc__gain-card--placeholder"
-      role="region"
-      aria-labelledby="empty-gain-heading"
-      aria-describedby="empty-gain-a11y-desc"
-    >
-      <h3 id="empty-gain-heading" className="increase-calc__results-title">
-        Votre gain estimé
-      </h3>
-
-      <div className="increase-calc__empty-waiting">
-        <p className="increase-calc__empty-waiting-lead">Votre résultat apparaîtra ici</p>
-        <p className="increase-calc__empty-waiting-note">Le calcul se met à jour automatiquement.</p>
-      </div>
-
-      <div className="increase-calc__empty-slots">
-        <div className="increase-calc__empty-slot">
-          <span className="increase-calc__empty-slot-amount" aria-hidden="true">
-            -- €
-          </span>
-          <span className="increase-calc__empty-slot-label">Gain net / mois</span>
-        </div>
-        <div className="increase-calc__empty-slot">
-          <span className="increase-calc__empty-slot-amount" aria-hidden="true">
-            -- €
-          </span>
-          <span className="increase-calc__empty-slot-label">Gain net / an</span>
-        </div>
-      </div>
-      <p id="empty-gain-a11y-desc" className="increase-calc__sr-only">
-        Le gain net mensuel et annuel sera affiché après la saisie.
-      </p>
-
-      <p className="increase-calc__empty-footer">{footerHint}</p>
-    </div>
-  );
-}
+import {
+  buildAnnualFootnote,
+  buildComparisonGroups,
+  buildGainAnnouncement,
+  buildIncreaseBadge,
+  describeIncreaseInput,
+  formatSignedCurrency,
+  type ComparisonPeriod,
+} from "./results-display";
+import type {
+  IncreaseReferenceField,
+  IncreaseType,
+  SalaryIncreaseResult,
+} from "./types";
 
 export interface SalaryIncreaseResultsProps {
   result: SalaryIncreaseResult | null;
@@ -82,176 +30,312 @@ export interface SalaryIncreaseResultsProps {
   increaseType: IncreaseType;
   increaseReferenceField: IncreaseReferenceField | null;
   increaseValue: string;
+  profile: EmploymentProfile;
+}
+
+const ANNOUNCEMENT_DELAY_MS = 900;
+
+const PERIOD_LABELS: Record<ComparisonPeriod, string> = {
+  monthly: "Mensuel",
+  annual: "Annuel",
+};
+
+function useSettledAnnouncement(message: string): string {
+  const [settled, setSettled] = useState("");
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setSettled(message), ANNOUNCEMENT_DELAY_MS);
+    return () => window.clearTimeout(timer);
+  }, [message]);
+
+  return settled;
+}
+
+function profileLabel(profile: EmploymentProfile): string {
+  return EMPLOYMENT_PROFILES.find((item) => item.id === profile)?.label ?? profile;
+}
+
+function StepStatus({
+  done,
+  label,
+  doneLabel,
+}: {
+  done: boolean;
+  label: string;
+  doneLabel: string;
+}) {
+  return (
+    <li className={`inc-sim__step${done ? " inc-sim__step--done" : ""}`}>
+      <span className="inc-sim__step-mark" aria-hidden="true">
+        {done ? (
+          <svg viewBox="0 0 16 16" width="12" height="12" focusable="false">
+            <path
+              d="m3.5 8.5 3 3 6-7"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ) : null}
+      </span>
+      <span className="inc-sim__step-label">{label}</span>
+      <span className="inc-sim__step-state">{done ? doneLabel : "À compléter"}</span>
+    </li>
+  );
+}
+
+function EmptyState({ hasSalary, hasIncrease }: { hasSalary: boolean; hasIncrease: boolean }) {
+  let note =
+    "Renseignez votre salaire et votre augmentation pour découvrir votre nouvelle rémunération.";
+  if (hasSalary && !hasIncrease) {
+    note = "Indiquez maintenant votre augmentation pour découvrir votre gain.";
+  } else if (!hasSalary && hasIncrease) {
+    note = "Indiquez votre salaire actuel pour calculer le gain de votre augmentation.";
+  }
+
+  return (
+    <div className="inc-sim inc-sim--empty">
+      <div className="inc-sim__hero inc-sim__hero--empty">
+        <span className="inc-sim__empty-icon" aria-hidden="true">
+          <Image
+            src="/images/calculator/pictogram-coins-clean.webp"
+            alt=""
+            width={214}
+            height={184}
+            decoding="async"
+            draggable={false}
+          />
+        </span>
+        <p className="inc-sim__eyebrow">Votre estimation</p>
+        <h3 className="inc-sim__empty-title">Découvrez votre augmentation en brut et en net</h3>
+        <p className="inc-sim__empty-note">{note}</p>
+      </div>
+      <ol className="inc-sim__steps" aria-label="Informations nécessaires au calcul">
+        <StepStatus done={hasSalary} label="Votre salaire actuel" doneLabel="Renseigné" />
+        <StepStatus done={hasIncrease} label="Votre augmentation" doneLabel="Renseignée" />
+      </ol>
+    </div>
+  );
+}
+
+function ComparisonTable({
+  result,
+  salaryMonths,
+}: {
+  result: SalaryIncreaseResult;
+  salaryMonths: SalaryMonths;
+}) {
+  const groups = buildComparisonGroups(result);
+
+  return (
+    <div className="inc-sim__compare">
+      <table className="inc-sim__table" role="table">
+        <caption className="inc-sim__compare-title">Votre rémunération avant / après</caption>
+        <thead role="rowgroup">
+          <tr role="row">
+            <th scope="col" role="columnheader" className="inc-sim__th-period">
+              Période
+            </th>
+            <th scope="col" role="columnheader" className="inc-sim__col inc-sim__col--before">
+              Avant
+            </th>
+            <th scope="col" role="columnheader" className="inc-sim__col inc-sim__col--after">
+              Après
+            </th>
+          </tr>
+        </thead>
+        {groups.map((group) => (
+          <tbody
+            key={group.id}
+            role="rowgroup"
+            className={`inc-sim__group inc-sim__group--${group.id}`}
+          >
+            <tr role="row" className="inc-sim__group-row">
+              <th scope="rowgroup" role="rowheader" className="inc-sim__group-label">
+                <span className="inc-sim__group-prefix">Salaire </span>
+                {group.shortLabel}
+              </th>
+              <td role="cell" className="inc-sim__col inc-sim__col--before" aria-hidden="true" />
+              <td role="cell" className="inc-sim__col inc-sim__col--after" aria-hidden="true" />
+            </tr>
+            {group.rows.map((row) => (
+              <tr key={row.period} role="row" className="inc-sim__row">
+                <th scope="row" role="rowheader" className="inc-sim__period">
+                  {PERIOD_LABELS[row.period]}
+                  {row.period === "annual" ? (
+                    <>
+                      <span aria-hidden="true">*</span>
+                      <span className="inc-sim__sr-only">
+                        {" "}
+                        (projection sur {salaryMonths} mois)
+                      </span>
+                    </>
+                  ) : null}
+                </th>
+                <td role="cell" className="inc-sim__col inc-sim__col--before inc-sim__amount">
+                  {formatCurrency(row.before)}
+                </td>
+                <td role="cell" className="inc-sim__col inc-sim__col--after inc-sim__amount">
+                  {formatCurrency(row.after)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        ))}
+      </table>
+      <p className="inc-sim__footnote">{buildAnnualFootnote(salaryMonths)}</p>
+    </div>
+  );
 }
 
 export function SalaryIncreaseResults({
   result,
+  salaryMonths,
   hasSalary,
   hasIncrease,
   validationError,
   withholdingRate,
+  increaseType,
+  increaseReferenceField,
+  increaseValue,
+  profile,
 }: SalaryIncreaseResultsProps) {
+  const computed = !validationError && hasSalary && hasIncrease ? result : null;
+  const announcement = useSettledAnnouncement(computed ? buildGainAnnouncement(computed) : "");
+
+  let content: ReactNode;
+
   if (validationError) {
-    return (
-      <div className="increase-calc-results">
-        <p className="increase-calc__error" role="alert">
-          {validationError}
-        </p>
+    content = (
+      <div className="inc-sim inc-sim--error">
+        <div className="inc-sim__hero inc-sim__hero--error">
+          <p className="inc-sim__eyebrow">Votre estimation</p>
+          <p className="inc-sim__error" role="alert">
+            {validationError}
+          </p>
+        </div>
+      </div>
+    );
+  } else if (!computed) {
+    content = <EmptyState hasSalary={hasSalary} hasIncrease={hasIncrease} />;
+  } else {
+    const badge = buildIncreaseBadge(computed, increaseType, increaseValue);
+    const showPasBlock = computed.gain.netAfterTaxMonthly !== computed.gain.netMonthly;
+
+    content = (
+      <div className="inc-sim inc-sim--filled">
+        <section className="inc-sim__hero" aria-labelledby="inc-sim-gain-label">
+          <div className="inc-sim__hero-top">
+            <h3 id="inc-sim-gain-label" className="inc-sim__eyebrow">
+              Votre gain mensuel estimé
+            </h3>
+            {badge ? <span className="inc-sim__badge">{badge}</span> : null}
+          </div>
+          <p className="inc-sim__gain">
+            <span className="inc-sim__gain-value">
+              {formatSignedCurrency(computed.gain.netMonthly)}
+            </span>
+            <span className="inc-sim__gain-unit">net</span>
+          </p>
+          <p className="inc-sim__gross">
+            <span className="inc-sim__gross-prefix">Soit</span>
+            <span className="inc-sim__gross-value">
+              {formatSignedCurrency(computed.gain.grossMonthly)} brut
+            </span>
+          </p>
+          <p className="inc-sim__hero-note">Net estimé avant prélèvement à la source</p>
+        </section>
+
+        <ComparisonTable result={computed} salaryMonths={salaryMonths} />
+
+        {showPasBlock ? (
+          <section className="inc-sim__pas" aria-labelledby="inc-sim-pas-title">
+            <h4 id="inc-sim-pas-title" className="inc-sim__pas-title">
+              Après prélèvement à la source ({formatWithholdingRatePercent(withholdingRate)})
+            </h4>
+            <dl className="inc-sim__pas-grid">
+              <div className="inc-sim__pas-row">
+                <dt>Gain net mensuel</dt>
+                <dd>{formatSignedCurrency(computed.gain.netAfterTaxMonthly)}</dd>
+              </div>
+              <div className="inc-sim__pas-row">
+                <dt>Gain net annuel</dt>
+                <dd>{formatSignedCurrency(computed.gain.netAfterTaxAnnual)}</dd>
+              </div>
+              <div className="inc-sim__pas-row">
+                <dt>Nouveau net mensuel</dt>
+                <dd>{formatCurrency(computed.after.netAfterTaxMonthly)}</dd>
+              </div>
+            </dl>
+          </section>
+        ) : null}
+
+        <details className="inc-sim__details">
+          <summary className="inc-sim__details-summary">
+            <span>Comprendre mon calcul</span>
+            <span className="inc-sim__chevron" aria-hidden="true" />
+          </summary>
+          <div className="inc-sim__details-body">
+            <dl className="inc-sim__lines">
+              <div className="inc-sim__line">
+                <dt>Salaire brut mensuel de départ</dt>
+                <dd>{formatCurrency(computed.before.grossMonthly)}</dd>
+              </div>
+              <div className="inc-sim__line">
+                <dt>Augmentation brute saisie</dt>
+                <dd>
+                  {describeIncreaseInput(
+                    increaseType,
+                    increaseReferenceField,
+                    increaseValue,
+                    computed,
+                  )}
+                </dd>
+              </div>
+              <div className="inc-sim__line inc-sim__line--total">
+                <dt>Augmentation brute mensuelle</dt>
+                <dd>{formatSignedCurrency(computed.gain.grossMonthly)}</dd>
+              </div>
+              <div className="inc-sim__line">
+                <dt>Progression brute estimée</dt>
+                <dd>{formatPercentFr(computed.percentGain.gross)}</dd>
+              </div>
+              <div className="inc-sim__line">
+                <dt>Progression nette estimée</dt>
+                <dd>{formatPercentFr(computed.percentGain.net)}</dd>
+              </div>
+              <div className="inc-sim__line">
+                <dt>Statut professionnel</dt>
+                <dd>{profileLabel(profile)}</dd>
+              </div>
+              <div className="inc-sim__line">
+                <dt>Nombre de mois rémunérés</dt>
+                <dd>{salaryMonths}</dd>
+              </div>
+              <div className="inc-sim__line">
+                <dt>Taux de prélèvement à la source</dt>
+                <dd>{formatWithholdingRatePercent(withholdingRate)}</dd>
+              </div>
+            </dl>
+            <p className="inc-sim__assumptions">
+              Hypothèses : estimation avant et après prélèvement à la source selon le taux saisi ou
+              estimé. Les montants annuels respectent le nombre de mois de rémunération sélectionné.
+              Le calcul ne remplace pas une fiche de paie.
+            </p>
+          </div>
+        </details>
       </div>
     );
   }
-
-  if (!hasSalary) {
-    return (
-      <div className="increase-calc-results">
-        <EmptyGainCard footerHint="Commencez par renseigner votre salaire." />
-      </div>
-    );
-  }
-
-  if (!hasIncrease || !result) {
-    return (
-      <div className="increase-calc-results">
-        <EmptyGainCard footerHint="Indiquez votre augmentation." />
-      </div>
-    );
-  }
-
-  const { before, after, gain, percentGain } = result;
-
-  const newSalaryCards = [
-    {
-      label: "Net après prélèvement à la source",
-      value: after.netAfterTaxMonthly,
-      highlight: true,
-      unit: " / mois",
-    },
-    {
-      label: "Net avant prélèvement à la source",
-      value: after.netMonthly,
-      highlight: false,
-      unit: " / mois",
-    },
-    { label: "Brut mensuel", value: after.grossMonthly, highlight: false, unit: " / mois" },
-    { label: "Brut annuel", value: after.grossAnnual, highlight: false, unit: " / an" },
-  ];
 
   return (
-    <div className="increase-calc-results increase-calc-results--filled">
-      <div className="increase-calc__gain-card increase-calc__gain-card--filled">
-        <h3 className="increase-calc__results-title">Votre gain estimé</h3>
-
-        <div className="increase-calc__gain-tiles">
-          <GainTile
-            value={gain.netAfterTaxMonthly}
-            label="Net après prélèvement à la source"
-            primary
-          />
-          <GainTile value={gain.netMonthly} label="Net avant prélèvement à la source" />
-        </div>
-
-        <div className="increase-calc__gain-annual">
-          <p className="increase-calc__gain-annual-line">
-            <span className="increase-calc__gain-annual-label">Gain annuel après prélèvement :</span>{" "}
-            <GainAmount value={gain.netAfterTaxAnnual} />
-            <span className="increase-calc__gain-unit"> / an</span>
-          </p>
-          <p className="increase-calc__gain-annual-line">
-            <span className="increase-calc__gain-annual-label">Gain annuel avant prélèvement :</span>{" "}
-            <GainAmount value={gain.netAnnual} />
-            <span className="increase-calc__gain-unit"> / an</span>
-          </p>
-        </div>
-
-        <p className="increase-calc__gain-context">
-          Simulation basée sur une augmentation de {formatCurrency(gain.grossMonthly)} brut par mois.
-        </p>
-      </div>
-
-      <section className="increase-calc__after-block" aria-labelledby="after-increase-title">
-        <h3 id="after-increase-title" className="increase-calc__results-title">
-          Votre nouveau salaire
-        </h3>
-        <div className="increase-calc__after-grid">
-          {newSalaryCards.map((card) => (
-            <div
-              key={card.label}
-              className={`increase-calc__after-item${card.highlight ? " increase-calc__after-item--highlight" : ""}`}
-            >
-              <span className="increase-calc__after-label">{card.label}</span>
-              <strong className="increase-calc__after-value">
-                {formatCurrency(card.value)}
-                <span className="increase-calc__gain-unit">{card.unit}</span>
-              </strong>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="increase-calc__comparison" aria-labelledby="comparison-title">
-        <h3 id="comparison-title" className="increase-calc__block-title">
-          Comparaison avant / après
-        </h3>
-        <p className="increase-calc__comparison-subtitle">Comparaison des montants mensuels</p>
-        <table className="increase-calc__table increase-calc__table--compact">
-          <caption className="increase-calc__sr-only">
-            Comparaison mensuelle avant et après augmentation
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Indicateur</th>
-              <th scope="col">Avant</th>
-              <th scope="col">Après</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Brut</th>
-              <td>{formatCurrency(before.grossMonthly)}</td>
-              <td className="increase-calc__col-after">{formatCurrency(after.grossMonthly)}</td>
-            </tr>
-            <tr>
-              <th scope="row">Net avant prélèvement</th>
-              <td>{formatCurrency(before.netMonthly)}</td>
-              <td className="increase-calc__col-after">{formatCurrency(after.netMonthly)}</td>
-            </tr>
-            <tr className="increase-calc__row--emphasis">
-              <th scope="row">Net après prélèvement</th>
-              <td>{formatCurrency(before.netAfterTaxMonthly)}</td>
-              <td className="increase-calc__col-after">{formatCurrency(after.netAfterTaxMonthly)}</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <details className="increase-calc__accordion">
-        <summary className="increase-calc__accordion-summary">Voir le détail du calcul</summary>
-        <div className="increase-calc__accordion-body">
-          <ul className="increase-calc__details-list">
-            <li>Gain brut mensuel : + {formatCurrency(gain.grossMonthly)}</li>
-            <li>Gain brut annuel : + {formatCurrency(gain.grossAnnual)}</li>
-            <li>
-              Gain net mensuel avant prélèvement à la source : + {formatCurrency(gain.netMonthly)}
-            </li>
-            <li>
-              Gain net annuel avant prélèvement à la source : + {formatCurrency(gain.netAnnual)}
-            </li>
-            <li>
-              Gain net mensuel après prélèvement à la source : +{" "}
-              {formatCurrency(gain.netAfterTaxMonthly)}
-            </li>
-            <li>
-              Gain net annuel après prélèvement à la source : +{" "}
-              {formatCurrency(gain.netAfterTaxAnnual)}
-            </li>
-            <li>Progression brute estimée : {formatPercentFr(percentGain.gross)}</li>
-            <li>Progression nette estimée : {formatPercentFr(percentGain.net)}</li>
-            {withholdingRate > 0 ? (
-              <li>Taux de prélèvement à la source appliqué : {formatWithholdingRatePercent(withholdingRate)}</li>
-            ) : null}
-          </ul>
-        </div>
-      </details>
+    <div className="inc-sim-root">
+      <div aria-live="off">{content}</div>
+      <p className="inc-sim__sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </p>
     </div>
   );
 }

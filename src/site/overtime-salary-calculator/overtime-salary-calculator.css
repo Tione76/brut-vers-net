@@ -1,23 +1,139 @@
-﻿/* Libellés heures supplémentaires : périodicité secondaire */
+﻿/* ------------------------------------------------------------------ */
+/* Formulaire (colonne gauche) : lisibilité typographique locale       */
+/* Scopé via .overtime-form pour ne pas toucher les autres calculateurs */
+/* ------------------------------------------------------------------ */
+
+.overtime-form {
+  --increase-form-input-height: 42px;
+}
+
+.overtime-form.increase-calc.calc-fields {
+  gap: 8px;
+}
+
+.overtime-form .increase-calc__steps {
+  gap: 10px;
+}
+
+.overtime-form .increase-calc__step {
+  grid-template-columns: 24px 1fr;
+  column-gap: 10px;
+}
+
+.overtime-form .increase-calc__step:not(:last-child)::after {
+  left: 11px;
+  top: 24px;
+  bottom: -10px;
+}
+
+.overtime-form .increase-calc__step-badge {
+  width: 24px;
+  height: 24px;
+  font-size: 0.75rem;
+}
+
+/* Titres d'étape : 18 px */
+.overtime-form .increase-calc__step-title {
+  margin: 0 0 6px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* Textes explicatives sous les étapes : 16 px */
+.overtime-form .increase-calc__step-hint {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Intitulés de champs et légendes : 16 px */
+.overtime-form .calc-field-label,
+.overtime-form .salary-calc__section-label {
+  margin-bottom: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+.overtime-form .increase-calc .salary-calc__section-label {
+  margin-bottom: 6px;
+}
+
+.overtime-form .increase-calc__field {
+  gap: 5px;
+}
+
+/* Champs de saisie : 16 px */
+.overtime-form .calc-input {
+  height: var(--increase-form-input-height);
+  min-height: var(--increase-form-input-height);
+  padding: 8px 12px;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+/* Boutons de sélection : 16 px */
+.overtime-form .selectable-group {
+  gap: 6px;
+}
+
+.overtime-form .selectable-option {
+  min-height: 42px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.overtime-form .selectable-option__label {
+  white-space: normal;
+}
+
+/* Estimations et lien « Je connais uniquement… » : 15–16 px */
+.overtime-form .increase-calc__net-estimate {
+  margin: 0 0 5px;
+  padding: 8px 10px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.overtime-form .increase-calc__net-toggle,
+.overtime-form .salary-calc__link-action {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.overtime-form .increase-calc__salary-row {
+  gap: 8px;
+}
+
+.overtime-form .increase-calc__net-input {
+  gap: 8px;
+}
+
+/* Libellés heures supplémentaires : périodicité secondaire */
 .overtime-hours-label__period {
-  font-size: 0.85em;
+  font-size: 0.9em;
   font-weight: 500;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 .overtime-hours-coherence {
-  margin: 6px 0 0;
-  font-size: 0.75rem;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.82);
+  margin: 8px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .overtime-rates-summary {
-  margin: 6px 0 0;
-  font-size: 0.8125rem;
+  margin: 8px 0 0;
+  font-size: 0.9375rem;
   font-weight: 600;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 /* ------------------------------------------------------------------ */

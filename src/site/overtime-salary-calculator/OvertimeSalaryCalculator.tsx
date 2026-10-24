@@ -280,7 +280,11 @@ export default function OvertimeSalaryCalculator() {
       : null;
 
   return (
-    <div className="increase-calc calc-fields" aria-live="polite" aria-atomic="true">
+    <div
+      className="overtime-form increase-calc calc-fields"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <ol className="increase-calc__steps">
         <OvertimeFormStep step={1} title="Indiquez votre salaire de base" hint={step1Hint} essential>
           {salaryEntryMode === "monthly" ? (

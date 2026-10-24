@@ -39,6 +39,7 @@ import type { IncreaseReferenceField, IncreaseType, SalaryReferenceField } from 
 import { getPrimaryValidationError, validateCurrentSalary } from "./validation";
 import "@/site/salary-calculator-layout.css";
 import "./salary-increase-calculator.css";
+import "./salary-increase-results.css";
 
 function formatGrossField(value: number): string {
   return formatAmountForInput(value);
@@ -531,6 +532,7 @@ function SalaryIncreaseCalculatorForm({
         increaseType={increaseType}
         increaseReferenceField={increaseReferenceField}
         increaseValue={increaseValue}
+        profile={profile}
       />,
     );
   }, [
@@ -539,6 +541,7 @@ function SalaryIncreaseCalculatorForm({
     increaseReferenceField,
     increaseType,
     increaseValue,
+    profile,
     result,
     salaryMonths,
     setResult,
@@ -557,7 +560,11 @@ function SalaryIncreaseCalculatorForm({
     : undefined;
 
   return (
-    <div className="increase-calc calc-fields" aria-live="polite" aria-atomic="true">
+    <div
+      className="increase-form increase-calc calc-fields"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <ol className="increase-calc__steps">
         <IncreaseFormStep step={1} title="Indiquez votre salaire actuel" hint={step1Hint} essential>
           {!showNetInput ? (

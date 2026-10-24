@@ -37,6 +37,15 @@ describe("finitions UX heures supplémentaires (copie & structure)", () => {
     expect(calculatorSource).toContain("Je connais uniquement mon salaire net");
   });
 
+  it("renforce la lisibilité typographique du formulaire sans toucher au CSS partagé", () => {
+    expect(calculatorSource).toContain("overtime-form");
+    expect(cssSource).toContain(".overtime-form .increase-calc__step-title");
+    expect(cssSource).toContain("font-size: 1.125rem");
+    expect(cssSource).toContain(".overtime-form .increase-calc__step-hint");
+    expect(cssSource).toContain(".overtime-form .calc-field-label");
+    expect(cssSource).toContain(".ot-sim__gain-value");
+  });
+
   it("n'expose plus la saisie par taux horaire brut", () => {
     expect(calculatorSource).not.toContain("Je connais uniquement mon taux horaire brut");
     expect(calculatorSource).not.toContain("Je préfère renseigner mon salaire mensuel");
