@@ -273,6 +273,15 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       },
     ],
   },
+
+  "solde-conges-payes": {
+    groups: [
+      { title: "Calculer le solde", icon: "calculator", start: 0, end: 3 },
+      { title: "Lire le bulletin", icon: "clipboard", start: 3, end: 6 },
+      { title: "Exemples et cas particuliers", icon: "scale", start: 6, end: 11 },
+      { title: "Vérifier et conclure", icon: "badge", start: 11, end: 16 },
+    ],
+  },
 };
 
 /** @deprecated Utiliser GUIDE_TOC_CONFIG ; conserve pour les tests et imports existants. */

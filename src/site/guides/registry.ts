@@ -22,6 +22,7 @@ import { primeActiviteGuide } from "./data/prime-activite";
 import { primeDeNoelGuide } from "./data/prime-de-noel";
 import { soldeDeToutCompteGuide } from "./data/solde-de-tout-compte";
 import { congesPayesGuide } from "./data/conges-payes";
+import { soldeCongesPayesGuide } from "./data/solde-conges-payes";
 
 export { getGuidePublicPath } from "./paths";
 
@@ -49,6 +50,7 @@ export const guides: Guide[] = [
   attachGuideCover(primeDeNoelGuide),
   attachGuideCover(soldeDeToutCompteGuide),
   attachGuideCover(congesPayesGuide),
+  attachGuideCover(soldeCongesPayesGuide),
 ];
 
 export const GUIDE_MODEL_SLUG = "modele";

@@ -1,0 +1,1138 @@
+/* Calculateur solde de congés payés - UX scopée (.scp-calc) */
+
+.scp-calc {
+  --scp-muted: #4b5563;
+  --scp-green-ink: #0f3d2e;
+  --scp-green: #065f46;
+  --scp-mint: #e7f5ec;
+  --scp-warn-bg: #fff7ed;
+  --scp-warn-ink: #9a3412;
+  margin: 0;
+  padding: 0;
+  color: #161616;
+}
+
+.prose .guide-tool-band .scp-calc__title,
+.guide-tool-band .scp-calc__title,
+.scp-calc__title {
+  margin: 0 0 0.35rem;
+  padding: 0;
+  color: #ffffff;
+  font-size: clamp(1.45rem, 2.6vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.scp-calc__subtitle {
+  margin: 0 0 0.95rem;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: 1.45;
+  font-weight: 500;
+  max-width: 40rem;
+}
+
+.scp-calc__subtitle:has(+ .scp-calc__scope) {
+  margin-bottom: 0.55rem;
+}
+
+.prose .guide-tool-band .scp-calc__scope,
+.scp-calc__scope {
+  display: inline-block;
+  margin: 0 0 0.95rem;
+  padding: 0.2rem 0.7rem;
+  color: #ffffff;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  background: rgba(22, 22, 22, 0.16);
+  border-radius: 8px;
+}
+
+.scp-calc__panel {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: clamp(0.9rem, 2.4vw, 1.25rem);
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.scp-calc__steps {
+  list-style: none;
+  margin: 0 0 0.55rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.scp-calc__step {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  column-gap: 0.65rem;
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 1rem;
+}
+
+.scp-calc__step:last-child {
+  padding-bottom: 0;
+}
+
+/* Ligne entre pastilles : du bas du badge courant au haut du suivant (gap 0). */
+.scp-calc__step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 28px;
+  bottom: 0;
+  width: 2px;
+  background: #f0d0bc;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.scp-calc__step-marker {
+  padding-top: 0.1rem;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 639px) {
+  .scp-calc__step {
+    grid-template-columns: 22px 1fr;
+    column-gap: 0.5rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .scp-calc__step:last-child {
+    padding-bottom: 0;
+  }
+
+  .scp-calc__step:not(:last-child)::after {
+    left: 10px;
+    top: 22px;
+  }
+}
+
+.scp-calc__step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--ds-brand, #e85d04);
+  color: #ffffff;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+@media (max-width: 639px) {
+  .scp-calc__step-badge {
+    width: 22px;
+    height: 22px;
+    font-size: 0.75rem;
+  }
+}
+
+.scp-calc__step-body {
+  min-width: 0;
+}
+
+.scp-calc__step-title {
+  margin: 0 0 0.65rem;
+  padding: 0;
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  font-weight: 750;
+  line-height: 1.3;
+  color: #161616;
+}
+
+.scp-calc__label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #161616;
+}
+
+.scp-calc__select {
+  box-sizing: border-box;
+  min-height: 44px;
+  min-width: 0;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #c5cbd5;
+  border-radius: 8px;
+  background: #fff;
+  color: #161616;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.scp-calc__select--full {
+  width: 100%;
+  max-width: 100%;
+}
+
+.scp-calc__input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #c5cbd5;
+  border-radius: 8px;
+  background: #fff;
+  color: #161616;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.scp-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  margin-bottom: 0.65rem;
+}
+
+.scp-calc__field--compact-end {
+  margin-bottom: 0.35rem;
+}
+
+.scp-calc__field-error {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--scp-warn-ink);
+  font-weight: 600;
+}
+
+.scp-calc__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .scp-calc__grid--2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.scp-calc__hint {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--scp-muted);
+  font-weight: 400;
+}
+
+.scp-calc__hint--critical {
+  color: #334155;
+  font-weight: 550;
+}
+
+.scp-calc__hint--guide {
+  color: #475569;
+  font-weight: 400;
+}
+
+.scp-calc__hint--span {
+  grid-column: 1 / -1;
+}
+
+.scp-calc__help {
+  margin: 0.05rem 0 0;
+}
+
+.scp-calc__help-summary {
+  cursor: pointer;
+  color: #334155;
+  font-size: 0.9375rem;
+  font-weight: 550;
+  line-height: 1.4;
+  list-style: none;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.scp-calc__help-summary::-webkit-details-marker {
+  display: none;
+}
+
+.scp-calc__help-summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.35rem;
+  color: var(--ds-brand, #e85d04);
+  font-weight: 700;
+}
+
+.scp-calc__help[open] > .scp-calc__help-summary::before {
+  content: "▾";
+}
+
+.scp-calc__help-summary:focus-visible {
+  outline: 2px solid var(--ds-brand, #e85d04);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.scp-calc__help-body {
+  margin-top: 0.4rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #334155;
+}
+
+.scp-calc__help-body p {
+  margin: 0 0 0.5rem;
+}
+
+.scp-calc__help-body p:last-child {
+  margin-bottom: 0;
+}
+
+.scp-calc__choice-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.45rem;
+}
+
+@media (min-width: 520px) {
+  .scp-calc__choice-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.scp-calc__choice {
+  appearance: none;
+  border: 1px solid #d8dde6;
+  background: #f8fafc;
+  color: #161616;
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  min-height: 48px;
+  text-align: center;
+}
+
+.scp-calc__choice[aria-pressed="true"] {
+  background: var(--ds-brand, #e85d04);
+  border-color: var(--ds-brand, #e85d04);
+  color: #ffffff;
+}
+
+.scp-calc__choice:focus-visible,
+.scp-calc__select:focus-visible,
+.scp-calc__input:focus-visible,
+.scp-calc__btn:focus-visible,
+.scp-calc__link-btn:focus-visible,
+.scp-calc__option-trigger:focus-visible,
+.scp-calc__accordion-trigger:focus-visible {
+  outline: 2px solid var(--ds-brand, #e85d04);
+  outline-offset: 2px;
+}
+
+.scp-calc__empty {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--scp-muted);
+}
+
+.scp-calc__empty--tight {
+  margin-top: 0.35rem;
+}
+
+.scp-calc__warn {
+  margin: 0.65rem 0 0;
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
+  background: var(--scp-warn-bg);
+  border: 1px solid rgba(194, 65, 12, 0.25);
+  color: var(--scp-warn-ink);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.scp-calc__error-block {
+  margin: 0.75rem 0 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.scp-calc__error {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--scp-warn-ink);
+  font-weight: 600;
+}
+
+.scp-calc__options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin: 0.05rem 0 0.75rem;
+}
+
+.scp-calc__options-kicker {
+  margin: 0 0 0.15rem;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.scp-calc__stale {
+  margin: 0 0 0.85rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  background: #fff7ed;
+  border: 1px solid rgba(194, 65, 12, 0.22);
+  display: grid;
+  gap: 0.65rem;
+}
+
+.scp-calc__stale p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: #9a3412;
+  font-weight: 600;
+}
+
+.scp-calc__btn--secondary {
+  appearance: none;
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  font-size: 1rem;
+  font-weight: 650;
+  cursor: pointer;
+  background: #ffffff;
+  border: 1px solid #c5cbd5;
+  color: #161616;
+  justify-self: start;
+}
+
+.scp-calc__option-trigger {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 0.975rem;
+  font-weight: 650;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  min-height: 48px;
+}
+
+.scp-calc__option-trigger:hover {
+  border-color: #cbd5e1;
+}
+
+.scp-calc__advanced {
+  margin: 0;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.scp-calc__advanced-note {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--scp-muted);
+  font-weight: 600;
+}
+
+.scp-calc__special-set {
+  margin: 0;
+  padding: 0;
+  border: none;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.scp-calc__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #161616;
+  cursor: pointer;
+}
+
+.scp-calc__check input {
+  margin-top: 0.2rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+}
+
+.scp-calc__link-btn {
+  appearance: none;
+  margin: 0.45rem 0 0;
+  padding: 0.25rem 0;
+  border: none;
+  background: transparent;
+  color: var(--ds-brand, #e85d04);
+  font-size: 0.9375rem;
+  font-weight: 650;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  min-height: 36px;
+}
+
+.scp-calc__link-btn:hover {
+  color: #c2410c;
+}
+
+/* Résultat */
+
+.scp-calc__hero {
+  margin-top: 0.35rem;
+  padding: 1.15rem 1rem 1rem;
+  border-radius: 14px;
+  background: var(--scp-mint);
+  border: 1px solid rgba(6, 95, 70, 0.14);
+}
+
+.scp-calc__hero--negative {
+  background: var(--scp-warn-bg);
+  border-color: rgba(194, 65, 12, 0.22);
+}
+
+.scp-calc__eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--scp-green);
+}
+
+.scp-calc__hero--negative .scp-calc__eyebrow {
+  color: var(--scp-warn-ink);
+}
+
+.scp-calc__gain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.55rem;
+  margin: 0.45rem 0 0;
+  color: var(--scp-green);
+}
+
+.scp-calc__hero--negative .scp-calc__gain {
+  color: var(--scp-warn-ink);
+}
+
+.scp-calc__gain-value {
+  font-size: clamp(2.75rem, 10vw, 4.25rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.scp-calc__gain-unit {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.scp-calc__gain-qualifier {
+  margin: 0.35rem 0 0;
+  font-size: 1.05rem;
+  font-weight: 650;
+  line-height: 1.35;
+  color: var(--scp-green-ink);
+}
+
+.scp-calc__gain-context {
+  margin: 0.4rem 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--scp-green-ink);
+}
+
+.scp-calc__gain-date {
+  margin: 0.15rem 0 0;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--scp-muted);
+}
+
+.scp-calc__method-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--scp-muted);
+}
+
+.scp-calc__hero--negative .scp-calc__gain-qualifier,
+.scp-calc__hero--negative .scp-calc__gain-context {
+  color: var(--scp-warn-ink);
+}
+
+.scp-calc__hero--negative .scp-calc__gain-date {
+  color: var(--scp-warn-ink);
+  opacity: 0.85;
+}
+
+.scp-calc__hero-callout {
+  margin: 0.75rem 0 0;
+  padding: 0.7rem 0.8rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--scp-green-ink);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.scp-calc__hero--negative .scp-calc__hero-callout {
+  color: var(--scp-warn-ink);
+}
+
+.scp-calc__hero-reserve {
+  margin: 0.7rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--scp-muted);
+  font-weight: 400;
+}
+
+.scp-calc__understand {
+  margin-top: 0.85rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  padding-top: 0.55rem;
+}
+
+.scp-calc__understand-summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: var(--scp-green-ink);
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.scp-calc__understand-summary::-webkit-details-marker {
+  display: none;
+}
+
+.scp-calc__understand-summary::before {
+  content: "▸";
+  margin-right: 0.4rem;
+}
+
+.scp-calc__understand[open] > .scp-calc__understand-summary::before {
+  content: "▾";
+}
+
+.scp-calc__understand-summary:focus-visible {
+  outline: 2px solid var(--ds-brand, #e85d04);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.scp-calc__understand-body {
+  margin-top: 0.45rem;
+}
+
+.scp-calc__detail-list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.scp-calc__detail-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  align-items: baseline;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--scp-green-ink);
+}
+
+.scp-calc__detail-row dt {
+  margin: 0;
+  font-weight: 500;
+}
+
+.scp-calc__detail-row dd {
+  margin: 0;
+  font-weight: 650;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.scp-calc__detail-row--total {
+  margin-top: 0.25rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.1);
+}
+
+.scp-calc__detail-row--total dt,
+.scp-calc__detail-row--total dd {
+  font-weight: 750;
+}
+
+.scp-calc__understand-note {
+  margin: 0.65rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--scp-muted);
+  font-weight: 400;
+}
+
+.scp-calc__hero--negative .scp-calc__detail-row,
+.scp-calc__hero--negative .scp-calc__understand-summary {
+  color: var(--scp-warn-ink);
+}
+
+.scp-calc__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.85rem;
+}
+
+.scp-calc__actions--quiet {
+  margin-top: 0.65rem;
+}
+
+.scp-calc__btn {
+  appearance: none;
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  font-size: 1rem;
+  font-weight: 650;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.scp-calc__btn--quiet {
+  background: transparent;
+  border-color: transparent;
+  color: #64748b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  min-height: 40px;
+  padding: 0.35rem 0.15rem;
+}
+
+.scp-calc__btn--quiet:hover {
+  color: #334155;
+}
+
+.scp-calc__payslip {
+  margin: 1.35rem 0 0;
+  padding: 0.9rem 0.85rem;
+  border: 1px solid #e8edf3;
+  border-radius: 10px;
+  background: #fbfcfd;
+}
+
+.scp-calc__payslip-title {
+  margin: 0 0 0.3rem;
+  padding: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #161616;
+}
+
+.scp-calc__payslip-desc {
+  margin: 0 0 0.7rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--scp-muted);
+}
+
+.scp-calc__accordion-trigger {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #d8dde6;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #161616;
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  min-height: 48px;
+}
+
+.scp-calc__accordion-trigger:hover {
+  border-color: #94a3b8;
+}
+
+.scp-calc__accordion-label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.scp-calc__accordion-chevron {
+  flex: 0 0 auto;
+  display: inline-block;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: #475569;
+  transition: transform 0.15s ease;
+}
+
+.scp-calc__accordion-chevron--open {
+  transform: rotate(180deg);
+}
+
+.scp-calc__accordion-panel {
+  margin-top: 0.85rem;
+  padding-top: 0.15rem;
+}
+
+.scp-calc__fieldset {
+  margin: 0 0 0.85rem;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.scp-calc__legend {
+  padding: 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #161616;
+}
+
+.scp-calc__counter-hint {
+  margin: 0 0 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--scp-muted);
+}
+
+.scp-calc__payslip-counter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.scp-calc__absent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: #334155;
+  cursor: pointer;
+}
+
+.scp-calc__absent input {
+  margin-top: 0.2rem;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.scp-calc__mode-group {
+  margin: 0;
+}
+
+.scp-calc__mode-label {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: #161616;
+}
+
+.scp-calc__mode-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.4rem;
+}
+
+@media (min-width: 520px) {
+  .scp-calc__mode-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.scp-calc__mode-choice {
+  appearance: none;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #c5cbd5;
+  background: #ffffff;
+  color: #161616;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  text-align: center;
+}
+
+.scp-calc__mode-choice[aria-pressed="true"] {
+  background: var(--ds-brand, #e85d04);
+  border-color: var(--ds-brand, #e85d04);
+  color: #ffffff;
+}
+
+.scp-calc__mode-choice:focus-visible {
+  outline: 2px solid var(--ds-brand, #e85d04);
+  outline-offset: 2px;
+}
+
+.scp-calc__payslip-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.scp-calc__payslip-adj {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.scp-calc__payslip .scp-calc__option-trigger--compact {
+  min-height: 40px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9375rem;
+  background: #ffffff;
+}
+
+.scp-calc__payslip-adj-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.scp-calc__payslip .scp-calc__input,
+.scp-calc__payslip .scp-calc__select {
+  font-size: 1rem;
+}
+
+.scp-calc__footnote {
+  margin: 0.85rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--scp-muted);
+}
+
+.scp-calc__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scp-calc__accordion-chevron {
+    transition: none;
+  }
+}
+
+/* Encart « Comment lire un compteur de congés ? » (section calcul du guide) */
+
+.guide-illustration:has(.scp-reading) {
+  margin: 1.75rem 0 2rem;
+  overflow: visible;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.scp-reading {
+  box-sizing: border-box;
+  padding: clamp(1.1rem, 3vw, 1.6rem) clamp(1rem, 3.2vw, 1.75rem);
+  color: #161616;
+  background: #fffaf4;
+  border: 1px solid #f1e2d2;
+  border-left: 4px solid #f28539;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(22, 22, 22, 0.04);
+}
+
+.prose .scp-reading__title,
+.scp-reading__title {
+  margin: 0 0 0.5rem;
+  padding: 0;
+  color: #161616;
+  font-size: clamp(1.25rem, 2.4vw, 1.375rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  border: none;
+}
+
+.prose .scp-reading p,
+.scp-reading p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.prose .scp-reading .scp-reading__intro,
+.scp-reading__intro {
+  color: #374151;
+}
+
+.prose .scp-reading .scp-reading__formula,
+.scp-reading__formula {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0 1.1rem;
+  font-size: clamp(1.0625rem, 2.2vw, 1.1875rem);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.scp-reading__term {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  padding: 0.5rem 0.8rem;
+  background: #ffffff;
+  border: 1px solid #ecdccb;
+  border-radius: 10px;
+}
+
+.scp-reading__op {
+  flex: none;
+  color: #c2410c;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.scp-reading__term--result {
+  color: #065f46;
+  background: #e7f5ec;
+  border-color: #b7e0c7;
+  font-weight: 700;
+}
+
+.scp-reading__term--result .scp-reading__op {
+  color: #065f46;
+}
+
+.prose .scp-reading .scp-reading__example,
+.scp-reading__example {
+  padding: 0.7rem 0.9rem;
+  color: #161616;
+  background: #ffffff;
+  border: 1px dashed #e7cfb6;
+  border-radius: 10px;
+}
+
+.scp-reading__example-result {
+  white-space: nowrap;
+}
+
+.scp-reading__example-result strong {
+  color: #065f46;
+}
+
+.prose .scp-reading .scp-reading__warning,
+.scp-reading__warning {
+  margin-top: 0.9rem;
+  color: #7c2d12;
+}
+
+.scp-reading__warning strong {
+  color: #9a3412;
+}
+
+.prose .scp-reading .scp-reading__note,
+.scp-reading__note {
+  margin-top: 0.4rem;
+  color: #4b5563;
+}
+
+@media (max-width: 639px) {
+  .prose .scp-reading .scp-reading__formula,
+  .scp-reading__formula {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+  }
+
+  .scp-reading__term {
+    display: flex;
+  }
+
+  .scp-reading__term:first-child {
+    padding-left: calc(0.8rem + 1ch + 0.45rem);
+  }
+
+  .scp-reading__op {
+    width: 1ch;
+    text-align: center;
+  }
+}

@@ -177,7 +177,8 @@ describe("guide congés payés", () => {
     expect(source).toContain("16 septembre");
     expect(source).toContain("fermeture de l'établissement");
     expect(source).toContain("dans le mois suivant la reprise");
-    expect(source).not.toContain("solde-conges-payes");
+    expect(source).toContain("/solde-conges-payes");
+    expect(source).toContain("calculer votre solde de congés payés");
     expect(source).not.toContain("indemnite-conges-payes");
     expect(source).not.toContain("n'est pas payé en salaire classique");
     expect(source).not.toContain("15 août");

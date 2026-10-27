@@ -40,7 +40,8 @@ const META_DESCRIPTION =
 /**
  * Guide 1 du cocon congés payés : fonctionnement et règles (secteur privé).
  * URL canonique : /conges-payes
- * Hors périmètre : calcul détaillé du solde CP et de l'indemnité (guides futurs).
+ * Hors périmètre : calcul financier de l'indemnité compensatrice (guide ultérieur).
+ * Solde de jours : voir /solde-conges-payes.
  */
 export const congesPayesGuide: Guide = {
   slug: "conges-payes",
@@ -394,11 +395,11 @@ export const congesPayesGuide: Guide = {
           ],
         },
         {
-          type: "callout",
-          variant: "tip",
-          paragraphs: [
-            "Le détail du nombre de jours acquis mois par mois relève du suivi de solde CP, hors objet de ce guide.",
-          ],
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour aller plus loin :",
+          label: "calculer votre solde de congés payés",
+          href: "/solde-conges-payes",
         },
       ],
     },
@@ -699,7 +700,7 @@ export const congesPayesGuide: Guide = {
     blocks: [
       {
         type: "paragraph",
-        text: "Guide destiné au secteur privé. Sources : Code du travail (L3141-1 et suivants, notamment L3141-14, L3141-17, L3141-19, L3141-19-3 et L3141-29), Service-Public F2258, F682, F35697, F37482, F12803 et F33927, Code du travail numérique. Vérification documentaire : 23 octobre 2026. Les conventions peuvent être plus favorables. Hors périmètre : calcul détaillé du solde de jours et de l'indemnité.",
+        text: "Guide destiné au secteur privé. Sources : Code du travail (L3141-1 et suivants, notamment L3141-14, L3141-17, L3141-19, L3141-19-3 et L3141-29), Service-Public F2258, F682, F35697, F37482, F12803 et F33927, Code du travail numérique. Vérification documentaire : 23 octobre 2026. Les conventions peuvent être plus favorables. Le calcul du solde de jours est traité dans le guide dédié. Hors périmètre : calcul financier détaillé de l'indemnité compensatrice.",
       },
       {
         type: "paragraph",

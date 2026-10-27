@@ -402,6 +402,10 @@ function buildAidesDroitsPanel(): MainNavMegaPanel {
             label: "Congés payés (privé)",
           },
           {
+            href: guideHref("solde-conges-payes", "/solde-conges-payes"),
+            label: "Solde de congés payés (privé)",
+          },
+          {
             href: guideHref("solde-de-tout-compte", "/solde-de-tout-compte"),
             label: "Solde de tout compte",
           },
@@ -498,6 +502,7 @@ export function getMainNavItems(): MainNavItem[] {
         "/maintien-salaire-arret-maladie",
         "/pourquoi-salaire-net-change-septembre-2026",
         "/conges-payes",
+        "/solde-conges-payes",
         "/solde-de-tout-compte",
         "/calculateurs/indemnite-licenciement",
       ],

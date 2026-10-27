@@ -16,6 +16,7 @@ import { SmicTimelineIllustration } from "./SmicTimelineIllustration";
 import { SmicYearJump } from "./SmicYearJump";
 import { SmicEuropeCountryNav } from "./SmicEuropeCountryNav";
 import { SmicEuropeTableLetterNav } from "./SmicEuropeTableLetterNav";
+import { SoldeCongesCompteurIllustration } from "./SoldeCongesCompteurIllustration";
 
 const ILLUSTRATIONS: Record<string, () => ReactElement> = {
   "bon-salaire-distribution-scale": BonSalaireDistributionIllustration,
@@ -35,6 +36,7 @@ const ILLUSTRATIONS: Record<string, () => ReactElement> = {
   "smic-history-timeline": SmicTimelineIllustration,
   "smic-europe-country-nav": SmicEuropeCountryNav,
   "smic-europe-table-letter-nav": SmicEuropeTableLetterNav,
+  "solde-conges-lecture-compteur": SoldeCongesCompteurIllustration,
 };
 
 export function GuideIllustration({ id, caption }: { id: string; caption?: string }) {

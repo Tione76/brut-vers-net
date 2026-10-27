@@ -388,6 +388,18 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "solde-conges-payes": cover(
+    "guides/solde-conges-payes.webp",
+    "Club de plage vu de haut avec parasols turquoise et blancs, chaises longues rayées bleues et mer turquoise",
+    {
+      photographer: "Helena Jankovičová Kováčová",
+      source: "Pexels",
+      text: "Photo de Helena Jankovičová Kováčová via Pexels",
+    },
+    1200,
+    797,
+    "Photo de Helena Jankovičová Kováčová via Pexels",
+  ),
 };
 
 export function getCalculatorCover(id: string): GuideCoverImage {
@@ -452,6 +464,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/conges-payes") {
     return getGuideCover("conges-payes");
+  }
+  if (href === "/solde-conges-payes") {
+    return getGuideCover("solde-conges-payes");
   }
   return undefined;
 }

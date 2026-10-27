@@ -55,6 +55,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Solde de tout compte : vérifier les sommes dues, les congés, les délais de signature et de contestation.",
   "conges-payes":
     "Congés payés : droits, période de prise, refus, jours fériés et règles pour poser vos vacances.",
+  "solde-conges-payes":
+    "Solde de congés payés : jours acquis, pris et restants, compteurs N et N-1, lecture du bulletin.",
 };
 
 export function getGuideHubTeaser(slug: string): string | undefined {
