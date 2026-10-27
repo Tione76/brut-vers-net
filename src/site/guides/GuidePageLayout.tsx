@@ -54,7 +54,7 @@ export function GuidePageLayout({
         <HeaderCurveDown />
       </section>
 
-      <main id="main-content" className="article-page">
+      <main id="main-content" className="article-page" tabIndex={-1}>
         <div className="content-wrap content-wrap--wide">
           <div className={`article-layout${sidebar ? "" : " article-layout--single"}`}>
             <div className={prose ? "article-body prose" : "article-body"}>{children}</div>

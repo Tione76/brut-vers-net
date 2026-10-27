@@ -55,6 +55,10 @@ export function absoluteAsset(path: string): string {
 /**
  * Normalise une date Schema.org en ISO 8601 complet (heure + fuseau).
  * Accepte déjà un datetime complet, sinon complète YYYY-MM-DD à 09:00 Europe/Paris (UTC+2).
+ *
+ * 09:00+02:00 est une convention site (placeholder stable), pas l'heure réelle de mise en ligne.
+ * Pour une heure connue, passer un datetime ISO complet (ex. 2026-10-27T14:30:00+01:00) :
+ * les pages qui restent en YYYY-MM-DD ne sont pas affectées.
  */
 export function toSchemaDateTime(value: string): string {
   if (/^\d{4}-\d{2}-\d{2}T/.test(value)) return value;

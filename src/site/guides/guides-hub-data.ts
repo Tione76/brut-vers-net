@@ -19,6 +19,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
             "Salaire minimum HCR : grille applicable, comparaison avec le SMIC, brut à 35 h et 39 h, heures supplémentaires et repas.",
   "smic-europe":
     "Salaires minimums en Europe pays par pays : montants, pays sans minimum national et équivalents Eurostat.",
+  "salaire-minimum-allemagne":
+    "Salaire minimum en Allemagne : Mindestlohn horaire, estimations mensuelles et comparaison avec le SMIC.",
   "evolution-smic":
     "Historique du SMIG puis du SMIC depuis 1950 : tableau par année, graphiques et revalorisations officielles.",
   "salaire-interim-calcul-brut-net":

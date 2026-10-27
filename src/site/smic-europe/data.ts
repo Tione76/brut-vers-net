@@ -1061,6 +1061,16 @@ export function buildCountrySubsection(country: EuropeCountry): GuideSubsection 
     });
   }
 
+  if (country.code === "DE") {
+    blocks.push({
+      type: "internal-link",
+      variant: "guide",
+      intro: "Pour le détail du Mindestlohn, les estimations mensuelles et les exceptions,",
+      label: "voir le guide du salaire minimum en Allemagne",
+      href: "/salaire-minimum-allemagne",
+    });
+  }
+
   blocks.push({
     type: "internal-link",
     variant: "guide",

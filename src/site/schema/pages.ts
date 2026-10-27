@@ -162,6 +162,8 @@ export function buildGuideJsonLd(guide: Guide): Record<string, unknown> {
       hasPrimaryImage: hasCover,
       mainEntityId: schemaIds.article(path),
       hasPartIds: hasPartIds.length > 0 ? hasPartIds : undefined,
+      // Le sujet est l'Article (mainEntity), pas l'Organisation du site.
+      about: false,
       datePublished: guide.publishedAt,
       dateModified: guide.updatedAt,
     }),

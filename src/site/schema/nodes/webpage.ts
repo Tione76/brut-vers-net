@@ -34,6 +34,13 @@ type WebPageOptions = {
   hasPartIds?: string[];
   /** Auteur éditorial (même @id Person que les guides). */
   withAuthor?: boolean;
+  /**
+   * Sujet de la page (schema.org/about).
+   * - undefined : Organisation du site (comportement historique des pages outil / légales)
+   * - false : omis (guides éditoriaux : le sujet est déjà porté par mainEntity → Article)
+   * - { "@id" } : référence explicite
+   */
+  about?: { "@id": string } | false;
   dateModified?: string;
   datePublished?: string;
 };
@@ -47,9 +54,13 @@ export function buildWebPageNode(options: WebPageOptions): JsonLdNode {
     mainEntityId,
     hasPartIds,
     withAuthor,
+    about,
     dateModified,
     datePublished,
   } = options;
+
+  const aboutNode =
+    about === false ? undefined : about === undefined ? ref(schemaIds.organization()) : about;
 
   return pruneEmpty({
     "@type": "WebPage",
@@ -59,7 +70,7 @@ export function buildWebPageNode(options: WebPageOptions): JsonLdNode {
     description,
     inLanguage: config.language,
     isPartOf: ref(schemaIds.website()),
-    about: ref(schemaIds.organization()),
+    ...(aboutNode ? { about: aboutNode } : {}),
     breadcrumb: ref(schemaIds.breadcrumb(path)),
     ...(withAuthor ? { author: ref(schemaIds.person()) } : {}),
     ...(hasPrimaryImage ? { primaryImageOfPage: ref(schemaIds.primaryImage(path)) } : {}),

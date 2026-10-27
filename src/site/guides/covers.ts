@@ -274,6 +274,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "salaire-minimum-allemagne": cover(
+    "guides/salaire-minimum-allemagne.webp",
+    "Drapeau allemand noir, rouge et or flottant devant le Reichstag à Berlin, sous un ciel bleu",
+    {
+      photographer: "Niklas Jeromin",
+      source: "Pexels",
+      text: "Photo de Niklas Jeromin via Pexels",
+    },
+    1201,
+    819,
+  ),
   "salaire-interim-calcul-brut-net": cover(
     "guides/Salaire-brut-net-interim.webp",
     "Deux agents logistiques transportant des cartons dans un entrepôt",
@@ -428,6 +439,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/smic-europe") {
     return getGuideCover("smic-europe");
+  }
+  if (href === "/salaire-minimum-allemagne") {
+    return getGuideCover("salaire-minimum-allemagne");
   }
   if (href === "/evolution-smic") {
     return getGuideCover("evolution-smic");

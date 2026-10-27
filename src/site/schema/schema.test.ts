@@ -11,7 +11,7 @@ import {
   buildAuthorJsonLd,
 } from "./pages";
 import { SITE_AUTHOR } from "@/site/author";
-import { getGuideBySlug } from "@/site/guides/registry";
+import { getGuideBySlug, getGuidePublicPath } from "@/site/guides/registry";
 import { HOME_COVER, getCalculatorCover } from "@/site/guides/covers";
 
 describe("schema datetime and author", () => {
@@ -119,6 +119,34 @@ describe("WebApplication sur calculateurs interactifs", () => {
     });
     const legalGraph = legal["@graph"] as Record<string, unknown>[];
     expect(legalGraph.some((n) => n["@type"] === "WebApplication")).toBe(false);
+  });
+
+  it("omet WebPage.about organisation sur les guides (sujet = Article via mainEntity)", () => {
+    const guide = getGuideBySlug("salaire-minimum-allemagne") ?? getGuideBySlug("comment-est-calcule-le-salaire-net");
+    expect(guide).toBeTruthy();
+    const path = getGuidePublicPath(guide!);
+    const guideGraph = buildGuideJsonLd(guide!)["@graph"] as Record<string, unknown>[];
+    const webPage = guideGraph.find((n) => n["@type"] === "WebPage");
+    expect(webPage?.about).toBeUndefined();
+    expect(webPage?.mainEntity).toEqual({
+      "@id": `https://www.brut-vers-net.fr${path}#article`,
+    });
+
+    const legal = buildWebPageJsonLd({
+      path: "/mentions-legales",
+      name: "Mentions légales",
+      description: "d",
+      breadcrumbs: [
+        { name: "Accueil", path: "/" },
+        { name: "Mentions", path: "/mentions-legales" },
+      ],
+    });
+    const legalPage = (legal["@graph"] as Record<string, unknown>[]).find(
+      (n) => n["@type"] === "WebPage",
+    );
+    expect(legalPage?.about).toEqual({
+      "@id": "https://www.brut-vers-net.fr/#organization",
+    });
   });
 
   it("relie WebPage.author au même Person #author que les guides quand withAuthor", () => {

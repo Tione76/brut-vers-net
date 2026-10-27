@@ -64,6 +64,16 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "salaire-minimum-allemagne": {
+    groups: [
+      { title: "Montant et mensuel", icon: "calculator", start: 0, end: 3 },
+      { title: "Comparer et situer", icon: "scale", start: 3, end: 6 },
+      { title: "Exceptions et cas particuliers", icon: "help", start: 6, end: 9 },
+      { title: "Évolution et recours", icon: "badge", start: 9, end: 11 },
+      { title: "FAQ, sources et conclusion", icon: "file", start: 11, end: 14 },
+    ],
+  },
+
   "evolution-smic": {
     groups: [
       { title: "Vue d'ensemble", icon: "chart", start: 0, end: 2 },
