@@ -74,6 +74,16 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "salaire-minimum-suisse": {
+    groups: [
+      { title: "Cadre et cantons", icon: "scale", start: 0, end: 3 },
+      { title: "Genève, Vaud et mensuel", icon: "calculator", start: 3, end: 6 },
+      { title: "Règles et frontaliers", icon: "help", start: 6, end: 9 },
+      { title: "Net, euros et comparaison", icon: "badge", start: 9, end: 12 },
+      { title: "Vérifier, FAQ et sources", icon: "file", start: 12, end: 16 },
+    ],
+  },
+
   "evolution-smic": {
     groups: [
       { title: "Vue d'ensemble", icon: "chart", start: 0, end: 2 },

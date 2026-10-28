@@ -21,6 +21,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Salaires minimums en Europe pays par pays : montants, pays sans minimum national et équivalents Eurostat.",
   "salaire-minimum-allemagne":
     "Salaire minimum en Allemagne : Mindestlohn horaire, estimations mensuelles et comparaison avec le SMIC.",
+  "salaire-minimum-suisse":
+    "Salaire minimum en Suisse : pas de taux national, montants par canton, CCT et repères pour les frontaliers.",
   "evolution-smic":
     "Historique du SMIG puis du SMIC depuis 1950 : tableau par année, graphiques et revalorisations officielles.",
   "salaire-interim-calcul-brut-net":

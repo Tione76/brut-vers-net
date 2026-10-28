@@ -24,6 +24,7 @@ import { soldeDeToutCompteGuide } from "./data/solde-de-tout-compte";
 import { congesPayesGuide } from "./data/conges-payes";
 import { soldeCongesPayesGuide } from "./data/solde-conges-payes";
 import { salaireMinimumAllemagneGuide } from "./data/salaire-minimum-allemagne";
+import { salaireMinimumSuisseGuide } from "./data/salaire-minimum-suisse";
 
 export { getGuidePublicPath } from "./paths";
 
@@ -34,6 +35,7 @@ export const guides: Guide[] = [
   attachGuideCover(smicHotelierGuide),
   attachGuideCover(smicEuropeGuide),
   attachGuideCover(salaireMinimumAllemagneGuide),
+  attachGuideCover(salaireMinimumSuisseGuide),
   attachGuideCover(evolutionSmicGuide),
   attachGuideCover(salaireInterimGuide),
   attachGuideCover(salaireArretMaladieGuide),

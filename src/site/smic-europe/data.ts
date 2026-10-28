@@ -930,6 +930,7 @@ const COUNTRIES: EuropeCountry[] = [
     extraParagraphs: [
       "En Suisse, il n'existe pas de salaire minimum fédéral. Une initiative populaire en ce sens a été rejetée en 2014. Eurostat ne publie donc pas de montant national comparable.",
       "Plusieurs cantons ont toutefois institué un minimum cantonal (notamment Genève, Bâle-Ville, Jura, Neuchâtel et Tessin). Ces taux horaires varient d'un canton à l'autre et peuvent coexister avec des conventions collectives étendues. Il n'y a pas de « SMIC suisse » unique à l'échelle du pays.",
+      "Certaines communes ont aussi un minimum propre. Un montant adopté n'est pas forcément déjà applicable.",
     ],
   },
   {
@@ -1068,6 +1069,16 @@ export function buildCountrySubsection(country: EuropeCountry): GuideSubsection 
       intro: "Pour le détail du Mindestlohn, les estimations mensuelles et les exceptions,",
       label: "voir le guide du salaire minimum en Allemagne",
       href: "/salaire-minimum-allemagne",
+    });
+  }
+
+  if (country.code === "CH") {
+    blocks.push({
+      type: "internal-link",
+      variant: "guide",
+      intro: "Pour les montants cantonaux, les CCT et les repères frontaliers,",
+      label: "comprendre les salaires minimums en Suisse",
+      href: "/salaire-minimum-suisse",
     });
   }
 
