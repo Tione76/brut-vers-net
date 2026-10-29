@@ -307,6 +307,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "salaire-minimum-belgique": cover(
+    "guides/salaire-minimum-belgique.webp",
+    "Drapeau belge noir, jaune et rouge flottant sur un mât, sous un ciel bleu, à Bruxelles",
+    {
+      photographer: "aboodi vesakaran",
+      source: "Pexels",
+      text: "Photo de aboodi vesakaran via Pexels",
+    },
+    1200,
+    800,
+  ),
   "salaire-interim-calcul-brut-net": cover(
     "guides/Salaire-brut-net-interim.webp",
     "Deux agents logistiques transportant des cartons dans un entrepôt",
@@ -470,6 +481,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/salaire-minimum-luxembourg") {
     return getGuideCover("salaire-minimum-luxembourg");
+  }
+  if (href === "/salaire-minimum-belgique") {
+    return getGuideCover("salaire-minimum-belgique");
   }
   if (href === "/evolution-smic") {
     return getGuideCover("evolution-smic");

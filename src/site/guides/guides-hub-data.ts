@@ -25,6 +25,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Salaire minimum en Suisse : pas de taux national, montants par canton, CCT et repères pour les frontaliers.",
   "salaire-minimum-luxembourg":
     "Salaire social minimum au Luxembourg : montants brut, qualification, indexation et règles pour les frontaliers.",
+  "salaire-minimum-belgique":
+    "Salaire minimum en Belgique : RMMMG, barèmes de commission paritaire et règles pour les salariés et les frontaliers.",
   "evolution-smic":
     "Historique du SMIG puis du SMIC depuis 1950 : tableau par année, graphiques et revalorisations officielles.",
   "salaire-interim-calcul-brut-net":

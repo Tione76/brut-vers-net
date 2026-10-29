@@ -94,6 +94,16 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "salaire-minimum-belgique": {
+    groups: [
+      { title: "Montants et RMMMG", icon: "calculator", start: 0, end: 3 },
+      { title: "Horaire, jeunes et net", icon: "help", start: 3, end: 6 },
+      { title: "Frontaliers, indexation et comparaison", icon: "scale", start: 6, end: 9 },
+      { title: "Vérifier et FAQ", icon: "badge", start: 9, end: 11 },
+      { title: "Sources et conclusion", icon: "file", start: 11, end: 13 },
+    ],
+  },
+
   "evolution-smic": {
     groups: [
       { title: "Vue d'ensemble", icon: "chart", start: 0, end: 2 },
