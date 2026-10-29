@@ -28,6 +28,10 @@ import {
   SMIC_EUROPE_UPDATED_AT_LABEL,
 } from "@/site/smic-europe";
 import { SMIC_LABELS } from "@/site/smic/data";
+import {
+  LU_MIN_WAGE_LABELS as LU_L,
+  LU_SSM_CURRENT_FROM_LABEL,
+} from "@/site/salaire-minimum-luxembourg";
 
 const SMIC_HREF = "/smic";
 const SMIC_HOURS_HREF = "/smic-selon-nombre-heures";
@@ -367,7 +371,7 @@ export const smicEuropeGuide: Guide = {
           "France : barème SMIC du site (arrêté / Service-Public) pour le montant légal ; Eurostat 1 867 € pour la colonne comparable.",
           "Allemagne : 13,90 € / h au 1er janvier 2026 (gouvernement fédéral) ; 2 343 € Eurostat en équivalent mensuel.",
           "Irlande : 14,15 € / h au 1er janvier 2026 (S.I. No. 472/2025) ; 2 391 € Eurostat en équivalent mensuel.",
-          "Luxembourg : SSM non qualifié 2 703,74 € au 1er janvier 2026 (IGSS) ; 2 771 € Eurostat au 1er juillet 2026.",
+          `Luxembourg : SSM non qualifié ${LU_L.adultUnskilledMonthly} au ${LU_SSM_CURRENT_FROM_LABEL} (ITM / CCSS) ; ${formatEuroInt(2771)} Eurostat au ${EUROSTAT_PERIOD_LABEL}.`,
           "Espagne : 1 221 € × 14 (BOE) ; 1 425 € Eurostat en équivalent 12 mois.",
           "Portugal : 920 € × 14 sur le continent (Decreto-Lei n.º 139/2025) ; 966 € aux Açores ; 980 € à Madère ; 1 073 € Eurostat.",
           "Pays-Bas : 14,99 € / h au 1er juillet 2026 (Rijksoverheid) ; 2 338 € Eurostat.",

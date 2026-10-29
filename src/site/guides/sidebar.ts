@@ -38,6 +38,7 @@ const GUIDE_TOPIC_TOOLS: Record<string, readonly string[]> = {
   "smic-hotelier": ["salaire-heures-supplementaires", "brut-vers-net"],
   "salaire-minimum-allemagne": ["brut-vers-net"],
   "salaire-minimum-suisse": ["brut-vers-net"],
+  "salaire-minimum-luxembourg": ["brut-vers-net"],
   "evolution-smic": ["brut-vers-net", "salaire-heures-supplementaires"],
   "prime-de-noel": ["brut-vers-net"],
   "prime-activite": ["brut-vers-net"],
@@ -59,10 +60,11 @@ const GUIDE_TOPIC_TOOLS: Record<string, readonly string[]> = {
 const GUIDE_TOPIC_RELATED: Record<string, readonly string[]> = {
   smic: ["smic-selon-nombre-heures", "smic-europe", "smic-hotelier"],
   "smic-selon-nombre-heures": ["smic", "smic-hotelier", "smic-europe"],
-  "smic-europe": ["smic", "salaire-minimum-allemagne", "salaire-minimum-suisse"],
+  "smic-europe": ["smic", "salaire-minimum-allemagne", "salaire-minimum-luxembourg"],
   "smic-hotelier": ["smic", "smic-selon-nombre-heures", "evolution-smic"],
   "salaire-minimum-allemagne": ["smic-europe", "smic", "smic-selon-nombre-heures"],
   "salaire-minimum-suisse": ["smic-europe", "smic", "salaire-minimum-allemagne"],
+  "salaire-minimum-luxembourg": ["smic-europe", "smic", "salaire-minimum-allemagne"],
   "prime-de-noel": ["prime-activite", "smic", "salaire-moyen-france"],
   "prime-activite": ["prime-de-noel", "smic", "salaire-moyen-france"],
   "solde-de-tout-compte": [

@@ -23,6 +23,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Salaire minimum en Allemagne : Mindestlohn horaire, estimations mensuelles et comparaison avec le SMIC.",
   "salaire-minimum-suisse":
     "Salaire minimum en Suisse : pas de taux national, montants par canton, CCT et repères pour les frontaliers.",
+  "salaire-minimum-luxembourg":
+    "Salaire social minimum au Luxembourg : montants brut, qualification, indexation et règles pour les frontaliers.",
   "evolution-smic":
     "Historique du SMIG puis du SMIC depuis 1950 : tableau par année, graphiques et revalorisations officielles.",
   "salaire-interim-calcul-brut-net":

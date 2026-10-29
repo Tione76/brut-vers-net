@@ -296,6 +296,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "salaire-minimum-luxembourg": cover(
+    "guides/salaire-minimum-luxembourg.webp",
+    "Drapeau luxembourgeois rouge, blanc et bleu clair flottant sous un ciel bleu",
+    {
+      photographer: "aboodi vesakaran",
+      source: "Pexels",
+      text: "Photo de aboodi vesakaran via Pexels",
+    },
+    1200,
+    800,
+  ),
   "salaire-interim-calcul-brut-net": cover(
     "guides/Salaire-brut-net-interim.webp",
     "Deux agents logistiques transportant des cartons dans un entrepôt",
@@ -456,6 +467,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/salaire-minimum-suisse") {
     return getGuideCover("salaire-minimum-suisse");
+  }
+  if (href === "/salaire-minimum-luxembourg") {
+    return getGuideCover("salaire-minimum-luxembourg");
   }
   if (href === "/evolution-smic") {
     return getGuideCover("evolution-smic");

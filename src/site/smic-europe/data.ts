@@ -8,14 +8,21 @@
 
 import type { GuideListItem, GuideSubsection, GuideTable } from "@/site/guides/types";
 import { SMIC_EFFECTIVE_FROM_LABEL, SMIC_LABELS } from "@/site/smic/data";
+import {
+  LU_MIN_WAGE_LABELS as LU_L,
+  LU_MIN_WAGE_PATH,
+  LU_MIN_WAGE_SOURCES as LU_S,
+  LU_SSM_CURRENT_FROM_LABEL,
+  LU_SSM_PREVIOUS_FROM_LABEL,
+} from "@/site/salaire-minimum-luxembourg";
 
 export const SMIC_EUROPE_PATH = "/smic-europe";
 export const SMIC_EUROPE_SLUG = "smic-europe";
 
 export const SMIC_EUROPE_EDITORIAL_YEAR = 2026;
 export const SMIC_EUROPE_PUBLISHED_AT = "2026-09-29";
-export const SMIC_EUROPE_UPDATED_AT = "2026-09-30";
-export const SMIC_EUROPE_UPDATED_AT_LABEL = "30 septembre 2026";
+export const SMIC_EUROPE_UPDATED_AT = "2026-10-28";
+export const SMIC_EUROPE_UPDATED_AT_LABEL = "28 octobre 2026";
 
 export const SMIC_EUROPE_H1 =
   "SMIC en Europe 2026 : les salaires minimums pays par pays";
@@ -587,14 +594,14 @@ const COUNTRIES: EuropeCountry[] = [
     status: "national",
     eurostatMonthlyEur: 2771,
     eurostatPps: 2108,
-    legalReference: "SSM non qualifié 18 ans+ : 2 703,74 € brut / mois au 1er janv. 2026",
+    legalReference: `SSM non qualifié 18 ans+ : ${LU_L.adultUnskilledMonthly} brut / mois au ${LU_SSM_CURRENT_FROM_LABEL}`,
     typeLabel: "Salaire social minimum (taux selon âge et qualification)",
-    referenceDateLabel: "1er janvier 2026 (IGSS) ; Eurostat au 1er juillet 2026",
-    sourceName: "IGSS / ADEM ; Eurostat",
-    sourceUrl: "https://adem.public.lu/fr/actualites/adem/2026/01/ps202601.html",
+    referenceDateLabel: `${LU_SSM_CURRENT_FROM_LABEL} (ITM / CCSS) ; Eurostat au 1er juillet 2026`,
+    sourceName: "ITM / CCSS ; Eurostat",
+    sourceUrl: LU_S.itmSalaires.href,
     extraParagraphs: [
-      "Au Luxembourg, le salaire social minimum (SSM) est un minimum national, avec des taux différents selon l'âge et la qualification. Les paramètres sociaux de l'IGSS retiennent, au 1er janvier 2026, 2 703,74 € brut par mois pour un salarié non qualifié de 18 ans et plus (indice 968,04), et 3 244,48 € pour un salarié qualifié.",
-      `Eurostat publie ${formatEuroInt(2771)} brut par mois au ${EUROSTAT_PERIOD_LABEL}. L'écart avec le barème IGSS de janvier correspond à une actualisation entre les deux semestres, pas à un second « SMIC » luxembourgeois. Le chiffre Eurostat n'est pas le montant d'une fiche au 1er janvier.`,
+      `Au Luxembourg, le salaire social minimum (SSM) est un minimum national, avec des taux différents selon l'âge et la qualification. Depuis le ${LU_SSM_CURRENT_FROM_LABEL}, il s'élève à ${LU_L.adultUnskilledMonthly} brut par mois pour un adulte non qualifié à temps plein, et à ${LU_L.adultSkilledMonthly} pour un adulte qualifié (sous conditions).`,
+      `Ce barème a remplacé celui du ${LU_SSM_PREVIOUS_FROM_LABEL} (${LU_L.previousUnskilledMonthly} brut par mois pour un adulte non qualifié). Eurostat publie ${formatEuroInt(2771)} brut par mois au ${EUROSTAT_PERIOD_LABEL}, soit le SSM actuel arrondi à l'euro.`,
     ],
   },
   {
@@ -1079,6 +1086,16 @@ export function buildCountrySubsection(country: EuropeCountry): GuideSubsection 
       intro: "Pour les montants cantonaux, les CCT et les repères frontaliers,",
       label: "comprendre les salaires minimums en Suisse",
       href: "/salaire-minimum-suisse",
+    });
+  }
+
+  if (country.code === "LU") {
+    blocks.push({
+      type: "internal-link",
+      variant: "guide",
+      intro: "Pour les barèmes, la qualification, l'indexation et les règles frontaliers,",
+      label: "voir le guide du salaire minimum au Luxembourg",
+      href: LU_MIN_WAGE_PATH,
     });
   }
 

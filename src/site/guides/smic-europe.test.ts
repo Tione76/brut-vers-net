@@ -158,7 +158,7 @@ describe("page pilier SMIC en Europe", () => {
     expect(String(webpage?.description)).not.toMatch(/20\d{2}/);
     expect(article?.headline).toBe(SMIC_EUROPE_H1);
     expect(article?.datePublished).toBe("2026-09-29T09:00:00+02:00");
-    expect(article?.dateModified).toBe("2026-09-30T09:00:00+02:00");
+    expect(article?.dateModified).toBe(`${SMIC_EUROPE_UPDATED_AT}T09:00:00+02:00`);
     expect(graph.filter((node) => node["@type"] === "Person")).toHaveLength(1);
     expect(graph.filter((node) => node["@type"] === "Organization")).toHaveLength(1);
     expect(breadcrumb.itemListElement.map((item) => item.name)).toEqual(["Accueil", "SMIC en Europe"]);
