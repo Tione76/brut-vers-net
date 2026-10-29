@@ -27,6 +27,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Salaire social minimum au Luxembourg : montants brut, qualification, indexation et règles pour les frontaliers.",
   "salaire-minimum-belgique":
     "Salaire minimum en Belgique : RMMMG, barèmes de commission paritaire et règles pour les salariés et les frontaliers.",
+  "salaire-minimum-espagne":
+    "Salaire minimum en Espagne : SMI brut, 12 ou 14 versements et règles pour les salariés et les frontaliers.",
   "evolution-smic":
     "Historique du SMIG puis du SMIC depuis 1950 : tableau par année, graphiques et revalorisations officielles.",
   "salaire-interim-calcul-brut-net":

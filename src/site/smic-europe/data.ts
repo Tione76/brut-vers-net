@@ -16,6 +16,7 @@ import {
   LU_SSM_PREVIOUS_FROM_LABEL,
 } from "@/site/salaire-minimum-luxembourg";
 import { BE_MIN_WAGE_PATH } from "@/site/salaire-minimum-belgique";
+import { ES_MIN_WAGE_PATH } from "@/site/salaire-minimum-espagne";
 
 export const SMIC_EUROPE_PATH = "/smic-europe";
 export const SMIC_EUROPE_SLUG = "smic-europe";
@@ -1107,6 +1108,16 @@ export function buildCountrySubsection(country: EuropeCountry): GuideSubsection 
       intro: "Pour le RMMMG, les barèmes de commission paritaire et les règles frontaliers,",
       label: "voir le guide du salaire minimum en Belgique",
       href: BE_MIN_WAGE_PATH,
+    });
+  }
+
+  if (country.code === "ES") {
+    blocks.push({
+      type: "internal-link",
+      variant: "guide",
+      intro: "Pour les montants, les 12 ou 14 versements et les règles du SMI,",
+      label: "voir le guide du salaire minimum en Espagne",
+      href: ES_MIN_WAGE_PATH,
     });
   }
 

@@ -1,0 +1,208 @@
+/* Encadré « L'essentiel » de /salaire-minimum-espagne (classes préfixées, aucun effet ailleurs). */
+
+.prose .es-mw-key {
+  container-type: inline-size;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  margin: 32px 0 40px;
+  padding: 24px 24px 20px;
+  background: var(--ds-surface, #ffffff);
+  border: 1px solid var(--ds-border, #e4e8ed);
+  border-top: 3px solid var(--ds-brand, #f28539);
+  border-radius: 8px;
+  box-shadow: 0 10px 28px -18px rgba(var(--ds-brand-rgb, 242, 133, 57), 0.45);
+  overflow-wrap: break-word;
+  color: var(--ds-text, #161616);
+}
+
+.prose .es-mw-key *,
+.prose .es-mw-key *::before,
+.prose .es-mw-key *::after {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.prose .es-mw-key .es-mw-key__title {
+  margin: 0 0 18px;
+  padding: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--ds-text, #161616);
+}
+
+.prose .es-mw-key p {
+  margin: 0;
+}
+
+.prose .es-mw-key__item {
+  padding: 18px 0;
+  border-top: 1px solid var(--ds-border);
+}
+
+.prose .es-mw-key__item--current {
+  padding: 18px 20px 20px;
+  background: var(--ds-brand-light);
+  border: 1px solid color-mix(in srgb, var(--ds-brand) 22%, transparent);
+  border-radius: 6px;
+}
+
+.prose .es-mw-key__item--current + .es-mw-key__item {
+  margin-top: 6px;
+  border-top: 0;
+}
+
+.prose .es-mw-key__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+
+.prose .es-mw-key__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  color: var(--ds-brand-active);
+  background: var(--ds-surface, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--ds-brand) 30%, transparent);
+}
+
+.prose .es-mw-key__item--twelve .es-mw-key__icon,
+.prose .es-mw-key__item--annual .es-mw-key__icon {
+  background: var(--ds-brand-light);
+  border-color: transparent;
+}
+
+.prose .es-mw-key .es-mw-key__label {
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.35;
+  color: var(--ds-text, #161616);
+}
+
+.prose .es-mw-key__badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.prose .es-mw-key__badge--current {
+  color: #8f4a14;
+  background: var(--ds-surface, #ffffff);
+  border: 1px solid var(--ds-brand-muted, #f2d5bc);
+}
+
+.prose .es-mw-key .es-mw-key__figure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 10px;
+  margin: 10px 0 4px;
+}
+
+.prose .es-mw-key__amount {
+  font-size: clamp(2.25rem, 1.5rem + 4cqi, 3rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--ds-brand-active);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.prose .es-mw-key__unit {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #374151;
+}
+
+.prose .es-mw-key__figure--secondary .es-mw-key__amount {
+  font-size: clamp(1.5rem, 1.2rem + 2cqi, 1.875rem);
+  font-weight: 750;
+  color: var(--ds-text, #161616);
+}
+
+.prose .es-mw-key .es-mw-key__caption {
+  margin-top: 2px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #374151;
+}
+
+.prose .es-mw-key .es-mw-key__meta,
+.prose .es-mw-key .es-mw-key__nuance,
+.prose .es-mw-key .es-mw-key__footer {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: #4b5563;
+}
+
+.prose .es-mw-key .es-mw-key__meta {
+  margin-top: 4px;
+}
+
+.prose .es-mw-key .es-mw-key__nuance {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--ds-surface, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--ds-brand) 18%, transparent);
+  border-radius: 4px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.prose .es-mw-key a {
+  color: #8f4a14;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.prose .es-mw-key a:hover {
+  color: var(--ds-text, #161616);
+}
+
+.prose .es-mw-key a:focus-visible {
+  outline: 2px solid var(--ds-brand-active);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.prose .es-mw-key .es-mw-key__footer {
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid var(--ds-border);
+  font-size: 0.875rem;
+}
+
+@container (max-width: 380px) {
+  .prose .es-mw-key__item--current {
+    padding: 16px 14px 18px;
+  }
+
+  .prose .es-mw-key__amount {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 480px) {
+  .prose .es-mw-key {
+    padding: 18px 16px 16px;
+  }
+}
