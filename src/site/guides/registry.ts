@@ -30,6 +30,7 @@ import { salaireMinimumBelgiqueGuide } from "./data/salaire-minimum-belgique";
 import { salaireMinimumEspagneGuide } from "./data/salaire-minimum-espagne";
 import { salaireMinimumPortugalGuide } from "./data/salaire-minimum-portugal";
 import { salaireMinimumRoyaumeUniGuide } from "./data/salaire-minimum-royaume-uni";
+import { salaireMinimumPaysBasGuide } from "./data/salaire-minimum-pays-bas";
 
 export { getGuidePublicPath } from "./paths";
 
@@ -46,6 +47,7 @@ export const guides: Guide[] = [
   attachGuideCover(salaireMinimumEspagneGuide),
   attachGuideCover(salaireMinimumPortugalGuide),
   attachGuideCover(salaireMinimumRoyaumeUniGuide),
+  attachGuideCover(salaireMinimumPaysBasGuide),
   attachGuideCover(evolutionSmicGuide),
   attachGuideCover(salaireInterimGuide),
   attachGuideCover(salaireArretMaladieGuide),

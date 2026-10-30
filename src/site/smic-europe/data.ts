@@ -19,6 +19,7 @@ import { BE_MIN_WAGE_PATH } from "@/site/salaire-minimum-belgique";
 import { ES_MIN_WAGE_PATH } from "@/site/salaire-minimum-espagne";
 import { PT_MIN_WAGE_PATH } from "@/site/salaire-minimum-portugal";
 import { UK_MIN_WAGE_PATH } from "@/site/salaire-minimum-royaume-uni";
+import { NL_MIN_WAGE_PATH } from "@/site/salaire-minimum-pays-bas";
 
 export const SMIC_EUROPE_PATH = "/smic-europe";
 export const SMIC_EUROPE_SLUG = "smic-europe";
@@ -1140,6 +1141,16 @@ export function buildCountrySubsection(country: EuropeCountry): GuideSubsection 
       intro: "Pour les taux par âge, les exemples mensuels et la différence avec le Living Wage,",
       label: "voir le guide du salaire minimum au Royaume-Uni",
       href: UK_MIN_WAGE_PATH,
+    });
+  }
+
+  if (country.code === "NL") {
+    blocks.push({
+      type: "internal-link",
+      variant: "guide",
+      intro: "Pour les taux par âge, les exemples mensuels et le pécule de vacances,",
+      label: "voir le guide du salaire minimum aux Pays-Bas",
+      href: NL_MIN_WAGE_PATH,
     });
   }
 

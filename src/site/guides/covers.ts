@@ -351,6 +351,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "salaire-minimum-pays-bas": cover(
+    "guides/salaire-minimum-pays-bas.webp",
+    "Drapeau néerlandais rouge, blanc et bleu flottant devant une façade colorée",
+    {
+      photographer: "Mike van Schoonderwalt",
+      source: "Pexels",
+      text: "Photo de Mike van Schoonderwalt via Pexels",
+    },
+    1200,
+    800,
+  ),
   "salaire-interim-calcul-brut-net": cover(
     "guides/Salaire-brut-net-interim.webp",
     "Deux agents logistiques transportant des cartons dans un entrepôt",
@@ -526,6 +537,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/salaire-minimum-royaume-uni") {
     return getGuideCover("salaire-minimum-royaume-uni");
+  }
+  if (href === "/salaire-minimum-pays-bas") {
+    return getGuideCover("salaire-minimum-pays-bas");
   }
   if (href === "/evolution-smic") {
     return getGuideCover("evolution-smic");

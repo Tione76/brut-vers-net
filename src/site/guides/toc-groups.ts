@@ -134,6 +134,16 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "salaire-minimum-pays-bas": {
+    groups: [
+      { title: "Montants, âge et exemples", icon: "calculator", start: 0, end: 3 },
+      { title: "Pécule, BBL et rémunération", icon: "help", start: 3, end: 6 },
+      { title: "CAO, net et retenues", icon: "scale", start: 6, end: 9 },
+      { title: "Français, 2027 et France", icon: "badge", start: 9, end: 13 },
+      { title: "FAQ, sources et conclusion", icon: "file", start: 13, end: 16 },
+    ],
+  },
+
   "evolution-smic": {
     groups: [
       { title: "Vue d'ensemble", icon: "chart", start: 0, end: 2 },
