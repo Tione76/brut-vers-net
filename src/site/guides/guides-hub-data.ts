@@ -31,6 +31,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Salaire minimum en Espagne : SMI brut, 12 ou 14 versements et règles pour les salariés et les frontaliers.",
   "salaire-minimum-portugal":
     "Salaire minimum au Portugal : RMMG brut, 12 ou 14 versements et différences entre continent, Madère et Açores.",
+  "salaire-minimum-royaume-uni":
+    "Salaire minimum au Royaume-Uni : taux horaires par âge, exemples mensuels et différence avec le Living Wage.",
   "evolution-smic":
     "Historique du SMIG puis du SMIC depuis 1950 : tableau par année, graphiques et revalorisations officielles.",
   "salaire-interim-calcul-brut-net":

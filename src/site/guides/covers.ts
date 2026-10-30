@@ -340,6 +340,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "salaire-minimum-royaume-uni": cover(
+    "guides/salaire-minimum-royaume-uni.webp",
+    "Union Jack britannique flottant sur un mât, sous un ciel bleu nuageux",
+    {
+      photographer: "Oskar Młodziński",
+      source: "Pexels",
+      text: "Photo de Oskar Młodziński via Pexels",
+    },
+    1200,
+    800,
+  ),
   "salaire-interim-calcul-brut-net": cover(
     "guides/Salaire-brut-net-interim.webp",
     "Deux agents logistiques transportant des cartons dans un entrepôt",
@@ -512,6 +523,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/salaire-minimum-portugal") {
     return getGuideCover("salaire-minimum-portugal");
+  }
+  if (href === "/salaire-minimum-royaume-uni") {
+    return getGuideCover("salaire-minimum-royaume-uni");
   }
   if (href === "/evolution-smic") {
     return getGuideCover("evolution-smic");

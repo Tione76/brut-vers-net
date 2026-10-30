@@ -42,6 +42,7 @@ const GUIDE_TOPIC_TOOLS: Record<string, readonly string[]> = {
   "salaire-minimum-belgique": ["brut-vers-net"],
   "salaire-minimum-espagne": ["brut-vers-net"],
   "salaire-minimum-portugal": ["brut-vers-net"],
+  "salaire-minimum-royaume-uni": ["brut-vers-net"],
   "evolution-smic": ["brut-vers-net", "salaire-heures-supplementaires"],
   "prime-de-noel": ["brut-vers-net"],
   "prime-activite": ["brut-vers-net"],
@@ -71,6 +72,7 @@ const GUIDE_TOPIC_RELATED: Record<string, readonly string[]> = {
   "salaire-minimum-belgique": ["smic-europe", "smic", "salaire-minimum-luxembourg"],
   "salaire-minimum-espagne": ["smic-europe", "smic", "salaire-minimum-luxembourg"],
   "salaire-minimum-portugal": ["smic-europe", "smic", "salaire-minimum-espagne"],
+  "salaire-minimum-royaume-uni": ["smic-europe", "smic", "salaire-minimum-allemagne"],
   "prime-de-noel": ["prime-activite", "smic", "salaire-moyen-france"],
   "prime-activite": ["prime-de-noel", "smic", "salaire-moyen-france"],
   "solde-de-tout-compte": [

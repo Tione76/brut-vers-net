@@ -124,6 +124,16 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "salaire-minimum-royaume-uni": {
+    groups: [
+      { title: "Montants, âge et exemples", icon: "calculator", start: 0, end: 3 },
+      { title: "Paie, heures et logement", icon: "help", start: 3, end: 6 },
+      { title: "Londres, net et Français", icon: "scale", start: 6, end: 9 },
+      { title: "Évolution, comparaison et recours", icon: "badge", start: 9, end: 12 },
+      { title: "FAQ, sources et conclusion", icon: "file", start: 12, end: 15 },
+    ],
+  },
+
   "evolution-smic": {
     groups: [
       { title: "Vue d'ensemble", icon: "chart", start: 0, end: 2 },
