@@ -329,6 +329,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "salaire-minimum-portugal": cover(
+    "guides/salaire-minimum-portugal.webp",
+    "Drapeau portugais vert et rouge flottant sous un ciel bleu",
+    {
+      photographer: "Russell Butcher",
+      source: "Pexels",
+      text: "Photo de Russell Butcher via Pexels",
+    },
+    1200,
+    800,
+  ),
   "salaire-interim-calcul-brut-net": cover(
     "guides/Salaire-brut-net-interim.webp",
     "Deux agents logistiques transportant des cartons dans un entrepôt",
@@ -498,6 +509,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/salaire-minimum-espagne") {
     return getGuideCover("salaire-minimum-espagne");
+  }
+  if (href === "/salaire-minimum-portugal") {
+    return getGuideCover("salaire-minimum-portugal");
   }
   if (href === "/evolution-smic") {
     return getGuideCover("evolution-smic");

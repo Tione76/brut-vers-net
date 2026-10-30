@@ -17,6 +17,7 @@ import {
 } from "@/site/salaire-minimum-luxembourg";
 import { BE_MIN_WAGE_PATH } from "@/site/salaire-minimum-belgique";
 import { ES_MIN_WAGE_PATH } from "@/site/salaire-minimum-espagne";
+import { PT_MIN_WAGE_PATH } from "@/site/salaire-minimum-portugal";
 
 export const SMIC_EUROPE_PATH = "/smic-europe";
 export const SMIC_EUROPE_SLUG = "smic-europe";
@@ -1118,6 +1119,16 @@ export function buildCountrySubsection(country: EuropeCountry): GuideSubsection 
       intro: "Pour les montants, les 12 ou 14 versements et les règles du SMI,",
       label: "voir le guide du salaire minimum en Espagne",
       href: ES_MIN_WAGE_PATH,
+    });
+  }
+
+  if (country.code === "PT") {
+    blocks.push({
+      type: "internal-link",
+      variant: "guide",
+      intro: "Pour les montants, les 12 ou 14 versements et les différences territoriales,",
+      label: "voir le guide du salaire minimum au Portugal",
+      href: PT_MIN_WAGE_PATH,
     });
   }
 

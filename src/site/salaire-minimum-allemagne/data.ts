@@ -47,7 +47,7 @@ export const DE_MIN_WAGE_H1 =
   "Salaire minimum en Allemagne en 2026 : montant et règles";
 
 export const DE_MIN_WAGE_SEO_TITLE =
-  "Salaire minimum en Allemagne : montant horaire et mensuel (mis à jour)";
+  "Salaire minimum en Allemagne : montant et règles (mis à jour)";
 
 export const DE_MIN_WAGE_META_DESCRIPTION =
   "Découvrez le salaire minimum en Allemagne : montant horaire, estimation mensuelle, différence avec la France et règles applicables aux salariés.";

@@ -114,6 +114,16 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "salaire-minimum-portugal": {
+    groups: [
+      { title: "Montants, territoires et 14 versements", icon: "calculator", start: 0, end: 3 },
+      { title: "Rémunération, horaire et formation", icon: "help", start: 3, end: 6 },
+      { title: "Net, Français et évolution", icon: "scale", start: 6, end: 9 },
+      { title: "Comparer et vérifier", icon: "badge", start: 9, end: 11 },
+      { title: "FAQ, sources et conclusion", icon: "file", start: 11, end: 14 },
+    ],
+  },
+
   "evolution-smic": {
     groups: [
       { title: "Vue d'ensemble", icon: "chart", start: 0, end: 2 },
