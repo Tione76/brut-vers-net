@@ -1,4 +1,6 @@
+import { monthlyToAnnual } from "@/site/salary-calculator/conversions";
 import {
+  GROSS_TO_NET_SALARY_MONTHS,
   PUBLISHED_GROSS_TO_NET_AMOUNTS,
   grossToNetPath,
 } from "./config";
@@ -10,6 +12,96 @@ type ProfileEstimates = {
   executive: GrossToNetEstimate;
   publicService: GrossToNetEstimate;
 };
+
+function formatEditorialEuro(value: number): string {
+  return `${String(Math.round(value)).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} €`;
+}
+
+function timesTwelveHint(
+  monthlyDisplayed: number,
+  annualDisplayed: number,
+  suffix = "",
+): string {
+  const approximate = monthlyDisplayed * GROSS_TO_NET_SALARY_MONTHS !== annualDisplayed;
+  return `${approximate ? "≈ " : ""}${formatEditorialEuro(monthlyDisplayed)} × ${GROSS_TO_NET_SALARY_MONTHS} mois${suffix}`;
+}
+
+export const GROSS_TO_NET_TAX_H2 = "Le salaire net estimé est-il avant ou après impôt ?";
+
+export const GROSS_TO_NET_TAX_SECTION_ID = "avant-ou-apres-impot";
+
+export const GROSS_TO_NET_TAX_CALCULATOR_LABEL = "calculateur de salaire brut en net";
+
+export function buildGrossToNetTaxParagraphs() {
+  return [
+    "Les montants affichés sont estimés avant impôt. Les cotisations salariales sont déduites, mais pas le prélèvement à la source.",
+    "Le montant versé sur votre compte peut donc être inférieur si un impôt est retenu. Sur votre bulletin, ce prélèvement est calculé à partir du net imposable, qui peut différer du net avant impôt.",
+    `Vous souhaitez connaître votre salaire après impôt ? Utilisez notre ${GROSS_TO_NET_TAX_CALCULATOR_LABEL} et renseignez votre taux de prélèvement à la source pour estimer le montant versé sur votre compte.`,
+  ] as const;
+}
+
+export function splitGrossToNetTaxCalculatorParagraph(paragraph: string): {
+  before: string;
+  after: string;
+} | null {
+  const index = paragraph.indexOf(GROSS_TO_NET_TAX_CALCULATOR_LABEL);
+  if (index === -1) return null;
+  return {
+    before: paragraph.slice(0, index),
+    after: paragraph.slice(index + GROSS_TO_NET_TAX_CALCULATOR_LABEL.length),
+  };
+}
+
+export function grossToNetAnnualSectionId(grossMonthly: number): string {
+  return `${grossMonthly}-brut-par-mois-par-an`;
+}
+
+export function buildGrossToNetAnnualH2(grossMonthly: number): string {
+  return `${formatEditorialEuro(grossMonthly)} brut par mois : combien par an ?`;
+}
+
+export function buildGrossToNetAnnualCopy(
+  grossMonthly: number,
+  estimates: ProfileEstimates,
+) {
+  const grossAnnual = monthlyToAnnual(grossMonthly, GROSS_TO_NET_SALARY_MONTHS);
+  const netMonthly = estimates.nonExecutive.netMonthly;
+  const netAnnual = estimates.nonExecutive.netAnnual;
+  const grossMonthlyDisplayed = Math.round(grossMonthly);
+  const grossAnnualDisplayed = Math.round(grossAnnual);
+  const netMonthlyDisplayed = Math.round(netMonthly);
+  const netAnnualDisplayed = Math.round(netAnnual);
+  const grossMonthlyLabel = formatEditorialEuro(grossMonthlyDisplayed);
+  const grossAnnualLabel = formatEditorialEuro(grossAnnualDisplayed);
+  const netMonthlyLabel = formatEditorialEuro(netMonthlyDisplayed);
+  const netAnnualLabel = formatEditorialEuro(netAnnualDisplayed);
+
+  return {
+    h2: buildGrossToNetAnnualH2(grossMonthly),
+    sectionId: grossToNetAnnualSectionId(grossMonthly),
+    paragraphs: [
+      `Un salaire de ${grossMonthlyLabel} brut par mois représente ${grossAnnualLabel} brut par an, sur la base de ${GROSS_TO_NET_SALARY_MONTHS} mensualités, sans prime ni treizième mois.`,
+      `Pour un salarié non-cadre, cela correspond à environ ${netAnnualLabel} net par an avant impôt, soit ${netMonthlyLabel} net par mois selon les coefficients du simulateur.`,
+    ],
+    grossCard: {
+      label: "Salaire brut annuel",
+      value: grossAnnualLabel,
+      hint: timesTwelveHint(grossMonthlyDisplayed, grossAnnualDisplayed),
+    },
+    netCard: {
+      label: "Salaire net annuel estimé (non-cadre)",
+      value: netAnnualLabel,
+      hint: timesTwelveHint(
+        netMonthlyDisplayed,
+        netAnnualDisplayed,
+        ", avant prélèvement à la source",
+      ),
+    },
+    grossAnnual,
+    netAnnual,
+    netMonthly,
+  };
+}
 
 /**
  * Textes du modèle pilote 1 000 € brut → net.

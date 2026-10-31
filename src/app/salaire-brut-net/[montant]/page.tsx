@@ -9,16 +9,17 @@ import { buildWebPageJsonLd } from "@/site/schema";
 import {
   GROSS_TO_NET_AMOUNTS,
   GROSS_TO_NET_UPDATED_AT,
-  GrossToNetPageSidebar,
-  GrossToNetSeriesPageContent,
-  buildGrossToNetFaqItems,
+  GrossToNet1000PageContent,
+  GrossToNet1000PageSidebar,
+  GROSS_TO_NET_REDESIGN_DATE_MODIFIED,
   buildGrossToNetOgImageInput,
-  buildGrossToNetSeoMeta,
+  buildPage1000FaqItems,
   grossToNetBreadcrumbLabel,
   grossToNetPath,
   parseGrossToNetMontantParam,
+  resolveGrossToNetSeoMeta,
 } from "@/site/salaire-brut-net";
-import { buildAllProfileNetEstimates } from "@/site/salaire-brut-net/data";
+
 interface PageProps {
   params: Promise<{ montant: string }>;
 }
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }: PageProps) {
     return {};
   }
 
-  const seo = buildGrossToNetSeoMeta(grossMonthly);
+  const seo = resolveGrossToNetSeoMeta(grossMonthly);
   const path = grossToNetPath(grossMonthly);
 
   return buildPageMetadata(config, seoConfig, {
@@ -61,10 +62,9 @@ export default async function GrossToNetAmountPage({ params }: PageProps) {
     notFound();
   }
 
-  const seo = buildGrossToNetSeoMeta(grossMonthly);
+  const seo = resolveGrossToNetSeoMeta(grossMonthly);
   const path = grossToNetPath(grossMonthly);
-  const estimates = buildAllProfileNetEstimates(grossMonthly);
-  const faq = buildGrossToNetFaqItems(grossMonthly, estimates);
+  const faq = buildPage1000FaqItems(grossMonthly);
 
   return (
     <>
@@ -84,7 +84,7 @@ export default async function GrossToNetAmountPage({ params }: PageProps) {
           cover: GROSS_TO_NET_SERIES_COVER,
           faq,
           withAuthor: true,
-          dateModified: GROSS_TO_NET_UPDATED_AT,
+          dateModified: GROSS_TO_NET_REDESIGN_DATE_MODIFIED,
           datePublished: GROSS_TO_NET_UPDATED_AT,
         })}
       />
@@ -92,9 +92,9 @@ export default async function GrossToNetAmountPage({ params }: PageProps) {
         title={seo.h1}
         subtitle={seo.subtitle}
         prose={false}
-        sidebar={<GrossToNetPageSidebar grossMonthly={grossMonthly} />}
+        sidebar={<GrossToNet1000PageSidebar grossMonthly={grossMonthly} />}
       >
-        <GrossToNetSeriesPageContent
+        <GrossToNet1000PageContent
           grossMonthly={grossMonthly}
           share={{
             url: getCanonicalUrl(config.url, path),

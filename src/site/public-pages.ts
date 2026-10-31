@@ -41,7 +41,10 @@ import {
   PUBLISHED_GROSS_TO_NET_AMOUNTS,
   grossToNetPath,
 } from "./salaire-brut-net/config";
-import { buildGrossToNetSeoMeta } from "./salaire-brut-net/content";
+import {
+  GROSS_TO_NET_REDESIGN_DATE_MODIFIED,
+  resolveGrossToNetSeoMeta,
+} from "./salaire-brut-net/page-1000-pilot";
 import { buildGrossToNetHubSeo } from "./salaire-brut-net/hub";
 import { buildGrossToNetIndexSeo } from "./salaire-brut-net/series-index";
 
@@ -283,12 +286,12 @@ export function getAllPublicPages(): PublicPage[] {
 
   const grossToNetPages: PublicPage[] = PUBLISHED_GROSS_TO_NET_AMOUNTS.map((amount) => ({
     path: grossToNetPath(amount),
-    title: buildGrossToNetSeoMeta(amount).title,
+    title: resolveGrossToNetSeoMeta(amount).title,
     category: "guides" as const,
     changefreq: "monthly" as const,
     priority: 0.72,
     indexable: true,
-    lastModified: GROSS_TO_NET_UPDATED_AT,
+    lastModified: GROSS_TO_NET_REDESIGN_DATE_MODIFIED,
   }));
 
   return [

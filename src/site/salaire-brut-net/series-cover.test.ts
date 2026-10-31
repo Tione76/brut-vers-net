@@ -3,8 +3,8 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { formatCoverCredit, GROSS_TO_NET_SERIES_COVER } from "@/site/guides/covers";
 import { buildWebPageJsonLd } from "@/site/schema";
-import { buildGrossToNetSeoMeta } from "./content";
 import { grossToNetPath } from "./config";
+import { resolveGrossToNetSeoMeta } from "./page-1000-pilot";
 import {
   buildGrossToNetOgAlt,
   buildGrossToNetOgImageInput,
@@ -22,7 +22,7 @@ describe("cover série salaire brut mensuel → net", () => {
     );
 
     const pageSource = readFileSync(
-      resolve(process.cwd(), "src/site/salaire-brut-net/page-1000.tsx"),
+      resolve(process.cwd(), "src/site/salaire-brut-net/page-1000-pilot-content.tsx"),
       "utf8",
     );
     const routeSource = readFileSync(
@@ -38,7 +38,7 @@ describe("cover série salaire brut mensuel → net", () => {
     expect(pageSource).toContain("GROSS_TO_NET_SERIES_COVER");
     expect(pageSource.indexOf("ShareBlock")).toBeLessThan(pageSource.indexOf("CoverFigure"));
     expect(pageSource.indexOf("CoverFigure")).toBeLessThan(
-      pageSource.indexOf("editorialSections.map"),
+      pageSource.indexOf("GrossToNetTaxSection"),
     );
     expect(routeSource).toContain("GROSS_TO_NET_SERIES_COVER");
     expect(routeSource).toContain("buildGrossToNetOgImageInput");
@@ -49,7 +49,7 @@ describe("cover série salaire brut mensuel → net", () => {
 
   it("conserve ImageObject éditorial distinct de l’image OG dynamique", () => {
     const amount = 1550;
-    const seo = buildGrossToNetSeoMeta(amount);
+    const seo = resolveGrossToNetSeoMeta(amount);
     const path = grossToNetPath(amount);
     const og = buildGrossToNetOgImageInput(amount);
     const jsonLd = buildWebPageJsonLd({

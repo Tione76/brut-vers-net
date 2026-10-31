@@ -15,13 +15,14 @@ import {
   buildGrossToNetComparisonRows,
   estimateNetMonthlyFromGross,
 } from "./data";
-import {
-  buildGrossToNetEditorial,
-  buildGrossToNetFaqItems,
-  buildGrossToNetSeoMeta,
-  getNearbyGrossToNetAmounts,
-} from "./content";
+import { getNearbyGrossToNetAmounts } from "./content";
 import { buildCalculatorGrossPrefillHref } from "./prefill";
+import {
+  GROSS_TO_NET_REDESIGN_DATE_MODIFIED,
+  buildPage1000FaqItems,
+  formatPilotEuro,
+  resolveGrossToNetSeoMeta,
+} from "./page-1000-pilot";
 
 describe("série salaire brut mensuel → net (1 000 → 6 000)", () => {
   it("publie 101 montants de 1 000 € à 6 000 € par pas de 50 €", () => {
@@ -61,29 +62,20 @@ describe("série salaire brut mensuel → net (1 000 → 6 000)", () => {
     expect(rows.find((row) => row.isCurrent)?.grossMonthly).toBe(1000);
   });
 
-  it("applique le SEO pilote sans tiret cadratin et sans fuite de 1 500 €", () => {
-    const seo = buildGrossToNetSeoMeta(1000);
-    const estimates = buildAllProfileNetEstimates(1000);
-    const faq = buildGrossToNetFaqItems(1000, estimates);
-    const editorial = buildGrossToNetEditorial(1000, estimates);
+  it("applique le SEO du modèle 1 000 € à une fiche de la série (1 050 €)", () => {
+    const seo = resolveGrossToNetSeoMeta(1050);
+    const faq = buildPage1000FaqItems(1050);
+    const label = formatPilotEuro(1050);
 
-    expect(seo.h1).toMatch(
-      /^Quel salaire net mensuel pour 1[\u00a0\u202f ]?000[\u00a0\u202f ]€ brut par mois \?$/,
-    );
-    expect(seo.title).toMatch(
-      /^1[\u00a0\u202f ]?000[\u00a0\u202f ]€ brut par mois : combien en net \?$/,
-    );
-    expect([...seo.title].length).toBeLessThanOrEqual(60);
-    expect(seo.description).toMatch(
-      /brut par mois en net \? Estimation selon votre statut \(non-cadre, cadre ou fonction publique\)/,
-    );
-    expect([...seo.description].length).toBeLessThanOrEqual(160);
-    expect(seo.answerH2).toMatch(
-      /^Quel salaire net pour 1[\u00a0\u202f ]?000[\u00a0\u202f ]€ brut par mois \?$/,
-    );
-    expect(faq).toHaveLength(3);
-    expect(faq[0]?.question).toMatch(/1[\u00a0\u202f ]?000/);
-    expect(faq[2]?.answer).toContain("utilisez notre calculateur de salaire brut et net");
+    expect(seo.title).toBe("1 050 € brut en net : combien ça fait ?");
+    expect(seo.h1).toBe(seo.title);
+    expect(seo.title).not.toMatch(/par mois/i);
+    expect(seo.description).toContain("1 050 euros brut en net");
+    expect(seo.description).not.toMatch(/\d[\d\s\u00a0\u202f]*€/);
+    expect(seo.answerH2).toBe(`${label} brut : combien en net selon votre statut ?`);
+    expect(faq).toHaveLength(5);
+    expect(faq[0]?.question).toBe(`Combien font ${label} brut en net ?`);
+    expect(faq.some((item) => item.question.includes("prime"))).toBe(true);
 
     const blob = [
       seo.title,
@@ -91,11 +83,10 @@ describe("série salaire brut mensuel → net (1 000 → 6 000)", () => {
       seo.h1,
       seo.answerH2,
       ...faq.flatMap((item) => [item.question, item.answer]),
-      ...editorial.flatMap((section) => [section.title, ...section.paragraphs]),
     ].join(" ");
     expect(blob).not.toContain("\u2014");
-    expect(blob).not.toMatch(/1[\u00a0\u202f ]?500/);
     expect(blob).not.toMatch(/combien-gagner-brut-mensuel/);
+    expect(GROSS_TO_NET_REDESIGN_DATE_MODIFIED).toBe("2026-10-31");
   });
 
   it("préremplit le calculateur principal avec brut et profil", () => {
