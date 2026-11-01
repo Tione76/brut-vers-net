@@ -35,6 +35,10 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Salaire minimum au Royaume-Uni : taux horaires par âge, exemples mensuels et différence avec le Living Wage.",
   "salaire-minimum-pays-bas":
     "Salaire minimum aux Pays-Bas : taux horaire, barèmes par âge, exemples mensuels et pécule de vacances.",
+  "salaire-minimum-italie":
+    "Salaire minimum en Italie : pas de SMIC national unique, minima par secteur, CCNL et points à vérifier.",
+  "salaire-minimum-monaco":
+    "Salaire minimum à Monaco : SMIC horaire, mensuel à 39 heures, indemnité de 5 % et règles pour les frontaliers.",
   "evolution-smic":
     "Historique du SMIG puis du SMIC depuis 1950 : tableau par année, graphiques et revalorisations officielles.",
   "salaire-interim-calcul-brut-net":

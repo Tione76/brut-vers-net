@@ -362,6 +362,28 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "salaire-minimum-italie": cover(
+    "guides/salaire-minimum-italie.webp",
+    "Drapeau italien vert, blanc et rouge flottant sous un ciel bleu à Rome",
+    {
+      photographer: "Kassandre Pedro",
+      source: "Pexels",
+      text: "Photo de Kassandre Pedro via Pexels",
+    },
+    1200,
+    800,
+  ),
+  "salaire-minimum-monaco": cover(
+    "guides/salaire-minimum-monaco.webp",
+    "Drapeau monégasque rouge et blanc au-dessus d'une façade Belle Époque de Monaco",
+    {
+      photographer: "Francesco Querente",
+      source: "Pexels",
+      text: "Photo recadrée de Francesco Querente via Pexels",
+    },
+    1200,
+    800,
+  ),
   "salaire-interim-calcul-brut-net": cover(
     "guides/Salaire-brut-net-interim.webp",
     "Deux agents logistiques transportant des cartons dans un entrepôt",
@@ -540,6 +562,12 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/salaire-minimum-pays-bas") {
     return getGuideCover("salaire-minimum-pays-bas");
+  }
+  if (href === "/salaire-minimum-italie") {
+    return getGuideCover("salaire-minimum-italie");
+  }
+  if (href === "/salaire-minimum-monaco") {
+    return getGuideCover("salaire-minimum-monaco");
   }
   if (href === "/evolution-smic") {
     return getGuideCover("evolution-smic");

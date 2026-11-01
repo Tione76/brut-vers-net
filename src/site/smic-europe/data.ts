@@ -20,6 +20,8 @@ import { ES_MIN_WAGE_PATH } from "@/site/salaire-minimum-espagne";
 import { PT_MIN_WAGE_PATH } from "@/site/salaire-minimum-portugal";
 import { UK_MIN_WAGE_PATH } from "@/site/salaire-minimum-royaume-uni";
 import { NL_MIN_WAGE_PATH } from "@/site/salaire-minimum-pays-bas";
+import { IT_MIN_WAGE_PATH } from "@/site/salaire-minimum-italie";
+import { MC_MIN_WAGE_PATH } from "@/site/salaire-minimum-monaco";
 
 export const SMIC_EUROPE_PATH = "/smic-europe";
 export const SMIC_EUROPE_SLUG = "smic-europe";
@@ -1151,6 +1153,26 @@ export function buildCountrySubsection(country: EuropeCountry): GuideSubsection 
       intro: "Pour les taux par âge, les exemples mensuels et le pécule de vacances,",
       label: "voir le guide du salaire minimum aux Pays-Bas",
       href: NL_MIN_WAGE_PATH,
+    });
+  }
+
+  if (country.code === "IT") {
+    blocks.push({
+      type: "internal-link",
+      variant: "guide",
+      intro: "Pour comprendre les CCNL, les exemples de minima par secteur et les points à vérifier,",
+      label: "voir le guide du salaire minimum en Italie",
+      href: IT_MIN_WAGE_PATH,
+    });
+  }
+
+  if (country.code === "MC") {
+    blocks.push({
+      type: "internal-link",
+      variant: "guide",
+      intro: "Pour les montants, l'indemnité de 5 %, les 39 heures et les règles frontaliers,",
+      label: "voir le guide du salaire minimum à Monaco",
+      href: MC_MIN_WAGE_PATH,
     });
   }
 

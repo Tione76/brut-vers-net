@@ -144,6 +144,26 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "salaire-minimum-italie": {
+    groups: [
+      { title: "Cadre et minima par secteur", icon: "calculator", start: 0, end: 3 },
+      { title: "CCNL, mensualités et horaire", icon: "help", start: 3, end: 6 },
+      { title: "Net, jeunes et réforme", icon: "scale", start: 6, end: 9 },
+      { title: "Comparer, vérifier et recours", icon: "badge", start: 9, end: 12 },
+      { title: "FAQ, sources et conclusion", icon: "file", start: 12, end: 15 },
+    ],
+  },
+
+  "salaire-minimum-monaco": {
+    groups: [
+      { title: "Montants, 5 % et 39 heures", icon: "calculator", start: 0, end: 3 },
+      { title: "Net, minimum professionnel et horaires", icon: "help", start: 3, end: 6 },
+      { title: "Jeunes, revalorisation et France", icon: "scale", start: 6, end: 9 },
+      { title: "Frontaliers, vérifier et recours", icon: "badge", start: 9, end: 12 },
+      { title: "FAQ, sources et conclusion", icon: "file", start: 12, end: 15 },
+    ],
+  },
+
   "evolution-smic": {
     groups: [
       { title: "Vue d'ensemble", icon: "chart", start: 0, end: 2 },
