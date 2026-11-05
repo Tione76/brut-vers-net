@@ -18,8 +18,10 @@ export type {
 export { GUIDE_CALLOUT_LABELS } from "./types";
 export {
   guides,
+  draftGuides,
   GUIDE_MODEL_SLUG,
   getAllGuideSlugs,
+  getDraftGuideBySlug,
   getGuideBySlug,
   getGuidePublicPath,
   getPublishedGuideSlugs,

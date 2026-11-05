@@ -109,7 +109,7 @@ body:has(.gross-prime-series) .article-page {
 /* ── Mini-calculateur : carte alignée sur les cartes résultats ── */
 
 .gross-prime-mini {
-  scroll-margin-top: 5.5rem;
+  scroll-margin-top: var(--ds-anchor-offset-lg, 5.5rem);
   margin-block: 0.15rem;
   padding: 1.65rem 1.4rem 1.75rem;
   border-radius: 14px;

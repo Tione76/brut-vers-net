@@ -35,6 +35,7 @@ export default function SitemapPage() {
       <GuidePageLayout
         title={page.title}
         subtitle={page.description}
+        kicker={null}
       >
         <PageBreadcrumb
           items={[

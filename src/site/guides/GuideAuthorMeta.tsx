@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { SITE_AUTHOR } from "@/site/author";
 import { formatLongDateFr } from "@/site/dates";
@@ -17,6 +19,18 @@ type GuideAuthorMetaProps = {
 export function GuideAuthorMeta({ updatedAt, readingTime }: GuideAuthorMetaProps) {
   return (
     <p className="guide-meta">
+      {SITE_AUTHOR.portrait ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          className="guide-meta__photo"
+          src={SITE_AUTHOR.portrait.src}
+          alt=""
+          width={56}
+          height={56}
+          decoding="async"
+          aria-hidden="true"
+        />
+      ) : null}
       Par{" "}
       <Link href={SITE_AUTHOR.path} className="guide-meta__author">
         {SITE_AUTHOR.name}

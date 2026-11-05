@@ -213,6 +213,15 @@ export function NetToGrossSeriesPageContent({
       />
       <GuideAuthorMeta updatedAt={pageUpdatedAt} />
 
+      <ShareBlock
+        url={share.url}
+        title={share.title}
+        description={share.description}
+        contentType="fiche"
+        variant="onLight"
+        layout="masthead"
+      />
+
       <section className="net-gross-1500__hero" aria-labelledby={`${idPrefix}-answer`}>
         <h2 id={`${idPrefix}-answer`} className="net-gross-1500__answer-title">
           {redesignSeo
@@ -270,14 +279,6 @@ export function NetToGrossSeriesPageContent({
       />
 
       {isRedesign ? table : null}
-
-      <ShareBlock
-        url={share.url}
-        title={share.title}
-        description={share.description}
-        contentType="fiche"
-        variant="onLight"
-      />
 
       <CoverFigure
         cover={NET_TO_GROSS_SERIES_COVER}
@@ -389,15 +390,6 @@ export function NetToGrossSeriesPageContent({
         alignés sur les coefficients du simulateur.
       </p>
 
-      {isRedesign ? null : (
-        <ShareBlock
-          url={share.url}
-          title={share.title}
-          description={share.description}
-          contentType="fiche"
-          variant="onLight"
-        />
-      )}
     </div>
   );
 }

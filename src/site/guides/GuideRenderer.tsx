@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ShareBlock } from "@/framework/design/components/ShareBlock";
+import { GuideMastheadShare } from "./GuideMastheadShare";
 import { getGuideCover } from "./covers";
 import { GuideCoverImage } from "./GuideCoverImage";
 import { CoverFigure } from "./CoverFigure";
@@ -722,6 +722,13 @@ export function GuideArticle({
 
   return (
     <>
+      <GuideMastheadShare
+        url={share.url}
+        title={share.title}
+        description={share.description}
+        contentType="guide"
+      />
+
       <div className="guide-intro">
         {firstParagraph ? <p>{firstParagraph}</p> : null}
         {!coverAfterSlot && cover ? <CoverFigure cover={cover} priority /> : null}
@@ -783,6 +790,7 @@ export function GuideArticle({
       ) : null}
       {bodySections.map((section) => renderSection(section))}
 
+      {faq.length > 0 ? (
       <section id={faqSectionId} className="guide-section">
         <h2>{faqTitle ?? "Questions fréquentes"}</h2>
         {faqIntro ? <p>{faqIntro}</p> : null}
@@ -796,6 +804,7 @@ export function GuideArticle({
           ))}
         </div>
       </section>
+      ) : null}
 
       {bibliographyPlacement === "after-faq" && bibliography
         ? renderSection(bibliography)
@@ -883,14 +892,6 @@ export function GuideArticle({
       {bibliographyPlacement !== "after-faq" && bibliography
         ? renderSection(bibliography)
         : null}
-
-      <ShareBlock
-        url={share.url}
-        title={share.title}
-        description={share.description}
-        contentType="guide"
-        variant="onLight"
-      />
     </>
   );
 }

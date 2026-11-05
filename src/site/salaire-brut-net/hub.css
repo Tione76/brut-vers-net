@@ -8,7 +8,7 @@
 .gross-to-net-hub section[id],
 .gross-to-net-hub .gross-to-net-hub__range,
 .gross-to-net-hub .gross-to-net-hub__fiche {
-  scroll-margin-top: 2.5rem;
+  scroll-margin-top: var(--ds-anchor-offset, 2.5rem);
 }
 
 .gross-to-net-hub__search {

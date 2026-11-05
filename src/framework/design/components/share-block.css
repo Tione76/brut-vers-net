@@ -202,3 +202,353 @@
     display: none;
   }
 }
+
+/* ── En-tête article (masthead) : icônes compactes ── */
+
+.share-block--masthead,
+.share-block--masthead.share-block--on-light,
+.article-body--masthead .share-block,
+.article-body--masthead .share-block--on-light,
+.faq-page__header .share-block,
+.faq-page__header .share-block--on-light {
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  margin-inline: 0;
+  padding: 0;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.share-block--masthead .share-block__heading,
+.article-body--masthead .share-block__heading,
+.faq-page__header .share-block__heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.share-block--masthead .share-block__actions,
+.article-body--masthead .share-block__actions,
+.faq-page__header .share-block__actions {
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+
+.share-block--masthead .share-block__actions > li,
+.article-body--masthead .share-block__actions > li,
+.faq-page__header .share-block__actions > li {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.share-block--masthead .share-block__action,
+.article-body--masthead .share-block__action,
+.faq-page__header .share-block__action {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+  gap: 0;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.share-block--masthead .share-block__action--copy,
+.article-body--masthead .share-block__action--copy,
+.faq-page__header .share-block__action--copy {
+  position: relative;
+}
+
+.share-block--masthead .share-block__action--copy > span:not(.share-block__icon),
+.article-body--masthead .share-block__action--copy > span:not(.share-block__icon),
+.faq-page__header .share-block__action--copy > span:not(.share-block__icon) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.share-block--masthead .share-block__icon,
+.article-body--masthead .share-block__icon,
+.faq-page__header .share-block__icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+/*
+ * Desktop guides : flux réel
+ * 1) ligne kicker | partage (guide-masthead-top)
+ * 2) fil d'Ariane
+ * 3) H1 puis accroche / auteur
+ */
+.guide-masthead-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  margin: 0;
+  text-align: left;
+}
+
+.guide-masthead-top .guide-kicker {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+}
+
+.guide-masthead-top__share {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0;
+  min-height: 0;
+}
+
+.guide-masthead-top__share:empty {
+  display: none;
+}
+
+.guide-masthead-top__share .share-block,
+.guide-masthead-top__share .share-block--masthead,
+.guide-masthead-top__share .share-block--on-light {
+  margin: 0;
+  margin-inline: 0;
+  padding: 0;
+}
+
+@media (min-width: 900px) {
+  /*
+   * Avant hydratation du portail : le partage masthead reste dans le corps
+   * (.prose > .share-block) tant que le slot n'est pas monté.
+   */
+  .article-body--masthead .prose > .share-block--masthead {
+    display: none;
+  }
+
+  .faq-page__header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .faq-page__header .share-block {
+    align-self: flex-end;
+    order: -1;
+    margin: 0 0 12px;
+  }
+}
+
+/* Fiches : partage remonté en tête du bloc .net-gross (si non hissé) */
+.net-gross > .share-block ~ .share-block {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .net-gross {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .net-gross > .share-block {
+    align-self: flex-end;
+    width: max-content;
+    max-width: 100%;
+    margin: 0 0 12px;
+    margin-inline: 0;
+    order: -1;
+  }
+}
+
+/* ── Calculateur : rail vertical desktop / compact sous résultats sinon ── */
+
+.tool-header__share {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.tool-header__share .share-block,
+.share-block--rail {
+  margin: 0;
+  margin-inline: 0;
+  padding: 0;
+  width: max-content;
+  max-width: 100%;
+  align-items: flex-start;
+}
+
+.tool-header__share .share-block__heading,
+.share-block--rail .share-block__heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tool-header__share .share-block__action,
+.share-block--rail .share-block__action {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+  gap: 0;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.tool-header__share .share-block__action--copy,
+.share-block--rail .share-block__action--copy {
+  position: relative;
+}
+
+.tool-header__share .share-block__action--copy > span:not(.share-block__icon),
+.share-block--rail .share-block__action--copy > span:not(.share-block__icon) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tool-header__share .share-block__icon,
+.share-block--rail .share-block__icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.tool-header__share .share-block__actions > li,
+.share-block--rail .share-block__actions > li {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+/* Desktop large : rail vertical dans la marge intérieure droite du panneau */
+@media (min-width: 1200px) {
+  .tool-header--with-share {
+    position: relative;
+  }
+
+  .tool-header--with-share .tool-header__share {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    z-index: 2;
+    width: auto;
+  }
+
+  .tool-header--with-share .tool-header__share .share-block__actions,
+  .tool-header--with-share .share-block--rail .share-block__actions {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+}
+
+/* Sous 1200px : partage sous le simulateur, pas au-dessus du titre */
+@media (max-width: 1199px) {
+  .tool-header__share {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+
+  .tool-header__share .share-block__actions,
+  .share-block--rail .share-block__actions {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 899px) {
+  .guide-masthead-top {
+    justify-content: flex-start;
+  }
+
+  .guide-masthead {
+    text-align: left;
+  }
+
+  /* Partage mobile : en tête du corps (portail desktop désactivé sous 900px). */
+  .article-body--masthead .prose > .share-block--masthead {
+    align-items: flex-start;
+    margin: 0 0 20px;
+    margin-inline: 0;
+  }
+
+  .article-body--masthead .share-block__actions,
+  .faq-page__header .share-block__actions {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .net-gross {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .net-gross > .guide-breadcrumb {
+    order: 1;
+  }
+
+  .net-gross > .guide-meta {
+    order: 2;
+  }
+
+  .net-gross > .share-block {
+    order: 3;
+    width: max-content;
+    max-width: 100%;
+    margin: 0 0 0.25rem;
+    margin-inline: 0;
+    align-items: flex-start;
+  }
+
+  .net-gross > :not(.guide-breadcrumb):not(.guide-meta):not(.share-block) {
+    order: 4;
+  }
+}

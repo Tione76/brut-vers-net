@@ -12,7 +12,7 @@ export const OG_IMAGE_WIDTH = 1200;
 export const OG_IMAGE_HEIGHT = 630;
 export const OG_IMAGE_TYPE = COVER_IMAGE_TYPE;
 
-export type CoverCreditSource = "Pexels" | "Unsplash";
+export type CoverCreditSource = "Pexels" | "Unsplash" | "Editorial";
 
 /** Licence officielle Pexels (source unique pour Schema.org `license`). */
 export const PEXELS_LICENSE_URL = "https://www.pexels.com/license/";
@@ -384,6 +384,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "banque-petit-salaire": cover(
+    "guides/banque-petit-salaire.webp",
+    "Quelle banque choisir avec un petit salaire, composition éditoriale Brut vers Net",
+    {
+      photographer: "Brut vers Net",
+      source: "Editorial",
+      text: "Composition éditoriale Brut vers Net",
+    },
+    1200,
+    630,
+  ),
   "salaire-interim-calcul-brut-net": cover(
     "guides/Salaire-brut-net-interim.webp",
     "Deux agents logistiques transportant des cartons dans un entrepôt",
@@ -568,6 +579,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/salaire-minimum-monaco") {
     return getGuideCover("salaire-minimum-monaco");
+  }
+  if (href === "/banque-petit-salaire") {
+    return getGuideCover("banque-petit-salaire");
   }
   if (href === "/evolution-smic") {
     return getGuideCover("evolution-smic");

@@ -10,7 +10,7 @@
   border-radius: 12px;
   background: var(--ds-brand);
   overflow-x: clip;
-  scroll-margin-top: 2.5rem;
+  scroll-margin-top: var(--ds-anchor-offset, 2.5rem);
 }
 
 .guide-tool-band .sick-leave-calc {

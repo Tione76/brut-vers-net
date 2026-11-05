@@ -31,6 +31,7 @@ export function FaqPageContent({ share }: { share: FaqPageShare }) {
           description={share.description}
           contentType="faq"
           variant="onLight"
+          layout="masthead"
         />
         <GuideInlineToc
           entries={toc}
@@ -67,14 +68,6 @@ export function FaqPageContent({ share }: { share: FaqPageShare }) {
       ))}
 
       <div className="faq-page__outro">{renderFaqAnswer(FAQ_PAGE_OUTRO_SEGMENTS)}</div>
-
-      <ShareBlock
-        url={share.url}
-        title={share.title}
-        description={share.description}
-        contentType="faq"
-        variant="onLight"
-      />
     </div>
   );
 }

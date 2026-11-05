@@ -6,6 +6,9 @@ export type ShareBlockVariant = "onBrand" | "onLight";
 
 export type ShareContentType = "calculator" | "guide" | "faq" | "fiche" | "content";
 
+/** Disposition visuelle : défaut (flux), en-tête article, rail vertical calculateur. */
+export type ShareBlockLayout = "default" | "masthead" | "rail";
+
 export type ShareBlockProps = {
   /** URL canonique absolue de la page (sans query ni hash). */
   url: string;
@@ -26,6 +29,8 @@ export type ShareBlockProps = {
   variant?: ShareBlockVariant;
   /** Adapte le libellé par défaut (ex. « Partager ce guide »). */
   contentType?: ShareContentType;
+  /** Variante de disposition (articles / calculateurs). */
+  layout?: ShareBlockLayout;
 };
 
 const CONTENT_TYPE_LABELS: Record<ShareContentType, string> = {
@@ -133,6 +138,7 @@ export function ShareBlock({
   nativeLabel,
   variant = "onBrand",
   contentType,
+  layout = "default",
 }: ShareBlockProps) {
   const typeLabel = contentType ? CONTENT_TYPE_LABELS[contentType] : undefined;
   const resolvedHeading = heading ?? typeLabel ?? DEFAULT_HEADING;
@@ -190,6 +196,8 @@ export function ShareBlock({
     "share-block",
     variant === "onLight" ? "share-block--on-light" : null,
     showNative ? "share-block--native" : null,
+    layout === "masthead" ? "share-block--masthead" : null,
+    layout === "rail" ? "share-block--rail" : null,
   ]
     .filter(Boolean)
     .join(" ");

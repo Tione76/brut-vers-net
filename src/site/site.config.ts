@@ -53,7 +53,7 @@ export const siteConfig = {
     width: 800,
     height: 800,
   },
-  favicon: "/logo-icon.png?v=3",
+  favicon: "/logo-icon.png?v=4",
   ogImage: "/images/covers/calculateurs/Calculateur-brut-vers-net.webp",
 
   footerBrandName: "BRUT-VERS-NET.FR",
@@ -145,6 +145,7 @@ export const siteConfig = {
       { label: "Confidentialité", href: "/politique-de-confidentialite" },
       { label: "Cookies", href: "/gestion-des-cookies" },
       { label: "Plan du site", href: "/plan-du-site" },
+      { label: "Devenir partenaire", href: "/devenir-partenaire" },
       { label: "Contact", href: "/contact" },
     ],
   },

@@ -4,8 +4,7 @@ import type { ComponentType, ReactNode } from "react";
 import Link from "next/link";
 import { useSite, CalculatorProvider } from "@/framework/SiteProvider";
 import { AdSlot } from "@/framework/AdSlot";
-import { SiteNav } from "@/framework/design/components/SiteNav";
-import { HeaderCurveDown } from "@/framework/design/components/Curves";
+import { SiteShell } from "@/framework/design/components/SiteShell";
 import { ShareBlock, type ShareBlockProps } from "@/framework/design/components/ShareBlock";
 import { PageFooter } from "@/framework/design/PageFooter";
 import { HomePageSidebar } from "@/site/guides/GuidePageSidebar";
@@ -21,13 +20,7 @@ interface CalculatorPageLayoutProps {
   authorMeta?: ReactNode;
 }
 
-function CalculatorHero({
-  Calculator,
-  share,
-}: {
-  Calculator: ComponentType;
-  share: ShareBlockProps;
-}) {
+function CalculatorHero({ Calculator }: { Calculator: ComponentType }) {
   return (
     <div className="calc-tool calc-tool--salary" data-clarity-mask="true">
       <Calculator />
@@ -35,7 +28,6 @@ function CalculatorHero({
         Cette simulation fournit une estimation indicative. Le montant réel peut varier selon votre
         situation, votre contrat, votre régime et les retenues appliquées.
       </p>
-      <ShareBlock {...share} />
     </div>
   );
 }
@@ -46,29 +38,25 @@ function CalculatorPageInner({ Calculator, share, authorMeta }: CalculatorPageLa
 
   return (
     <>
-      <section className="tool-header tool-header--salary-compact">
-        <SiteNav
-          siteName={site.name}
-          nav={site.navigation.header}
-          logo={site.logo}
-          guidesNavigation={site.guidesNavigation}
-          toolsNavigation={site.toolsNavigation}
-        />
-        <div className="tool-header__inner">
-          <h1 className="tool-header__title tool-header__title--sentence">{site.home.h1}</h1>
-          <div className="calc-stage">
-            <CalculatorHero Calculator={Calculator} share={share} />
+      <SiteShell>
+        <section className="tool-header tool-header--salary-compact tool-header--with-share">
+          <div className="tool-header__inner">
+            <h1 className="tool-header__title tool-header__title--sentence">{site.home.h1}</h1>
+            <div className="calc-stage">
+              <CalculatorHero Calculator={Calculator} />
+            </div>
+            <div className="tool-header__share">
+              <ShareBlock {...share} variant="onLight" layout="rail" />
+            </div>
           </div>
-        </div>
-        <HeaderCurveDown />
-      </section>
+        </section>
 
-      <main id="main-content" className="content-main">
-        <div className="content-wrap content-wrap--wide home-with-sidebar">
-          <div className={`article-layout${showSidebar ? "" : " article-layout--single"}`}>
-            <div className="home-with-sidebar__main">
-              {authorMeta}
-              <HomeEditorial />
+        <main id="main-content" className="content-main">
+          <div className="content-wrap content-wrap--wide home-with-sidebar">
+            <div className={`article-layout${showSidebar ? "" : " article-layout--single"}`}>
+              <div className="home-with-sidebar__main">
+                {authorMeta}
+                <HomeEditorial />
 
         {site.blogPosts.length > 0 && (
           <section id="blog" className="content-section content-section--border">
@@ -118,13 +106,12 @@ function CalculatorPageInner({ Calculator, share, authorMeta }: CalculatorPageLa
         </section>
 
         <HomeOfficialSourcesSection />
-
-              <ShareBlock {...share} variant="onLight" />
+              </div>
+              {showSidebar && <HomePageSidebar />}
             </div>
-            {showSidebar && <HomePageSidebar />}
           </div>
-        </div>
-      </main>
+        </main>
+      </SiteShell>
 
       <div className="content-wrap">
         <AdSlot position="before-footer" />

@@ -164,6 +164,15 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "banque-petit-salaire": {
+    groups: [
+      { title: "Offres et comparatif", icon: "chart", start: 0, end: 3 },
+      { title: "Accès, frais et budget", icon: "calculator", start: 3, end: 6 },
+      { title: "Autres solutions et méthode", icon: "help", start: 6, end: 8 },
+      { title: "Conclusion", icon: "file", start: 8, end: 9 },
+    ],
+  },
+
   "evolution-smic": {
     groups: [
       { title: "Vue d'ensemble", icon: "chart", start: 0, end: 2 },

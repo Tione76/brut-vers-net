@@ -39,6 +39,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Salaire minimum en Italie : pas de SMIC national unique, minima par secteur, CCNL et points à vérifier.",
   "salaire-minimum-monaco":
     "Salaire minimum à Monaco : SMIC horaire, mensuel à 39 heures, indemnité de 5 % et règles pour les frontaliers.",
+  "banque-petit-salaire":
+    "Quelle banque choisir avec un petit salaire : frais, conditions d'accès et comptes adaptés à un budget serré.",
   "evolution-smic":
     "Historique du SMIG puis du SMIC depuis 1950 : tableau par année, graphiques et revalorisations officielles.",
   "salaire-interim-calcul-brut-net":

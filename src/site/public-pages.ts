@@ -172,6 +172,15 @@ export function getAllPublicPages(): PublicPage[] {
       indexable: true,
       lastModified: legalUpdated,
     },
+    {
+      path: "/devenir-partenaire",
+      title: legal.partnership.h1,
+      category: "utility",
+      changefreq: "monthly",
+      priority: 0.5,
+      indexable: true,
+      lastModified: legalUpdated,
+    },
   ];
 
   const legalPages: PublicPage[] = [

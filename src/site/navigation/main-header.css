@@ -1,5 +1,15 @@
 /* Header compact + méga-menus — 2e passe (maquette UX) */
 
+/*
+ * Décalage d'ancres : mobile/tablette = marges historiques.
+ * Desktop (≥1100px) : le header sticky est compensé via scroll-padding,
+ * les scroll-margin locaux passent à 0 pour éviter le cumul.
+ */
+:root {
+  --ds-anchor-offset: 2.5rem;
+  --ds-anchor-offset-lg: 5.5rem;
+}
+
 .site-header-bar {
   --mh-orange: var(--ds-brand);
   --mh-orange-hover: var(--ds-brand-hover);
@@ -8,27 +18,29 @@
   --mh-separator: #e8ecf1;
   --mh-cta-bg: var(--ds-brand-light);
   --mh-search-bg: #eef2f6;
-  /* Ombre douce : menu blanc légèrement détaché du bandeau orange. */
-  --mh-shadow: 0 8px 24px rgba(20, 34, 56, 0.1), 0 2px 6px rgba(20, 34, 56, 0.04);
-  --mh-radius: 22px;
+  --mh-shadow: 0 1px 0 rgba(20, 34, 56, 0.08);
+  --mh-radius: 0;
   --mh-max: 1320px;
   --site-logo-height: auto;
   --site-logo-offset-y: 0;
   flex-shrink: 0;
   width: 100%;
-  padding: 12px 16px 0;
+  padding: 0;
   overflow: visible;
   position: relative;
-  z-index: 100;
-  background: transparent;
+  /* Sous consentement (200) et visionneuses (~80+) ; au-dessus du contenu / pubs. */
+  z-index: 50;
+  background: #ffffff;
+  border-top: 3px solid var(--ds-brand);
+  box-shadow: var(--mh-shadow);
 }
 
 .site-header__inner--chrome {
   max-width: var(--mh-max);
   margin: 0 auto;
   width: 100%;
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .site-header {
@@ -39,12 +51,11 @@
   width: 100%;
   height: 86px;
   min-height: 86px;
-  padding: 0 18px 0 20px;
-  background: #ffffff;
-  border-radius: var(--mh-radius);
-  box-shadow: var(--mh-shadow);
+  padding: 0 8px 0 4px;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
   overflow: visible;
-  transition: border-radius 0.12s ease, box-shadow 0.12s ease;
 }
 
 /*
@@ -53,9 +64,6 @@
  * s'aplatissent pour fusionner avec le panneau (sans bande d'orange).
  */
 .site-header.is-menu-open {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  box-shadow: 0 -2px 10px rgba(20, 34, 56, 0.04);
   z-index: 121;
 }
 
@@ -292,8 +300,7 @@
 
 .mh-panel__card {
   background: #ffffff;
-  /* Coins hauts plats : continuité avec le header is-menu-open. */
-  border-radius: 0 0 18px 18px;
+  border-radius: 0 0 14px 14px;
   /* Ombre uniquement vers le bas (spread négatif) pour éviter une bande sombre au raccord. */
   box-shadow: 0 16px 28px -10px rgba(20, 34, 56, 0.18);
   border: 1px solid rgba(20, 34, 56, 0.05);
@@ -733,13 +740,31 @@
 }
 
 @media (min-width: 1100px) {
+  :root {
+    --ds-anchor-offset: 0px;
+    --ds-anchor-offset-lg: 0px;
+  }
+
+  /*
+   * Header sticky desktop uniquement (même breakpoint que la nav desktop).
+   * Reste dans le flux : pas d'espace réservé artificiel.
+   * Mobile (max-width: 1099px) : position relative inchangée, défile avec la page.
+   */
   .site-header-bar {
-    padding: 16px 24px 0;
+    position: sticky;
+    top: 0;
+    padding: 0;
+    /* Fond opaque déjà défini : le contenu ne transparait pas derrière. */
+  }
+
+  /* Ancres : décalage = hauteur réelle du header (86px + bordure 3px ≈ 5.5625rem). */
+  html {
+    scroll-padding-top: var(--ds-shell-header-height, 5.5625rem);
   }
 
   .site-header {
     gap: 16px 20px;
-    padding: 0 16px 0 22px;
+    padding: 0 8px 0 4px;
   }
 
   .site-brand__divider {
@@ -759,7 +784,7 @@
 
 @media (max-width: 1099px) {
   .site-header-bar {
-    padding: 10px 12px 0;
+    padding: 0;
   }
 
   .site-header__inner--chrome {
@@ -770,8 +795,8 @@
   .site-header {
     height: 72px;
     min-height: 72px;
-    padding: 0 12px 0 14px;
-    border-radius: 18px;
+    padding: 0 12px;
+    border-radius: 0;
     gap: 10px;
   }
 
@@ -795,7 +820,7 @@
     position: fixed;
     left: 12px;
     right: 12px;
-    top: 88px;
+    top: 76px;
     width: auto;
   }
 
@@ -1007,7 +1032,7 @@
 
 @media (max-width: 639px) {
   .site-header-bar {
-    padding: 8px 10px 0;
+    padding: 0;
   }
 
   .site-header {

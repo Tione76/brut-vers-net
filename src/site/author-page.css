@@ -3,13 +3,13 @@
 /* ── Bandeau page auteur (classe passée via GuidePageLayout) ── */
 
 .guide-header--author {
-  min-height: clamp(228px, 26vh, 300px);
+  min-height: 0;
 }
 
 .guide-header--author .guide-header__inner {
-  justify-content: flex-end;
-  padding-top: 1.25rem;
-  padding-bottom: 3.75rem;
+  justify-content: flex-start;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .guide-header--author .guide-header__title {
@@ -21,7 +21,7 @@
   margin-top: 0.85rem;
   max-width: 34rem;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.92);
+  color: #3d4a55;
 }
 
 @media (min-width: 640px) {
@@ -156,7 +156,7 @@
   margin: 0;
   /* Même inset horizontal pour tous les blocs (avec ou sans fond) → titres alignés */
   padding: 0.15rem var(--block-pad-x);
-  scroll-margin-top: 2.5rem;
+  scroll-margin-top: var(--ds-anchor-offset, 2.5rem);
 }
 
 .author-block__head {

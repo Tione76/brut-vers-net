@@ -50,10 +50,17 @@
 .guide-breadcrumb [aria-current="page"] {
   display: inline-flex;
   align-items: center;
+  gap: 0.35rem;
   margin: 0;
   padding: 0;
   line-height: 1.4;
   vertical-align: middle;
+}
+
+.guide-breadcrumb__home {
+  display: block;
+  flex: none;
+  color: currentColor;
 }
 
 .guide-breadcrumb a {

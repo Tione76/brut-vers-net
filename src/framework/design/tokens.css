@@ -31,10 +31,12 @@
   /* Neutres */
   --ds-text: #161616;
   --ds-text-muted: #6b7280;
+  --ds-navy: #142238;
+  --ds-slate: #293640;
   --ds-border: #e4e8ed;
   --ds-border-light: #dde3ea;
-  --ds-input-border: #e3cbb9;
-  --ds-input-border-hover: #ccaa90;
+  --ds-input-border: #9aa7b2;
+  --ds-input-border-hover: #6d7c89;
   --ds-surface: #ffffff;
   --ds-surface-alt: #f7f9fb;
   --ds-surface-thumb: #f8f2ec;

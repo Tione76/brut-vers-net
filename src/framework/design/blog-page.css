@@ -2,8 +2,9 @@
 
 .article-header {
   position: relative;
-  background: var(--ds-brand-header-bg);
-  height: clamp(180px, 200px, 220px);
+  background: transparent;
+  height: auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -20,7 +21,7 @@
   max-width: var(--ds-max-content);
   margin: 0 auto;
   width: 100%;
-  padding: 0 24px 16px;
+  padding: 28px 24px 8px;
 }
 
 @media (min-width: 640px) {
@@ -34,14 +35,14 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ds-on-brand-faint);
+  color: var(--ds-brand);
   margin-bottom: 8px;
 }
 
 .article-header__title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--ds-navy);
   letter-spacing: -0.02em;
   line-height: 1.25;
   max-width: 40rem;
@@ -56,7 +57,7 @@
 .article-header__subtitle {
   margin-top: 8px;
   font-size: 0.875rem;
-  color: var(--ds-on-brand-medium);
+  color: #3d4a55;
   line-height: 1.45;
   max-width: 36rem;
 }

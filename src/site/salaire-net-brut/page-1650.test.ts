@@ -156,24 +156,25 @@ describe("prototype page 1 650 € net en brut", () => {
     expect(PAGE_1650_TABLE_INTRO).toContain("1 645 € à 1 654 €");
   });
 
-  it("place le tableau 1650 après le calculateur et avant la photo, sans second partage", () => {
+  it("place le tableau 1650 après le calculateur et avant la photo, avec un seul partage en tête", () => {
     const calcIndex = pageSource.indexOf("<MiniCalculatorCta1500");
     const table1650Index = pageSource.indexOf("{isRedesign ? table : null}");
     const coverIndex = pageSource.indexOf("<CoverFigure");
     const otherTableIndex = pageSource.indexOf("{isRedesign ? null : table}");
     const pedagogyIndex = pageSource.indexOf("<Page1650PedagogySections");
+    const shareIndex = pageSource.indexOf("<ShareBlock");
     const shareCount = pageSource.match(/<ShareBlock/g)?.length ?? 0;
 
     expect(calcIndex).toBeGreaterThan(-1);
+    expect(shareIndex).toBeGreaterThan(-1);
+    expect(shareIndex).toBeLessThan(calcIndex);
     expect(table1650Index).toBeGreaterThan(calcIndex);
-    expect(pageSource.indexOf("<ShareBlock")).toBeGreaterThan(table1650Index);
-    expect(coverIndex).toBeGreaterThan(pageSource.indexOf("<ShareBlock"));
+    expect(coverIndex).toBeGreaterThan(table1650Index);
     expect(pedagogyIndex).toBeGreaterThan(coverIndex);
     expect(otherTableIndex).toBeGreaterThan(coverIndex);
     expect(pageSource).toContain("net-gross-1650");
     expect(pageSource).toContain("PAGE_1650_ROUNDING_NOTE");
-    expect(pageSource).toContain("isRedesign ? null : (");
-    expect(shareCount).toBe(2);
+    expect(shareCount).toBe(1);
     expect(pageSource.match(/isRedesign \? table : null/g)?.length).toBe(1);
     expect(PAGE_1650_CALCULATOR_HEADING).toBe("Calculez votre salaire brut");
     expect(PAGE_1650_CALCULATOR_BUTTON).toBe("Calculer mon salaire brut");

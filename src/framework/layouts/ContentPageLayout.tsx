@@ -1,8 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useSite } from "@/framework/SiteProvider";
 import { CompactPageHeader } from "@/framework/design/components/CompactPageHeader";
+import { SiteShell } from "@/framework/design/components/SiteShell";
 import { PageFooter } from "@/framework/design/PageFooter";
 
 interface ContentPageLayoutProps {
@@ -23,34 +23,23 @@ export function ContentPageLayout({
   sidebar,
   prose = true,
 }: ContentPageLayoutProps) {
-  const site = useSite();
-
   return (
     <>
-      <CompactPageHeader
-        siteName={site.name}
-        nav={site.navigation.header}
-        logo={site.logo}
-        guidesNavigation={site.guidesNavigation}
-        toolsNavigation={site.toolsNavigation}
-        meta={meta}
-        title={title}
-        subtitle={subtitle}
-      />
-
-      <main id="main-content" className="article-page">
-        <div className="content-wrap content-wrap--wide">
-          <div className="article-layout">
-            <div className={prose ? "article-body prose" : "article-body"}>{children}</div>
-            {sidebar && (
-              <aside className="article-sidebar" aria-label="Contenu complémentaire">
-                {sidebar}
-              </aside>
-            )}
+      <SiteShell>
+        <CompactPageHeader meta={meta} title={title} subtitle={subtitle} />
+        <main id="main-content" className="article-page">
+          <div className="content-wrap content-wrap--wide">
+            <div className="article-layout">
+              <div className={prose ? "article-body prose" : "article-body"}>{children}</div>
+              {sidebar && (
+                <aside className="article-sidebar" aria-label="Contenu complémentaire">
+                  {sidebar}
+                </aside>
+              )}
+            </div>
           </div>
-        </div>
-      </main>
-
+        </main>
+      </SiteShell>
       <PageFooter />
     </>
   );

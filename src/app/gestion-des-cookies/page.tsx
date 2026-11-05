@@ -32,6 +32,7 @@ export default function CookiePreferencesPage() {
       <GuidePageLayout
         title={page.title}
         subtitle={page.description}
+        kicker={null}
       >
         <PageBreadcrumb
           items={[

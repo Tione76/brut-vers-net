@@ -33,6 +33,7 @@ import { salaireMinimumRoyaumeUniGuide } from "./data/salaire-minimum-royaume-un
 import { salaireMinimumPaysBasGuide } from "./data/salaire-minimum-pays-bas";
 import { salaireMinimumItalieGuide } from "./data/salaire-minimum-italie";
 import { salaireMinimumMonacoGuide } from "./data/salaire-minimum-monaco";
+import { banquePetitSalaireGuide } from "./data/banque-petit-salaire";
 
 export { getGuidePublicPath } from "./paths";
 
@@ -73,11 +74,23 @@ export const guides: Guide[] = [
   attachGuideCover(soldeCongesPayesGuide),
 ];
 
+/**
+ * Guides en brouillon : exclus du hub, sitemap, recherche et listes publiques.
+ * Contenu conservé pour reprise. Aperçu local uniquement (voir route app + NODE_ENV).
+ * Pour republier : réintégrer dans `guides` ci-dessus et retirer de cette liste.
+ */
+export const draftGuides: Guide[] = [attachGuideCover(banquePetitSalaireGuide)];
+
 export const GUIDE_MODEL_SLUG = "modele";
 
 export function getGuideBySlug(slug: string): Guide | undefined {
   if (slug === GUIDE_MODEL_SLUG) return undefined;
   return guides.find((guide) => guide.slug === slug);
+}
+
+export function getDraftGuideBySlug(slug: string): Guide | undefined {
+  if (slug === GUIDE_MODEL_SLUG) return undefined;
+  return draftGuides.find((guide) => guide.slug === slug);
 }
 
 export function getPublishedGuideSlugs(): string[] {

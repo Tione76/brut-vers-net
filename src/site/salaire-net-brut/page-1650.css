@@ -249,9 +249,10 @@
   color: #fff1e8;
 }
 
-/* Partage */
+/* Partage : largeur utile, sans écraser le placement en en-tête */
 .net-gross-1650 > .share-block--on-light {
-  width: 100%;
+  width: fit-content;
+  max-width: 100%;
   margin-top: 0.15rem;
   margin-bottom: 0;
   padding-top: 0.2rem;

@@ -54,7 +54,7 @@
   height: 1px;
   margin: 6px 0 2px;
   border: 0;
-  background: rgba(255, 255, 255, 0.28);
+  background: var(--ds-border);
 }
 
 .salary-calc__matrix {
@@ -92,7 +92,7 @@
 }
 
 .salary-calc__hourly-check:focus-visible {
-  outline: 2px solid #ffffff;
+  outline: 2px solid var(--ds-brand);
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -114,19 +114,19 @@
   border: none;
   border-radius: 50%;
   background: transparent;
-  color: var(--ds-on-brand-soft);
+  color: var(--ds-text-muted);
   cursor: help;
   transition: color var(--ds-transition), background-color var(--ds-transition);
 }
 
 .salary-calc__info-trigger:hover,
 .salary-calc__info-trigger:focus-visible {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
+  color: var(--ds-navy);
+  background: rgba(var(--ds-brand-rgb), 0.12);
 }
 
 .salary-calc__info-trigger:focus-visible {
-  outline: 2px solid #ffffff;
+  outline: 2px solid var(--ds-brand);
   outline-offset: 2px;
 }
 
@@ -202,7 +202,7 @@
 .salary-calc__row-label {
   font-size: var(--ds-font-size-lg);
   font-weight: 600;
-  color: var(--ds-label-on-brand);
+  color: var(--ds-navy);
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
@@ -235,13 +235,13 @@
 
 .salary-calc__cell .calc-input:focus,
 .salary-calc__param .calc-input:focus {
-  border-color: #ffffff;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6), 0 0 0 4px rgba(var(--ds-brand-rgb), 0.22);
+  border-color: var(--ds-brand);
+  box-shadow: 0 0 0 2px rgba(var(--ds-brand-rgb), 0.22);
 }
 
 .salary-calc__cell .calc-input--computed,
 .salary-calc__cell .calc-input--computed:not(:placeholder-shown) {
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--ds-surface-alt);
   color: #3f3f46;
   font-weight: 600;
   cursor: default;
@@ -249,7 +249,7 @@
 }
 
 .salary-calc__cell .calc-input--computed:focus {
-  border-color: rgba(255, 255, 255, 0.55);
+  border-color: var(--ds-input-border);
   box-shadow: none;
 }
 
@@ -293,7 +293,7 @@
 .salary-calc__work-time-suffix {
   font-size: var(--ds-font-size-lg);
   font-weight: 600;
-  color: var(--ds-label-on-brand);
+  color: var(--ds-navy);
   line-height: 1;
 }
 
@@ -334,10 +334,10 @@
   gap: 0;
   margin-top: 6px;
   padding: 18px 16px;
-  border-radius: 18px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: #fffdf9;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  border-radius: 16px;
+  border: 1px solid #f3c7a0;
+  background: linear-gradient(180deg, #fff8f1 0%, #ffefe0 100%);
+  box-shadow: 0 3px 10px rgba(190, 70, 0, 0.08);
 }
 
 @media (min-width: 640px) {
@@ -413,7 +413,7 @@
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.01em;
-  color: #111827;
+  color: var(--ds-navy);
   line-height: 1.3;
 }
 
@@ -430,7 +430,7 @@
   font-size: clamp(1.7rem, 1.2rem + 2vw, 2.15rem);
   font-weight: 800;
   letter-spacing: -0.025em;
-  color: #065f46;
+  color: var(--ds-navy);
 }
 
 .salary-calc__result-hint {
@@ -462,15 +462,15 @@
   min-height: 38px;
   min-width: 2.75rem;
   padding: 8px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  border-radius: var(--ds-radius);
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--ds-text);
+  border: 1px solid var(--ds-input-border);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ds-navy);
   font-size: var(--ds-font-size-md);
   font-weight: 500;
   line-height: 1.3;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
   transition:
     background-color var(--ds-transition),
     border-color var(--ds-transition),
@@ -499,24 +499,25 @@
 }
 
 .selectable-option:hover {
-  border-color: rgba(255, 255, 255, 0.75);
-  background: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-color: var(--ds-brand);
+  background: #fff8f1;
+  box-shadow: none;
 }
 
 .selectable-option--selected {
-  background: #ffffff;
-  border: 2px solid var(--ds-brand-active);
-  color: var(--ds-text);
+  background: var(--ds-brand);
+  border: 2px solid var(--ds-brand);
+  color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
-  transform: translateY(-1px);
+  box-shadow: none;
+  transform: none;
 }
 
 .selectable-option--selected:hover {
-  background: #ffffff;
-  border-color: var(--ds-brand-active);
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.16);
+  background: var(--ds-brand-hover);
+  border-color: var(--ds-brand-hover);
+  color: #ffffff;
+  box-shadow: none;
 }
 
 .selectable-option:active {
@@ -541,7 +542,7 @@
 }
 
 .selectable-option:has(.selectable-option__input:focus-visible) {
-  outline: 2px solid #ffffff;
+  outline: 2px solid var(--ds-brand);
   outline-offset: 2px;
 }
 
@@ -557,6 +558,11 @@
   color: #ffffff;
 }
 
+.selectable-option--selected .selectable-option__indicator {
+  background: #ffffff;
+  color: var(--ds-brand);
+}
+
 .selectable-option__label {
   pointer-events: none;
   text-align: center;
@@ -567,12 +573,12 @@
   margin: 6px 0 0;
   font-size: var(--ds-font-size-sm);
   line-height: 1.45;
-  color: var(--ds-on-brand-soft);
+  color: var(--ds-text-muted);
 }
 
 .salary-calc__hint--secondary {
   margin-top: 4px;
-  color: var(--ds-on-brand-muted);
+  color: var(--ds-text-muted);
 }
 
 .salary-calc__link-action {
@@ -581,30 +587,30 @@
   font-family: inherit;
   font-size: var(--ds-font-size-sm);
   font-weight: 600;
-  color: #ffffff;
+  color: var(--ds-brand);
   background: none;
   border: none;
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: rgba(255, 255, 255, 0.45);
+  text-decoration-color: rgba(var(--ds-brand-rgb), 0.45);
   cursor: pointer;
   transition: color var(--ds-transition), text-decoration-color var(--ds-transition);
 }
 
 .salary-calc__link-action:hover {
-  color: #ffffff;
-  text-decoration-color: rgba(255, 255, 255, 0.85);
+  color: var(--ds-brand-hover);
+  text-decoration-color: var(--ds-brand-hover);
 }
 
 .salary-calc__link-action:focus-visible {
-  outline: 2px solid #ffffff;
+  outline: 2px solid var(--ds-brand);
   outline-offset: 2px;
 }
 
 .salary-calc__actions {
   margin-top: 2px;
   padding-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  border-top: 1px solid var(--ds-border);
   justify-content: center;
 }
 
@@ -618,10 +624,10 @@
   font-size: var(--ds-font-size-md);
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.48);
-  border-radius: var(--ds-radius);
+  color: var(--ds-brand);
+  background: #ffffff;
+  border: 1.5px solid var(--ds-brand);
+  border-radius: 999px;
   cursor: pointer;
   transition:
     background-color var(--ds-transition),
@@ -631,18 +637,18 @@
 }
 
 .salary-calc__reset:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.72);
-  color: #ffffff;
+  background: var(--ds-brand-light);
+  border-color: var(--ds-brand);
+  color: var(--ds-brand);
 }
 
 .salary-calc__reset:focus-visible {
-  outline: 2px solid #ffffff;
+  outline: 2px solid var(--ds-brand);
   outline-offset: 2px;
 }
 
 .salary-calc__reset:active {
-  background: rgba(255, 255, 255, 0.24);
+  background: var(--ds-brand-muted);
 }
 
 .salary-calc__sr-only {

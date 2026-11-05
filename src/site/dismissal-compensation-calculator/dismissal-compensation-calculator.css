@@ -16,14 +16,14 @@
   font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1.35;
-  color: #ffffff;
+  color: var(--ds-navy);
 }
 
 .dismissal-results__summary {
   margin: 12px 0 0;
   font-size: 0.8125rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--ds-text-muted);
   text-align: center;
 }
 
@@ -31,36 +31,36 @@
   margin: 10px 0 0;
   font-size: 0.8125rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--ds-text-muted);
 }
 
 .dismissal-results__note {
   margin: 10px 0 0;
   font-size: 0.75rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--ds-text-muted);
 }
 
 .dismissal-results__notice {
   margin-top: 12px;
   padding: 12px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid #f3c7a0;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08);
+  background: #fff8f1;
 }
 
 .dismissal-results__notice-title {
   margin: 0 0 6px;
   font-size: 0.8125rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--ds-navy);
 }
 
 .dismissal-results__notice p {
   margin: 0 0 6px;
   font-size: 0.75rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.86);
+  color: #3d4a55;
 }
 
 .dismissal-results__notice p:last-child {
@@ -71,7 +71,7 @@
   display: block;
   margin: 0 0 4px;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--ds-text-muted);
 }
 
 .dismissal-bonus-block {
@@ -84,14 +84,14 @@
 .dismissal-special-section {
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  border-top: 1px solid var(--ds-border);
 }
 
 .dismissal-special-section__title {
   margin: 0 0 8px;
   font-size: 0.875rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--ds-navy);
 }
 
 .dismissal-checkbox {
@@ -101,7 +101,7 @@
   margin-top: 10px;
   font-size: 0.8125rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--ds-navy);
   cursor: pointer;
 }
 
@@ -120,10 +120,10 @@
 }
 
 .dismissal-chip {
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--ds-input-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.95);
+  background: #ffffff;
+  color: var(--ds-navy);
   font-size: 0.75rem;
   line-height: 1.25;
   padding: 6px 10px;
@@ -131,23 +131,24 @@
 }
 
 .dismissal-chip--selected {
-  background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 255, 255, 0.72);
+  background: var(--ds-brand);
+  border-color: var(--ds-brand);
+  color: #ffffff;
 }
 
 .dismissal-results__special-breakdown {
   margin-top: 10px;
   padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #f3c7a0;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08);
+  background: #fff8f1;
 }
 
 .dismissal-results__special-breakdown p {
   margin: 0 0 4px;
   font-size: 0.8125rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--ds-navy);
 }
 
 .dismissal-results__special-breakdown p:last-child {
@@ -155,15 +156,15 @@
 }
 
 .dismissal-results__special-caption {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--ds-text-muted);
 }
 
 .dismissal-results__warning {
   margin: 10px 0;
   padding: 14px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid #f3c7a0;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.12);
+  background: #fff8f1;
 }
 
 .dismissal-results__warning-title {
@@ -171,14 +172,14 @@
   font-size: clamp(1.15rem, 2vw, 1.4rem);
   font-weight: 700;
   line-height: 1.2;
-  color: #ffffff;
+  color: var(--ds-navy);
 }
 
 .dismissal-results__warning p {
   margin: 0 0 8px;
   font-size: 0.8125rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.92);
+  color: #3d4a55;
 }
 
 .dismissal-results__warning p:last-child {
@@ -198,7 +199,7 @@
   margin: 0 0 6px;
   font-size: 0.8125rem;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.92);
+  color: #3d4a55;
 }
 
 .dismissal-results__warning-bullets li:last-child {
@@ -212,9 +213,9 @@
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 800;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: var(--ds-navy);
+  background: var(--ds-brand-light);
+  border: 1px solid var(--ds-brand-muted);
 }
 
 .dismissal-results__dimmed {

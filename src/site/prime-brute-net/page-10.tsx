@@ -76,6 +76,15 @@ export function GrossPrimeSeriesPageContent({
       />
       <GuideAuthorMeta updatedAt={GROSS_PRIME_UPDATED_AT} />
 
+      <ShareBlock
+        url={share.url}
+        title={share.title}
+        description={share.description}
+        contentType="fiche"
+        variant="onLight"
+        layout="masthead"
+      />
+
       <section className="net-gross-1500__hero" aria-labelledby={`${idPrefix}-answer`}>
         <h2 id={`${idPrefix}-answer`} className="net-gross-1500__answer-title">
           {seo.answerH2}
@@ -111,14 +120,6 @@ export function GrossPrimeSeriesPageContent({
       </section>
 
       <MiniGrossPrimeCalculatorCta defaultGrossPrime={grossPrime} />
-
-      <ShareBlock
-        url={share.url}
-        title={share.title}
-        description={share.description}
-        contentType="fiche"
-        variant="onLight"
-      />
 
       {editorialSections.map(({ id, title, paragraphs }) => (
         <section
@@ -237,14 +238,6 @@ export function GrossPrimeSeriesPageContent({
         Contenu révisé le <time dateTime={GROSS_PRIME_UPDATED_AT}>{revisedLabel}</time>.{" "}
         {GROSS_PRIME_AUTHORITY_NOTE}
       </p>
-
-      <ShareBlock
-        url={share.url}
-        title={share.title}
-        description={share.description}
-        contentType="fiche"
-        variant="onLight"
-      />
     </div>
   );
 }

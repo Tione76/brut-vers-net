@@ -224,6 +224,15 @@ export function GrossToNet1000PageContent({
       />
       <GuideAuthorMeta updatedAt={GROSS_TO_NET_REDESIGN_DATE_MODIFIED} />
 
+      <ShareBlock
+        url={share.url}
+        title={share.title}
+        description={share.description}
+        contentType="fiche"
+        variant="onLight"
+        layout="masthead"
+      />
+
       <section className="net-gross-1500__hero" aria-labelledby={`${idPrefix}-answer`}>
         <h2 id={`${idPrefix}-answer`} className="net-gross-1500__answer-title">
           {seo.answerH2}
@@ -293,14 +302,6 @@ export function GrossToNet1000PageContent({
           Faites défiler le tableau vers la droite pour comparer les trois profils.
         </p>
       </section>
-
-      <ShareBlock
-        url={share.url}
-        title={share.title}
-        description={share.description}
-        contentType="fiche"
-        variant="onLight"
-      />
 
       <CoverFigure
         cover={GROSS_TO_NET_SERIES_COVER}

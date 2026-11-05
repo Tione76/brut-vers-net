@@ -73,13 +73,13 @@ describe("page pilier salaire moyen France", () => {
     expect(cover?.height).toBe(801);
 
     const history = guide.sections.find((section) => section.id === "evolution-pouvoir-achat");
-    const illustration = history?.blocks.find(
+    const illustration = history?.blocks?.find(
       (block) => block.type === "illustration" && block.id === "salaire-moyen-evolution-eqtp",
     );
     expect(illustration).toBeTruthy();
 
     const regions = guide.sections.find((section) => section.id === "selon-region");
-    const regionTable = regions?.blocks.find((block) => block.type === "table");
+    const regionTable = regions?.blocks?.find((block) => block.type === "table");
     expect(regionTable && regionTable.type === "table" ? regionTable.rows.length : 0).toBe(19);
 
     const graph = buildGuideJsonLd(guide)["@graph"] as Record<string, unknown>[];

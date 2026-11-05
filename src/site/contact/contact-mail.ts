@@ -16,7 +16,11 @@ export const ALLOWED_CONTACT_SUBJECTS = [
   "Signaler une erreur",
   "Suggestion d'amélioration",
   "Autre demande",
+  "Proposition de partenariat",
 ] as const;
+
+/** Objet e-mail distinct pour les propositions partenaires. */
+export const PARTNERSHIP_CONTACT_SUBJECT = "Proposition de partenariat" as const;
 
 export type AllowedContactSubject = (typeof ALLOWED_CONTACT_SUBJECTS)[number];
 
@@ -149,7 +153,10 @@ export function validateContactPayload(body: ContactPayload): ContactValidationR
 }
 
 export function buildContactEmailContent(data: ValidatedContactPayload) {
-  const subject = `[Nouveau contact ${siteConfig.name}] ${data.subject}`;
+  const subject =
+    data.subject === PARTNERSHIP_CONTACT_SUBJECT
+      ? `Proposition de partenariat — ${siteConfig.domain}`
+      : `[Nouveau contact ${siteConfig.name}] ${data.subject}`;
 
   const text = [
     `Nouveau message reçu depuis ${siteConfig.domain}`,

@@ -2,8 +2,8 @@
 
 .tool-header {
   position: relative;
-  background: var(--ds-brand-header-bg);
-  min-height: clamp(600px, 640px, 700px);
+  background: transparent;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -16,16 +16,16 @@
   max-width: var(--ds-max-content);
   margin: 0 auto;
   width: 100%;
-  padding: 0 24px 16px;
+  padding: 28px 24px 16px;
   gap: clamp(12px, 2.5vw, 24px);
 }
 
 .tool-header__title {
   flex-shrink: 0;
   margin: 0;
-  padding-top: clamp(4px, 1.5vw, 12px);
+  padding-top: 0;
   text-align: center;
-  color: #ffffff;
+  color: var(--ds-brand);
   font-family: var(--ds-font-family);
   font-size: clamp(0.8125rem, 0.65rem + 1.85vw, 2.25rem);
   font-weight: 800;
@@ -33,7 +33,6 @@
   letter-spacing: 0.035em;
   text-transform: uppercase;
   text-wrap: balance;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .tool-header__title--sentence {
@@ -44,13 +43,23 @@
 }
 
 .tool-header--tool-page {
-  min-height: clamp(680px, 72vh, 820px);
+  min-height: 0;
 }
 
 @media (min-width: 640px) {
   .tool-header__inner {
-    padding: 0 32px 16px;
+    padding: 32px 32px 20px;
   }
+}
+
+.tool-header__subtitle {
+  margin: 0;
+  text-align: center;
+  color: #3d4a55;
+  font-size: clamp(0.9375rem, 0.85rem + 0.5vw, 1.125rem);
+  line-height: 1.45;
+  max-width: 42rem;
+  align-self: center;
 }
 
 .calc-stage {
@@ -91,7 +100,7 @@
 .calc-col-title {
   font-size: var(--ds-font-size-xs);
   font-weight: 600;
-  color: var(--ds-on-brand-faint);
+  color: var(--ds-navy);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 16px;
@@ -121,7 +130,7 @@
   display: block;
   font-size: var(--ds-font-size-md);
   font-weight: 600;
-  color: var(--ds-label-on-brand);
+  color: var(--ds-navy);
   letter-spacing: 0.03em;
   text-transform: uppercase;
   margin-bottom: 8px;
@@ -153,8 +162,8 @@
 
 .calc-input:focus {
   outline: none;
-  border-color: #ffffff;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55);
+  border-color: var(--ds-brand);
+  box-shadow: 0 0 0 2px rgba(var(--ds-brand-rgb), 0.22);
 }
 
 .calc-input-suffix {
@@ -169,13 +178,13 @@
 .calc-field-error {
   margin-top: 6px;
   font-size: var(--ds-font-size-sm);
-  color: #ffd4d4;
+  color: #b42318;
   line-height: 1.4;
 }
 
 .calc-range {
   width: 100%;
-  accent-color: #ffffff;
+  accent-color: var(--ds-brand);
 }
 
 .calc-col-actions {
@@ -184,7 +193,7 @@
   gap: 24px;
   margin-top: 24px;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  border-top: 1px solid var(--ds-border);
   flex-shrink: 0;
 }
 
@@ -197,9 +206,9 @@
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--ds-brand);
-  background: #ffffff;
-  border: 2px solid #ffffff;
+  color: #ffffff;
+  background: var(--ds-brand);
+  border: 2px solid var(--ds-brand);
   border-radius: var(--ds-radius);
   cursor: pointer;
   white-space: nowrap;
@@ -207,16 +216,16 @@
 }
 
 .calc-cta:hover {
-  background: var(--ds-brand-light);
-  border-color: var(--ds-brand-light);
+  background: var(--ds-brand-hover);
+  border-color: var(--ds-brand-hover);
 }
 
 .calc-reset {
   font-size: var(--ds-font-size-base);
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--ds-navy);
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: rgba(255, 255, 255, 0.35);
+  text-decoration-color: rgba(20, 34, 56, 0.35);
   cursor: pointer;
   background: none;
   border: none;
@@ -225,7 +234,7 @@
 }
 
 .calc-reset:hover {
-  color: #ffffff;
+  color: var(--ds-brand);
 }
 
 .calc-col--results {
@@ -237,9 +246,10 @@
 }
 
 .result-primary {
-  background: #ffffff;
-  border: 2px solid #ffffff;
-  border-radius: var(--ds-radius);
+  background: #fff8f1;
+  border: 1px solid #f3c7a0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(190, 70, 0, 0.08);
   padding: 24px 28px;
   flex-shrink: 0;
 }
@@ -266,7 +276,7 @@
 .result-primary-value {
   font-size: 3.5rem;
   font-weight: 700;
-  color: var(--ds-brand);
+  color: var(--ds-navy);
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
   line-height: 1;
@@ -299,9 +309,9 @@
   flex-shrink: 0;
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-top: 1px solid var(--ds-border);
   font-size: var(--ds-font-size-xs);
-  color: var(--ds-on-brand-disclaimer);
+  color: var(--ds-text-muted);
   text-align: center;
 }
 
@@ -344,7 +354,7 @@
 
 .home-editorial h2 {
   margin-top: var(--editorial-space-section);
-  scroll-margin-top: 2.5rem;
+  scroll-margin-top: var(--ds-anchor-offset, 2.5rem);
   max-width: var(--editorial-prose-width);
   line-height: 1.3;
 }
@@ -355,7 +365,7 @@
 
 .home-editorial h3 {
   margin-top: 2.25rem;
-  scroll-margin-top: 2rem;
+  scroll-margin-top: var(--ds-anchor-offset, 2.5rem);
   max-width: var(--editorial-prose-width);
   line-height: 1.35;
 }
@@ -820,5 +830,5 @@
 }
 
 #faq {
-  scroll-margin-top: 2.5rem;
+  scroll-margin-top: var(--ds-anchor-offset, 2.5rem);
 }

@@ -116,12 +116,14 @@ export function buildGuideTocH2(guide: Guide): GuideTocEntry[] {
     level: 2 as const,
   }));
 
-  const faqId = guide.faqSectionId ?? "faq";
-  entries.push({
-    id: faqId,
-    title: guide.faqTitle ?? "Questions fréquentes",
-    level: 2,
-  });
+  if (guide.faq.length > 0) {
+    const faqId = guide.faqSectionId ?? "faq";
+    entries.push({
+      id: faqId,
+      title: guide.faqTitle ?? "Questions fréquentes",
+      level: 2,
+    });
+  }
 
   const bibliographyEntry = bibliographyTocEntry(guide);
   const bibliographyAfterFaq = guide.bibliographyPlacement === "after-faq";
@@ -153,12 +155,14 @@ export function buildGuideToc(guide: Guide): GuideTocEntry[] {
     }
   }
 
-  const faqId = guide.faqSectionId ?? "faq";
-  entries.push({
-    id: faqId,
-    title: guide.faqTitle ?? "Questions fréquentes",
-    level: 2,
-  });
+  if (guide.faq.length > 0) {
+    const faqId = guide.faqSectionId ?? "faq";
+    entries.push({
+      id: faqId,
+      title: guide.faqTitle ?? "Questions fréquentes",
+      level: 2,
+    });
+  }
 
   const bibliographyEntry = bibliographyTocEntry(guide);
   const bibliographyAfterFaq = guide.bibliographyPlacement === "after-faq";

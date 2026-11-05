@@ -41,6 +41,15 @@ export function NetToGrossIndexPageContent() {
       />
       <GuideAuthorMeta updatedAt={NET_TO_GROSS_UPDATED_AT} />
 
+      <ShareBlock
+        url={page.canonical}
+        title={page.seo.title}
+        description={page.seo.description}
+        contentType="fiche"
+        variant="onLight"
+        layout="masthead"
+      />
+
       <GuideInlineToc
         entries={page.toc.map((entry) => ({
           id: entry.id,
@@ -175,14 +184,6 @@ export function NetToGrossIndexPageContent() {
       <p className="net-gross__updated">
         Contenu révisé le <time dateTime={NET_TO_GROSS_UPDATED_AT}>{revisedLabel}</time>.
       </p>
-
-      <ShareBlock
-        url={page.canonical}
-        title={page.seo.title}
-        description={page.seo.description}
-        contentType="fiche"
-        variant="onLight"
-      />
     </div>
   );
 }

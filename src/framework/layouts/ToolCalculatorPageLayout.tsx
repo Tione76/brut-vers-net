@@ -1,10 +1,9 @@
 "use client";
 
 import type { ComponentType, ReactNode } from "react";
-import { useSite, CalculatorProvider, useCalculatorSlot } from "@/framework/SiteProvider";
+import { CalculatorProvider, useCalculatorSlot } from "@/framework/SiteProvider";
 import { AdSlot } from "@/framework/AdSlot";
-import { SiteNav } from "@/framework/design/components/SiteNav";
-import { HeaderCurveDown } from "@/framework/design/components/Curves";
+import { SiteShell } from "@/framework/design/components/SiteShell";
 import { ShareBlock, type ShareBlockProps } from "@/framework/design/components/ShareBlock";
 import { PageFooter } from "@/framework/design/PageFooter";
 
@@ -26,12 +25,10 @@ function CalculatorHero({
   Calculator,
   variant,
   disclaimer,
-  share,
 }: {
   Calculator: ComponentType;
   variant?: "default" | "margin";
   disclaimer?: string;
-  share: ShareBlockProps;
 }) {
   const { result } = useCalculatorSlot();
   const isMargin = variant === "margin";
@@ -64,7 +61,6 @@ function CalculatorHero({
         {disclaimer ??
           "Le calculateur est actuellement en cours de développement."}
       </p>
-      <ShareBlock {...share} />
     </div>
   );
 }
@@ -81,19 +77,14 @@ function ToolCalculatorPageInner({
   variant = "default",
   share,
 }: ToolCalculatorPageLayoutProps) {
-  const site = useSite();
   const isMargin = variant === "margin";
 
   return (
     <>
-      <section className={`tool-header tool-header--tool-page${isMargin ? " tool-header--margin-page" : ""}`}>
-        <SiteNav
-          siteName={site.name}
-          nav={site.navigation.header}
-          logo={site.logo}
-          guidesNavigation={site.guidesNavigation}
-          toolsNavigation={site.toolsNavigation}
-        />
+      <SiteShell>
+      <section
+        className={`tool-header tool-header--tool-page tool-header--with-share${isMargin ? " tool-header--margin-page" : ""}`}
+      >
         <div className="tool-header__inner">
           <h1 className="tool-header__title tool-header__title--sentence">{h1}</h1>
           {subtitle ? <p className="tool-header__subtitle">{subtitle}</p> : null}
@@ -102,11 +93,12 @@ function ToolCalculatorPageInner({
               Calculator={Calculator}
               variant={variant}
               disclaimer={disclaimer}
-              share={share}
             />
           </div>
+          <div className="tool-header__share">
+            <ShareBlock {...share} variant="onLight" layout="rail" />
+          </div>
         </div>
-        <HeaderCurveDown />
       </section>
 
       <main id="main-content" className="content-main">
@@ -119,14 +111,14 @@ function ToolCalculatorPageInner({
               <div className="content-wrap">
                 <AdSlot position="after-result" />
               </div>
-              <ShareBlock {...share} variant="onLight" />
             </div>
             <aside className="article-sidebar" aria-label="Guides et outils">
               {sidebar}
             </aside>
           </div>
         </div>
-      </main>
+        </main>
+      </SiteShell>
 
       <div className="content-wrap">
         <AdSlot position="before-footer" />

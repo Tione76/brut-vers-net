@@ -113,6 +113,12 @@ export const seoConfig = {
   },
 
   legal: {
+    partnership: {
+      title: "Devenir partenaire : publicité et affiliation | Brut-vers-net.fr",
+      h1: "Devenir partenaire de Brut-vers-net.fr",
+      description:
+        "Découvrez les formats publicitaires et les possibilités d'affiliation sur Brut-vers-net.fr. Consultez les exemples et proposez votre partenariat.",
+    },
     contact: {
       title: "Contact",
       description:

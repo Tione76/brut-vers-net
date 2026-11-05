@@ -32,6 +32,15 @@ export function GrossToNetHubPageContent() {
       />
       <GuideAuthorMeta updatedAt={GROSS_TO_NET_UPDATED_AT} />
 
+      <ShareBlock
+        url={hub.canonical}
+        title={hub.seo.title}
+        description={hub.seo.description}
+        contentType="fiche"
+        variant="onLight"
+        layout="masthead"
+      />
+
       <section
         id="hub-trouver"
         className="net-gross-1500__explain"
@@ -149,14 +158,6 @@ export function GrossToNetHubPageContent() {
       <p className="net-gross__updated">
         Contenu révisé le <time dateTime={GROSS_TO_NET_UPDATED_AT}>{revisedLabel}</time>.
       </p>
-
-      <ShareBlock
-        url={hub.canonical}
-        title={hub.seo.title}
-        description={hub.seo.description}
-        contentType="fiche"
-        variant="onLight"
-      />
     </div>
   );
 }

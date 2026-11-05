@@ -45,7 +45,7 @@
   margin: 0 0 6px;
   font-size: 1rem;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--ds-text-muted);
 }
 
 /* Intitulés de champs et légendes : 16 px */
@@ -97,7 +97,7 @@
   padding: 8px 10px;
   font-size: 0.9375rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--ds-navy);
 }
 
 .overtime-form .increase-calc__net-toggle,
@@ -125,7 +125,7 @@
   margin: 8px 0 0;
   font-size: 0.9375rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--ds-text-muted);
 }
 
 .overtime-rates-summary {
@@ -133,7 +133,7 @@
   font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--ds-navy);
 }
 
 /* ------------------------------------------------------------------ */

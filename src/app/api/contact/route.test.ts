@@ -90,6 +90,22 @@ describe("contact-mail helpers", () => {
     expect(content.html).toContain("<strong>Nom :</strong>");
     expect(content.html).not.toContain("<script>");
   });
+
+  it("identifie une proposition de partenariat dans l'objet", () => {
+    const content = buildContactEmailContent({
+      name: "Alice",
+      email: "alice@example.com",
+      subject: "Proposition de partenariat",
+      message: "Proposition de partenariat — Brut-vers-net.fr\n\nProjet : test",
+    });
+    expect(content.subject).toBe("Proposition de partenariat — brut-vers-net.fr");
+    expect(validateContactPayload({
+      name: "Alice",
+      email: "alice@example.com",
+      subject: "Proposition de partenariat",
+      message: "Projet détaillé",
+    }).ok).toBe(true);
+  });
 });
 
 describe("POST /api/contact", () => {
@@ -207,9 +223,15 @@ describe("POST /api/contact", () => {
       join(process.cwd(), "src/site/contact/ContactPageContent.tsx"),
       "utf8",
     );
+    const partnerFormSource = readFileSync(
+      join(process.cwd(), "src/site/partnership/PartnershipForm.tsx"),
+      "utf8",
+    );
 
     expect(formSource).not.toMatch(/RESEND_API_KEY/);
     expect(formSource).not.toMatch(/NEXT_PUBLIC_.*RESEND/);
     expect(pageSource).not.toMatch(/RESEND_API_KEY/);
+    expect(partnerFormSource).not.toMatch(/RESEND_API_KEY/);
+    expect(partnerFormSource).toContain('/api/contact');
   });
 });

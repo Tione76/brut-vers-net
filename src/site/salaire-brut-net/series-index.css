@@ -5,7 +5,7 @@
 
 .gross-to-net-index h2[id],
 .gross-to-net-index section[id] {
-  scroll-margin-top: 2.5rem;
+  scroll-margin-top: var(--ds-anchor-offset, 2.5rem);
 }
 
 .gross-to-net-index__toc {

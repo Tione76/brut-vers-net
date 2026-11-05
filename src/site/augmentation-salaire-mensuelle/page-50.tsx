@@ -72,6 +72,15 @@ export function MonthlyIncreaseSeriesPageContent({
       />
       <GuideAuthorMeta updatedAt={MONTHLY_INCREASE_UPDATED_AT} />
 
+      <ShareBlock
+        url={share.url}
+        title={share.title}
+        description={share.description}
+        contentType="fiche"
+        variant="onLight"
+        layout="masthead"
+      />
+
       <section className="net-gross-1500__hero" aria-labelledby={`${idPrefix}-answer`}>
         <h2 id={`${idPrefix}-answer`} className="net-gross-1500__answer-title">
           {seo.answerH2}
@@ -106,14 +115,6 @@ export function MonthlyIncreaseSeriesPageContent({
       </section>
 
       <MiniIncreaseCalculatorCta defaultGrossMonthlyIncrease={grossMonthlyIncrease} />
-
-      <ShareBlock
-        url={share.url}
-        title={share.title}
-        description={share.description}
-        contentType="fiche"
-        variant="onLight"
-      />
 
       {editorialSections.map(({ id, title, paragraphs }) => (
         <section
@@ -221,14 +222,6 @@ export function MonthlyIncreaseSeriesPageContent({
         Contenu révisé le <time dateTime={MONTHLY_INCREASE_UPDATED_AT}>{revisedLabel}</time>.
         Chiffres alignés sur les coefficients du simulateur.
       </p>
-
-      <ShareBlock
-        url={share.url}
-        title={share.title}
-        description={share.description}
-        contentType="fiche"
-        variant="onLight"
-      />
     </div>
   );
 }
