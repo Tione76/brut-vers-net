@@ -447,6 +447,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1201,
     801,
   ),
+  "grille-salaire-syntec": cover(
+    "guides/grille-salaire-syntec.webp",
+    "Homme concentré examinant un document à un bureau, avec plans, règles et carnets",
+    {
+      photographer: "Tima Miroshnichenko",
+      source: "Pexels",
+      text: "Photo de Tima Miroshnichenko via Pexels",
+    },
+    1200,
+    800,
+  ),
   "quel-est-un-bon-salaire-en-france": cover(
     "guides/bon-salaire-en-france.webp",
     "Main posée sur une pile de billets près d'un stylo sur une table en bois, personne floue en arrière-plan",
@@ -600,6 +611,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/salaire-moyen-france") {
     return getGuideCover("salaire-moyen-france");
+  }
+  if (href === "/grille-salaire-syntec") {
+    return getGuideCover("grille-salaire-syntec");
   }
   if (href === "/quel-est-un-bon-salaire-en-france") {
     return getGuideCover("quel-est-un-bon-salaire-en-france");

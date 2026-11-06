@@ -56,6 +56,7 @@ const GUIDE_TOPIC_TOOLS: Record<string, readonly string[]> = {
   "cotisations-salariales-pourquoi-brut-plus-eleve-que-net": ["brut-vers-net"],
   "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne": ["brut-vers-net"],
   "salaire-moyen-france": ["brut-vers-net", "augmentation-salaire"],
+  "grille-salaire-syntec": ["brut-vers-net", "salaire-heures-supplementaires"],
   "quel-est-un-bon-salaire-en-france": ["brut-vers-net", "augmentation-salaire"],
   "salaire-interim-calcul-brut-net": ["brut-vers-net", "salaire-heures-supplementaires"],
   "salaire-alternance": ["brut-vers-net"],
@@ -81,6 +82,7 @@ const GUIDE_TOPIC_RELATED: Record<string, readonly string[]> = {
   "salaire-minimum-italie": ["smic-europe", "smic", "salaire-minimum-suisse"],
   "salaire-minimum-monaco": ["smic-europe", "smic", "salaire-minimum-italie"],
   "banque-petit-salaire": ["smic", "prime-activite", "quel-est-un-bon-salaire-en-france"],
+  "grille-salaire-syntec": ["smic", "comment-lire-une-fiche-de-paie", "comment-calculer-son-salaire-net"],
   "prime-de-noel": ["prime-activite", "smic", "salaire-moyen-france"],
   "prime-activite": ["prime-de-noel", "smic", "salaire-moyen-france"],
   "solde-de-tout-compte": [

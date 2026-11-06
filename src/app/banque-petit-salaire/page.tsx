@@ -3,24 +3,50 @@ import Link from "next/link";
 import { config, seoConfig } from "@/site";
 import { SITE_AUTHOR } from "@/site/author";
 import {
-  computeReadingTime,
+  computeReadingTimeFromText,
   getDraftGuideBySlug,
   getGuidePublicPath,
-  GuideArticle,
   GuidePageLayout,
   GuidePageSidebar,
 } from "@/site/guides";
 import { coverToOgInput, resolveGuideCover } from "@/site/guides/covers";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
+import { ShareBlock } from "@/framework/design/components/ShareBlock";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
-import { buildGuideJsonLd } from "@/site/schema";
 import {
+  BANK_FAQ_ITEMS,
+  BANK_GUIDE_DISCLOSURE,
+  BANK_GUIDE_INTRO,
   BANK_GUIDE_SLUG,
   BANK_GUIDE_SOURCES_VERIFIED_AT_LABEL,
-  BankNeedBlocks,
+  BANK_NEED_BLOCKS,
+  BANK_OFFERS,
+  BankCompareTabs,
+  BankMethodSection,
   BankOfferCards,
+  buildBanquePetitSalaireJsonLd,
 } from "@/site/banque-petit-salaire";
+
+function bankGuideReadingText(): string {
+  return [
+    ...BANK_GUIDE_INTRO,
+    BANK_GUIDE_DISCLOSURE,
+    ...BANK_OFFERS.flatMap((offer) => [
+      offer.analysisTitle,
+      offer.whyInSelection,
+      offer.considerIf,
+      offer.compareIf,
+      offer.freeCondition,
+      offer.unusedFeeLabel,
+      offer.initialDeposit,
+      offer.checkDeposit,
+      offer.cashDeposit,
+    ]),
+    ...BANK_NEED_BLOCKS.flatMap((item) => [item.need, item.answer]),
+    ...BANK_FAQ_ITEMS.flatMap((item) => [item.question, item.answer]),
+  ].join(" ");
+}
 
 const SLUG = BANK_GUIDE_SLUG;
 
@@ -59,12 +85,13 @@ export default async function BanquePetitSalairePage() {
   if (!guide) notFound();
 
   const path = getGuidePublicPath(guide);
-  const readingTime = computeReadingTime(guide);
+  const readingTime = computeReadingTimeFromText(bankGuideReadingText());
   const shareTitle = guide.seoTitle ?? guide.title;
+  const shareUrl = getCanonicalUrl(config.url, path);
 
   return (
     <>
-      <JsonLd data={buildGuideJsonLd(guide)} />
+      <JsonLd data={buildBanquePetitSalaireJsonLd(guide)} />
       <GuidePageLayout
         title={guide.title}
         subtitle={guide.subtitle}
@@ -103,24 +130,23 @@ export default async function BanquePetitSalairePage() {
           <span aria-hidden="true"> · </span>
           <span>Tarifs vérifiés le {BANK_GUIDE_SOURCES_VERIFIED_AT_LABEL}</span>
         </p>
-        <GuideArticle
-          slug={guide.slug}
-          introduction={guide.introduction}
-          introSummary={guide.introSummary}
-          quickSummary={guide.quickSummary}
-          afterIntroduction={<BankOfferCards />}
-          sectionSlots={{ "quelle-offre": <BankNeedBlocks /> }}
-          toc={[]}
-          sections={guide.sections}
-          faq={[]}
-          conclusion={guide.conclusion}
-          cover={undefined}
-          share={{
-            url: getCanonicalUrl(config.url, path),
-            title: shareTitle,
-            description: guide.description,
-          }}
-        />
+
+        <div className="prose">
+          {BANK_GUIDE_INTRO.map((paragraph) => (
+            <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+          ))}
+          <p className="bp-disclosure">{BANK_GUIDE_DISCLOSURE}</p>
+
+          <BankOfferCards />
+          <BankCompareTabs />
+          <BankMethodSection />
+
+          <ShareBlock
+            url={shareUrl}
+            title={shareTitle}
+            description={guide.description}
+          />
+        </div>
       </GuidePageLayout>
     </>
   );

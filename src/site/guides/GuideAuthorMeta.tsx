@@ -46,3 +46,5 @@ export function GuideAuthorMeta({ updatedAt, readingTime }: GuideAuthorMetaProps
     </p>
   );
 }
+
+GuideAuthorMeta.displayName = "GuideAuthorMeta";

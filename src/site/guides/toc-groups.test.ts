@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { buildTocBlocks } from "./GuideEditorialToc";
-import { guides } from "./registry";
+import { draftGuides, guides } from "./registry";
 import { GUIDE_TOC_CONFIG, GUIDE_TOC_GROUPS, getGuideTocGroups } from "./toc-groups";
 import { buildGuideTocH2 } from "./utils";
 
 describe("GUIDE_TOC_CONFIG", () => {
-  it("ne référence que des guides publiés", () => {
-    const slugs = new Set(guides.map((guide) => guide.slug));
+  it("ne référence que des guides publiés ou en brouillon", () => {
+    const slugs = new Set(
+      [...guides, ...draftGuides].map((guide) => guide.slug),
+    );
     for (const slug of Object.keys(GUIDE_TOC_CONFIG)) {
       expect(slugs.has(slug), `slug inconnu: ${slug}`).toBe(true);
     }

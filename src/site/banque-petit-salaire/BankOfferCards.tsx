@@ -1,7 +1,8 @@
 import {
   BANK_OFFERS,
-  type BankCardPromo,
+  offerProductRel,
   type BankOffer,
+  type BankWelcomePromo,
 } from "./data";
 import { formatCents } from "./engine";
 import "./bank-cards.css";
@@ -21,7 +22,7 @@ function CheckIcon() {
   );
 }
 
-function promoAmountParts(cents: number): { value: string; unit: string } {
+function welcomeAmountParts(cents: number): { value: string; unit: string } {
   const label = formatCents(cents);
   return {
     value: label.replace(/\u00a0€$/, ""),
@@ -29,34 +30,61 @@ function promoAmountParts(cents: number): { value: string; unit: string } {
   };
 }
 
-function promoCopy(promo: BankCardPromo): {
-  banner: string;
-  prefix: string | null;
-  suffix: string;
-  hint: string | null;
-} {
-  if (promo.kind === "welcome") {
-    return {
-      banner: "Offre de bienvenue",
-      prefix: promo.isMaximum ? "Jusqu'à" : null,
-      suffix: "offerts",
-      hint: null,
-    };
+function WelcomePromo({ promo }: { promo: BankWelcomePromo }) {
+  if (promo.kind === "none") {
+    return (
+      <div className="bp-card__promo bp-card__promo--empty">
+        <p className="bp-card__promo-banner">Offre de bienvenue</p>
+        <div className="bp-card__promo-body">
+          <p className="bp-card__promo-none">{promo.note}</p>
+        </div>
+      </div>
+    );
   }
-  return {
-    banner: "Tarif mensuel",
-    prefix: null,
-    suffix: promo.suffix,
-    hint: promo.hint ?? null,
-  };
-}
 
-function BankCard({ offer }: { offer: BankOffer }) {
-  const amount = promoAmountParts(offer.promo.amountCents);
-  const copy = promoCopy(offer.promo);
+  const amount = welcomeAmountParts(promo.amountCents);
 
   return (
-    <article className="bp-card">
+    <div className="bp-card__promo">
+      <p className="bp-card__promo-banner">Offre de bienvenue</p>
+      <div className="bp-card__promo-body">
+        {promo.isMaximum ? <p className="bp-card__promo-prefix">Jusqu&apos;à</p> : null}
+        <p className="bp-card__promo-amount">
+          {amount.value}
+          <span className="bp-card__promo-unit">&nbsp;{amount.unit}</span>
+        </p>
+        <p className="bp-card__promo-suffix">offerts</p>
+        <p className="bp-card__promo-hint">{promo.conditionsShort}</p>
+      </div>
+    </div>
+  );
+}
+
+export type BankCardProps = {
+  offer: BankOffer;
+  /** Variante plus courte pour les analyses. */
+  compact?: boolean;
+  /** Affiche le lien interne « Comprendre cette offre ». */
+  showUnderstandLink?: boolean;
+};
+
+/**
+ * Carte d'offre : lien principal étendu (offre officielle) + lien secondaire interne.
+ * Aucun lien imbriqué. Fonctionne sans JavaScript pour la navigation externe.
+ */
+export function BankCard({
+  offer,
+  compact = false,
+  showUnderstandLink = !compact,
+}: BankCardProps) {
+  const benefits = compact ? offer.compactBenefits : offer.cardBenefits;
+  const rel = offerProductRel(offer);
+
+  return (
+    <article
+      className={`bp-card${compact ? " bp-card--compact" : ""}`}
+      data-bank-id={offer.id}
+    >
       <header className="bp-card__header">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -66,7 +94,7 @@ function BankCard({ offer }: { offer: BankOffer }) {
           width={offer.logoWidth}
           height={offer.logoHeight}
           decoding="async"
-          loading="eager"
+          loading={compact ? "lazy" : "eager"}
         />
         <h3 className="bp-card__offer">
           <span className="bp-card__sr">{offer.bankName}. </span>
@@ -75,23 +103,12 @@ function BankCard({ offer }: { offer: BankOffer }) {
       </header>
 
       <div className="bp-card__body">
-        <div className="bp-card__promo">
-          <p className="bp-card__promo-banner">{copy.banner}</p>
-          <div className="bp-card__promo-body">
-            {copy.prefix ? <p className="bp-card__promo-prefix">{copy.prefix}</p> : null}
-            <p className="bp-card__promo-amount">
-              {amount.value}
-              <span className="bp-card__promo-unit">&nbsp;{amount.unit}</span>
-            </p>
-            <p className="bp-card__promo-suffix">{copy.suffix}</p>
-            {copy.hint ? <p className="bp-card__promo-hint">{copy.hint}</p> : null}
-          </div>
-        </div>
+        <WelcomePromo promo={offer.welcome} />
 
         <div className="bp-card__points">
           <p className="bp-card__points-title">Les avantages</p>
           <ul className="bp-card__benefits">
-            {offer.cardBenefits.map((benefit) => (
+            {benefits.map((benefit) => (
               <li key={`${benefit.prefix ?? ""}${benefit.strong}${benefit.suffix ?? ""}`}>
                 <CheckIcon />
                 <span>
@@ -108,9 +125,9 @@ function BankCard({ offer }: { offer: BankOffer }) {
           <a
             className="bp-card__cta"
             href={offer.productUrl}
-            rel="noopener noreferrer"
+            rel={rel}
             target="_blank"
-            aria-label={`Voir l'offre ${offer.bankName}`}
+            aria-label={`Voir l'offre ${offer.bankName} ${offer.offerName} (site officiel)`}
           >
             Voir l&apos;offre
             <span className="bp-card__cta-arrow" aria-hidden="true">
@@ -119,13 +136,26 @@ function BankCard({ offer }: { offer: BankOffer }) {
           </a>
         </div>
       </div>
+
+      {showUnderstandLink ? (
+        <p className="bp-card__understand-wrap">
+          <a
+            className="bp-card__understand"
+            href={`#${offer.decryptAnchor}`}
+            data-bp-open-tab="detail"
+            data-bp-scroll-to={offer.decryptAnchor}
+          >
+            Comprendre cette offre
+          </a>
+        </p>
+      ) : null}
     </article>
   );
 }
 
 export function BankOfferCards() {
   return (
-    <div className="bp-cards">
+    <div className="bp-cards" id="bp-cards-top">
       <h2 className="bp-cards__title">Comparer les comptes</h2>
       <ul className="bp-cards__list">
         {BANK_OFFERS.map((offer) => (

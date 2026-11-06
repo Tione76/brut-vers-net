@@ -296,16 +296,17 @@
 }
 
 /*
- * Desktop guides : flux réel
- * 1) ligne kicker | partage (guide-masthead-top)
- * 2) fil d'Ariane
- * 3) H1 puis accroche / auteur
+ * En-tête guides (hors pages mixtes) :
+ * 1) ligne fil d'Ariane | partage desktop (guide-masthead-top)
+ * 2) H1 puis accroche / auteur
+ * Pages mixtes : kicker « Guide pratique » | partage, puis H1 / meta / fil d'Ariane.
  */
 .guide-masthead-top {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.75rem 1rem;
   width: 100%;
   margin: 0;
   text-align: left;
@@ -318,12 +319,29 @@
   text-align: left;
 }
 
+.guide-masthead-top__trail {
+  flex: 1 1 12rem;
+  min-width: 0;
+  max-width: 100%;
+  text-align: left;
+}
+
+.guide-masthead-top__trail:empty {
+  display: none;
+}
+
+.guide-masthead-top__trail .guide-breadcrumb,
+.guide-masthead-top__trail .guide-breadcrumb.guide-breadcrumb {
+  margin: 0;
+}
+
 .guide-masthead-top__share {
   flex: 0 0 auto;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-start;
   margin: 0;
+  margin-left: auto;
   min-height: 0;
 }
 

@@ -61,3 +61,5 @@ export function PageBreadcrumb({ items }: PageBreadcrumbProps) {
     </nav>
   );
 }
+
+PageBreadcrumb.displayName = "PageBreadcrumb";

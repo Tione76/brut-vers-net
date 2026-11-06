@@ -171,6 +171,14 @@ export const commentLireUneFicheDePaieGuide: Guide = {
           label: "vérifiez le SMIC hôtelier et la grille HCR",
           href: "/smic-hotelier",
         },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro:
+            "Si votre bulletin indique la convention Syntec (IDCC 1486),",
+          label: "consultez la grille de salaire Syntec par coefficient",
+          href: "/grille-salaire-syntec",
+        },
       ],
     },
     {

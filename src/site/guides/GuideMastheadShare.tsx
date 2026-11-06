@@ -12,7 +12,8 @@ type GuideMastheadShareProps = Omit<ShareBlockProps, "layout" | "variant"> & {
 };
 
 /**
- * Desktop : monte le partage dans la ligne « Guide pratique » (#guide-share-slot).
+ * Desktop : monte le partage dans la première ligne d'en-tête (#guide-share-slot),
+ * à droite du fil d'Ariane (ou du kicker sur les pages mixtes).
  * Mobile : reste dans le flux sous les métadonnées (emplacement d'appel).
  */
 export function GuideMastheadShare({
@@ -41,5 +42,7 @@ export function GuideMastheadShare({
 
   return block;
 }
+
+GuideMastheadShare.displayName = "GuideMastheadShare";
 
 export const GUIDE_SHARE_SLOT_ID = SLOT_ID;

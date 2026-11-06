@@ -94,7 +94,8 @@
 
 /*
  * Chrome d'en-tête isolé du corps .prose : ordre DOM réel
- * (kicker | partage → fil d'Ariane → H1 → accroche → meta).
+ * (fil d'Ariane | partage → H1 → accroche → meta).
+ * Pages mixtes : kicker | partage → H1 → meta → fil d'Ariane.
  * Pas de display:flex / order sur le corps éditorial.
  */
 .guide-masthead {
@@ -111,9 +112,17 @@
   margin-top: 0;
 }
 
+.guide-masthead > .guide-masthead-top {
+  margin-bottom: 0;
+}
+
 .guide-masthead > .guide-breadcrumb {
   margin-top: 8px;
   margin-bottom: 12px;
+}
+
+.article-body--breadcrumb-top .guide-masthead > .guide-header__title {
+  margin-top: 10px;
 }
 
 .guide-masthead > .guide-header__title {

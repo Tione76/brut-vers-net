@@ -244,6 +244,15 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "grille-salaire-syntec": {
+    groups: [
+      { title: "Grilles et classification", icon: "calculator", start: 0, end: 3 },
+      { title: "Vérifier sa rémunération", icon: "scale", start: 3, end: 5 },
+      { title: "Exemples et démarches", icon: "clipboard", start: 5, end: 7 },
+      { title: "FAQ, conclusion et sources", icon: "file", start: 7, end: 10 },
+    ],
+  },
+
   "quel-est-un-bon-salaire-en-france": {
     groups: [
       { title: "Les repères pour évaluer son salaire", icon: "chart", start: 0, end: 7 },

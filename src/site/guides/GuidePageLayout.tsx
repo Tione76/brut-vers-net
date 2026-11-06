@@ -2,6 +2,8 @@
 
 import {
   Children,
+  cloneElement,
+  Fragment,
   isValidElement,
   type ReactElement,
   type ReactNode,
@@ -22,14 +24,16 @@ interface GuidePageLayoutProps {
   /**
    * Navigation rapide (ancres / liens de cocon) :
    * après le fil d'Ariane affiché, avant le premier paragraphe éditorial.
+   * Présence = page mixte guide + simulateur : conserver l'en-tête historique.
    */
   headerActions?: ReactNode;
   /** Classe additionnelle sur le bandeau (ex. page auteur). */
   headerClassName?: string;
   /**
    * Libellé d'interface au-dessus du fil d'Ariane.
-   * `undefined` : « Guide pratique » sur les articles en prose.
-   * `null` : aucun libellé (hubs, pages légales, contact).
+   * Conservé uniquement pour les pages mixtes (`headerActions`).
+   * `undefined` sur une page mixte : « Guide pratique ».
+   * `null` / pages hors mixte : aucun libellé.
    */
   kicker?: string | null;
   /**
@@ -44,26 +48,97 @@ function classTokens(className: unknown): string[] {
   return className.split(/\s+/).filter(Boolean);
 }
 
+/** Nom de composant stable malgré la sérialisation RSC (références client). */
+function elementTypeName(type: unknown): string | null {
+  if (typeof type === "string") return type;
+  if (typeof type === "function") {
+    const fn = type as { displayName?: string; name?: string };
+    return fn.displayName || fn.name || null;
+  }
+  if (type && typeof type === "object") {
+    const ref = type as { displayName?: string; name?: string };
+    return ref.displayName || ref.name || null;
+  }
+  return null;
+}
+
+function isBreadcrumbItemList(items: unknown): boolean {
+  if (!Array.isArray(items) || items.length === 0) return false;
+  return items.every(
+    (item) =>
+      item != null &&
+      typeof item === "object" &&
+      "label" in item &&
+      typeof (item as { label: unknown }).label === "string",
+  );
+}
+
 function isBreadcrumbChild(child: ReactElement): boolean {
-  return child.type === PageBreadcrumb;
+  if (child.type === PageBreadcrumb) return true;
+  const name = elementTypeName(child.type);
+  if (name === "PageBreadcrumb") return true;
+  /**
+   * Enfants issus d'une Server Component : `type === PageBreadcrumb` échoue.
+   * PageBreadcrumb n'expose que `items: { label, href? }[]`.
+   */
+  const props = child.props as {
+    items?: unknown;
+    updatedAt?: unknown;
+    url?: unknown;
+    title?: unknown;
+  };
+  if ("updatedAt" in props || "url" in props || "title" in props) return false;
+  return isBreadcrumbItemList(props.items);
 }
 
 function isMetaChild(child: ReactElement): boolean {
   if (child.type === GuideAuthorMeta) return true;
+  const name = elementTypeName(child.type);
+  if (name === "GuideAuthorMeta") return true;
   if (child.type === "p") {
     const props = child.props as { className?: unknown };
     return classTokens(props.className).includes("guide-meta");
   }
-  return false;
+  const props = child.props as { updatedAt?: unknown; items?: unknown; url?: unknown };
+  return typeof props.updatedAt === "string" && !("items" in props) && !("url" in props);
 }
 
 function isShareChild(child: ReactElement): boolean {
-  return child.type === GuideMastheadShare || child.type === ShareBlock;
+  if (child.type === GuideMastheadShare || child.type === ShareBlock) return true;
+  const name = elementTypeName(child.type);
+  if (name === "GuideMastheadShare" || name === "ShareBlock") return true;
+  const props = child.props as { url?: unknown; layout?: unknown; items?: unknown };
+  return typeof props.url === "string" && "layout" in props && !("items" in props);
 }
 
 /**
- * Sépare fil d'Ariane, métadonnées et partage directs du contenu éditorial.
- * Ne descend pas dans les composants imbriqués (ex. partage rendu par GuideArticle).
+ * Remonte un fil d'Ariane placé en tête d'un wrapper DOM (fiches / hubs de série),
+ * sans modifier les composants React personnalisés.
+ */
+function peelLeadingBreadcrumb(wrapper: ReactElement): {
+  breadcrumb: ReactElement | null;
+  element: ReactElement;
+} {
+  const props = wrapper.props as { children?: ReactNode };
+  const kids = Children.toArray(props.children);
+  if (kids.length === 0) {
+    return { breadcrumb: null, element: wrapper };
+  }
+
+  const first = kids[0];
+  if (!isValidElement(first) || !isBreadcrumbChild(first)) {
+    return { breadcrumb: null, element: wrapper };
+  }
+
+  return {
+    breadcrumb: first,
+    element: cloneElement(wrapper, undefined, kids.slice(1)),
+  };
+}
+
+/**
+ * Sépare fil d'Ariane, métadonnées et partage du contenu éditorial.
+ * Ne descend pas dans les composants React personnalisés.
  */
 function splitGuideLayoutChildren(children: ReactNode): {
   breadcrumbs: ReactNode[];
@@ -93,6 +168,14 @@ function splitGuideLayoutChildren(children: ReactNode): {
       shares.push(child);
       return;
     }
+    if (typeof child.type === "string" || child.type === Fragment) {
+      const peeled = peelLeadingBreadcrumb(child);
+      if (peeled.breadcrumb) {
+        breadcrumbs.push(peeled.breadcrumb);
+      }
+      editorial.push(peeled.element);
+      return;
+    }
     editorial.push(child);
   });
 
@@ -111,20 +194,30 @@ export function GuidePageLayout({
   kicker,
   showTitle = true,
 }: GuidePageLayoutProps) {
-  const resolvedKicker =
-    kicker === undefined
+  /** Pages mixtes guide + simulateur : ne pas changer leur en-tête. */
+  const isMixedToolGuide = Boolean(headerActions);
+  const resolvedKicker = isMixedToolGuide
+    ? kicker === undefined
       ? prose && !headerClassName
         ? "Guide pratique"
         : null
+      : kicker
+    : kicker === undefined
+      ? null
       : kicker;
-  const showMastheadTop = Boolean(resolvedKicker);
+
   const { breadcrumbs, metas, shares, editorial } = splitGuideLayoutChildren(children);
-  const hasQuickNav = Boolean(headerActions);
+  const hasBreadcrumbs = breadcrumbs.length > 0;
+  /** Slot desktop pour GuideMastheadShare rendu dans le corps (articles prose). */
+  const needsShareSlot = isMixedToolGuide
+    ? Boolean(resolvedKicker)
+    : prose || shares.length > 0;
 
   const bodyClass = [
     "article-body",
     "article-body--masthead",
     headerClassName ? "article-body--custom-header" : "",
+    !isMixedToolGuide && hasBreadcrumbs ? "article-body--breadcrumb-top" : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -137,22 +230,52 @@ export function GuidePageLayout({
             <div className={`article-layout${sidebar ? "" : " article-layout--single"}`}>
               <div className={bodyClass}>
                 <header className="guide-masthead">
-                  {showMastheadTop ? (
-                    <div className="guide-masthead-top">
-                      <p className="guide-kicker">{resolvedKicker}</p>
-                      <div id={GUIDE_SHARE_SLOT_ID} className="guide-masthead-top__share" />
-                    </div>
-                  ) : null}
-                  {/*
-                    Sans navigation rapide : fil d'Ariane sous le kicker (en-tête validé).
-                    Avec headerActions : titre → meta → fil d'Ariane, puis boutons juste après.
-                  */}
-                  {hasQuickNav ? null : breadcrumbs}
-                  {showTitle ? <h1 className="guide-header__title">{title}</h1> : null}
-                  {subtitle ? <p className="guide-header__subtitle">{subtitle}</p> : null}
-                  {metas}
-                  {hasQuickNav ? breadcrumbs : null}
-                  {shares}
+                  {isMixedToolGuide ? (
+                    <>
+                      {resolvedKicker ? (
+                        <div className="guide-masthead-top">
+                          <p className="guide-kicker">{resolvedKicker}</p>
+                          <div
+                            id={GUIDE_SHARE_SLOT_ID}
+                            className="guide-masthead-top__share"
+                          />
+                        </div>
+                      ) : null}
+                      {/*
+                        Mixte : titre → meta → fil d'Ariane, puis CTAs hors en-tête.
+                        Disposition historique conservée.
+                      */}
+                      {showTitle ? <h1 className="guide-header__title">{title}</h1> : null}
+                      {subtitle ? (
+                        <p className="guide-header__subtitle">{subtitle}</p>
+                      ) : null}
+                      {metas}
+                      {breadcrumbs}
+                      {shares}
+                    </>
+                  ) : (
+                    <>
+                      {hasBreadcrumbs || needsShareSlot ? (
+                        <div className="guide-masthead-top">
+                          <div className="guide-masthead-top__trail">
+                            {breadcrumbs}
+                          </div>
+                          {needsShareSlot ? (
+                            <div
+                              id={GUIDE_SHARE_SLOT_ID}
+                              className="guide-masthead-top__share"
+                            />
+                          ) : null}
+                        </div>
+                      ) : null}
+                      {showTitle ? <h1 className="guide-header__title">{title}</h1> : null}
+                      {subtitle ? (
+                        <p className="guide-header__subtitle">{subtitle}</p>
+                      ) : null}
+                      {metas}
+                      {shares}
+                    </>
+                  )}
                 </header>
 
                 {headerActions}

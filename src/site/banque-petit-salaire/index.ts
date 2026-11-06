@@ -1,6 +1,9 @@
 export {
+  BANK_FAQ_ITEMS,
   BANK_GUIDE_BREADCRUMB,
+  BANK_GUIDE_DISCLOSURE,
   BANK_GUIDE_H1,
+  BANK_GUIDE_INTRO,
   BANK_GUIDE_META_DESCRIPTION,
   BANK_GUIDE_PATH,
   BANK_GUIDE_PUBLISHED_AT,
@@ -19,13 +22,24 @@ export {
   offerAnnualIfUsed,
   offerAnnualLabel,
   offerMonthlyLabel,
+  offerProductRel,
   offerRegularThreeMonths,
   offerRegularThreeMonthsLabel,
   offerUnusedMonthlyLabel,
   offerUnusedThreeMonths,
   offerUnusedThreeMonthsLabel,
 } from "./data";
-export type { BankNeedBlock, BankOffer, BankOfferId } from "./data";
+export type {
+  BankFaqItem,
+  BankNeedBlock,
+  BankOffer,
+  BankOfferId,
+  BankWelcomePromo,
+} from "./data";
 export { annualCents, formatCents, monthsCostCents } from "./engine";
-export { BankOfferCards } from "./BankOfferCards";
+export { BankOfferCards, BankCard } from "./BankOfferCards";
 export { BankNeedBlocks } from "./BankNeedBlocks";
+export { BankCompareTabs, BANK_TAB_IDS } from "./BankCompareTabs";
+export type { BankTabId } from "./BankCompareTabs";
+export { BankMethodSection } from "./BankMethodSection";
+export { buildBanquePetitSalaireJsonLd } from "./schema";

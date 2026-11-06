@@ -34,6 +34,7 @@ import { salaireMinimumPaysBasGuide } from "./data/salaire-minimum-pays-bas";
 import { salaireMinimumItalieGuide } from "./data/salaire-minimum-italie";
 import { salaireMinimumMonacoGuide } from "./data/salaire-minimum-monaco";
 import { banquePetitSalaireGuide } from "./data/banque-petit-salaire";
+import { grilleSalaireSyntecGuide } from "./data/grille-salaire-syntec";
 
 export { getGuidePublicPath } from "./paths";
 
@@ -60,6 +61,7 @@ export const guides: Guide[] = [
   attachGuideCover(maintienSalaireArretMaladieGuide),
   attachGuideCover(salaireAlternanceGuide),
   attachGuideCover(salaireMoyenFranceGuide),
+  attachGuideCover(grilleSalaireSyntecGuide),
   attachGuideCover(quelEstUnBonSalaireEnFranceGuide),
   attachGuideCover(commentEstCalculeLeSalaireNetGuide),
   attachGuideCover(commentLireUneFicheDePaieGuide),
