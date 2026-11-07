@@ -19,8 +19,8 @@ export function MentionsLegalesContent() {
         <p>Statut : Particulier</p>
         <p>Adresse électronique :</p>
         <p>
-          <a href="mailto:contact@brut-vers-net.fr">
-            <strong>contact@brut-vers-net.fr</strong>
+          <a href="mailto:brut.vers.net@gmail.com">
+            <strong>brut.vers.net@gmail.com</strong>
           </a>
         </p>
         <p>Une page Contact est disponible à l&apos;adresse :</p>
@@ -185,7 +185,7 @@ export function MentionsLegalesContent() {
         <h2>Contact</h2>
         <p>Pour toute question concernant le site :</p>
         <p>
-          <a href="mailto:contact@brut-vers-net.fr">contact@brut-vers-net.fr</a>
+          <a href="mailto:brut.vers.net@gmail.com">brut.vers.net@gmail.com</a>
         </p>
         <p>ou via la page :</p>
         <p>

@@ -75,12 +75,13 @@ export function normalizeFromAddress(value: string): string {
 }
 
 export function getContactRecipient(): string[] {
-  // CONTACT_EMAIL (convention actuelle) ; CONTACT_TO_EMAIL conservé en secours
+  // Destinataire réel (Contact + Partenaire). CONTACT_TO_EMAIL reste un alias de secours.
   const raw = readEnv("CONTACT_EMAIL") || readEnv("CONTACT_TO_EMAIL", siteConfig.contact.email);
   return parseRecipientList(raw);
 }
 
 export function getContactFromAddress(): string {
+  // Expéditeur technique : domaine du site (vérifié chez Resend), distinct du destinataire.
   return normalizeFromAddress(
     readEnv(
       "CONTACT_FROM_EMAIL",

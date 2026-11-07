@@ -1,3 +1,4 @@
+import { siteConfig } from "@/site/site.config";
 import { PartnerGallery } from "./PartnerGallery";
 import { PartnerHeroCta } from "./PartnerHeroCta";
 import { PartnerHeroDevices } from "./PartnerHeroDevices";
@@ -207,6 +208,12 @@ export function PartnershipPageContent() {
           </div>
           <div className="partnership-form-panel">
             <PartnershipForm />
+            <p className="partnership-page__direct-mail">
+              Si vous préférez nous contacter directement par e-mail :{" "}
+              <a href={`mailto:${siteConfig.contact.email}`}>
+                {siteConfig.contact.email}
+              </a>
+            </p>
           </div>
         </div>
       </section>

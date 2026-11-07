@@ -98,7 +98,7 @@ export const siteConfig = {
   },
 
   contact: {
-    email: "contact@brut-vers-net.fr",
+    email: "brut.vers.net@gmail.com",
     companyName: "[Raison sociale]",
     address: "[Adresse complète]",
     intro:

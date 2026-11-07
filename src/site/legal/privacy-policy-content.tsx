@@ -40,7 +40,7 @@ export function PrivacyPolicyContent() {
           <br />
           Particulier, éditeur du site
           <br />
-          <a href="mailto:contact@brut-vers-net.fr">contact@brut-vers-net.fr</a>
+          <a href="mailto:brut.vers.net@gmail.com">brut.vers.net@gmail.com</a>
         </p>
         <p>
           Pour les coordonnées complètes de l&apos;éditeur, vous pouvez consulter nos{" "}
@@ -85,7 +85,7 @@ export function PrivacyPolicyContent() {
         <p>
           L&apos;envoi du message s&apos;effectue via une route sécurisée du site, qui fait appel au
           service <strong>Resend</strong> pour la délivrance de l&apos;e-mail à l&apos;adresse{" "}
-          <strong>contact@brut-vers-net.fr</strong>. Resend agit en tant que sous-traitant technique
+          <strong>brut.vers.net@gmail.com</strong>. Resend agit en tant que sous-traitant technique
           pour l&apos;acheminement du message. La clé d&apos;API utilisée pour cet envoi est stockée
           côté serveur et n&apos;est jamais exposée dans le navigateur.
         </p>
@@ -411,8 +411,8 @@ export function PrivacyPolicyContent() {
           droits, vous pouvez contacter l&apos;éditeur :
         </p>
         <p>
-          <a href="mailto:contact@brut-vers-net.fr">
-            <strong>contact@brut-vers-net.fr</strong>
+          <a href="mailto:brut.vers.net@gmail.com">
+            <strong>brut.vers.net@gmail.com</strong>
           </a>
         </p>
         <p>

@@ -112,7 +112,7 @@ describe("POST /api/contact", () => {
   beforeEach(() => {
     sendMock.mockReset();
     process.env.RESEND_API_KEY = "re_test_key";
-    process.env.CONTACT_EMAIL = "contact@brut-vers-net.fr";
+    process.env.CONTACT_EMAIL = "brut.vers.net@gmail.com";
     process.env.CONTACT_FROM_EMAIL = "Formulaire Brut vers Net <contact@brut-vers-net.fr>";
   });
 
@@ -194,7 +194,7 @@ describe("POST /api/contact", () => {
 
     expect(sendMock).toHaveBeenCalledTimes(1);
     const arg = sendMock.mock.calls[0][0];
-    expect(arg.to).toEqual(["contact@brut-vers-net.fr"]);
+    expect(arg.to).toEqual(["brut.vers.net@gmail.com"]);
     expect(arg.from).toBe("Formulaire Brut vers Net <contact@brut-vers-net.fr>");
     expect(arg.replyTo).toBe("alice@example.com");
     expect(arg.subject).toBe("[Nouveau contact Brut vers Net] Autre demande");
@@ -211,7 +211,7 @@ describe("POST /api/contact", () => {
     const response = await POST(makeRequest(validPayload));
     expect(response.status).toBe(500);
     const data = await response.json();
-    expect(data.error).toMatch(/contact@brut-vers-net\.fr/);
+    expect(data.error).toMatch(/brut\.vers\.net@gmail\.com/);
   });
 
   it("n'expose pas RESEND_API_KEY côté client", () => {

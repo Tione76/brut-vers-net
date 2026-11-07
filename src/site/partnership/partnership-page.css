@@ -670,6 +670,33 @@
   line-height: 1.5;
 }
 
+.partnership-page__direct-mail {
+  margin: 1.15rem 0 0;
+  padding-top: 1.05rem;
+  border-top: 1px solid color-mix(in srgb, var(--ds-brand) 14%, #e8d5c8);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ds-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.partnership-page__direct-mail a {
+  font-weight: 600;
+  color: var(--ds-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.partnership-page__direct-mail a:hover {
+  color: var(--ds-brand-dark, var(--ds-brand));
+}
+
+.partnership-page__direct-mail a:focus-visible {
+  outline: 2px solid var(--ds-brand);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 /* ── Visionneuse ── */
 
 .partner-lightbox {

@@ -407,8 +407,8 @@ export function CookiePolicyContent() {
           de vos données sur <strong>BRUT-VERS-NET.FR</strong>, vous pouvez contacter l&apos;éditeur :
         </p>
         <p>
-          <a href="mailto:contact@brut-vers-net.fr">
-            <strong>contact@brut-vers-net.fr</strong>
+          <a href="mailto:brut.vers.net@gmail.com">
+            <strong>brut.vers.net@gmail.com</strong>
           </a>
         </p>
         <p>

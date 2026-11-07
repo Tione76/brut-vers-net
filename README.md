@@ -176,7 +176,7 @@ NEXT_PUBLIC_ADSENSE_ID=ca-pub-XXXXXXXXXX
 
 # Formulaire de contact (serveur uniquement)
 RESEND_API_KEY=
-CONTACT_EMAIL=contact@brut-vers-net.fr
+CONTACT_EMAIL=brut.vers.net@gmail.com
 CONTACT_FROM_EMAIL=Formulaire Brut vers Net <contact@brut-vers-net.fr>
 ```
 
