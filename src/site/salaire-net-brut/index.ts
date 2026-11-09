@@ -42,10 +42,11 @@ export {
   buildNetToGrossIndexOgImageInput,
   buildNetToGrossOgAlt,
   buildNetToGrossOgImageInput,
-  formatNetToGrossOgHeadline,
+  buildNetToGrossSeriesOgAlt,
   netToGrossOgImagePath,
   NET_TO_GROSS_OG_CONTENT_TYPE,
   NET_TO_GROSS_OG_SIZE,
+  NET_TO_GROSS_OG_STATIC_PATH,
 } from "./og-image-meta";
 export {
   buildNetToGrossHubFaq,

@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import { config, seoConfig } from "@/site";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
-import { GuidePageLayout } from "@/site/guides";
+import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
+import { GuideAuthorMeta, GuidePageLayout } from "@/site/guides";
 import { coverToOgInput, getCalculatorCover } from "@/site/guides/covers";
 import { isPathIndexable } from "@/site/public-pages";
 import { buildWebPageJsonLd } from "@/site/schema";
@@ -91,6 +92,13 @@ export default async function GrossPrimeAmountPage({ params }: PageProps) {
         prose={false}
         sidebar={<GrossPrimePageSidebar grossPrime={grossPrime} />}
       >
+        <PageBreadcrumb
+          items={[
+            { label: "Accueil", href: "/" },
+            { label: grossPrimeBreadcrumbLabel(grossPrime) },
+          ]}
+        />
+        <GuideAuthorMeta updatedAt={GROSS_PRIME_UPDATED_AT} />
         <GrossPrimeSeriesPageContent
           grossPrime={grossPrime}
           share={{

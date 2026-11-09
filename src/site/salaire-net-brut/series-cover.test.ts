@@ -10,7 +10,7 @@ import {
   buildNetToGrossIndexOgImageInput,
   buildNetToGrossOgAlt,
   buildNetToGrossOgImageInput,
-  formatNetToGrossOgHeadline,
+  NET_TO_GROSS_OG_STATIC_PATH,
   netToGrossOgImagePath,
 } from "./og-image-meta";
 import { buildNetToGrossHubPayload } from "./hub";
@@ -19,7 +19,7 @@ import { buildNetToGrossIndexRows } from "./index-table";
 import { PUBLISHED_NET_TO_GROSS_AMOUNTS } from "./config";
 
 describe("série net mensuel → brut : cover + hub + index", () => {
-  it("centralise l’image éditoriale après le ShareBlock", () => {
+  it("centralise l’image éditoriale après le partage masthead", () => {
     expect(NET_TO_GROSS_SERIES_COVER.src).toBe(
       "/images/covers/series/correspondance-salaire-brut-en-net.webp",
     );
@@ -38,8 +38,10 @@ describe("série net mensuel → brut : cover + hub + index", () => {
 
     expect(pageSource).toContain("CoverFigure");
     expect(pageSource).toContain("NET_TO_GROSS_SERIES_COVER");
-    expect(pageSource.indexOf("ShareBlock")).toBeLessThan(pageSource.indexOf("CoverFigure"));
-    expect(pageSource.indexOf("CoverFigure")).toBeLessThan(
+    expect(pageSource.indexOf("<GuideMastheadShare")).toBeLessThan(
+      pageSource.indexOf("<CoverFigure"),
+    );
+    expect(pageSource.indexOf("<CoverFigure")).toBeLessThan(
       pageSource.indexOf("editorialSections.map"),
     );
     expect(routeSource).toContain("buildNetToGrossOgImageInput");
@@ -49,10 +51,16 @@ describe("série net mensuel → brut : cover + hub + index", () => {
     ).toBe(false);
     expect(
       existsSync(resolve(process.cwd(), "src/app/salaire-net-mensuel-en-brut/opengraph-image.tsx")),
-    ).toBe(true);
+    ).toBe(false);
+    expect(
+      existsSync(
+        resolve(process.cwd(), "src/app/tableau-salaire-net-mensuel-en-brut/opengraph-image.tsx"),
+      ),
+    ).toBe(false);
+    expect(existsSync(resolve(process.cwd(), `public${NET_TO_GROSS_OG_STATIC_PATH}`))).toBe(true);
   });
 
-  it("expose ImageObject éditorial distinct de l’OG dynamique", () => {
+  it("expose ImageObject éditorial distinct de l’OG statique sans texte", () => {
     const amount = 1500;
     const seo = buildSeriesSeoMeta(amount);
     const path = netToGrossPath(amount);
@@ -76,13 +84,13 @@ describe("série net mensuel → brut : cover + hub + index", () => {
         node.url.includes("correspondance-salaire-brut-en-net.webp"),
     ) as { width?: number; height?: number; creditText?: string } | undefined;
 
-    expect(og.url).toBe("/salaire-net-mensuel-en-brut/opengraph-image");
+    expect(og.url).toBe(NET_TO_GROSS_OG_STATIC_PATH);
     expect(og.url).toBe(netToGrossOgImagePath(amount));
     expect(buildNetToGrossOgImageInput(2000).url).toBe(og.url);
     expect(buildNetToGrossOgImageInput(2000).alt).toBe(buildNetToGrossOgAlt(2000));
     expect(og.width).toBe(1200);
     expect(og.height).toBe(630);
-    expect(formatNetToGrossOgHeadline(amount)).toMatch(/1\u202f500.*€ NET \/ MOIS/);
+    expect(og.type).toBe("image/jpeg");
     expect(imageNode?.width).toBe(1200);
     expect(imageNode?.height).toBe(800);
     expect(imageNode?.creditText).toBe("Photo de Mikhail Nilov via Pexels");
@@ -107,9 +115,7 @@ describe("série net mensuel → brut : cover + hub + index", () => {
     expect(rows).toHaveLength(PUBLISHED_NET_TO_GROSS_AMOUNTS.length);
     expect(rows[0]?.href).toBe(netToGrossPath(1500));
     expect(rows[rows.length - 1]?.href).toBe(netToGrossPath(6000));
-    expect(buildNetToGrossHubOgImageInput().url).toBe(`${NET_TO_GROSS_HUB_PATH}/opengraph-image`);
-    expect(buildNetToGrossIndexOgImageInput().url).toBe(
-      `${NET_TO_GROSS_INDEX_PATH}/opengraph-image`,
-    );
+    expect(buildNetToGrossHubOgImageInput().url).toBe(NET_TO_GROSS_OG_STATIC_PATH);
+    expect(buildNetToGrossIndexOgImageInput().url).toBe(NET_TO_GROSS_OG_STATIC_PATH);
   });
 });

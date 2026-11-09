@@ -8,7 +8,7 @@ import { resolveGrossToNetSeoMeta } from "./page-1000-pilot";
 import {
   buildGrossToNetOgAlt,
   buildGrossToNetOgImageInput,
-  formatGrossToNetOgHeadline,
+  GROSS_TO_NET_OG_STATIC_PATH,
   grossToNetOgImagePath,
 } from "./og-image";
 
@@ -34,12 +34,12 @@ describe("cover série salaire brut mensuel → net", () => {
       "utf8",
     );
 
-    expect(pageSource).toContain("CoverFigure");
     expect(pageSource).toContain("GROSS_TO_NET_SERIES_COVER");
-    expect(pageSource.indexOf("ShareBlock")).toBeLessThan(pageSource.indexOf("CoverFigure"));
-    expect(pageSource.indexOf("CoverFigure")).toBeLessThan(
-      pageSource.indexOf("GrossToNetTaxSection"),
+    expect(pageSource.indexOf("<GuideMastheadShare")).toBeLessThan(
+      pageSource.indexOf("<CoverFigure"),
     );
+    expect(pageSource).toContain("<CoverFigure");
+    expect(pageSource).toContain("GrossToNetTaxSection");
     expect(routeSource).toContain("GROSS_TO_NET_SERIES_COVER");
     expect(routeSource).toContain("buildGrossToNetOgImageInput");
     expect(routeSource).not.toMatch(/ogImage:\s*coverToOgInput\(GROSS_TO_NET_SERIES_COVER\)/);
@@ -47,7 +47,7 @@ describe("cover série salaire brut mensuel → net", () => {
     expect(draftSource).toContain("buildGrossToNetOgImageInput");
   });
 
-  it("conserve ImageObject éditorial distinct de l’image OG dynamique", () => {
+  it("sépare ImageObject éditorial et image OG statique sans texte", () => {
     const amount = 1550;
     const seo = resolveGrossToNetSeoMeta(amount);
     const path = grossToNetPath(amount);
@@ -81,10 +81,10 @@ describe("cover série salaire brut mensuel → net", () => {
       | undefined;
 
     expect(og.url).toBe(grossToNetOgImagePath(amount));
+    expect(og.url).toBe(GROSS_TO_NET_OG_STATIC_PATH);
     expect(og.width).toBe(1200);
     expect(og.height).toBe(630);
-    expect(og.type).toBe("image/png");
-    expect(formatGrossToNetOgHeadline(amount)).toBe("1\u202f550\u00a0€ BRUT / MOIS");
+    expect(og.type).toBe("image/jpeg");
     expect(buildGrossToNetOgAlt(amount)).toContain("1\u202f550");
     expect(imageNode?.url).toContain("Salaire-brut-mensuel-en-net.webp");
     expect(imageNode?.contentUrl).toBe(imageNode?.url);

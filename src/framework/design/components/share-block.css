@@ -380,26 +380,18 @@
   }
 }
 
-/* Fiches : partage remonté en tête du bloc .net-gross (si non hissé) */
+/* Fiches : un seul bloc de partage (doublon éventuel masqué) */
 .net-gross > .share-block ~ .share-block {
   display: none;
 }
 
 @media (min-width: 900px) {
-  .net-gross {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    text-align: left;
-  }
-
-  .net-gross > .share-block {
-    align-self: flex-end;
-    width: max-content;
-    max-width: 100%;
-    margin: 0 0 12px;
-    margin-inline: 0;
-    order: -1;
+  /*
+   * Avant hydratation du portail GuideMastheadShare : masquer le partage
+   * encore présent en tête du corps des fiches (hors .prose).
+   */
+  .article-body--masthead .net-gross > .share-block--masthead {
+    display: none;
   }
 }
 
@@ -530,7 +522,8 @@
   }
 
   /* Partage mobile : en tête du corps (portail desktop désactivé sous 900px). */
-  .article-body--masthead .prose > .share-block--masthead {
+  .article-body--masthead .prose > .share-block--masthead,
+  .article-body--masthead .net-gross > .share-block--masthead {
     align-items: flex-start;
     margin: 0 0 20px;
     margin-inline: 0;
@@ -540,33 +533,5 @@
   .faq-page__header .share-block__actions {
     flex-wrap: wrap;
     justify-content: flex-start;
-  }
-
-  .net-gross {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    text-align: left;
-  }
-
-  .net-gross > .guide-breadcrumb {
-    order: 1;
-  }
-
-  .net-gross > .guide-meta {
-    order: 2;
-  }
-
-  .net-gross > .share-block {
-    order: 3;
-    width: max-content;
-    max-width: 100%;
-    margin: 0 0 0.25rem;
-    margin-inline: 0;
-    align-items: flex-start;
-  }
-
-  .net-gross > :not(.guide-breadcrumb):not(.guide-meta):not(.share-block) {
-    order: 4;
   }
 }

@@ -1,5 +1,5 @@
 import type { OgImageInput } from "@/framework/seo/metadata";
-import { NET_TO_GROSS_HUB_PATH, NET_TO_GROSS_INDEX_PATH } from "./config";
+import { NET_TO_GROSS_SERIES_COVER } from "@/site/guides/covers";
 import { formatNetShort } from "./data";
 
 export const NET_TO_GROSS_OG_SIZE = {
@@ -7,21 +7,24 @@ export const NET_TO_GROSS_OG_SIZE = {
   height: 630,
 } as const;
 
-export const NET_TO_GROSS_OG_CONTENT_TYPE = "image/png";
+export const NET_TO_GROSS_OG_CONTENT_TYPE = "image/jpeg";
 
-/** Ex. « 1 500 € NET / MOIS » */
-export function formatNetToGrossOgHeadline(netMonthly: number): string {
-  return `${formatNetShort(netMonthly)} NET / MOIS`;
-}
+/** Photo de série sans texte, recadrée pour le partage social. */
+export const NET_TO_GROSS_OG_STATIC_PATH =
+  "/images/covers/series/correspondance-salaire-brut-en-net-og.jpg";
 
 export function buildNetToGrossOgAlt(netMonthly: number): string {
   return `${formatNetShort(netMonthly)} net par mois : combien en brut ?`;
 }
 
-/** Image sociale unique de la série (hub déjà généré une fois au build). */
+export function buildNetToGrossSeriesOgAlt(): string {
+  return NET_TO_GROSS_SERIES_COVER.alt;
+}
+
+/** Image sociale unique de la série (fichier statique). */
 export function netToGrossOgImagePath(netMonthly?: number): string {
   void netMonthly;
-  return netToGrossHubOgImagePath();
+  return NET_TO_GROSS_OG_STATIC_PATH;
 }
 
 export function buildNetToGrossOgImageInput(netMonthly: number): OgImageInput {
@@ -34,30 +37,22 @@ export function buildNetToGrossOgImageInput(netMonthly: number): OgImageInput {
   };
 }
 
-export function netToGrossHubOgImagePath(): string {
-  return `${NET_TO_GROSS_HUB_PATH}/opengraph-image`;
-}
-
-export function netToGrossIndexOgImagePath(): string {
-  return `${NET_TO_GROSS_INDEX_PATH}/opengraph-image`;
-}
-
 export function buildNetToGrossHubOgImageInput(): OgImageInput {
   return {
-    url: netToGrossHubOgImagePath(),
+    url: NET_TO_GROSS_OG_STATIC_PATH,
     width: NET_TO_GROSS_OG_SIZE.width,
     height: NET_TO_GROSS_OG_SIZE.height,
-    alt: "Salaires nets mensuels convertis en brut",
+    alt: buildNetToGrossSeriesOgAlt(),
     type: NET_TO_GROSS_OG_CONTENT_TYPE,
   };
 }
 
 export function buildNetToGrossIndexOgImageInput(): OgImageInput {
   return {
-    url: netToGrossIndexOgImagePath(),
+    url: NET_TO_GROSS_OG_STATIC_PATH,
     width: NET_TO_GROSS_OG_SIZE.width,
     height: NET_TO_GROSS_OG_SIZE.height,
-    alt: "Tableau de conversion salaire net mensuel en brut",
+    alt: buildNetToGrossSeriesOgAlt(),
     type: NET_TO_GROSS_OG_CONTENT_TYPE,
   };
 }

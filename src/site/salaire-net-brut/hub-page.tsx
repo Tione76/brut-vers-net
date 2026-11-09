@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
-import { ShareBlock } from "@/framework/design/components/ShareBlock";
-import { GuideAuthorMeta } from "@/site/guides";
-import { NET_TO_GROSS_HUB_BREADCRUMB_LABEL, NET_TO_GROSS_UPDATED_AT } from "./config";
+import { GuideMastheadShare } from "@/site/guides";
+import { NET_TO_GROSS_UPDATED_AT } from "./config";
 import { buildNetToGrossHubPayload, netToGrossHubFicheDomId } from "./hub";
 import { NetToGrossHubAmountSearch } from "./hub-search";
 import "./salaire-net-brut.css";
@@ -24,21 +22,11 @@ export function NetToGrossHubPageContent() {
 
   return (
     <div className="net-gross net-gross-1500 gross-to-net-hub">
-      <PageBreadcrumb
-        items={[
-          { label: "Accueil", href: "/" },
-          { label: NET_TO_GROSS_HUB_BREADCRUMB_LABEL },
-        ]}
-      />
-      <GuideAuthorMeta updatedAt={NET_TO_GROSS_UPDATED_AT} />
-
-      <ShareBlock
+      <GuideMastheadShare
         url={hub.canonical}
         title={hub.seo.title}
         description={hub.seo.description}
         contentType="fiche"
-        variant="onLight"
-        layout="masthead"
       />
 
       <section

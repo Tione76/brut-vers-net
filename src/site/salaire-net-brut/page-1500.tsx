@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
-import { ShareBlock } from "@/framework/design/components/ShareBlock";
-import { CoverFigure, GuideAuthorMeta } from "@/site/guides";
+import { CoverFigure, GuideMastheadShare } from "@/site/guides";
 import { NET_TO_GROSS_SERIES_COVER } from "@/site/guides/covers";
 import {
   buildAllProfileEstimates,
@@ -10,8 +8,6 @@ import {
   type ComparisonRow,
 } from "./data";
 import {
-  NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
-  NET_TO_GROSS_HUB_PATH,
   NET_TO_GROSS_PROFILES,
   NET_TO_GROSS_UPDATED_AT,
   netToGrossPath,
@@ -21,7 +17,6 @@ import {
   buildSeriesEditorial,
   buildSeriesFaqItems,
   getSeriesNearbyAmounts,
-  seriesBreadcrumbLabel,
 } from "./page-1500-content";
 import {
   PAGE_1650_CALCULATOR_BUTTON,
@@ -201,25 +196,11 @@ export function NetToGrossSeriesPageContent({
 
   return (
     <div className={`net-gross net-gross-1500${isRedesign ? " net-gross-1650" : ""}`}>
-      <PageBreadcrumb
-        items={[
-          { label: "Accueil", href: "/" },
-          {
-            label: NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
-            href: NET_TO_GROSS_HUB_PATH,
-          },
-          { label: seriesBreadcrumbLabel(netMonthly) },
-        ]}
-      />
-      <GuideAuthorMeta updatedAt={pageUpdatedAt} />
-
-      <ShareBlock
+      <GuideMastheadShare
         url={share.url}
         title={share.title}
         description={share.description}
         contentType="fiche"
-        variant="onLight"
-        layout="masthead"
       />
 
       <section className="net-gross-1500__hero" aria-labelledby={`${idPrefix}-answer`}>

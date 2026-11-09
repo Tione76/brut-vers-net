@@ -95,8 +95,9 @@ export { GROSS_TO_NET_SERIES_COVER } from "@/site/guides/covers";
 export {
   buildGrossToNetOgAlt,
   buildGrossToNetOgImageInput,
-  formatGrossToNetOgHeadline,
+  buildGrossToNetSeriesOgAlt,
   grossToNetOgImagePath,
   GROSS_TO_NET_OG_CONTENT_TYPE,
   GROSS_TO_NET_OG_SIZE,
+  GROSS_TO_NET_OG_STATIC_PATH,
 } from "./og-image";

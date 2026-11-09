@@ -1,10 +1,12 @@
 import { config, seoConfig } from "@/site";
 import { JsonLd } from "@/framework/JsonLd";
+import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { buildPageMetadata } from "@/framework/seo/metadata";
-import { GuidePageLayout } from "@/site/guides";
+import { GuideAuthorMeta, GuidePageLayout } from "@/site/guides";
 import { coverToOgInput, HOME_COVER } from "@/site/guides/covers";
 import { isPathIndexable } from "@/site/public-pages";
 import {
+  GROSS_TO_NET_UPDATED_AT,
   GrossToNetIndexPageContent,
   GrossToNetPageSidebar,
   buildGrossToNetIndexPayload,
@@ -30,6 +32,17 @@ export default function GrossToNetIndexRoutePage() {
         prose={false}
         sidebar={<GrossToNetPageSidebar grossMonthly={1000} />}
       >
+        <PageBreadcrumb
+          items={[
+            { label: "Accueil", href: "/" },
+            {
+              label: "Tous les salaires bruts mensuels convertis en net",
+              href: page.hubPath,
+            },
+            { label: "Tableau" },
+          ]}
+        />
+        <GuideAuthorMeta updatedAt={GROSS_TO_NET_UPDATED_AT} />
         <GrossToNetIndexPageContent />
       </GuidePageLayout>
     </>

@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
-import { ShareBlock } from "@/framework/design/components/ShareBlock";
-import { GuideAuthorMeta, GuideInlineToc } from "@/site/guides";
+import { GuideInlineToc, GuideMastheadShare } from "@/site/guides";
 import { GROSS_TO_NET_UPDATED_AT } from "./config";
 import { formatEuroAmount } from "./data";
 import { grossToNetIndexRowId } from "./index-table";
@@ -25,25 +23,11 @@ export function GrossToNetIndexPageContent() {
 
   return (
     <div className="net-gross net-gross-1500 gross-to-net-index">
-      <PageBreadcrumb
-        items={[
-          { label: "Accueil", href: "/" },
-          {
-            label: "Tous les salaires bruts mensuels convertis en net",
-            href: page.hubPath,
-          },
-          { label: "Tableau" },
-        ]}
-      />
-      <GuideAuthorMeta updatedAt={GROSS_TO_NET_UPDATED_AT} />
-
-      <ShareBlock
+      <GuideMastheadShare
         url={page.canonical}
         title={page.seo.title}
         description={page.seo.description}
         contentType="fiche"
-        variant="onLight"
-        layout="masthead"
       />
 
       <GuideInlineToc

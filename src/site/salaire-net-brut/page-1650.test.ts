@@ -162,8 +162,8 @@ describe("prototype page 1 650 € net en brut", () => {
     const coverIndex = pageSource.indexOf("<CoverFigure");
     const otherTableIndex = pageSource.indexOf("{isRedesign ? null : table}");
     const pedagogyIndex = pageSource.indexOf("<Page1650PedagogySections");
-    const shareIndex = pageSource.indexOf("<ShareBlock");
-    const shareCount = pageSource.match(/<ShareBlock/g)?.length ?? 0;
+    const shareIndex = pageSource.indexOf("<GuideMastheadShare");
+    const shareCount = pageSource.match(/<GuideMastheadShare/g)?.length ?? 0;
 
     expect(calcIndex).toBeGreaterThan(-1);
     expect(shareIndex).toBeGreaterThan(-1);

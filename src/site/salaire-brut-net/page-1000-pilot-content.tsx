@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
-import { ShareBlock } from "@/framework/design/components/ShareBlock";
-import { CoverFigure, GuideAuthorMeta } from "@/site/guides";
+import { CoverFigure, GuideMastheadShare } from "@/site/guides";
 import { GROSS_TO_NET_SERIES_COVER } from "@/site/guides/covers";
 import { GuideSidebar } from "@/site/guides/GuideRenderer";
 import { getGuideBySlug } from "@/site/guides/registry";
@@ -18,7 +16,6 @@ import {
   Page1650UserIcon,
 } from "@/site/salaire-net-brut/page-1650-icons";
 import {
-  GROSS_TO_NET_HUB_PATH,
   GROSS_TO_NET_PROFILES,
   grossToNetPath,
 } from "./config";
@@ -28,10 +25,7 @@ import {
   type GrossToNetEstimate,
 } from "./data";
 import { MiniGrossToNetCalculatorCta } from "./mini-calculator-cta";
-import {
-  getNearbyGrossToNetAmounts,
-  grossToNetBreadcrumbLabel,
-} from "./content";
+import { getNearbyGrossToNetAmounts } from "./content";
 import {
   COTISATIONS_GUIDE_HREF,
   GROSS_TO_NET_REDESIGN_DATE_MODIFIED,
@@ -212,25 +206,11 @@ export function GrossToNet1000PageContent({
 
   return (
     <div className="net-gross net-gross-1500 net-gross-1650 gross-to-net-1000">
-      <PageBreadcrumb
-        items={[
-          { label: "Accueil", href: "/" },
-          {
-            label: "Tous les salaires bruts mensuels convertis en net",
-            href: GROSS_TO_NET_HUB_PATH,
-          },
-          { label: grossToNetBreadcrumbLabel(grossMonthly) },
-        ]}
-      />
-      <GuideAuthorMeta updatedAt={GROSS_TO_NET_REDESIGN_DATE_MODIFIED} />
-
-      <ShareBlock
+      <GuideMastheadShare
         url={share.url}
         title={share.title}
         description={share.description}
         contentType="fiche"
-        variant="onLight"
-        layout="masthead"
       />
 
       <section className="net-gross-1500__hero" aria-labelledby={`${idPrefix}-answer`}>

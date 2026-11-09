@@ -217,10 +217,15 @@ export function GuidePageLayout({
 
   const { breadcrumbs, metas, shares, editorial } = splitGuideLayoutChildren(children);
   const hasBreadcrumbs = breadcrumbs.length > 0;
-  /** Slot desktop pour GuideMastheadShare rendu dans le corps (articles prose). */
+  /**
+   * Slot desktop pour GuideMastheadShare (portail).
+   * Toujours présent hors pages mixtes : les fiches de série rendent le partage
+   * dans le corps (`prose={false}`), comme GuideArticle pour les guides.
+   * Un slot vide reste masqué via `.guide-masthead-top__share:empty`.
+   */
   const needsShareSlot = isMixedToolGuide
     ? Boolean(resolvedKicker)
-    : prose || shares.length > 0;
+    : true;
 
   const bodyClass = [
     "article-body",

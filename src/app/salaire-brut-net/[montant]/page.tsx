@@ -2,12 +2,14 @@ import { notFound } from "next/navigation";
 import { config, seoConfig } from "@/site";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
-import { GuidePageLayout } from "@/site/guides";
+import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
+import { GuideAuthorMeta, GuidePageLayout } from "@/site/guides";
 import { GROSS_TO_NET_SERIES_COVER } from "@/site/guides/covers";
 import { isPathIndexable } from "@/site/public-pages";
 import { buildWebPageJsonLd } from "@/site/schema";
 import {
   GROSS_TO_NET_AMOUNTS,
+  GROSS_TO_NET_HUB_PATH,
   GROSS_TO_NET_UPDATED_AT,
   GrossToNet1000PageContent,
   GrossToNet1000PageSidebar,
@@ -94,6 +96,17 @@ export default async function GrossToNetAmountPage({ params }: PageProps) {
         prose={false}
         sidebar={<GrossToNet1000PageSidebar grossMonthly={grossMonthly} />}
       >
+        <PageBreadcrumb
+          items={[
+            { label: "Accueil", href: "/" },
+            {
+              label: "Tous les salaires bruts mensuels convertis en net",
+              href: GROSS_TO_NET_HUB_PATH,
+            },
+            { label: grossToNetBreadcrumbLabel(grossMonthly) },
+          ]}
+        />
+        <GuideAuthorMeta updatedAt={GROSS_TO_NET_REDESIGN_DATE_MODIFIED} />
         <GrossToNet1000PageContent
           grossMonthly={grossMonthly}
           share={{

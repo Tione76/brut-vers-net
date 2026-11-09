@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
-import { ShareBlock } from "@/framework/design/components/ShareBlock";
-import { GuideAuthorMeta } from "@/site/guides";
+import { GuideMastheadShare } from "@/site/guides";
 import { GROSS_TO_NET_UPDATED_AT } from "./config";
 import { buildGrossToNetHubPayload, grossToNetHubFicheDomId } from "./hub";
 import { GrossToNetHubAmountSearch } from "./hub-search";
@@ -24,21 +22,11 @@ export function GrossToNetHubPageContent() {
 
   return (
     <div className="net-gross net-gross-1500 gross-to-net-hub">
-      <PageBreadcrumb
-        items={[
-          { label: "Accueil", href: "/" },
-          { label: "Tous les salaires bruts mensuels convertis en net" },
-        ]}
-      />
-      <GuideAuthorMeta updatedAt={GROSS_TO_NET_UPDATED_AT} />
-
-      <ShareBlock
+      <GuideMastheadShare
         url={hub.canonical}
         title={hub.seo.title}
         description={hub.seo.description}
         contentType="fiche"
-        variant="onLight"
-        layout="masthead"
       />
 
       <section

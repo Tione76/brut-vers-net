@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import { config, seoConfig } from "@/site";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
-import { GuidePageLayout } from "@/site/guides";
+import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
+import { GuideAuthorMeta, GuidePageLayout } from "@/site/guides";
 import { NET_TO_GROSS_SERIES_COVER } from "@/site/guides/covers";
 import { isPathIndexable } from "@/site/public-pages";
 import { buildWebPageJsonLd } from "@/site/schema";
@@ -10,6 +11,7 @@ import {
   NET_TO_GROSS_AMOUNTS,
   NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
   NET_TO_GROSS_HUB_PATH,
+  NET_TO_GROSS_UPDATED_AT,
   NetToGrossSeriesPageContent,
   NetToGrossPageSidebar,
   buildNetToGrossOgImageInput,
@@ -112,6 +114,23 @@ export default async function NetToGrossAmountPage({ params }: PageProps) {
         prose={false}
         sidebar={<NetToGrossPageSidebar netMonthly={netMonthly} />}
       >
+        <PageBreadcrumb
+          items={[
+            { label: "Accueil", href: "/" },
+            {
+              label: NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
+              href: NET_TO_GROSS_HUB_PATH,
+            },
+            { label: seriesBreadcrumbLabel(netMonthly) },
+          ]}
+        />
+        <GuideAuthorMeta
+          updatedAt={
+            isNetToGrossRedesign(netMonthly)
+              ? getNetToGrossRedesignDateModified(netMonthly)
+              : NET_TO_GROSS_UPDATED_AT
+          }
+        />
         <NetToGrossSeriesPageContent
           netMonthly={netMonthly}
           share={{

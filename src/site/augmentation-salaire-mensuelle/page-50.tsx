@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
-import { ShareBlock } from "@/framework/design/components/ShareBlock";
-import { GuideAuthorMeta } from "@/site/guides";
+import { GuideMastheadShare } from "@/site/guides";
 import {
   MONTHLY_INCREASE_PROFILES,
   MONTHLY_INCREASE_UPDATED_AT,
@@ -18,7 +16,6 @@ import {
   buildMonthlyIncreaseFaqItems,
   buildMonthlyIncreaseSeoMeta,
   getNearbyMonthlyIncreaseLinks,
-  monthlyIncreaseBreadcrumbLabel,
 } from "./content";
 import "@/site/salaire-net-brut/salaire-net-brut.css";
 import "@/site/salaire-net-brut/page-1500.css";
@@ -64,21 +61,11 @@ export function MonthlyIncreaseSeriesPageContent({
 
   return (
     <div className="net-gross net-gross-1500">
-      <PageBreadcrumb
-        items={[
-          { label: "Accueil", href: "/" },
-          { label: monthlyIncreaseBreadcrumbLabel(grossMonthlyIncrease) },
-        ]}
-      />
-      <GuideAuthorMeta updatedAt={MONTHLY_INCREASE_UPDATED_AT} />
-
-      <ShareBlock
+      <GuideMastheadShare
         url={share.url}
         title={share.title}
         description={share.description}
         contentType="fiche"
-        variant="onLight"
-        layout="masthead"
       />
 
       <section className="net-gross-1500__hero" aria-labelledby={`${idPrefix}-answer`}>

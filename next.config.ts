@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
-  // sharp doit rester externe (binaire natif) : sinon plantage win32 en dev sur opengraph-image.
+  // sharp doit rester externe (binaire natif Next/Image).
   serverExternalPackages: ["sharp"],
   images: {
     formats: ["image/avif", "image/webp"],
@@ -39,6 +39,22 @@ const nextConfig: NextConfig = {
       {
         source: "/combien-gagner-brut-pour-:montant-net",
         destination: "/combien-gagner-brut-mensuel-pour-:montant-net",
+        permanent: true,
+      },
+      // Anciennes images OG générées (ImageResponse) → photos de série statiques.
+      {
+        source: "/salaire-brut-net/opengraph-image",
+        destination: "/images/covers/series/Salaire-brut-mensuel-en-net-og.jpg",
+        permanent: true,
+      },
+      {
+        source: "/salaire-net-mensuel-en-brut/opengraph-image",
+        destination: "/images/covers/series/correspondance-salaire-brut-en-net-og.jpg",
+        permanent: true,
+      },
+      {
+        source: "/tableau-salaire-net-mensuel-en-brut/opengraph-image",
+        destination: "/images/covers/series/correspondance-salaire-brut-en-net-og.jpg",
         permanent: true,
       },
     ];

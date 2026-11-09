@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
-import { ShareBlock } from "@/framework/design/components/ShareBlock";
-import { GuideAuthorMeta, GuideInlineToc } from "@/site/guides";
-import { NET_TO_GROSS_HUB_BREADCRUMB_LABEL, NET_TO_GROSS_UPDATED_AT } from "./config";
+import { GuideInlineToc, GuideMastheadShare } from "@/site/guides";
+import { NET_TO_GROSS_UPDATED_AT } from "./config";
 import { formatNetShort } from "./data";
 import { netToGrossIndexRowId } from "./index-table";
 import { buildNetToGrossIndexPayload } from "./series-index";
@@ -29,25 +27,11 @@ export function NetToGrossIndexPageContent() {
 
   return (
     <div className="net-gross net-gross-1500 gross-to-net-index">
-      <PageBreadcrumb
-        items={[
-          { label: "Accueil", href: "/" },
-          {
-            label: NET_TO_GROSS_HUB_BREADCRUMB_LABEL,
-            href: page.hubPath,
-          },
-          { label: "Tableau" },
-        ]}
-      />
-      <GuideAuthorMeta updatedAt={NET_TO_GROSS_UPDATED_AT} />
-
-      <ShareBlock
+      <GuideMastheadShare
         url={page.canonical}
         title={page.seo.title}
         description={page.seo.description}
         contentType="fiche"
-        variant="onLight"
-        layout="masthead"
       />
 
       <GuideInlineToc
