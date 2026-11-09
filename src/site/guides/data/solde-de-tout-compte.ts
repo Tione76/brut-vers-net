@@ -614,6 +614,13 @@ export const soldeDeToutCompteGuide: Guide = {
         {
           type: "internal-link",
           variant: "guide",
+          intro: "Pour le calcul du minimum, la négociation et les prélèvements :",
+          label: "Indemnité de rupture conventionnelle",
+          href: "/indemnite-rupture-conventionnelle",
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
           intro: "Fiche Service-Public :",
           label: "Rupture conventionnelle",
           href: SP_F19030,

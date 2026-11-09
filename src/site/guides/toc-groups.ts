@@ -253,6 +253,24 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "salaire-temps-partiel": {
+    groups: [
+      { title: "Calculer son salaire", icon: "calculator", start: 0, end: 5 },
+      { title: "Net, perte et avantages", icon: "scale", start: 5, end: 9 },
+      { title: "Droits et démarches", icon: "clipboard", start: 9, end: 14 },
+      { title: "FAQ et sources", icon: "file", start: 14, end: 16 },
+    ],
+  },
+
+  "indemnite-rupture-conventionnelle": {
+    groups: [
+      { title: "Minimum et calcul", icon: "calculator", start: 0, end: 4 },
+      { title: "Négociation et prélèvements", icon: "scale", start: 4, end: 7 },
+      { title: "Départ et chômage", icon: "clipboard", start: 7, end: 10 },
+      { title: "FAQ et sources", icon: "file", start: 10, end: 12 },
+    ],
+  },
+
   "quel-est-un-bon-salaire-en-france": {
     groups: [
       { title: "Les repères pour évaluer son salaire", icon: "chart", start: 0, end: 7 },

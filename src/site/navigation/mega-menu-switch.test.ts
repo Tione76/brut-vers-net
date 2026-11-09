@@ -48,11 +48,11 @@ describe("changement de méga-menu (état centralisé)", () => {
     expect(openId).toBeNull();
   });
 
-  it("Conserve Tous les guides comme lien direct sans panneau", () => {
-    const guides = getMainNavItems().find((item) => item.id === "tous-les-guides");
-    expect(guides?.kind).toBe("link");
-    if (guides?.kind === "link") {
-      expect(guides.href).toBe("/guides");
+  it("Conserve Actualités comme lien direct sans panneau", () => {
+    const actu = getMainNavItems().find((item) => item.id === "actu");
+    expect(actu?.kind).toBe("link");
+    if (actu?.kind === "link") {
+      expect(actu.href).toBe("/actu");
     }
   });
 });

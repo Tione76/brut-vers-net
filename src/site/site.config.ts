@@ -141,6 +141,7 @@ export const siteConfig = {
       { label: "FAQ", href: "/faq" },
     ],
     footer: [
+      { label: "Actualités", href: "/actu" },
       { label: "Mentions légales", href: "/mentions-legales" },
       { label: "Confidentialité", href: "/politique-de-confidentialite" },
       { label: "Cookies", href: "/gestion-des-cookies" },

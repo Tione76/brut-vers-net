@@ -57,6 +57,10 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Salaire moyen, médian, brut et net en France : chiffres officiels Insee, clairement datés et expliqués.",
   "grille-salaire-syntec":
     "Minima Syntec ETAM et cadres par coefficient : grille, SMIC, primes, temps partiel et forfait jours.",
+  "salaire-temps-partiel":
+    "Salaire à 80 %, à mi-temps ou à 24 heures : calcul du brut, estimation du net et points à vérifier.",
+  "indemnite-rupture-conventionnelle":
+    "Indemnité de rupture conventionnelle : minimum, calcul, négociation, prélèvements et sommes versées au départ.",
   "quel-est-un-bon-salaire-en-france":
     "Est-ce que votre salaire est bon ? Médiane, déciles et repères Insee pour vous situer entre 2 000 et 5 000 € net.",
   "comment-est-calcule-le-salaire-net":

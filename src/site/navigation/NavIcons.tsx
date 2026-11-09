@@ -34,6 +34,8 @@ const NAV_ICON_SRC: Record<
     circle: `${NAV_ICON_BASE}/06-mega-remuneration.svg`,
   },
   document: {
+    // Query de cache : une version antérieure du SVG pouvait rester en cache navigateur.
+    square: `${NAV_ICON_BASE}/20-nav-actualites.svg?v=20261109b`,
     circle: `${NAV_ICON_BASE}/08-mega-fiche-de-paie.svg`,
   },
   chart: {

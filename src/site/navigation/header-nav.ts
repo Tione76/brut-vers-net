@@ -26,7 +26,7 @@ export type HeaderNavEntry = HeaderNavDropdown | HeaderNavLink;
 
 /**
  * Source unique d'entrées pour la navigation header (desktop et mobile).
- * Alignée sur la maquette : Calculateurs, SMIC, Salaires & emploi, Aides & droits, Tous les guides.
+ * Alignée sur la maquette : Calculateurs, SMIC, Salaires & emploi, Aides & droits, Actualités.
  */
 export function buildHeaderNavEntries(_input?: {
   toolsNavigation?: ToolNavItem[];

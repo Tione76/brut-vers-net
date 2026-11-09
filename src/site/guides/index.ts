@@ -62,6 +62,7 @@ export {
 export {
   SiteSidebar,
   GuidePageSidebar,
+  ActuPageSidebar,
   GuidesHubSidebar,
   ToolsHubSidebar,
   HomePageSidebar,
@@ -104,3 +105,4 @@ export {
 } from "./guides-hub-data";
 export { GuidesHubPicker } from "./guides-hub-picker";
 export { GuidePageLayout } from "./GuidePageLayout";
+export { GuideMastheadShare, GUIDE_SHARE_SLOT_ID } from "./GuideMastheadShare";

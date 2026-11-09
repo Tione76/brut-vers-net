@@ -5,23 +5,37 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 
 describe("buildHeaderNavEntries", () => {
-  it("expose les cinq catégories de la maquette dans l'ordre", () => {
+  it("expose les catégories de navigation dans l'ordre", () => {
     const entries = buildHeaderNavEntries();
     expect(entries.map((entry) => entry.label)).toEqual([
       "Calculateurs",
       "SMIC",
       "Salaires & emploi",
       "Aides & droits",
-      "Tous les guides",
+      "Actualités",
     ]);
   });
 
-  it("fait de Tous les guides un lien direct vers /guides", () => {
-    const guides = buildHeaderNavEntries().find((entry) => entry.id === "tous-les-guides");
-    expect(guides?.kind).toBe("link");
-    if (guides?.kind === "link") {
-      expect(guides.href).toBe("/guides");
+  it("fait d'Actualités un lien direct vers /actu", () => {
+    const actu = buildHeaderNavEntries().find((entry) => entry.id === "actu");
+    expect(actu?.kind).toBe("link");
+    if (actu?.kind === "link") {
+      expect(actu.href).toBe("/actu");
     }
+  });
+
+  it("utilise une icône carrée pour Actualités", async () => {
+    const { getNavIconSrc } = await import("./NavIcons");
+    expect(getNavIconSrc("document", "square")).toBe(
+      "/icons/nav/20-nav-actualites.svg?v=20261109b",
+    );
+    expect(existsSync(join(process.cwd(), "public/icons/nav/20-nav-actualites.svg"))).toBe(
+      true,
+    );
+  });
+
+  it("n'expose plus Tous les guides dans le menu principal", () => {
+    expect(getMainNavItems().some((item) => item.id === "tous-les-guides")).toBe(false);
   });
 
   it("inclut le méga-menu Salaires & emploi avec CTA calculateurs", () => {
@@ -104,7 +118,7 @@ describe("buildHeaderNavEntries", () => {
     expect(hrefs).toContain("/smic-europe");
     expect(hrefs).toContain("/prime-de-noel");
     expect(hrefs).toContain("/prime-activite");
-    expect(hrefs).toContain("/guides");
+    expect(hrefs).toContain("/actu");
     expect(hrefs).toContain("/nos-outils");
   });
 

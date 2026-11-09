@@ -70,6 +70,20 @@ export const smicGuide: Guide = {
       title: `Quel est le montant du SMIC en ${SMIC_EDITORIAL_YEAR} ?`,
       blocks: [
         {
+          type: "callout",
+          variant: "tip",
+          paragraphs: [
+            "Le 9 novembre 2026, le gouvernement a annoncé une hausse du SMIC de 1,6 % à compter du 1er décembre 2026. Cette hausse n'est pas encore le barème applicable : les montants ci-dessous restent ceux du 1er juin 2026.",
+          ],
+        },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour le détail de l'annonce, la date prévue et le montant net annoncé,",
+          label: "lire notre actualité sur la hausse du SMIC en décembre 2026",
+          href: "/actu/hausse-smic-decembre-2026",
+        },
+        {
           type: "paragraph",
           text: `En ${SMIC_EDITORIAL_YEAR}, le SMIC actuellement applicable est celui entré en vigueur le ${SMIC_EFFECTIVE_FROM_LABEL}. Le tableau ci-dessous synthétise brut légal et net indicatif.`,
         },

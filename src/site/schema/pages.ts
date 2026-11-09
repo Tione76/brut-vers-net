@@ -14,7 +14,16 @@ import { buildPrimaryImageNode } from "./nodes/image";
 import { buildBreadcrumbNode, buildWebPageNode } from "./nodes/webpage";
 import { buildFaqPageNode } from "./nodes/faq";
 import { buildArticleNode } from "./nodes/article";
+import { buildNewsArticleNode } from "./nodes/news-article";
+import {
+  buildCollectionPageNode,
+  buildItemListNode,
+  getItemListId,
+} from "./nodes/collection-page";
 import { buildWebApplicationNode } from "./nodes/webapplication";
+import type { ActuArticle } from "@/site/actu/types";
+import { getActuPublicPath } from "@/site/actu/types";
+import { ACTU_HUB_PATH, ACTU_NAV_LABEL, ACTU_SECTION_LABEL } from "@/site/actu/constants";
 import type { BreadcrumbItem } from "./types";
 
 const sharedNodes = () => [buildLogoImageNode(), ...buildOrganizationGraphNodes(), buildWebsiteNode()];
@@ -236,5 +245,65 @@ export function buildAuthorJsonLd(): Record<string, unknown> {
       description: SITE_AUTHOR.metaDescription,
       mainEntityId: schemaIds.person(),
     }),
+  ]);
+}
+
+/** Article d'actualité : WebPage + NewsArticle (+ ImageObject + BreadcrumbList). */
+export function buildActuArticleJsonLd(article: ActuArticle): Record<string, unknown> {
+  const path = getActuPublicPath(article);
+
+  return buildJsonLdGraph([
+    ...sharedNodes(),
+    buildPersonNode(),
+    buildPrimaryImageNode(path, article.cover),
+    buildBreadcrumbNode(path, [
+      { name: "Accueil", path: "/" },
+      { name: ACTU_NAV_LABEL, path: ACTU_HUB_PATH },
+      { name: article.shortTitle, path },
+    ]),
+    buildWebPageNode({
+      path,
+      name: article.title,
+      description: article.description,
+      hasPrimaryImage: true,
+      mainEntityId: schemaIds.article(path),
+      about: false,
+      datePublished: article.publishedAt,
+      dateModified: article.modifiedAt,
+    }),
+    buildNewsArticleNode(article),
+  ]);
+}
+
+/** Rubrique /actu : CollectionPage + ItemList des articles réellement visibles. */
+export function buildActuHubJsonLd(input: {
+  name: string;
+  description: string;
+  articles: ActuArticle[];
+}): Record<string, unknown> {
+  const path = ACTU_HUB_PATH;
+  const itemListId = getItemListId(path);
+  const itemList = buildItemListNode({
+    path,
+    name: `${ACTU_SECTION_LABEL} publiées`,
+    items: input.articles.map((article) => ({
+      path: getActuPublicPath(article),
+      name: article.title,
+    })),
+  });
+
+  return buildJsonLdGraph([
+    ...sharedNodes(),
+    buildBreadcrumbNode(path, [
+      { name: "Accueil", path: "/" },
+      { name: ACTU_NAV_LABEL, path },
+    ]),
+    buildCollectionPageNode({
+      path,
+      name: input.name,
+      description: input.description,
+      itemListId,
+    }),
+    itemList,
   ]);
 }

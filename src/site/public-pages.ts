@@ -3,6 +3,12 @@
  * Source unique pour sitemap.xml et plan du site HTML.
  */
 import type { SitemapEntry } from "@/framework/seo/pages";
+import {
+  ACTU_HUB_H1,
+  ACTU_HUB_PATH,
+  getActuPublicPath,
+  getPublishedActuArticles,
+} from "./actu";
 import { guides } from "./guides/registry";
 import { getGuidePublicPath } from "./guides/paths";
 import { getAllCalculators } from "./navigation/calculators-registry";
@@ -48,7 +54,7 @@ import {
 import { buildGrossToNetHubSeo } from "./salaire-brut-net/hub";
 import { buildGrossToNetIndexSeo } from "./salaire-brut-net/series-index";
 
-export type PublicPageCategory = "tools" | "guides" | "faq" | "utility";
+export type PublicPageCategory = "tools" | "guides" | "faq" | "utility" | "actu";
 
 export interface PublicPage {
   path: string;
@@ -303,6 +309,26 @@ export function getAllPublicPages(): PublicPage[] {
     lastModified: GROSS_TO_NET_REDESIGN_DATE_MODIFIED,
   }));
 
+  const publishedActu = getPublishedActuArticles();
+  const actuHubPage: PublicPage = {
+    path: ACTU_HUB_PATH,
+    title: ACTU_HUB_H1,
+    category: "actu",
+    changefreq: "weekly",
+    priority: 0.8,
+    indexable: true,
+    lastModified: publishedActu[0]?.modifiedAt.slice(0, 10) ?? SEO_CONTENT_UPDATED_AT,
+  };
+  const actuPages: PublicPage[] = publishedActu.map((article) => ({
+    path: getActuPublicPath(article),
+    title: article.seoTitle ?? article.title,
+    category: "actu" as const,
+    changefreq: "weekly" as const,
+    priority: 0.78,
+    indexable: true,
+    lastModified: article.modifiedAt.slice(0, 10),
+  }));
+
   return [
     ...calculatorPages(),
     toolsHubPage,
@@ -316,6 +342,8 @@ export function getAllPublicPages(): PublicPage[] {
     grossToNetHubPage,
     grossToNetIndexPage,
     ...grossToNetPages,
+    actuHubPage,
+    ...actuPages,
     faqPage,
     ...utilityPages,
     ...legalPages,
@@ -351,6 +379,7 @@ export function getPlanDuSiteSections(): PlanDuSiteSection[] {
   return [
     { title: "Outils", pages: toolPages },
     { title: "Guides", pages: byCategory("guides") },
+    { title: "Actualités", pages: byCategory("actu") },
     { title: "FAQ", pages: byCategory("faq") },
     { title: "Pages utiles", pages: byCategory("utility") },
   ].filter((section) => section.pages.length > 0);

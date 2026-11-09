@@ -57,6 +57,7 @@ const GUIDE_TOPIC_TOOLS: Record<string, readonly string[]> = {
   "prelevement-a-la-source-quest-ce-que-cest-et-comment-ca-fonctionne": ["brut-vers-net"],
   "salaire-moyen-france": ["brut-vers-net", "augmentation-salaire"],
   "grille-salaire-syntec": ["brut-vers-net", "salaire-heures-supplementaires"],
+  "salaire-temps-partiel": ["brut-vers-net"],
   "quel-est-un-bon-salaire-en-france": ["brut-vers-net", "augmentation-salaire"],
   "salaire-interim-calcul-brut-net": ["brut-vers-net", "salaire-heures-supplementaires"],
   "salaire-alternance": ["brut-vers-net"],
@@ -83,6 +84,11 @@ const GUIDE_TOPIC_RELATED: Record<string, readonly string[]> = {
   "salaire-minimum-monaco": ["smic-europe", "smic", "salaire-minimum-italie"],
   "banque-petit-salaire": ["smic", "prime-activite", "quel-est-un-bon-salaire-en-france"],
   "grille-salaire-syntec": ["smic", "comment-lire-une-fiche-de-paie", "comment-calculer-son-salaire-net"],
+  "salaire-temps-partiel": [
+    "smic-selon-nombre-heures",
+    "comment-calculer-son-salaire-net",
+    "comment-lire-une-fiche-de-paie",
+  ],
   "prime-de-noel": ["prime-activite", "smic", "salaire-moyen-france"],
   "prime-activite": ["prime-de-noel", "smic", "salaire-moyen-france"],
   "solde-de-tout-compte": [
@@ -110,7 +116,18 @@ export type SidebarPageType =
   | "guides-hub"
   | "tools-hub"
   | "author"
-  | "institutional";
+  | "institutional"
+  | "actu";
+
+/** Lectures complémentaires pour les articles d'actualité (slugs publiés uniquement). */
+const ACTU_RELATED_GUIDE_SLUGS = [
+  "smic",
+  "smic-selon-nombre-heures",
+  "salaire-temps-partiel",
+  "prime-activite",
+] as const;
+
+const ACTU_RELATED_TOOL_IDS = ["brut-vers-net", "augmentation-salaire"] as const;
 
 export interface SidebarContext {
   pageType: SidebarPageType;
@@ -507,6 +524,31 @@ function resolveFaqBundle(context: SidebarContext): SidebarBundle {
   return { tools, guides: guidesList, recentGuides: [], toolsFirst: false };
 }
 
+function resolveActuPageBundle(context: SidebarContext): SidebarBundle {
+  const byId = toolsById();
+  const guidesList = dedupeGuides(
+    ACTU_RELATED_GUIDE_SLUGS.map((slug) => guideLinkFromSlug(slug)).filter(
+      (item): item is GuideSidebarLink => item !== null,
+    ),
+    context.currentPath,
+  ).slice(0, ACTU_RELATED_GUIDE_SLUGS.length);
+
+  const tools = dedupeTools(
+    ACTU_RELATED_TOOL_IDS.map((id) => byId.get(id)).filter(
+      (tool): tool is SidebarTool => Boolean(tool),
+    ),
+    context.currentPath,
+  ).slice(0, SIDEBAR_LIMITS.guideMaxTools);
+
+  // Articles courts : pas de bloc « Nos guides récents » pour éviter une colonne trop longue.
+  return {
+    tools,
+    guides: guidesList,
+    recentGuides: [],
+    toolsFirst: false,
+  };
+}
+
 /** Point d'entrée unique : sélection contextuelle + récents + ordre. */
 export function resolveSidebarBundle(context: SidebarContext): SidebarBundle {
   switch (context.pageType) {
@@ -522,6 +564,8 @@ export function resolveSidebarBundle(context: SidebarContext): SidebarBundle {
       return resolveHomeBundle(context);
     case "faq":
       return resolveFaqBundle(context);
+    case "actu":
+      return resolveActuPageBundle(context);
     case "guides-hub":
       return {
         tools: dedupeTools(getAllSidebarTools(), context.currentPath).slice(0, 2),

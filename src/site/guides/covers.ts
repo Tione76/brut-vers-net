@@ -458,6 +458,28 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "salaire-temps-partiel": cover(
+    "guides/salaire-temps-partiel.webp",
+    "Vue de dessus d'un bureau clair avec un ordinateur portable, une horloge ronde et un pot en céramique",
+    {
+      photographer: "Hanna Pad",
+      source: "Pexels",
+      text: "Photo de Hanna Pad via Pexels",
+    },
+    1200,
+    800,
+  ),
+  "indemnite-rupture-conventionnelle": cover(
+    "guides/indemnite-rupture-conventionnelle.webp",
+    "Main tenant un billet de 50 euros devant une calculatrice et des documents avec graphiques",
+    {
+      photographer: "Jakub Zerdzicki",
+      source: "Pexels",
+      text: "Photo de Jakub Zerdzicki via Pexels",
+    },
+    1200,
+    800,
+  ),
   "quel-est-un-bon-salaire-en-france": cover(
     "guides/bon-salaire-en-france.webp",
     "Main posée sur une pile de billets près d'un stylo sur une table en bois, personne floue en arrière-plan",
@@ -614,6 +636,12 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/grille-salaire-syntec") {
     return getGuideCover("grille-salaire-syntec");
+  }
+  if (href === "/salaire-temps-partiel") {
+    return getGuideCover("salaire-temps-partiel");
+  }
+  if (href === "/indemnite-rupture-conventionnelle") {
+    return getGuideCover("indemnite-rupture-conventionnelle");
   }
   if (href === "/quel-est-un-bon-salaire-en-france") {
     return getGuideCover("quel-est-un-bon-salaire-en-france");

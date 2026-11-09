@@ -12,6 +12,7 @@ import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
 import { ShareBlock } from "@/framework/design/components/ShareBlock";
 import { SiteShell } from "@/framework/design/components/SiteShell";
 import { PageFooter } from "@/framework/design/PageFooter";
+import { ActuAuthorMeta } from "@/site/actu/ActuAuthorMeta";
 import { GuideAuthorMeta } from "./GuideAuthorMeta";
 import { GUIDE_SHARE_SLOT_ID, GuideMastheadShare } from "./GuideMastheadShare";
 
@@ -92,14 +93,22 @@ function isBreadcrumbChild(child: ReactElement): boolean {
 }
 
 function isMetaChild(child: ReactElement): boolean {
-  if (child.type === GuideAuthorMeta) return true;
+  if (child.type === GuideAuthorMeta || child.type === ActuAuthorMeta) return true;
   const name = elementTypeName(child.type);
-  if (name === "GuideAuthorMeta") return true;
+  if (name === "GuideAuthorMeta" || name === "ActuAuthorMeta") return true;
   if (child.type === "p") {
     const props = child.props as { className?: unknown };
     return classTokens(props.className).includes("guide-meta");
   }
-  const props = child.props as { updatedAt?: unknown; items?: unknown; url?: unknown };
+  const props = child.props as {
+    updatedAt?: unknown;
+    publishedAt?: unknown;
+    items?: unknown;
+    url?: unknown;
+  };
+  if (typeof props.publishedAt === "string" && !("items" in props) && !("url" in props)) {
+    return true;
+  }
   return typeof props.updatedAt === "string" && !("items" in props) && !("url" in props);
 }
 

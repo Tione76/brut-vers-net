@@ -156,6 +156,25 @@ describe("resolveSidebarBundle", () => {
     );
   });
 
+  it("articles actu : guides et outils publiés, sans brouillon ni récents", () => {
+    const bundle = resolveSidebarBundle({
+      pageType: "actu",
+      currentPath: "/actu/hausse-smic-decembre-2026",
+    });
+    expect(hasSidebarContent({ pageType: "actu", currentPath: "/actu/hausse-smic-decembre-2026" })).toBe(
+      true,
+    );
+    expect(hrefsOf(bundle.guides)).toEqual(
+      expect.arrayContaining(["/smic", "/smic-selon-nombre-heures", "/salaire-temps-partiel", "/prime-activite"]),
+    );
+    expect(bundle.guides.length).toBeLessThanOrEqual(4);
+    expect(bundle.tools.length).toBeGreaterThan(0);
+    expect(bundle.tools.length).toBeLessThanOrEqual(2);
+    expect(bundle.recentGuides).toHaveLength(0);
+    expect(hrefsOf(bundle.guides)).not.toContain("/banque-petit-salaire");
+    expect(bundle.tools.every((tool) => tool.href !== "/banque-petit-salaire")).toBe(true);
+  });
+
   it("les guides récents utilisent publishedAt et excluent les liés", () => {
     const bundle = resolveSidebarBundle({
       pageType: "guide",

@@ -9,6 +9,8 @@ import { ShareBlock, type ShareBlockProps } from "@/framework/design/components/
 import { PageFooter } from "@/framework/design/PageFooter";
 import { HomePageSidebar } from "@/site/guides/GuidePageSidebar";
 import { hasSidebarContent } from "@/site/guides/sidebar";
+import { HomeLatestActu } from "@/site/actu/HomeLatestActu";
+import "@/site/actu/actu.css";
 import { HomeEditorial } from "@/site/home-editorial";
 import { HomeFaqContent } from "@/site/home-faq";
 import { HomeOfficialSourcesSection } from "@/site/home-official-sources";
@@ -57,6 +59,7 @@ function CalculatorPageInner({ Calculator, share, authorMeta }: CalculatorPageLa
               <div className="home-with-sidebar__main">
                 {authorMeta}
                 <HomeEditorial />
+                <HomeLatestActu />
 
         {site.blogPosts.length > 0 && (
           <section id="blog" className="content-section content-section--border">

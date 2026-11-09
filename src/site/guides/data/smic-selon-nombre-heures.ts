@@ -283,6 +283,13 @@ export const smicSelonNombreHeuresGuide: Guide = {
           label: SMIC_SOURCES.tempsPartiel.label,
           href: SMIC_SOURCES.tempsPartiel.href,
         },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour le calcul du salaire hors SMIC, la perte de revenu et les conséquences d'un passage à temps partiel :",
+          label: "Salaire à temps partiel : 80 %, mi-temps, 24 h",
+          href: "/salaire-temps-partiel",
+        },
       ],
       subsections: [
         durationSubsection("smic-20-heures", "SMIC pour 20 heures par semaine", 20, [

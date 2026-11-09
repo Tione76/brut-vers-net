@@ -1,0 +1,424 @@
+/* Styles locaux de la rubrique Actu (hors styles globaux .prose des guides). */
+
+/* Encart « En bref » : styles isolés, indépendants de .prose / .prose-callout */
+.actu-en-bref {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 1.5rem 0 1.75rem;
+  padding: 24px;
+  background: #fff6ef;
+  border: 1px solid #f5d3bc;
+  border-radius: 14px;
+  color: #0f2744;
+  container-type: inline-size;
+  container-name: actu-en-bref;
+}
+
+/* Annule les marges .prose h2 (48px) et les défauts de liste/titre.
+   Ne pas cibler la note finale ici : sa marge est gérée plus bas. */
+.prose .actu-en-bref h2,
+.prose .actu-en-bref p:not(.actu-en-bref__note),
+.prose .actu-en-bref dt,
+.prose .actu-en-bref dd,
+.actu-en-bref h2,
+.actu-en-bref p:not(.actu-en-bref__note),
+.actu-en-bref dt,
+.actu-en-bref dd,
+.actu-en-bref dl {
+  margin: 0;
+  padding: 0;
+}
+
+.prose .actu-en-bref h2.actu-en-bref__title {
+  margin: 0;
+  padding: 0;
+  font-size: 1.05rem;
+  letter-spacing: 0;
+  line-height: 1.25;
+  color: #0f2744;
+}
+
+.actu-en-bref__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 24px;
+}
+
+.actu-en-bref__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0.28rem 0.55rem;
+  border-radius: 6px;
+  background: #f28539;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.actu-en-bref__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #0f2744;
+}
+
+.actu-en-bref__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.actu-en-bref__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.35rem;
+  min-width: 0;
+  padding: 0 0.85rem;
+  text-align: center;
+  border-left: 1px solid #f0d0b8;
+}
+
+.actu-en-bref__item:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.actu-en-bref__item:last-child {
+  padding-right: 0;
+}
+
+.actu-en-bref__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: #f28539;
+  line-height: 0;
+}
+
+.actu-en-bref__icon svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+.actu-en-bref__value {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 750;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #0f2744;
+}
+
+.actu-en-bref__value--date {
+  font-size: 28px;
+  white-space: nowrap;
+}
+
+.actu-en-bref__value-sub {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.25;
+  white-space: normal;
+  color: #334155;
+}
+
+.actu-en-bref__label {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: #334155;
+}
+
+.actu-en-bref__label-sub {
+  display: block;
+  margin-top: 0.1rem;
+  color: #475569;
+}
+
+.prose .actu-en-bref p.actu-en-bref__note,
+.actu-en-bref p.actu-en-bref__note {
+  margin: 14px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid #f0d0b8;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  font-style: italic;
+  text-align: center;
+  color: #475569;
+}
+
+/* Bascule selon la largeur de la colonne éditoriale. */
+@container actu-en-bref (max-width: 560px) {
+  .actu-en-bref__header {
+    margin-bottom: 1rem;
+  }
+
+  .actu-en-bref__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actu-en-bref__item {
+    padding: 0.85rem 0;
+    border-left: 0;
+    border-top: 1px solid #f0d0b8;
+  }
+
+  .actu-en-bref__item:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .actu-en-bref__item:last-child {
+    padding-bottom: 0;
+  }
+
+  .actu-en-bref__value {
+    font-size: 1.75rem;
+  }
+
+  .actu-en-bref__value--date {
+    font-size: 1.5rem;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 720px) {
+  .actu-en-bref {
+    padding: 1.15rem;
+  }
+}
+
+/*
+ * Intro actu : même typo que les paragraphes sous H2.
+ * Neutralise .prose .guide-intro p et .prose .guide-intro p:last-of-type
+ * (cette dernière, issue de bank-cards.css, imposait 0.9375rem / gris muted).
+ */
+.prose .actu-article-body .guide-intro p,
+.prose .actu-article-body .guide-intro p:last-of-type {
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #2d3748;
+}
+
+/* Corps actu : rythme local sans toucher .prose global */
+.actu-article-body .guide-section {
+  margin-top: 2rem;
+}
+
+.actu-article-body .guide-section:first-of-type {
+  margin-top: 0.5rem;
+}
+
+.actu-article-body .guide-section > h2 {
+  margin-bottom: 0.85rem;
+}
+
+.actu-article-body .guide-section > p + p {
+  margin-top: 0.95rem;
+}
+
+.actu-meta.guide-meta {
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.15rem;
+}
+
+.actu-meta__line {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.7rem;
+  min-width: 0;
+  row-gap: 0.35rem;
+}
+
+.actu-meta__sep {
+  flex: none;
+  color: inherit;
+}
+
+.actu-hub-intro {
+  margin: 0 0 1.75rem;
+  max-width: 42rem;
+  color: var(--color-text-muted, #6b7280);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.actu-card-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.actu-card {
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border, #e4e8ed);
+}
+
+.actu-card:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+@media (min-width: 720px) {
+  .actu-card {
+    grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+    align-items: start;
+    gap: 1.25rem;
+  }
+}
+
+.actu-card__media {
+  display: block;
+  overflow: hidden;
+  border-radius: 0.35rem;
+  background: var(--color-surface, #f7f9fb);
+}
+
+.actu-card__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.actu-card__meta {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #6b7280);
+}
+
+.actu-card__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  color: var(--color-text, #161616);
+}
+
+.actu-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.actu-card__title a:hover,
+.actu-card__title a:focus-visible {
+  color: var(--color-primary, #f28539);
+}
+
+.actu-card__excerpt {
+  margin: 0 0 0.75rem;
+  color: var(--color-text-muted, #6b7280);
+  line-height: 1.55;
+}
+
+.actu-card__cta {
+  font-weight: 600;
+  color: var(--color-primary, #f28539);
+  text-decoration: none;
+}
+
+.actu-card__cta:hover,
+.actu-card__cta:focus-visible {
+  text-decoration: underline;
+}
+
+.actu-cover-caption {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #6b7280);
+  line-height: 1.4;
+}
+
+.actu-sources {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.actu-sources li + li {
+  margin-top: 0.55rem;
+}
+
+.actu-home-teaser {
+  margin: 1.5rem 0 0;
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--color-border, #e4e8ed);
+}
+
+.actu-home-teaser__label {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #6b7280);
+}
+
+.actu-home-teaser__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+  line-height: 1.35;
+}
+
+.actu-home-teaser__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.actu-home-teaser__title a:hover,
+.actu-home-teaser__title a:focus-visible {
+  color: var(--color-primary, #f28539);
+}
+
+.actu-home-teaser__meta {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #6b7280);
+}
+
+.actu-home-teaser__excerpt {
+  margin: 0 0 0.65rem;
+  color: var(--color-text-muted, #6b7280);
+  line-height: 1.5;
+}
+
+.actu-home-teaser__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+}
+
+.actu-home-teaser__links a {
+  font-weight: 600;
+  color: var(--color-primary, #f28539);
+  text-decoration: none;
+}
+
+.actu-home-teaser__links a:hover,
+.actu-home-teaser__links a:focus-visible {
+  text-decoration: underline;
+}
+
+.actu-smic-teaser {
+  margin: 0 0 1rem;
+}

@@ -146,6 +146,13 @@ export const commentCalculerSonSalaireNetGuide: Guide = {
           ],
         },
         {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour comparer un 80 %, un mi-temps ou 24 heures :",
+          label: "Salaire à temps partiel : calcul et conséquences",
+          href: "/salaire-temps-partiel",
+        },
+        {
           type: "callout",
           variant: "retain",
           paragraphs: [

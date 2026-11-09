@@ -198,6 +198,13 @@ export const commentLireUneFicheDePaieGuide: Guide = {
           text: "Le brut du mois peut varier si vous avez touché une prime, des heures supplémentaires ou si vous êtes en temps partiel. Comparez toujours le bon mois lorsque vous analysez deux bulletins.",
         },
         {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Avant un passage à 80 % ou à mi-temps :",
+          label: "Salaire à temps partiel : calcul et points à vérifier",
+          href: "/salaire-temps-partiel",
+        },
+        {
           type: "callout",
           variant: "retain",
           paragraphs: [

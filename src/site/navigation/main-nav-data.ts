@@ -1,3 +1,4 @@
+import { ACTU_HUB_PATH, ACTU_NAV_LABEL } from "@/site/actu/constants";
 import { getGuideBySlug } from "@/site/guides/registry";
 import { getGuidePublicPath } from "@/site/guides/paths";
 import { seoConfig } from "@/site/seo.config";
@@ -410,6 +411,13 @@ function buildAidesDroitsPanel(): MainNavMegaPanel {
             label: "Solde de tout compte",
           },
           {
+            href: guideHref(
+              "indemnite-rupture-conventionnelle",
+              "/indemnite-rupture-conventionnelle",
+            ),
+            label: "Indemnité de rupture conventionnelle",
+          },
+          {
             href: "/calculateurs/indemnite-licenciement",
             label: "Indemnité de licenciement",
           },
@@ -504,16 +512,17 @@ export function getMainNavItems(): MainNavItem[] {
         "/conges-payes",
         "/solde-conges-payes",
         "/solde-de-tout-compte",
+        "/indemnite-rupture-conventionnelle",
         "/calculateurs/indemnite-licenciement",
       ],
     },
     {
-      id: "tous-les-guides",
-      label: "Tous les guides",
-      icon: "book",
+      id: "actu",
+      label: ACTU_NAV_LABEL,
+      icon: "document",
       kind: "link",
-      href: GUIDES_HUB,
-      matchPaths: [GUIDES_HUB],
+      href: ACTU_HUB_PATH,
+      matchPaths: [ACTU_HUB_PATH],
     },
   ];
 }

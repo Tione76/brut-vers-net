@@ -145,6 +145,11 @@ export function ToolPageSidebar({ currentPath }: { currentPath: string }) {
   return <SiteSidebar pageType="calculator" currentPath={currentPath} />;
 }
 
+/** Sidebar articles d'actualité : même colonne que les guides. */
+export function ActuPageSidebar({ currentPath }: { currentPath: string }) {
+  return <SiteSidebar pageType="actu" currentPath={currentPath} />;
+}
+
 /** Sidebar page d'accueil : autres outils + guides */
 export function HomePageSidebar() {
   return <SiteSidebar pageType="home" currentPath="/" />;
