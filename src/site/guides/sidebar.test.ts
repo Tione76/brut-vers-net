@@ -188,6 +188,29 @@ describe("resolveSidebarBundle", () => {
     }
   });
 
+  it("guide 13ᵉ mois : 4 guides liés, sans récents, au plus 2 outils", () => {
+    const bundle = resolveSidebarBundle({
+      pageType: "guide",
+      currentPath: "/13eme-mois",
+      currentGuideSlug: "13eme-mois",
+    });
+    expect(bundle.recentGuides).toHaveLength(0);
+    expect(bundle.guides.length).toBeLessThanOrEqual(4);
+    expect(bundle.guides.length).toBeGreaterThanOrEqual(3);
+    expect(hrefsOf(bundle.guides)).toEqual(
+      expect.arrayContaining([
+        "/guides/comment-lire-une-fiche-de-paie",
+        "/solde-de-tout-compte",
+        "/salaire-temps-partiel",
+        "/guides/comment-calculer-son-salaire-net",
+      ]),
+    );
+    expect(hrefsOf(bundle.guides)).not.toContain("/banque-petit-salaire");
+    expect(bundle.tools.length).toBeGreaterThanOrEqual(1);
+    expect(bundle.tools.length).toBeLessThanOrEqual(2);
+    expect(bundle.tools.some((tool) => tool.href === "/")).toBe(true);
+  });
+
   it("chaque lien guide de la sidebar a un slug avec cover registre dédiée", () => {
     const bundle = resolveSidebarBundle({
       pageType: "guide",

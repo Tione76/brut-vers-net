@@ -480,6 +480,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "13eme-mois": cover(
+    "guides/13eme-mois-calcul-montants.webp",
+    "Collègues autour d'une table de bureau examinant un ordinateur portable près de grandes fenêtres",
+    {
+      photographer: "Tiger Lily",
+      source: "Pexels",
+      text: "Photo de Tiger Lily via Pexels",
+    },
+    1200,
+    800,
+  ),
   "quel-est-un-bon-salaire-en-france": cover(
     "guides/bon-salaire-en-france.webp",
     "Main posée sur une pile de billets près d'un stylo sur une table en bois, personne floue en arrière-plan",
@@ -642,6 +653,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/indemnite-rupture-conventionnelle") {
     return getGuideCover("indemnite-rupture-conventionnelle");
+  }
+  if (href === "/13eme-mois") {
+    return getGuideCover("13eme-mois");
   }
   if (href === "/quel-est-un-bon-salaire-en-france") {
     return getGuideCover("quel-est-un-bon-salaire-en-france");

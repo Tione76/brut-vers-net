@@ -232,6 +232,13 @@ export const soldeDeToutCompteGuide: Guide = {
           ],
         },
         {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Si un 13ᵉ mois ou une prime de fin d'année apparaît au départ,",
+          label: "vérifiez les conditions dans le guide 13ᵉ mois",
+          href: "/13eme-mois",
+        },
+        {
           type: "table",
           caption: "Repères selon le type de rupture (secteur privé)",
           headers: [

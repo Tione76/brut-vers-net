@@ -81,7 +81,7 @@ describe("guide salaire temps partiel", () => {
       "questions-frequentes",
       "methodologie-sources",
     ]);
-    expect(GUIDE_TOC_CONFIG[slug]!.groups.at(-1)!.end).toBe(pageToc.length);
+    expect(GUIDE_TOC_CONFIG[slug]!.groups.at(-1)!.end).toBe(toc.length);
     expect(guide.conclusion.title).toBe("Pour conclure");
     expect(guide.conclusion.keyPoints).toEqual([]);
     expect(guide.conclusion.closingText).toContain(

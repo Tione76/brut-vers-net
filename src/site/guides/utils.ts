@@ -46,7 +46,9 @@ function countWordsInBlock(block: GuideBlock): number {
     case "table":
       return [...block.headers, ...block.rows.flat()].join(" ").split(/\s+/).filter(Boolean).length;
     case "internal-link":
-      return (block.intro ?? block.label).split(/\s+/).filter(Boolean).length;
+      return `${block.intro ?? ""} ${block.label} ${block.outro ?? ""}`
+        .split(/\s+/)
+        .filter(Boolean).length;
     case "checklist":
       return block.items.join(" ").split(/\s+/).filter(Boolean).length;
     case "mistakes":

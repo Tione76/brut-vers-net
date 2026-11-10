@@ -1200,6 +1200,13 @@
   }
 }
 
+/* Trois repères : une colonne chacun dès que la largeur le permet */
+@media (min-width: 900px) {
+  .guide-quick-summary__age-bands:has(> :nth-child(3):last-child) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 .guide-quick-summary__age-band {
   min-width: 0;
   padding: 16px 14px;
@@ -1385,11 +1392,31 @@
   color: var(--ds-brand);
 }
 
-/* Listes du corps : puces orange discrètes */
+/* Listes du corps : puces et numéros visibles (hors nav / cartes / sommaire) */
 .prose .guide-section > ul,
 .prose .guide-subsection > ul {
-  list-style: disc;
-  padding-left: 1.35rem;
+  list-style-type: disc;
+  list-style-position: outside;
+  padding-inline-start: 1.5em;
+  overflow: visible;
+}
+
+.prose .guide-section > ol,
+.prose .guide-subsection > ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+  padding-inline-start: 1.5em;
+  overflow: visible;
+}
+
+.prose .guide-section > ul > li,
+.prose .guide-section > ol > li,
+.prose .guide-subsection > ul > li,
+.prose .guide-subsection > ol > li {
+  display: list-item;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
 }
 
 .prose .guide-section > ul > li::marker,
@@ -1397,16 +1424,17 @@
   color: var(--ds-brand);
 }
 
-.prose .guide-section > ol,
-.prose .guide-subsection > ol {
-  padding-left: 1.35rem;
+.prose .guide-section > ol > li::marker,
+.prose .guide-subsection > ol > li::marker {
+  color: var(--ds-text);
+  font-weight: 600;
 }
 
 .prose .guide-section > ul > li + li,
 .prose .guide-section > ol > li + li,
 .prose .guide-subsection > ul > li + li,
 .prose .guide-subsection > ol > li + li {
-  margin-top: 10px;
+  margin-top: 0.5em;
 }
 
 /* Liens éditoriaux du corps (pas sommaire / sidebar / CTA boutons) */

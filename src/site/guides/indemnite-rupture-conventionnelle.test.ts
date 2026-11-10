@@ -124,7 +124,7 @@ describe("guide indemnité rupture conventionnelle", () => {
       "questions-frequentes",
       "methodologie-sources",
     ]);
-    expect(GUIDE_TOC_CONFIG[slug]!.groups.at(-1)!.end).toBe(pageToc.length);
+    expect(GUIDE_TOC_CONFIG[slug]!.groups.at(-1)!.end).toBe(toc.length);
     expect(guide.conclusion.keyPoints).toEqual([]);
     expect(guide.faq).toHaveLength(8);
     for (const item of guide.faq) {

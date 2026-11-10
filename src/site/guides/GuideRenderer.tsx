@@ -230,27 +230,38 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
         </figure>
       );
 
-    case "internal-link":
+    case "internal-link": {
+      const intro = block.intro ?? "";
+      const introNeedsSpace = intro.length > 0 && !/[’']$/.test(intro);
+      const introNode = intro ? (
+        <>
+          {intro}
+          {introNeedsSpace ? " " : null}
+        </>
+      ) : null;
       if (isTemplate || isPlaceholderHref(block.href)) {
         return (
           <p className="guide-internal-link guide-internal-link--placeholder">
-            {block.intro && <>{block.intro} </>}
+            {introNode}
             <span className="guide-internal-link__label">{block.label}</span>
+            {block.outro ? <>{block.outro}</> : null}
           </p>
         );
       }
       return (
         <p className="guide-internal-link">
-          {block.intro && <>{block.intro} </>}
+          {introNode}
           {block.href.startsWith("http") ? (
             <a href={block.href} rel="noopener noreferrer" target="_blank">
               {block.label}
             </a>
           ) : (
-          <Link href={block.href}>{block.label}</Link>
+            <Link href={block.href}>{block.label}</Link>
           )}
+          {block.outro ? <>{block.outro}</> : null}
         </p>
       );
+    }
 
     case "profession-faq":
       return (
@@ -526,9 +537,45 @@ interface GuideArticleProps {
 
 function GuideQuickSummaryBlock({ summary }: { summary: import("./types").GuideQuickSummary }) {
   const isAgeBands = summary.variant === "age-bands";
+  const isReperes = summary.variant === "reperes";
   const isFormula = summary.variant === "formula";
   const isReadingOrder = summary.variant === "reading-order";
-  const isPipeline = !isFormula && !isAgeBands && summary.items.some((item) => item.kind);
+  const isPipeline =
+    !isFormula && !isAgeBands && !isReperes && summary.items.some((item) => item.kind);
+
+  if (isReperes) {
+    return (
+      <aside
+        className="guide-quick-summary guide-quick-summary--reperes"
+        aria-label={summary.title}
+      >
+        <p className="guide-quick-summary__title">{summary.title}</p>
+        <div className="guide-quick-summary__reperes">
+          {summary.items.map((item, index) => (
+            <div
+              key={`${item.title ?? item.rate}-${index}`}
+              className="guide-quick-summary__repere"
+            >
+              {item.title ? (
+                <p className="guide-quick-summary__repere-title">{item.title}</p>
+              ) : null}
+              {item.description ? (
+                <p className="guide-quick-summary__repere-answer">{item.description}</p>
+              ) : null}
+              {item.details?.[0] ? (
+                <p className="guide-quick-summary__repere-detail">{item.details[0]}</p>
+              ) : null}
+            </div>
+          ))}
+        </div>
+        {summary.synthesis?.map((paragraph) => (
+          <p key={paragraph} className="guide-quick-summary__synthesis">
+            {paragraph}
+          </p>
+        ))}
+      </aside>
+    );
+  }
 
   if (isAgeBands) {
     return (
@@ -672,6 +719,7 @@ export function GuideArticle({
   const isEarlyAmountSummary =
     Boolean(quickSummary) &&
     (quickSummary?.variant === "age-bands" ||
+      quickSummary?.variant === "reperes" ||
       (!quickSummary?.variant && !quickSummary?.items.some((item) => item.kind)));
   const isDeferredSummary = Boolean(quickSummary) && !isEarlyAmountSummary;
   /** « Réponse courte » : affichée juste sous l'intro, avant les cartes. */

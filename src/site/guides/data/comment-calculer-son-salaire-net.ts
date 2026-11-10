@@ -153,6 +153,13 @@ export const commentCalculerSonSalaireNetGuide: Guide = {
           href: "/salaire-temps-partiel",
         },
         {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour distinguer un 13ᵉ mois supplémentaire d'un salaire versé sur 13 mois :",
+          label: "Guide 13ᵉ mois : calcul, net et conditions",
+          href: "/13eme-mois",
+        },
+        {
           type: "callout",
           variant: "retain",
           paragraphs: [

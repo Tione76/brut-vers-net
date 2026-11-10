@@ -418,6 +418,10 @@ function buildAidesDroitsPanel(): MainNavMegaPanel {
             label: "Indemnité de rupture conventionnelle",
           },
           {
+            href: guideHref("13eme-mois", "/13eme-mois"),
+            label: "13ᵉ mois",
+          },
+          {
             href: "/calculateurs/indemnite-licenciement",
             label: "Indemnité de licenciement",
           },
@@ -513,6 +517,7 @@ export function getMainNavItems(): MainNavItem[] {
         "/solde-conges-payes",
         "/solde-de-tout-compte",
         "/indemnite-rupture-conventionnelle",
+        "/13eme-mois",
         "/calculateurs/indemnite-licenciement",
       ],
     },

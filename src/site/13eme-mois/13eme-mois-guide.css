@@ -1,0 +1,150 @@
+/**
+ * Styles locaux du guide /13eme-mois.
+ * Ne pas généraliser à tous les guides sans besoin.
+ */
+
+.guide-page--13eme-mois .prose .guide-section {
+  margin-top: 2.5rem;
+  padding-top: 0;
+}
+
+.guide-page--13eme-mois .prose .guide-section h2 {
+  margin-bottom: 1rem;
+}
+
+.guide-page--13eme-mois .prose .guide-subsection {
+  margin-top: 1.5rem;
+}
+
+.guide-page--13eme-mois .prose .guide-subsection h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.guide-page--13eme-mois .prose .guide-section > * + *,
+.guide-page--13eme-mois .prose .guide-subsection > * + * {
+  margin-top: 1em;
+}
+
+.guide-page--13eme-mois .prose .prose-callout {
+  margin: 1.5rem 0;
+  font-family: inherit;
+  color: var(--ds-text);
+}
+
+.guide-page--13eme-mois .prose .prose-callout p {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.6;
+  color: inherit;
+  max-width: none;
+}
+
+.guide-page--13eme-mois .prose .prose-callout--example p:last-child {
+  margin-top: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ds-text);
+}
+
+@media (max-width: 639px) {
+  .guide-page--13eme-mois .prose .prose-callout--example p:last-child {
+    font-size: 1.125rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Trois repères */
+.guide-page--13eme-mois .guide-quick-summary--reperes {
+  margin: 28px 0 36px;
+  padding: 22px;
+  background: color-mix(in srgb, var(--ds-brand-light) 70%, var(--ds-surface));
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius);
+  overflow: visible;
+}
+
+@media (max-width: 639px) {
+  .guide-page--13eme-mois .guide-quick-summary--reperes {
+    padding: 16px;
+  }
+}
+
+.guide-page--13eme-mois .guide-quick-summary--reperes .guide-quick-summary__title {
+  margin: 0 0 16px;
+  text-align: left;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+}
+
+.guide-page--13eme-mois .guide-quick-summary__reperes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .guide-page--13eme-mois .guide-quick-summary__reperes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.guide-page--13eme-mois .guide-quick-summary__repere {
+  min-width: 0;
+  padding: 18px 20px;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border-light);
+  border-radius: var(--ds-radius);
+  text-align: left;
+  box-shadow: none;
+}
+
+.guide-page--13eme-mois .guide-quick-summary__repere-title,
+.guide-page--13eme-mois .guide-quick-summary__repere-answer,
+.guide-page--13eme-mois .guide-quick-summary__repere-detail {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  text-indent: 0;
+  text-align: left;
+}
+
+.guide-page--13eme-mois .guide-quick-summary__repere-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ds-brand);
+}
+
+.guide-page--13eme-mois .guide-quick-summary__repere-answer {
+  margin-top: 10px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ds-text);
+}
+
+.guide-page--13eme-mois .guide-quick-summary__repere-detail {
+  margin-top: 8px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--ds-text);
+}
+
+/* Annule `.prose .guide-intro p:last-of-type` (petits caractères gris) quand l'intro n'a qu'un paragraphe. */
+.guide-page--13eme-mois .prose .guide-intro p,
+.guide-page--13eme-mois .prose .guide-intro p:last-of-type {
+  margin-top: 0;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  font-weight: 400;
+  color: #374151;
+  opacity: 1;
+}
+
+.guide-page--13eme-mois .prose .guide-table-wrap {
+  max-width: 100%;
+}

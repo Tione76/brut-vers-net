@@ -58,6 +58,7 @@ const GUIDE_TOPIC_TOOLS: Record<string, readonly string[]> = {
   "salaire-moyen-france": ["brut-vers-net", "augmentation-salaire"],
   "grille-salaire-syntec": ["brut-vers-net", "salaire-heures-supplementaires"],
   "salaire-temps-partiel": ["brut-vers-net"],
+  "13eme-mois": ["brut-vers-net"],
   "quel-est-un-bon-salaire-en-france": ["brut-vers-net", "augmentation-salaire"],
   "salaire-interim-calcul-brut-net": ["brut-vers-net", "salaire-heures-supplementaires"],
   "salaire-alternance": ["brut-vers-net"],
@@ -88,6 +89,12 @@ const GUIDE_TOPIC_RELATED: Record<string, readonly string[]> = {
     "smic-selon-nombre-heures",
     "comment-calculer-son-salaire-net",
     "comment-lire-une-fiche-de-paie",
+  ],
+  "13eme-mois": [
+    "comment-lire-une-fiche-de-paie",
+    "solde-de-tout-compte",
+    "salaire-temps-partiel",
+    "comment-calculer-son-salaire-net",
   ],
   "prime-de-noel": ["prime-activite", "smic", "salaire-moyen-france"],
   "prime-activite": ["prime-de-noel", "smic", "salaire-moyen-france"],
@@ -381,13 +388,16 @@ function resolveGuidePageBundle(context: SidebarContext): SidebarBundle {
     guideLinkFromSlug(relatedSlug),
   );
 
+  const relatedLimit =
+    slug === "13eme-mois" ? 4 : SIDEBAR_LIMITS.guideMaxRelatedGuides;
+
   const relatedGuides = dedupeGuides(
     [
       ...relatedFromData,
       ...topicRelated.filter((item): item is GuideSidebarLink => item !== null),
     ],
     context.currentPath,
-  ).slice(0, SIDEBAR_LIMITS.guideMaxRelatedGuides);
+  ).slice(0, relatedLimit);
 
   const byId = toolsById();
   const toolCandidates: SidebarTool[] = [];
@@ -413,11 +423,15 @@ function resolveGuidePageBundle(context: SidebarContext): SidebarBundle {
     SIDEBAR_LIMITS.guideMaxTools,
   );
 
-  const recentGuides = getRecentGuideLinks(
-    relatedGuides.map((item) => item.href),
-    context.currentPath,
-    recentLimitForGuide(guide),
-  );
+  /** /13eme-mois : sidebar courte, sans bloc « Nos guides récents ». */
+  const recentGuides =
+    slug === "13eme-mois"
+      ? []
+      : getRecentGuideLinks(
+          relatedGuides.map((item) => item.href),
+          context.currentPath,
+          recentLimitForGuide(guide),
+        );
 
   return {
     tools,

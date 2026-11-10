@@ -258,7 +258,7 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Calculer son salaire", icon: "calculator", start: 0, end: 5 },
       { title: "Net, perte et avantages", icon: "scale", start: 5, end: 9 },
       { title: "Droits et démarches", icon: "clipboard", start: 9, end: 14 },
-      { title: "FAQ et sources", icon: "file", start: 14, end: 16 },
+      { title: "FAQ et sources", icon: "file", start: 14, end: 17 },
     ],
   },
 
@@ -267,7 +267,17 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
       { title: "Minimum et calcul", icon: "calculator", start: 0, end: 4 },
       { title: "Négociation et prélèvements", icon: "scale", start: 4, end: 7 },
       { title: "Départ et chômage", icon: "clipboard", start: 7, end: 10 },
-      { title: "FAQ et sources", icon: "file", start: 10, end: 12 },
+      { title: "FAQ et sources", icon: "file", start: 10, end: 13 },
+    ],
+  },
+
+  "13eme-mois": {
+    groups: [
+      { title: "Droit et nature", icon: "help", start: 0, end: 2 },
+      { title: "Calcul et net", icon: "calculator", start: 2, end: 5 },
+      { title: "Versement, départ et absences", icon: "clipboard", start: 5, end: 8 },
+      { title: "Fiscalité, SMIC et démarches", icon: "scale", start: 8, end: 11 },
+      { title: "FAQ et sources", icon: "file", start: 11, end: 14 },
     ],
   },
 

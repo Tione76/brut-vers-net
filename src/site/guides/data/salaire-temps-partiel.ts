@@ -532,6 +532,13 @@ export const salaireTempsPartielGuide: Guide = {
           stackOnMobile: true,
         },
         {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Pour vérifier le droit, le calcul et le prorata d'un 13ᵉ mois,",
+          label: "lire le guide dédié au 13ᵉ mois",
+          href: "/13eme-mois",
+        },
+        {
           type: "paragraph",
           text: `Exemple : avec un abonnement éligible de 80 € par mois et une prise en charge de 50 %, le remboursement est de ${euro(TRANSPORT_FULL)}. Sur une référence de 35 heures, un salarié à 28 heures, à 24 heures ou à mi-temps conserve cette prise en charge dans les mêmes conditions qu'un temps plein, si l'abonnement et le trajet sont éligibles et que les justificatifs sont fournis.`,
         },

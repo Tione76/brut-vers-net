@@ -115,6 +115,8 @@ export interface GuideInternalLink {
   href: string;
   /** Phrase d'introduction optionnelle avant le lien */
   intro?: string;
+  /** Suite de phrase optionnelle après le lien */
+  outro?: string;
 }
 
 export interface GuideProfessionFaq {
@@ -137,9 +139,10 @@ export interface GuideQuickSummary {
   items: GuideQuickSummaryItem[];
   /**
    * pipeline : 3 niveaux horizontaux · reading-order : parcours vertical ·
-   * formula : chaîne sobre sans numéros · age-bands : blocs d'âge empilés / grille 2×2
+   * formula : chaîne sobre sans numéros · age-bands : blocs d'âge empilés / grille 2×2 ·
+   * reperes : trois cartes titre / réponse / explication (ex. /13eme-mois)
    */
-  variant?: "pipeline" | "reading-order" | "formula" | "age-bands";
+  variant?: "pipeline" | "reading-order" | "formula" | "age-bands" | "reperes";
   /** Synthèse optionnelle affichée sous le schéma */
   synthesis?: string[];
 }

@@ -61,6 +61,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Salaire à 80 %, à mi-temps ou à 24 heures : calcul du brut, estimation du net et points à vérifier.",
   "indemnite-rupture-conventionnelle":
     "Indemnité de rupture conventionnelle : minimum, calcul, négociation, prélèvements et sommes versées au départ.",
+  "13eme-mois":
+    "13ᵉ mois : calcul, montant net et conditions. Vérifiez votre droit, le prorata et ce qui change en cas de départ.",
   "quel-est-un-bon-salaire-en-france":
     "Est-ce que votre salaire est bon ? Médiane, déciles et repères Insee pour vous situer entre 2 000 et 5 000 € net.",
   "comment-est-calcule-le-salaire-net":
