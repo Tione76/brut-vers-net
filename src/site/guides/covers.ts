@@ -491,6 +491,17 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     800,
   ),
+  "prime-precarite": cover(
+    "guides/prime-precarite.webp",
+    "Calculatrice, billets en euros et documents de calcul",
+    {
+      photographer: "Jakub Zerdzicki",
+      source: "Pexels",
+      text: "Photo de Jakub Zerdzicki via Pexels",
+    },
+    1200,
+    800,
+  ),
   "quel-est-un-bon-salaire-en-france": cover(
     "guides/bon-salaire-en-france.webp",
     "Main posée sur une pile de billets près d'un stylo sur une table en bois, personne floue en arrière-plan",
@@ -656,6 +667,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/13eme-mois") {
     return getGuideCover("13eme-mois");
+  }
+  if (href === "/prime-precarite") {
+    return getGuideCover("prime-precarite");
   }
   if (href === "/quel-est-un-bon-salaire-en-france") {
     return getGuideCover("quel-est-un-bon-salaire-en-france");

@@ -7,6 +7,8 @@ import { formatLongDateFr } from "@/site/dates";
 type GuideAuthorMetaProps = {
   /** Date calendaire guide.updatedAt (même source que Schema.org dateModified). */
   updatedAt: string;
+  /** Si renseignée et égale à updatedAt, affiche « Publié le » sans ligne de mise à jour. */
+  publishedAt?: string;
   /** Omise sur les pages éditoriales sans temps de lecture (ex. série net → brut). */
   readingTime?: number;
 };
@@ -16,7 +18,16 @@ type GuideAuthorMetaProps = {
  * Par Antoine · X min de lecture · Dernière mise à jour le …
  * (le temps de lecture est optionnel)
  */
-export function GuideAuthorMeta({ updatedAt, readingTime }: GuideAuthorMetaProps) {
+export function GuideAuthorMeta({
+  updatedAt,
+  publishedAt,
+  readingTime,
+}: GuideAuthorMetaProps) {
+  const publishOnly =
+    publishedAt != null && publishedAt === updatedAt;
+  const showModified =
+    publishedAt != null && publishedAt !== updatedAt;
+
   return (
     <p className="guide-meta">
       {SITE_AUTHOR.portrait ? (
@@ -41,8 +52,24 @@ export function GuideAuthorMeta({ updatedAt, readingTime }: GuideAuthorMetaProps
           <span>{readingTime} min de lecture</span>
         </>
       ) : null}
-      <span aria-hidden="true"> · </span>
-      <span>Dernière mise à jour le {formatLongDateFr(updatedAt)}</span>
+      {publishOnly ? (
+        <>
+          <span aria-hidden="true"> · </span>
+          <span>Publié le {formatLongDateFr(publishedAt)}</span>
+        </>
+      ) : showModified ? (
+        <>
+          <span aria-hidden="true"> · </span>
+          <span>Publié le {formatLongDateFr(publishedAt)}</span>
+          <span aria-hidden="true"> · </span>
+          <span>Dernière mise à jour le {formatLongDateFr(updatedAt)}</span>
+        </>
+      ) : (
+        <>
+          <span aria-hidden="true"> · </span>
+          <span>Dernière mise à jour le {formatLongDateFr(updatedAt)}</span>
+        </>
+      )}
     </p>
   );
 }

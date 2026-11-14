@@ -281,6 +281,16 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "prime-precarite": {
+    groups: [
+      { title: "Droit et situations", icon: "help", start: 0, end: 2 },
+      { title: "Calcul, taux et net", icon: "calculator", start: 2, end: 5 },
+      { title: "Congés, versement et rupture", icon: "clipboard", start: 5, end: 8 },
+      { title: "Intérim et démarches", icon: "scale", start: 8, end: 10 },
+      { title: "FAQ et sources", icon: "file", start: 10, end: 13 },
+    ],
+  },
+
   "quel-est-un-bon-salaire-en-france": {
     groups: [
       { title: "Les repères pour évaluer son salaire", icon: "chart", start: 0, end: 7 },

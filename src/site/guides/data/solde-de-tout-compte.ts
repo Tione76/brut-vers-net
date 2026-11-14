@@ -735,6 +735,14 @@ export const soldeDeToutCompteGuide: Guide = {
         },
         {
           type: "internal-link",
+          variant: "guide",
+          intro: "Pour le calcul, les exceptions et le net de cette indemnité, consultez notre",
+          label: "guide de la prime de précarité",
+          href: "/prime-precarite",
+          outro: ".",
+        },
+        {
+          type: "internal-link",
           variant: "simulator",
           intro: "Outil officiel :",
           label: "Simulateur d'indemnité de précarité",

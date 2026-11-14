@@ -35,7 +35,20 @@ export interface GuideMistakesList {
 
 export interface GuideSteps {
   type: "steps";
+  /** badge : pastilles alignées (ex. étapes congés payés sur /prime-precarite) */
+  variant?: "badge";
   items: { title: string; description: string; href?: string; label?: string }[];
+}
+
+export interface GuideFormulaBlock {
+  type: "formula";
+  label: string;
+  expression: string;
+}
+
+export interface GuideExampleCard {
+  type: "example-card";
+  lines: string[];
 }
 
 /** Emplacement naturel pour le maillage interne */
@@ -44,6 +57,8 @@ export type GuideLinkVariant = "calculator" | "guide" | "simulator";
 export interface GuideCallout {
   type: "callout";
   variant: GuideCalloutVariant;
+  /** Libellé d'en-tête (remplace le libellé par défaut de la variante). */
+  heading?: string;
   /** Paragraphes courts : un item = un paragraphe */
   paragraphs: string[];
 }
@@ -155,6 +170,8 @@ export type GuideBlock =
   | GuideChecklist
   | GuideMistakesList
   | GuideSteps
+  | GuideFormulaBlock
+  | GuideExampleCard
   | GuideIllustration
   | GuideImagePlaceholder
   | GuideInternalLink

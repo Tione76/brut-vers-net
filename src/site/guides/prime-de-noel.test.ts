@@ -13,21 +13,23 @@ import { siteConfig } from "@/site/site.config";
 import { seoConfig } from "@/site/seo.config";
 import { getGuideCover } from "./covers";
 import {
+  CAF_PRIME_2026_URL,
   FORFAIT_ASS_AER_GENERAL,
   FORFAIT_ASS_AER_MAYOTTE,
+  PRIME_DE_NOEL_CAF_RESERVE,
   PRIME_DE_NOEL_H1,
   PRIME_DE_NOEL_META_DESCRIPTION,
   PRIME_DE_NOEL_PATH,
+  PRIME_DE_NOEL_PAYMENT_FROM_DEC_LABEL,
+  PRIME_DE_NOEL_PAYMENT_FROM_NOV_LABEL,
   PRIME_DE_NOEL_PUBLISHED_AT,
   PRIME_DE_NOEL_SEO_TITLE,
   PRIME_DE_NOEL_SLUG,
-  PRIME_DE_NOEL_STATUS_NOTICE,
   PRIME_DE_NOEL_TOC_GROUPS,
   PRIME_DE_NOEL_UPDATED_AT,
   PRIME_DE_NOEL_YEAR_2026_CONFIRMED,
   RSA_TABLE_GENERAL_ROWS,
   RSA_TABLE_MAYOTTE_ROWS,
-  SERVICE_PUBLIC_A14502,
 } from "@/site/prime-de-noel/data";
 
 describe("guide prime de Noël", () => {
@@ -62,7 +64,8 @@ describe("guide prime de Noël", () => {
     expect(g.description).not.toMatch(/simulat/i);
     expect(JSON.stringify(g)).not.toContain("\u2014");
     expect(PRIME_DE_NOEL_YEAR_2026_CONFIRMED).toBe(false);
-    expect(JSON.stringify(g)).toContain(PRIME_DE_NOEL_STATUS_NOTICE);
+    expect(JSON.stringify(g)).toContain(CAF_PRIME_2026_URL);
+    expect(JSON.stringify(g)).toContain(PRIME_DE_NOEL_CAF_RESERVE);
     expect(g.introSummary?.items).toHaveLength(5);
 
     const metadata = buildPageMetadata(siteConfig, seoConfig, {
@@ -80,7 +83,7 @@ describe("guide prime de Noël", () => {
 
   it("inclut FAQPage sans WebApplication dans le JSON-LD", () => {
     const g = guide();
-    expect(g.includeWebApplicationSchema).toBeFalsy();
+    expect(g.includeFaqSchema).toBeTruthy();
     const graph = buildGuideJsonLd(g)["@graph"] as Record<string, unknown>[];
     const types = graph.map((node) => node["@type"]);
     expect(types).toContain("WebPage");
@@ -122,7 +125,7 @@ describe("guide prime de Noël", () => {
     expect(computeReadingTime(guide())).toBeGreaterThanOrEqual(8);
   });
 
-  it("conserve les barèmes 2025 officiels RSA et forfaits ASS", () => {
+  it("conserve les barèmes annoncés CAF 2026 RSA et forfaits ASS", () => {
     expect(RSA_TABLE_GENERAL_ROWS[0]).toEqual([
       "0",
       expect.stringContaining("152,45"),
@@ -147,38 +150,60 @@ describe("guide prime de Noël", () => {
     expect(FORFAIT_ASS_AER_MAYOTTE).toBe(76.23);
   });
 
-  it("clarifie RSA nul, janvier 2026 campagne 2025, AER Mayotte et contexte budgétaire", () => {
+  it("documente l'annonce CAF 2026, la réserve décret et la ligne 5 enfants", () => {
     const g = guide();
     const blob = JSON.stringify(g);
-    expect(blob).toMatch(/montant dû non nul|montant de RSA n'était dû/i);
-    expect(blob).toMatch(/à partir de janvier 2026/);
-    expect(blob).toMatch(/campagne 2025/);
+    expect(blob).toMatch(/montant de RSA non nul/i);
+    expect(blob).toMatch(/Informations pour la campagne 2026/);
+    expect(blob).toMatch(/Références historiques : campagne 2025/);
+    expect(CAF_PRIME_2026_URL).toBe(
+      "https://www.caf.fr/allocataires/actualites/actualites-nationales/prime-de-noel",
+    );
+    expect(blob).not.toMatch(/Publication CAF : Prime de Noël/i);
+    expect(blob).not.toMatch(/Publication de référence pour la campagne 2026/i);
+    expect(blob).not.toMatch(/Calendrier annoncé pour la campagne 2026/i);
+    expect(blob).not.toMatch(/A14502/);
+    expect(blob).not.toMatch(/info\.gouv\.fr\/actualite\/prime-de-noel-2025/);
+    expect(blob).not.toMatch(/251215primedeNoel/);
+    expect(blob).toMatch(/15 décembre 2026/);
+    expect(blob).toMatch(/janvier 2027/);
     expect(blob).toMatch(/2025-1213/);
-    expect(blob).toMatch(/ne présentent pas exactement le même périmètre/i);
-    expect(blob).toMatch(/demandez confirmation à France Travail/i);
+    expect(blob).toMatch(/contactez France Travail/i);
     expect(blob).toMatch(/prime forfaitaire pour reprise d'activité est un dispositif ancien/i);
     expect(blob).toMatch(/allocation équivalent retraite \(AER\)/i);
     expect(blob).toMatch(/28 janvier 2026/);
-    expect(blob).toMatch(/réserver la prime de Noël aux foyers ayant au moins un enfant/i);
-    expect(blob).toMatch(/ne constitue toutefois pas le barème officiel/i);
-    expect(blob).toMatch(/article 5/);
-    expect(blob).toMatch(/A14502/);
-    expect(blob).toMatch(/montants jusqu'à cinq enfants sont repris/i);
-    expect(SERVICE_PUBLIC_A14502).toContain("A14502");
+    expect(blob).toMatch(/réserver la prime aux foyers avec enfant/i);
+    expect(blob).toMatch(/Pour cinq enfants, le montant est calculé/i);
+    expect(blob).toMatch(/228,68/);
+    expect(blob).not.toMatch(/identique à celui des autres compositions de foyer/i);
+    expect(blob).not.toMatch(/Vérification documentaire/i);
+    expect(blob).not.toMatch(/aucun décret 2026 n'a été identifié/i);
+    expect(blob).not.toMatch(/Barèmes officiels 2025/);
+    expect(blob).not.toMatch(/aucune date de versement officielle n'a encore été publiée/i);
+    expect(blob).not.toMatch(/n'ont pas encore été officiellement annoncés/i);
     expect(blob).not.toMatch(/title SEO/i);
     expect(blob).not.toMatch(/sera versée le 16 décembre 2026/i);
     expect(blob).not.toMatch(/simulat/i);
-    expect(blob).not.toMatch(/n'extrapolez pas/i);
     expect(blob).not.toMatch(/Ne pas appliquer les montants métropolitains/i);
 
     const elig = g.sections.find((section) => section.id === "qui-a-droit-prime-de-noel");
     expect(elig?.subsections?.some((sub) => sub.id === "prime-de-noel-2026-foyers-sans-enfant")).toBe(
       true,
     );
+    const payers = elig?.blocks?.find(
+      (b) =>
+        b.type === "table" &&
+        typeof b.caption === "string" &&
+        /Bénéficiaires annoncés/.test(b.caption),
+    );
+    expect(payers).toBeTruthy();
+    const rows = (payers as { rows: string[][] }).rows.map((r) => r[0]);
+    expect(rows).not.toContain("Prime forfaitaire pour reprise d'activité");
+
     expect(PRIME_DE_NOEL_PUBLISHED_AT).toBe("2026-10-18");
-    expect(PRIME_DE_NOEL_UPDATED_AT).toBe("2026-10-18");
+    expect(PRIME_DE_NOEL_UPDATED_AT).toBe("2026-11-14");
     expect(g.publishedAt).toBe("2026-10-18");
-    expect(g.updatedAt).toBe("2026-10-18");
+    expect(g.updatedAt).toBe("2026-11-14");
   });
 
   it("fournit une FAQ concise (9 questions) sans réponse vide, avec AAH", () => {
@@ -202,10 +227,11 @@ describe("guide prime de Noël", () => {
       expect(item.answer.trim().length).toBeGreaterThan(40);
     }
     const aah = faq.find((item) => /AAH/i.test(item.question));
-    expect(aah?.answer).toMatch(/AAH seule n'ouvrait pas/i);
+    expect(aah?.answer).toMatch(/AAH seule n'ouvre pas/i);
     const dateQ = faq.find((item) => /Quand sera versée/i.test(item.question));
-    expect(dateQ?.answer).toMatch(/décembre 2025/);
-    expect(dateQ?.answer).toMatch(/janvier 2026/);
+    expect(dateQ?.answer).toContain(PRIME_DE_NOEL_PAYMENT_FROM_NOV_LABEL);
+    expect(dateQ?.answer).toContain(PRIME_DE_NOEL_PAYMENT_FROM_DEC_LABEL);
+    expect(dateQ?.answer).not.toMatch(/Aucune date officielle 2026/);
   });
 
   it("utilise la couverture Gabriel Groza et l'image publique", () => {

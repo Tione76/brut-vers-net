@@ -55,6 +55,10 @@ function countWordsInBlock(block: GuideBlock): number {
       return block.items.join(" ").split(/\s+/).filter(Boolean).length;
     case "steps":
       return block.items.map((s) => `${s.title} ${s.description}`).join(" ").split(/\s+/).filter(Boolean).length;
+    case "formula":
+      return `${block.label} ${block.expression}`.split(/\s+/).filter(Boolean).length;
+    case "example-card":
+      return block.lines.join(" ").split(/\s+/).filter(Boolean).length;
     case "illustration":
     case "image-placeholder":
       return 0;

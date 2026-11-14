@@ -1,25 +1,22 @@
 /**
  * Source de vérité : /prime-de-noel
  *
- * Au 18 octobre 2026, aucun décret 2026 n'a été trouvé sur Légifrance.
- * Les barèmes et dates ci-dessous sont ceux de 2025 (dernière référence officielle).
+ * Campagne 2026 : informations publiées par la CAF le 10 novembre 2026
+ * (sous réserve de la parution du décret).
  *
- * Divergence documentaire Mayotte / AER :
- * - Service-Public F1325 et A14502 présentent l'AER à Mayotte (forfait 76,23 €).
- * - Le décret n° 2025-1213, article 1, cite expressément l'ASS et la prime forfaitaire,
- *   pas l'AER (malgré une mention dans le paragraphe « Objet »).
+ * Références 2025 (décrets, fiche Service-Public) : campagne précédente
+ * et règles non encore reprises par un texte 2026.
  */
 
 export const PRIME_DE_NOEL_SLUG = "prime-de-noel";
 export const PRIME_DE_NOEL_PATH = "/prime-de-noel";
 export const PRIME_DE_NOEL_BREADCRUMB = "Prime de Noël";
 
-/** Vérification documentaire réelle. */
-export const PRIME_DE_NOEL_VERIFIED_ON = "2026-10-18";
-export const PRIME_DE_NOEL_VERIFIED_ON_LABEL = "18 octobre 2026";
+export const PRIME_DE_NOEL_VERIFIED_ON = "2026-11-14";
+export const PRIME_DE_NOEL_VERIFIED_ON_LABEL = "14 novembre 2026";
 
 export const PRIME_DE_NOEL_PUBLISHED_AT = "2026-10-18";
-export const PRIME_DE_NOEL_UPDATED_AT = "2026-10-18";
+export const PRIME_DE_NOEL_UPDATED_AT = "2026-11-14";
 
 export const PRIME_DE_NOEL_SEO_TITLE =
   "Prime de Noël : montant, date et conditions (mis à jour)";
@@ -28,36 +25,40 @@ export const PRIME_DE_NOEL_H1 =
   "Prime de Noël 2026 : montant, date de versement et conditions";
 
 export const PRIME_DE_NOEL_META_DESCRIPTION =
-  "Prime de Noël 2026 : qui peut en bénéficier ? Consultez les derniers montants officiels, les conditions CAF, MSA et France Travail et les dates connues.";
+  "Prime de Noël 2026 : montants et calendrier annoncés par la CAF, conditions RSA, ASS, AER et organismes payeurs (CAF, MSA, France Travail).";
 
 export const PRIME_DE_NOEL_SUBTITLE =
-  "Barèmes officiels 2025, conditions CAF / MSA / France Travail, et démarches utiles.";
+  "Informations CAF pour la campagne 2026 : montants annoncés, calendrier et bénéficiaires RSA, ASS et AER.";
 
-/**
- * true uniquement lorsqu'un décret (ou barème officiel) 2026 est publié.
- * false : afficher le barème 2025 comme dernière référence connue.
- */
-export const PRIME_DE_NOEL_YEAR_2026_CONFIRMED = false;
+/** true lorsque le décret de campagne est publié au Journal officiel. */
+export const PRIME_DE_NOEL_DECREE_2026_PUBLISHED = false;
 
-/** Année du barème réellement affiché dans les tableaux. */
-export const PRIME_DE_NOEL_BAREME_YEAR = 2025;
+/** Année de la campagne visée par les tableaux (montants annoncés CAF). */
+export const PRIME_DE_NOEL_BAREME_YEAR = 2026;
 
 export const PRIME_DE_NOEL_BAREME_CAPTION =
-  "Barème officiel 2025 : dernière référence confirmée";
+  "Montants annoncés par la CAF pour 2026";
 
-export const PRIME_DE_NOEL_STATUS_NOTICE =
-  "Au 18 octobre 2026, les montants et la date de versement de la prime de Noël 2026 n'ont pas encore été officiellement annoncés. Les tableaux ci-dessous présentent les derniers barèmes confirmés, ceux de 2025.";
+export const PRIME_DE_NOEL_CAF_RESERVE =
+  "Ces informations restent sous réserve de la publication du décret.";
 
-/** Date de versement 2025 pour les droits de novembre (campagne 2025). */
+export const CAF_PRIME_2026_URL =
+  "https://www.caf.fr/allocataires/actualites/actualites-nationales/prime-de-noel";
+
+export const PRIME_DE_NOEL_PAYMENT_FROM_NOV_LABEL = "15 décembre 2026";
+export const PRIME_DE_NOEL_PAYMENT_FROM_DEC_LABEL = "janvier 2027";
+
+/** @deprecated conservé pour les passages historiques sur la campagne 2025. */
 export const PRIME_DE_NOEL_PAYMENT_DATE_2025_LABEL = "16 décembre 2025";
+
+/** @deprecated utiliser PRIME_DE_NOEL_DECREE_2026_PUBLISHED */
+export const PRIME_DE_NOEL_YEAR_2026_CONFIRMED = PRIME_DE_NOEL_DECREE_2026_PUBLISHED;
 
 export const FORFAIT_ASS_AER_GENERAL = 152.45;
 export const FORFAIT_ASS_AER_MAYOTTE = 76.23;
 
 export const SERVICE_PUBLIC_F1325 =
-  "https://www.service-public.fr/particuliers/vosdroits/F1325";
-export const SERVICE_PUBLIC_A14502 =
-  "https://www.service-public.gouv.fr/particuliers/actualites/A14502";
+  "https://www.service-public.gouv.fr/particuliers/vosdroits/F1325";
 export const LEGIFRANCE_2025_1212 =
   "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000053021069";
 export const LEGIFRANCE_2025_1213 =
@@ -67,94 +68,74 @@ export const FRANCE_TRAVAIL_PRIME =
 export const FRANCE_TRAVAIL_HOME = "https://www.francetravail.fr/";
 export const CAF_HOME = "https://www.caf.fr/";
 export const MSA_HOME = "https://www.msa.fr/";
-export const CAF_COMMUNIQUE_2025 =
-  "https://www.caf.fr/sites/default/files/medias/cnaf/251215primedeNoel.pdf";
-export const INFO_GOUV_2025 =
-  "https://www.info.gouv.fr/actualite/prime-de-noel-2025-montant-date-de-versement-et-beneficiaires";
-/** Amendement PLF 2026 : opposition à la restriction aux foyers avec enfants. */
 export const ASSEMBLEE_AMENDEMENT_PLF_2026 =
   "https://www.assemblee-nationale.fr/dyn/17/amendements/1906C/AN/3362";
-/** Annonce gouvernementale relayée par l'AFP (28 janvier 2026). */
 export const TF1_AFP_PRIME_2026_28_JANVIER =
   "https://www.tf1info.fr/politique/la-prime-de-noel-2026-conservee-pour-tous-les-beneficiaires-meme-s-ils-n-ont-pas-d-enfant-2421374.html";
 
-export const SOURCES = [
+export const SOURCES_CAMPAIGN_2026 = [
+  {
+    org: "CAF",
+    title: "Prime de Noël 2026 : tout savoir",
+    href: CAF_PRIME_2026_URL,
+    date: "publié le 10 novembre 2026",
+  },
+] as const;
+
+export const SOURCES_HISTORIQUE_2025 = [
   {
     org: "Service-Public",
     title: "Prime de Noël : comment en bénéficier ?",
     href: SERVICE_PUBLIC_F1325,
-    date: "vérifié le 15 décembre 2025",
-    about:
-      "Conditions, barèmes RSA métropole / outre-mer et Mayotte, ASS / AER, versement automatique, non-imposition.",
-  },
-  {
-    org: "Service-Public",
-    title: "Ce qu'il faut savoir sur la prime de Noël 2025",
-    href: SERVICE_PUBLIC_A14502,
-    date: "mis à jour le 15 décembre 2025",
-    about:
-      "Calendrier 2025 et barème RSA hors Mayotte jusqu'à cinq enfants (457,35 € / 503,09 €).",
-  },
-  {
-    org: "Assemblée nationale",
-    title: "Amendement n° II-3362 au PLF 2026 (prime de Noël)",
-    href: ASSEMBLEE_AMENDEMENT_PLF_2026,
-    date: "déposé le 20 novembre 2025",
-    about:
-      "Contexte budgétaire : opposition au projet de réserver la prime aux foyers avec enfants à charge.",
-  },
-  {
-    org: "TF1 Info / AFP",
-    title: "Prime de Noël 2026 conservée pour tous les bénéficiaires",
-    href: TF1_AFP_PRIME_2026_28_JANVIER,
-    date: "28 janvier 2026",
-    about:
-      "Annonce gouvernementale : abandon de la restriction aux foyers avec enfants ; pas un barème réglementaire.",
+    date: "fiche 2025 (consultée le 14 novembre 2026)",
   },
   {
     org: "Légifrance",
     title: "Décret n° 2025-1212 du 12 décembre 2025",
     href: LEGIFRANCE_2025_1212,
     date: "12 décembre 2025",
-    about:
-      "Aide exceptionnelle hors Mayotte : RSA (montant non nul), ASS, AER, prime forfaitaire. Forfait ASS / AER / prime forfaitaire 152,45 €. Une aide par foyer.",
   },
   {
     org: "Légifrance",
     title: "Décret n° 2025-1213 du 12 décembre 2025",
     href: LEGIFRANCE_2025_1213,
     date: "12 décembre 2025",
-    about:
-      "Aide exceptionnelle à Mayotte : RSA (montant non nul), ASS et prime forfaitaire (art. 1). Forfait 76,23 €. L'AER n'est pas citée à l'article 1.",
-  },
-  {
-    org: "France Travail",
-    title: "Aide exceptionnelle de fin d'année dite prime de Noël",
-    href: FRANCE_TRAVAIL_PRIME,
-    date: "campagne 2025",
-    about:
-      "ASS, AER et prime forfaitaire ; forfait 152,45 € (76,23 € à Mayotte) ; versement automatique à partir du 16 décembre 2025.",
-  },
-  {
-    org: "CAF",
-    title: "Communiqué prime de Noël (15 décembre 2025)",
-    href: CAF_COMMUNIQUE_2025,
-    date: "15 décembre 2025",
-    about: "Communication institutionnelle sur le versement 2025.",
-  },
-  {
-    org: "info.gouv.fr",
-    title: "Prime de Noël 2025 : montant, date et bénéficiaires",
-    href: INFO_GOUV_2025,
-    date: "2025",
-    about: "Synthèse gouvernementale de la campagne 2025.",
   },
 ] as const;
 
-/**
- * Ordre H2 : montants, éligibilité, versement, organismes, cas, Mayotte,
- * vérification, démarches, fiscalité, puis FAQ / conclusion / sources.
- */
+type PrimeDeNoelSourceLink = {
+  org: string;
+  title: string;
+  href: string;
+  date: string;
+};
+
+function mapSourceToLinkBlock(source: PrimeDeNoelSourceLink) {
+  return {
+    type: "internal-link" as const,
+    variant: "guide" as const,
+    intro: `${source.org}, ${source.date} :`,
+    label: source.title,
+    href: source.href,
+  };
+}
+
+/** Liens affichés dans la bibliographie du guide (groupés 2026 / historique 2025). */
+export function buildPrimeDeNoelBibliographySourceBlocks() {
+  return [
+    {
+      type: "paragraph" as const,
+      text: "Informations pour la campagne 2026",
+    },
+    ...SOURCES_CAMPAIGN_2026.map(mapSourceToLinkBlock),
+    {
+      type: "paragraph" as const,
+      text: "Références historiques : campagne 2025",
+    },
+    ...SOURCES_HISTORIQUE_2025.map(mapSourceToLinkBlock),
+  ];
+}
+
 export const PRIME_DE_NOEL_TOC_GROUPS = [
   { title: "Montants et éligibilité", icon: "clipboard" as const, start: 0, end: 2 },
   { title: "Versement et organismes", icon: "clipboard" as const, start: 2, end: 4 },

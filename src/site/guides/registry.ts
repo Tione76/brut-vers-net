@@ -38,6 +38,7 @@ import { grilleSalaireSyntecGuide } from "./data/grille-salaire-syntec";
 import { salaireTempsPartielGuide } from "./data/salaire-temps-partiel";
 import { indemniteRuptureConventionnelleGuide } from "./data/indemnite-rupture-conventionnelle";
 import { thirteenthMonthGuide } from "./data/13eme-mois";
+import { primePrecariteGuide } from "./data/prime-precarite";
 
 export { getGuidePublicPath } from "./paths";
 
@@ -68,6 +69,7 @@ export const guides: Guide[] = [
   attachGuideCover(salaireTempsPartielGuide),
   attachGuideCover(indemniteRuptureConventionnelleGuide),
   attachGuideCover(thirteenthMonthGuide),
+  attachGuideCover(primePrecariteGuide),
   attachGuideCover(quelEstUnBonSalaireEnFranceGuide),
   attachGuideCover(commentEstCalculeLeSalaireNetGuide),
   attachGuideCover(commentLireUneFicheDePaieGuide),

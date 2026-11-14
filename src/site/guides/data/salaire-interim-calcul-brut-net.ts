@@ -167,6 +167,15 @@ export const salaireInterimGuide: Guide = {
           text: "L'indemnité de fin de mission (IFM) compense la précarité du contrat temporaire. Elle est parfois appelée « prime de précarité ». Dans le cas général, elle égale 10 % de la rémunération totale brute due au salarié pour la mission et ses éventuels renouvellements, sauf dispositions conventionnelles différentes.",
         },
         {
+          type: "internal-link",
+          variant: "guide",
+          intro:
+            "Cette IFM ne doit pas être confondue avec l'indemnité de fin de CDD du secteur privé. Pour le calcul et les exceptions propres au CDD, voir notre",
+          label: "guide de la prime de précarité",
+          href: "/prime-precarite",
+          outro: ".",
+        },
+        {
           type: "paragraph",
           text: "Elle est versée à la fin de la mission, en même temps que le dernier salaire, et figure sur le bulletin. Des dispositions conventionnelles peuvent prévoir des règles différentes. Utilisez un taux personnalisé uniquement lorsqu'il est prévu par votre contrat de mission, une convention ou un accord applicable.",
         },

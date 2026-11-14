@@ -1,33 +1,31 @@
 import type { Guide } from "../types";
 import {
+  buildPrimeDeNoelBibliographySourceBlocks,
   CAF_HOME,
   FORFAIT_ASS_AER_GENERAL,
   FORFAIT_ASS_AER_MAYOTTE,
   formatEuro,
   FRANCE_TRAVAIL_HOME,
   FRANCE_TRAVAIL_PRIME,
-  LEGIFRANCE_2025_1212,
-  LEGIFRANCE_2025_1213,
   MSA_HOME,
   PRIME_DE_NOEL_BAREME_CAPTION,
   PRIME_DE_NOEL_BREADCRUMB,
+  PRIME_DE_NOEL_CAF_RESERVE,
   PRIME_DE_NOEL_H1,
   PRIME_DE_NOEL_META_DESCRIPTION,
   PRIME_DE_NOEL_PATH,
-  PRIME_DE_NOEL_PAYMENT_DATE_2025_LABEL,
+  PRIME_DE_NOEL_PAYMENT_FROM_DEC_LABEL,
+  PRIME_DE_NOEL_PAYMENT_FROM_NOV_LABEL,
   PRIME_DE_NOEL_PUBLISHED_AT,
   PRIME_DE_NOEL_SEO_TITLE,
   PRIME_DE_NOEL_SLUG,
-  PRIME_DE_NOEL_STATUS_NOTICE,
   PRIME_DE_NOEL_SUBTITLE,
   PRIME_DE_NOEL_UPDATED_AT,
   PRIME_DE_NOEL_VERIFIED_ON_LABEL,
   RSA_TABLE_GENERAL_ROWS,
   RSA_TABLE_MAYOTTE_ROWS,
   ASSEMBLEE_AMENDEMENT_PLF_2026,
-  SERVICE_PUBLIC_A14502,
   SERVICE_PUBLIC_F1325,
-  SOURCES,
   TF1_AFP_PRIME_2026_28_JANVIER,
 } from "@/site/prime-de-noel/data";
 
@@ -50,17 +48,16 @@ export const primeDeNoelGuide: Guide = {
   faqSectionId: "questions-frequentes",
   introduction: [
     "La prime de Noël, officiellement appelée aide exceptionnelle de fin d'année, est un versement forfaitaire unique destiné aux foyers qui perçoivent certains minima sociaux, notamment le revenu de solidarité active (RSA), l'allocation de solidarité spécifique (ASS) ou l'allocation équivalent retraite (AER). Elle est en principe payée automatiquement par la CAF, la MSA ou France Travail, sans formulaire spécifique.",
-    PRIME_DE_NOEL_STATUS_NOTICE,
-    `Vérification documentaire : ${PRIME_DE_NOEL_VERIFIED_ON_LABEL}, à partir des textes et pages officielles listés en fin d'article.`,
+    `Le 10 novembre 2026, la CAF a annoncé les montants, les bénéficiaires et le calendrier de versement de la prime de Noël 2026. ${PRIME_DE_NOEL_CAF_RESERVE}`,
   ],
   introSummary: {
     title: "L'essentiel à retenir",
     items: [
-      "Bénéficiaires selon les dernières règles officielles (2025) : foyers au RSA, à l'ASS, à l'AER ou à la prime forfaitaire pour reprise d'activité, avec un droit au mois de référence.",
-      `Montant de référence hors Mayotte : ${formatEuro(152.45)} pour une personne seule au RSA sans enfant (forfait ASS / AER identique).`,
-      "Calendrier 2026 : aucune date de versement officielle n'a encore été publiée.",
-      "Organismes payeurs : CAF ou MSA pour le RSA ; France Travail pour l'ASS, l'AER et la prime forfaitaire.",
-      "Versement automatique : aucune demande spécifique en principe ; tenez à jour votre RIB et votre situation familiale.",
+      "Bénéficiaires annoncés pour 2026 : foyers au RSA, à l'ASS ou à l'AER en novembre ou décembre 2026.",
+      `Montants annoncés hors Mayotte : ${formatEuro(152.45)} pour une personne seule au RSA sans enfant (forfait ASS / AER identique).`,
+      `Versement annoncé : à partir du ${PRIME_DE_NOEL_PAYMENT_FROM_NOV_LABEL} pour les droits de novembre, à partir de ${PRIME_DE_NOEL_PAYMENT_FROM_DEC_LABEL} si le droit débute en décembre.`,
+      "Organismes payeurs : CAF ou MSA pour le RSA ; France Travail pour l'ASS et l'AER.",
+      "Versement automatique, une fois par foyer, non imposable : tenez à jour votre RIB et votre situation familiale.",
     ],
   },
   sections: [
@@ -70,11 +67,11 @@ export const primeDeNoelGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "Pour les bénéficiaires du RSA hors Mayotte, le montant dépendait de la composition du foyer. Ce n'est pas le montant du RSA mensuel : c'est une aide séparée, versée une seule fois. Les tableaux ci-dessous reprennent le barème 2025, dernière référence officielle disponible.",
+          text: "Pour les bénéficiaires du RSA hors Mayotte, le montant dépend de la composition du foyer. Ce n'est pas le montant du RSA mensuel : c'est une aide séparée, versée une seule fois. Les tableaux ci-dessous reprennent les montants annoncés par la CAF pour la campagne 2026.",
         },
         {
           type: "table",
-          caption: `${PRIME_DE_NOEL_BAREME_CAPTION}. RSA hors Mayotte. Sources : Service-Public F1325, actualité Service-Public A14502 et décret n° 2025-1212.`,
+          caption: `${PRIME_DE_NOEL_BAREME_CAPTION}. RSA hors Mayotte. Source : publication du 10 novembre 2026.`,
           headers: ["Enfants à charge", "Personne seule", "Couple"],
           rows: RSA_TABLE_GENERAL_ROWS,
           stackOnMobile: true,
@@ -83,32 +80,22 @@ export const primeDeNoelGuide: Guide = {
           numeric: true,
         },
         {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Barème et conditions détaillés :",
-          label: "fiche Service-Public F1325",
-          href: SERVICE_PUBLIC_F1325,
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Tableau officiel jusqu'à cinq enfants :",
-          label: "actualité Service-Public A14502",
-          href: SERVICE_PUBLIC_A14502,
+          type: "paragraph",
+          text: `Pour l'ASS et l'AER hors Mayotte, la CAF annonce un montant forfaitaire de ${formatEuro(FORFAIT_ASS_AER_GENERAL)}. Le nombre d'enfants n'augmente pas ce forfait. L'organisme payeur est France Travail.`,
         },
         {
           type: "paragraph",
-          text: `Pour l'ASS, l'AER et la prime forfaitaire pour reprise d'activité hors Mayotte, le montant 2025 était forfaitaire : ${formatEuro(FORFAIT_ASS_AER_GENERAL)}. Le nombre d'enfants n'augmentait pas ce forfait. L'organisme payeur était France Travail.`,
+          text: "Pour cinq enfants, le montant est calculé à partir du barème CAF et de la majoration de 60,98 € par enfant supplémentaire.",
         },
         {
           type: "paragraph",
-          text: "Un parent isolé bénéficiaire du RSA relevait du barème « personne seule » avec enfants. Ce barème de la prime de Noël ne se confond ni avec le RSA majoré pour isolement, ni avec la majoration d'isolement de la prime d'activité : chaque dispositif a ses propres règles.",
+          text: "Un parent isolé bénéficiaire du RSA relève du barème « personne seule » avec enfants. Ce barème de la prime de Noël ne se confond ni avec le RSA majoré pour isolement, ni avec la majoration d'isolement de la prime d'activité : chaque dispositif a ses propres règles.",
         },
         {
           type: "callout",
           variant: "example",
           paragraphs: [
-            `Exemple 1 (barème 2025) : personne seule au RSA, sans enfant, hors Mayotte : ${formatEuro(152.45)}.`,
+            `Exemple 1 : personne seule au RSA, sans enfant, hors Mayotte : ${formatEuro(152.45)}.`,
             `Exemple 2 : couple au RSA, deux enfants, hors Mayotte : ${formatEuro(320.15)}.`,
             `Exemple 3 : parent seul au RSA, trois enfants, hors Mayotte : ${formatEuro(335.39)}.`,
             `Exemple 4 : bénéficiaire de l'ASS hors Mayotte : ${formatEuro(152.45)}, quel que soit le nombre d'enfants.`,
@@ -122,11 +109,11 @@ export const primeDeNoelGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "En 2025, la prime de Noël était destinée aux foyers ayant droit au RSA, à l'ASS, à l'AER ou à la prime forfaitaire pour reprise d'activité au titre de novembre 2025 ou, à défaut, de décembre 2025. Les bénéficiaires de la seule prime d'activité, de la seule allocation aux adultes handicapés (AAH) ou de la seule allocation d'aide au retour à l'emploi (ARE) n'y avaient pas droit.",
+          text: "Pour la campagne 2026, la CAF annonce que la prime concerne les foyers ayant droit au RSA, à l'ASS ou à l'AER au titre de novembre 2026 ou, à défaut, de décembre 2026. Les bénéficiaires de la seule prime d'activité, de la seule allocation aux adultes handicapés (AAH) ou de la seule allocation d'aide au retour à l'emploi (ARE) ne sont pas visés par cette annonce.",
         },
         {
           type: "paragraph",
-          text: "La prime forfaitaire pour reprise d'activité est un dispositif ancien, distinct de la prime d'activité actuelle. Elle restait citée par le décret 2025 pour d'éventuels droits résiduels. Un salarié qui reprend un emploi aujourd'hui ne demande pas automatiquement cette prestation.",
+          text: "La prime forfaitaire pour reprise d'activité est un dispositif ancien, distinct de la prime d'activité actuelle. Elle figurait dans les décrets de campagnes antérieures pour d'éventuels droits résiduels, mais la publication CAF du 10 novembre 2026 ne la cite pas. Sa reconduction pour 2026 reste à confirmer par le décret.",
         },
         {
           type: "paragraph",
@@ -134,44 +121,38 @@ export const primeDeNoelGuide: Guide = {
         },
         {
           type: "table",
-          caption:
-            "Situations de référence 2025. Un droit possible suppose aussi la période et les conditions du décret applicable.",
+          caption: "Bénéficiaires annoncés par la CAF pour 2026.",
           headers: ["Situation", "Droit possible", "Condition essentielle"],
           rows: [
             [
               "RSA (CAF ou MSA)",
               "Oui, sous conditions",
-              "Droit au RSA en novembre ou, à défaut, en décembre 2025, avec un montant dû non nul",
+              "Percevoir le RSA au titre de novembre ou décembre 2026.",
             ],
             [
               "ASS (France Travail)",
               "Oui, sous conditions",
-              "Droit à l'ASS au titre de novembre ou décembre 2025, sauf si la prime a déjà été versée au titre du RSA",
+              "Percevoir l'ASS au titre de novembre ou décembre 2026.",
             ],
             [
               "AER (France Travail)",
               "Oui, sous conditions",
-              "Droit à l'AER au titre de novembre ou décembre 2025 (hors Mayotte : voir section Mayotte)",
-            ],
-            [
-              "Prime forfaitaire pour reprise d'activité",
-              "Oui, sous conditions",
-              "Droit résiduel à cette ancienne prime au titre de novembre ou décembre 2025",
+              "Droit à l'AER au titre de novembre ou décembre 2026 (Mayotte : voir section Mayotte)",
             ],
             [
               "Prime d'activité seule",
               "Non au titre de cette prestation",
-              "Pas d'ouverture de droit 2025 par la seule prime d'activité",
+              "La seule prime d'activité n'ouvre pas droit",
             ],
             [
               "AAH seule",
               "Non au titre de cette prestation",
-              "Pas d'ouverture de droit 2025 par la seule AAH",
+              "La seule AAH n'ouvre pas droit",
             ],
             [
               "ARE seule",
               "Non au titre de cette prestation",
-              "L'allocation chômage classique ne suffisait pas à elle seule",
+              "L'allocation chômage classique ne suffit pas à elle seule",
             ],
           ],
           stackOnMobile: true,
@@ -181,35 +162,26 @@ export const primeDeNoelGuide: Guide = {
         {
           type: "list",
           items: [
-            "En 2025, le texte retenait un droit au titre de novembre ou, à défaut, de décembre.",
-            "Si le droit commençait seulement en décembre 2025, Service-Public indiquait un versement à partir de janvier 2026 (toujours au titre de la campagne 2025).",
-            "Être inscrit comme bénéficiaire du RSA ne suffisait pas toujours : si aucun montant de RSA n'était dû pour la période de référence, le foyer ne remplissait pas la condition du décret 2025-1212 (article 3).",
-            "Être inscrit à France Travail ne suffisait pas : il fallait une allocation éligible.",
-            "Une seule aide était due par foyer, même si plusieurs prestations étaient perçues.",
-            "Deux membres du même foyer n'ouvraient pas droit à deux primes distinctes au titre du même foyer.",
+            "Période de référence annoncée : novembre 2026, ou décembre 2026 à défaut.",
+            `Si le droit ne débute qu'en décembre 2026, la CAF indique un versement à partir de ${PRIME_DE_NOEL_PAYMENT_FROM_DEC_LABEL}.`,
+            "Être inscrit à France Travail ne suffit pas : il faut une allocation éligible.",
+            "Une seule aide est due par foyer, même si plusieurs prestations sont perçues.",
           ],
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Texte réglementaire hors Mayotte :",
-          label: "décret n° 2025-1212",
-          href: LEGIFRANCE_2025_1212,
         },
       ],
       subsections: [
         {
           id: "prime-de-noel-2026-foyers-sans-enfant",
           title:
-            "Prime de Noël 2026 : les personnes sans enfant resteront-elles concernées ?",
+            "Prime de Noël 2026 : les foyers sans enfant sont-ils concernés ?",
           blocks: [
             {
               type: "paragraph",
-              text: "Le projet de budget 2026 avait envisagé de réserver la prime de Noël aux foyers ayant au moins un enfant à charge. Le 28 janvier 2026, le gouvernement a annoncé renoncer à cette restriction et maintenir le dispositif pour les bénéficiaires habituels, y compris les personnes sans enfant.",
+              text: `Oui. Le tableau publié par la CAF comprend les personnes seules et les couples sans enfant. Hors Mayotte, le montant annoncé pour les bénéficiaires du RSA est de ${formatEuro(152.45)} pour une personne seule sans enfant et de ${formatEuro(228.68)} pour un couple sans enfant. Il faut toutefois percevoir une allocation ouvrant droit à cette aide : l'absence d'enfant ne suffit pas, à elle seule, à bénéficier de la prime.`,
             },
             {
               type: "paragraph",
-              text: "Cette annonce ne constitue toutefois pas le barème officiel de la campagne de Noël 2026. Les montants, les modalités définitives et le calendrier de versement restent à confirmer par les textes et communications officiels. L'éligibilité dépend toujours des prestations perçues (RSA, ASS, AER ou prime forfaitaire) et des conditions réglementaires applicables.",
+              text: "Le projet de budget 2026 avait envisagé de réserver la prime aux foyers avec enfant ; le 28 janvier 2026, le gouvernement avait annoncé renoncer à cette restriction.",
             },
             {
               type: "internal-link",
@@ -235,7 +207,7 @@ export const primeDeNoelGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: `Pour la campagne 2025, Service-Public indiquait un versement à partir du ${PRIME_DE_NOEL_PAYMENT_DATE_2025_LABEL} pour les personnes qui avaient droit au RSA, à l'ASS ou à l'AER au mois de novembre 2025. Pour un droit ouvert en décembre 2025, le paiement pouvait intervenir à partir de janvier 2026 : il s'agit toujours de la campagne 2025, pas de celle de 2026.`,
+          text: `Pour la campagne 2026, la CAF annonce un versement à partir du ${PRIME_DE_NOEL_PAYMENT_FROM_NOV_LABEL} pour les foyers qui ont droit au RSA, à l'ASS ou à l'AER au mois de novembre 2026. Si le droit ne débute qu'en décembre 2026, le paiement est annoncé à partir de ${PRIME_DE_NOEL_PAYMENT_FROM_DEC_LABEL}.`,
         },
         {
           type: "paragraph",
@@ -245,16 +217,9 @@ export const primeDeNoelGuide: Guide = {
           type: "list",
           items: [
             "CAF et MSA pour les foyers au RSA.",
-            "France Travail pour l'ASS, l'AER et la prime forfaitaire.",
+            "France Travail pour l'ASS et l'AER.",
             "En cas d'absence de paiement, vérifiez d'abord l'éligibilité et l'espace personnel, avant de conclure à une erreur.",
           ],
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Calendrier officiel de la campagne 2025 :",
-          label: "actualité Service-Public A14502",
-          href: SERVICE_PUBLIC_A14502,
         },
         {
           type: "callout",
@@ -271,22 +236,18 @@ export const primeDeNoelGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "L'organisme payeur dépend de l'allocation qui ouvre le droit, pas du seul fait d'être allocataire ou demandeur d'emploi.",
+          text: "L'organisme payeur dépend de l'allocation éligible (RSA, ASS ou AER), pas du seul fait d'être allocataire ou demandeur d'emploi.",
         },
         {
           type: "table",
-          caption: "Organismes payeurs selon la situation de référence 2025.",
+          caption:
+            "Organismes payeurs annoncés pour 2026 (RSA, ASS, AER).",
           headers: ["Situation", "Organisme", "Démarche habituelle"],
           rows: [
             ["RSA régime général", "CAF", "Versement automatique"],
             ["RSA régime agricole", "MSA", "Versement automatique"],
             ["ASS", "France Travail", "Versement automatique"],
             ["AER", "France Travail", "Versement automatique"],
-            [
-              "Prime forfaitaire pour reprise d'activité",
-              "France Travail",
-              "Versement automatique",
-            ],
           ],
           stackOnMobile: true,
           rowHeader: true,
@@ -294,7 +255,7 @@ export const primeDeNoelGuide: Guide = {
         },
         {
           type: "paragraph",
-          text: "Maintenez à jour votre RIB, votre adresse et votre composition familiale. Consultez les paiements dans votre espace personnel. Lorsque le même foyer était éligible à la fois au titre de l'ASS, de l'AER ou de la prime forfaitaire (article 1 du décret n° 2025-1212) et au titre du RSA (article 3), l'article 5 prévoyait de conserver la première aide versée et, le cas échéant, de compléter la différence si le montant dû au titre du RSA était plus élevé.",
+          text: "Maintenez à jour votre RIB, votre adresse et votre composition familiale. Consultez les paiements dans votre espace personnel.",
         },
       ],
     },
@@ -314,7 +275,7 @@ export const primeDeNoelGuide: Guide = {
           blocks: [
             {
               type: "paragraph",
-              text: "Selon les règles 2025, la prime d'activité seule n'ouvrait pas droit à la prime de Noël. Un foyer pouvait toutefois être concerné s'il percevait aussi une allocation éligible (RSA, ASS, AER ou prime forfaitaire), avec un droit au mois de référence.",
+              text: "La prime d'activité seule n'ouvre pas droit à la prime de Noël. Un foyer peut toutefois être concerné s'il perçoit aussi une allocation éligible (RSA, ASS ou AER), avec un droit au mois de référence.",
             },
             {
               type: "internal-link",
@@ -331,7 +292,7 @@ export const primeDeNoelGuide: Guide = {
           blocks: [
             {
               type: "paragraph",
-              text: "En 2025, l'AAH seule n'ouvrait pas droit à la prime de Noël. Un foyer pouvait toutefois être concerné s'il remplissait les conditions d'une autre allocation éligible.",
+              text: "L'AAH seule n'ouvre pas droit à la prime de Noël. Un foyer peut toutefois être concerné s'il remplit les conditions d'une autre allocation éligible.",
             },
           ],
         },
@@ -341,7 +302,7 @@ export const primeDeNoelGuide: Guide = {
           blocks: [
             {
               type: "paragraph",
-              text: "Percevoir l'allocation d'aide au retour à l'emploi (ARE) ne suffisait pas. France Travail versait la prime au titre de l'ASS, de l'AER ou de la prime forfaitaire, pas au simple titre de l'ARE.",
+              text: "Percevoir l'allocation d'aide au retour à l'emploi (ARE) ne suffit pas. France Travail verse la prime au titre de l'ASS ou de l'AER, pas au simple titre de l'ARE.",
             },
           ],
         },
@@ -351,7 +312,7 @@ export const primeDeNoelGuide: Guide = {
           blocks: [
             {
               type: "paragraph",
-              text: `Pour l'ASS, le montant 2025 était forfaitaire (${formatEuro(FORFAIT_ASS_AER_GENERAL)} hors Mayotte, ${formatEuro(FORFAIT_ASS_AER_MAYOTTE)} à Mayotte), indépendamment du nombre d'enfants. Le paiement était automatique via France Travail.`,
+              text: `Pour l'ASS, la CAF annonce un montant forfaitaire (${formatEuro(FORFAIT_ASS_AER_GENERAL)} hors Mayotte, ${formatEuro(FORFAIT_ASS_AER_MAYOTTE)} à Mayotte), indépendamment du nombre d'enfants. Le paiement est automatique via France Travail.`,
             },
           ],
         },
@@ -361,7 +322,7 @@ export const primeDeNoelGuide: Guide = {
           blocks: [
             {
               type: "paragraph",
-              text: "Tous les retraités n'étaient pas concernés. Seule l'allocation équivalent retraite (AER), encore applicable dans certaines situations résiduelles, figurait parmi les prestations ouvrant droit hors Mayotte. Une retraite classique ne suffisait pas à elle seule.",
+              text: "Une pension de retraite ne donne pas, à elle seule, droit à la prime de Noël. L'AER, une ancienne allocation distincte d'une pension de retraite, figure parmi les prestations mentionnées par la CAF.",
             },
           ],
         },
@@ -371,7 +332,7 @@ export const primeDeNoelGuide: Guide = {
           blocks: [
             {
               type: "paragraph",
-              text: "Travailler n'excluait pas automatiquement le foyer. Ce qui comptait, c'était le droit à une allocation éligible au titre du mois de référence, avec les réserves prévues par le décret, notamment un RSA non nul.",
+              text: "Le fait de travailler n'exclut pas automatiquement le foyer. Pour bénéficier de la prime de Noël, il faut percevoir une allocation ouvrant droit à cette aide au titre de novembre ou décembre 2026.",
             },
           ],
         },
@@ -387,7 +348,7 @@ export const primeDeNoelGuide: Guide = {
         },
         {
           type: "table",
-          caption: `${PRIME_DE_NOEL_BAREME_CAPTION}. RSA à Mayotte. Source : Service-Public F1325 et décret n° 2025-1213.`,
+          caption: `${PRIME_DE_NOEL_BAREME_CAPTION}. RSA à Mayotte. Source : publication du 10 novembre 2026.`,
           headers: ["Enfants à charge", "Personne seule", "Couple"],
           rows: RSA_TABLE_MAYOTTE_ROWS,
           stackOnMobile: true,
@@ -397,26 +358,11 @@ export const primeDeNoelGuide: Guide = {
         },
         {
           type: "paragraph",
-          text: `Pour l'ASS et la prime forfaitaire à Mayotte, le forfait 2025 était de ${formatEuro(FORFAIT_ASS_AER_MAYOTTE)}, conformément à l'article 1 du décret n° 2025-1213.`,
-        },
-        {
-          type: "callout",
-          variant: "vigilance",
-          paragraphs: [
-            `Pour l'AER à Mayotte, les informations publiées par Service-Public et le décret spécifique de 2025 ne présentent pas exactement le même périmètre. En cas de doute, demandez confirmation à France Travail.`,
-            `Références : Service-Public F1325 (forfait ${formatEuro(FORFAIT_ASS_AER_MAYOTTE)}) et décret n° 2025-1213, article 1 (ASS et prime forfaitaire cités expressément).`,
-          ],
-        },
-        {
-          type: "internal-link",
-          variant: "guide",
-          intro: "Texte réglementaire mahorais :",
-          label: "décret n° 2025-1213",
-          href: LEGIFRANCE_2025_1213,
+          text: `Pour l'ASS et l'AER à Mayotte, la CAF annonce un forfait de ${formatEuro(FORFAIT_ASS_AER_MAYOTTE)}, indépendamment du nombre d'enfants. Pour toute question sur votre situation personnelle, contactez France Travail.`,
         },
         {
           type: "paragraph",
-          text: "Pour la Guadeloupe, la Martinique, la Guyane et La Réunion, Service-Public rattache le barème au tableau général (hors Mayotte).",
+          text: "Pour la Guadeloupe, la Martinique, la Guyane et La Réunion, la CAF applique le tableau général hors Mayotte.",
         },
       ],
     },
@@ -457,7 +403,8 @@ export const primeDeNoelGuide: Guide = {
         {
           type: "internal-link",
           variant: "guide",
-          intro: "Page France Travail dédiée à l'aide de fin d'année :",
+          intro:
+            "France Travail : page sur l'aide de fin d'année (rédigée pour la campagne 2025, non actualisée aux dates 2026) :",
           label: "Aide exceptionnelle de fin d'année",
           href: FRANCE_TRAVAIL_PRIME,
         },
@@ -469,17 +416,17 @@ export const primeDeNoelGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "En 2025, aucune demande spécifique n'était en principe nécessaire. Le paiement suivait les fichiers des organismes. L'absence de versement n'est pas toujours une erreur.",
+          text: "Aucune demande spécifique n'est en principe nécessaire : le paiement suit les fichiers des organismes. L'absence de versement n'est pas toujours une erreur.",
         },
         {
           type: "checklist",
           title: "Vérifications utiles",
           items: [
-            "Confirmer que vous releviez d'une allocation ouvrant droit.",
-            "Vérifier le mois de référence (novembre ou décembre pour 2025).",
+            "Confirmer que vous relevez d'une allocation ouvrant droit.",
+            "Vérifier le mois de référence (novembre ou décembre 2026).",
             "Contrôler RIB, adresse et composition familiale.",
             "Consulter l'historique des paiements CAF, MSA ou France Travail.",
-            "Pour un droit ouvert en décembre 2025, tenir compte d'un éventuel paiement à partir de janvier 2026.",
+            `Pour un droit ouvert en décembre 2026, tenir compte d'un éventuel paiement à partir de ${PRIME_DE_NOEL_PAYMENT_FROM_DEC_LABEL}.`,
             "Contacter l'organisme compétent seulement après ces contrôles.",
           ],
         },
@@ -498,79 +445,78 @@ export const primeDeNoelGuide: Guide = {
       blocks: [
         {
           type: "paragraph",
-          text: "Selon Service-Public, la prime de Noël n'est pas imposable et n'a pas à être déclarée à l'impôt sur le revenu. Cette règle figure dans la fiche F1325 vérifiée en décembre 2025.",
+          text: "La prime de Noël n'est pas imposable : vous n'avez pas à la déclarer à l'impôt sur le revenu, comme le précise la CAF.",
         },
         {
           type: "paragraph",
-          text: "Une seule aide est due par foyer. Percevoir plusieurs prestations n'ouvrait pas automatiquement plusieurs primes. Le décret n° 2025-1212 (article 5) organisait, le cas échéant, un complément différentiel lorsque le montant dû au titre du RSA était supérieur à l'aide déjà versée au titre de l'ASS, de l'AER ou de la prime forfaitaire.",
+          text: "Une seule aide est due par foyer. Percevoir plusieurs prestations n'ouvre pas automatiquement plusieurs primes.",
         },
         {
           type: "paragraph",
-          text: "Recevoir la prime de Noël et cumuler d'autres prestations sociales sont deux questions distinctes. Aucune source consultée pour cette page ne décrit un effet automatique de la prime sur l'ensemble des autres aides.",
+          text: "Le versement de la prime de Noël ne permet pas, à lui seul, de déterminer vos droits aux autres prestations. Pour connaître les règles de cumul applicables à votre situation, consultez votre CAF, votre MSA ou France Travail.",
         },
       ],
     },
   ],
   faqTitle: "Questions fréquentes",
-  faqIntro: `Réponses courtes fondées sur le barème 2025, vérifié le ${PRIME_DE_NOEL_VERIFIED_ON_LABEL}.`,
+  faqIntro: `Réponses courtes fondées sur l'annonce CAF du 10 novembre 2026, vérifiée le ${PRIME_DE_NOEL_VERIFIED_ON_LABEL}.`,
   faq: [
     {
       question: "Qui aura droit à la prime de Noël en 2026 ?",
       answer:
-        "Les bénéficiaires exacts 2026 seront fixés par le décret et les communications officielles de l'année. En 2025, étaient concernés les foyers au RSA, à l'ASS, à l'AER ou à la prime forfaitaire pour reprise d'activité, avec un droit au mois de référence.",
+        "Selon la CAF, les foyers percevant le RSA, l'ASS ou l'AER en novembre ou décembre 2026 sont concernés.",
     },
     {
       question: "Quel sera le montant de la prime de Noël en 2026 ?",
       answer:
-        "Le montant 2026 n'est pas encore officiellement publié. La dernière référence connue est le barème 2025 : par exemple 152,45 € pour une personne seule au RSA sans enfant hors Mayotte, ou le même forfait pour l'ASS.",
+        `Hors Mayotte : ${formatEuro(152.45)} pour une personne seule au RSA sans enfant, ${formatEuro(228.68)} pour un couple au RSA sans enfant, et ${formatEuro(152.45)} au titre de l'ASS ou de l'AER (forfait). À Mayotte, le forfait ASS / AER annoncé est de ${formatEuro(FORFAIT_ASS_AER_MAYOTTE)}. Les autres montants RSA figurent dans les tableaux de cette page.`,
     },
     {
       question: "Quand sera versée la prime de Noël 2026 ?",
       answer:
-        `Aucune date officielle 2026 n'a été trouvée au ${PRIME_DE_NOEL_VERIFIED_ON_LABEL}. Pour la campagne 2025, le versement a commencé le 16 décembre pour les droits de novembre, et à partir de janvier 2026 pour les droits ouverts en décembre 2025.`,
+        `Versement annoncé à partir du ${PRIME_DE_NOEL_PAYMENT_FROM_NOV_LABEL} pour les droits de novembre 2026, et à partir de ${PRIME_DE_NOEL_PAYMENT_FROM_DEC_LABEL} lorsque le droit débute en décembre 2026. La date de crédit sur le compte peut varier selon la banque.`,
     },
     {
       question: "Peut-on toucher la prime de Noël avec la prime d'activité ?",
       answer:
-        "En 2025, la prime d'activité seule n'ouvrait pas droit à la prime de Noël. Un foyer pouvait être concerné s'il percevait aussi une allocation éligible, avec un droit au mois de référence.",
+        "La prime d'activité seule n'ouvre pas droit à la prime de Noël. Un foyer peut être concerné s'il perçoit aussi une allocation éligible (RSA, ASS ou AER), avec un droit au mois de référence.",
     },
     {
       question: "Les bénéficiaires de l'AAH ont-ils droit à la prime de Noël ?",
       answer:
-        "En 2025, l'AAH seule n'ouvrait pas droit à la prime de Noël. Un foyer pouvait toutefois être concerné s'il remplissait les conditions d'une autre allocation éligible.",
+        "L'AAH seule n'ouvre pas droit. Un foyer peut toutefois être concerné s'il remplit les conditions d'une autre allocation éligible annoncée par la CAF.",
     },
     {
       question: "Les chômeurs peuvent-ils recevoir la prime de Noël ?",
       answer:
-        "Pas au seul titre de l'ARE. En 2025, France Travail versait la prime pour l'ASS, l'AER ou la prime forfaitaire, lorsque les conditions de droit étaient remplies.",
+        "Pas au seul titre de l'ARE. France Travail verse la prime pour l'ASS ou l'AER lorsque les conditions de droit sont remplies.",
     },
     {
       question: "Pourquoi n'ai-je pas reçu ma prime de Noël ?",
       answer:
-        "Causes fréquentes : allocation non éligible, droit hors période de référence, RSA de montant nul, coordonnées bancaires inexactes, ou délai bancaire. Pour un droit ouvert en décembre 2025, le paiement pouvait intervenir à partir de janvier 2026. Vérifiez votre espace personnel puis contactez l'organisme compétent.",
+        `Le versement est annoncé à partir du ${PRIME_DE_NOEL_PAYMENT_FROM_NOV_LABEL} pour les droits de novembre. Si votre droit débute en décembre, le paiement est annoncé à partir de ${PRIME_DE_NOEL_PAYMENT_FROM_DEC_LABEL}. Avant ces dates, l'absence de crédit sur votre compte n'est pas nécessairement une anomalie. Sinon, vérifiez l'allocation concernée, la période de référence, vos coordonnées bancaires, l'espace personnel de votre organisme et un éventuel délai bancaire, puis contactez l'organisme compétent.`,
     },
     {
       question: "La prime de Noël est-elle imposable ?",
       answer:
-        "Selon Service-Public, non. Elle n'a pas à être déclarée à l'impôt sur le revenu d'après la fiche F1325 vérifiée en décembre 2025.",
+        "Non. Elle n'est pas imposable et ne se déclare pas à l'impôt sur le revenu, selon la CAF.",
     },
     {
       question: "La prime de Noël est-elle versée par personne ou par foyer ?",
       answer:
-        "Par foyer. Le décret 2025 prévoyait une seule aide par foyer, même en présence de plusieurs prestations. Mayotte dispose d'un barème distinct : voir la section dédiée.",
+        "Par foyer, une seule fois. Mayotte dispose d'un barème distinct : voir la section dédiée.",
     },
   ],
   conclusion: {
     title: "À retenir",
     keyPoints: [
-      "Selon les dernières règles officielles (campagne 2025), la prime concernait surtout le RSA, l'ASS, l'AER et, le cas échéant, la prime forfaitaire pour reprise d'activité.",
-      "L'organisme payeur suit l'allocation : CAF ou MSA pour le RSA, France Travail pour l'ASS, l'AER et la prime forfaitaire.",
-      "Les paiements se consultent dans l'espace personnel de l'organisme compétent ; aucune demande n'était en principe nécessaire en 2025.",
-      "Les tableaux de cette page sont ceux de 2025, faute de barème officiel 2026 à la date de vérification.",
-      "Les sources institutionnelles et les décrets sont listés en fin d'article.",
+      "Pour 2026, la CAF annonce RSA, ASS et AER comme allocations ouvrant droit. Le montant dépend de l'allocation perçue, de la composition du foyer pour le RSA et du lieu de résidence.",
+      `Le versement est annoncé à partir du ${PRIME_DE_NOEL_PAYMENT_FROM_NOV_LABEL} pour les droits de novembre, et à partir de ${PRIME_DE_NOEL_PAYMENT_FROM_DEC_LABEL} lorsque le droit débute en décembre.`,
+      "CAF ou MSA pour le RSA, France Travail pour l'ASS et l'AER : paiement automatique, sans demande en principe.",
+      "Les sources institutionnelles et l'historique des campagnes sont listés en fin d'article.",
     ],
     closingText:
-      "Dès qu'un décret ou une communication officielle fixera la campagne 2026, les montants et le calendrier de cette page seront mis à jour.",
+      "Cette page sera actualisée dès parution du décret 2026 ou en cas de nouvelle communication officielle modifiant l'annonce CAF du 10 novembre 2026.",
     furtherReading: {
       title: "Pour aller plus loin",
       items: [
@@ -603,19 +549,21 @@ export const primeDeNoelGuide: Guide = {
     blocks: [
       {
         type: "paragraph",
-        text: `Informations vérifiées le ${PRIME_DE_NOEL_VERIFIED_ON_LABEL}. Aucun décret 2026 n'a été identifié à cette date. Les tableaux reproduisent uniquement le barème 2025 publié.`,
+        text: `Informations vérifiées le ${PRIME_DE_NOEL_VERIFIED_ON_LABEL}. Source principale : publication CAF du 10 novembre 2026, présentée sous réserve du décret.`,
       },
       {
         type: "paragraph",
-        text: "Méthode : les montants jusqu'à cinq enfants sont repris des tableaux publiés par Service-Public (notamment F1325 et A14502). Pour les foyers plus nombreux, la majoration par enfant supplémentaire suit les règles indiquées dans le barème applicable. Les forfaits ASS, AER hors Mayotte et prime forfaitaire sont ceux du territoire concerné. Aucune extrapolation pour 2026. La nuance AER à Mayotte est détaillée dans la section Mayotte.",
+        text: "Méthode : les montants RSA (0 à 4 enfants, majoration par enfant supplémentaire) et les forfaits ASS / AER reprennent l'annonce CAF 2026. La ligne « 5 enfants » du tableau métropolitain applique la majoration de 60,98 € au montant pour quatre enfants. Une seule aide est due par foyer.",
       },
-      ...SOURCES.map((source) => ({
-        type: "internal-link" as const,
-        variant: "guide" as const,
-        intro: `${source.org}, ${source.date} :`,
-        label: source.title,
-        href: source.href,
-      })),
+      {
+        type: "paragraph",
+        text: "Pour la campagne 2025, l'attribution de la prime aux bénéficiaires du RSA supposait qu'un montant de RSA non nul soit dû au titre du mois de référence. Le décret n° 2025-1212 prévoyait aussi, le cas échéant, un complément différentiel lorsque le montant dû au titre du RSA dépassait l'aide déjà versée au titre de l'ASS ou de l'AER (article 5). Ces règles sont indiquées à titre historique : elles ne préjugent pas du texte de la campagne 2026.",
+      },
+      {
+        type: "paragraph",
+        text: "Pour Mayotte, l'article 1 du décret de 2025 énumérait l'ASS et la prime forfaitaire pour reprise d'activité. La publication CAF de 2026 mentionne l'ASS et l'AER ; le texte réglementaire de la campagne 2026 devra préciser ce périmètre.",
+      },
+      ...buildPrimeDeNoelBibliographySourceBlocks(),
       {
         type: "callout",
         variant: "legal",

@@ -1,4 +1,5 @@
-import type { GuideCoverImage } from "./covers";
+import { THIRTEENTH_NAV_LABEL, THIRTEENTH_SLUG } from "@/site/13eme-mois";
+import { getGuideCover, type GuideCoverImage } from "./covers";
 import { guides, getGuideBySlug } from "./registry";
 import { getGuidePublicPath } from "./paths";
 import { getAllCalculators } from "../navigation/calculators-registry";
@@ -59,6 +60,7 @@ const GUIDE_TOPIC_TOOLS: Record<string, readonly string[]> = {
   "grille-salaire-syntec": ["brut-vers-net", "salaire-heures-supplementaires"],
   "salaire-temps-partiel": ["brut-vers-net"],
   "13eme-mois": ["brut-vers-net"],
+  "prime-precarite": ["brut-vers-net"],
   "quel-est-un-bon-salaire-en-france": ["brut-vers-net", "augmentation-salaire"],
   "salaire-interim-calcul-brut-net": ["brut-vers-net", "salaire-heures-supplementaires"],
   "salaire-alternance": ["brut-vers-net"],
@@ -95,6 +97,12 @@ const GUIDE_TOPIC_RELATED: Record<string, readonly string[]> = {
     "solde-de-tout-compte",
     "salaire-temps-partiel",
     "comment-calculer-son-salaire-net",
+  ],
+  "prime-precarite": [
+    "solde-de-tout-compte",
+    "13eme-mois",
+    "salaire-interim-calcul-brut-net",
+    "comment-lire-une-fiche-de-paie",
   ],
   "prime-de-noel": ["prime-activite", "smic", "salaire-moyen-france"],
   "prime-activite": ["prime-de-noel", "smic", "salaire-moyen-france"],
@@ -284,9 +292,13 @@ function findGuideByHref(href: string): Guide | undefined {
 
 function toGuideLink(guide: Guide, titleOverride?: string): GuideSidebarLink {
   const description = guide.subtitle?.trim() || guide.description?.trim() || undefined;
+  const defaultTitle =
+    guide.slug === THIRTEENTH_SLUG
+      ? THIRTEENTH_NAV_LABEL
+      : guide.breadcrumbLabel ?? guide.title;
   return {
     slug: guide.slug,
-    title: titleOverride ?? guide.breadcrumbLabel ?? guide.title,
+    title: guide.slug === THIRTEENTH_SLUG ? defaultTitle : titleOverride ?? defaultTitle,
     href: getGuidePublicPath(guide),
     ...(description ? { description } : {}),
   };
@@ -349,6 +361,7 @@ function getRecentGuideLinks(
 
   return [...guides]
     .filter((guide) => !guide.isTemplate)
+    .filter((guide) => Boolean(getGuideCover(guide.slug)))
     .sort((a, b) => {
       const byDate = b.publishedAt.localeCompare(a.publishedAt);
       if (byDate !== 0) return byDate;
@@ -389,7 +402,9 @@ function resolveGuidePageBundle(context: SidebarContext): SidebarBundle {
   );
 
   const relatedLimit =
-    slug === "13eme-mois" ? 4 : SIDEBAR_LIMITS.guideMaxRelatedGuides;
+    slug === "13eme-mois" || slug === "prime-precarite"
+      ? 4
+      : SIDEBAR_LIMITS.guideMaxRelatedGuides;
 
   const relatedGuides = dedupeGuides(
     [
@@ -423,9 +438,9 @@ function resolveGuidePageBundle(context: SidebarContext): SidebarBundle {
     SIDEBAR_LIMITS.guideMaxTools,
   );
 
-  /** /13eme-mois : sidebar courte, sans bloc « Nos guides récents ». */
+  /** Sidebar courte sans « Nos guides récents » pour certains guides pilier. */
   const recentGuides =
-    slug === "13eme-mois"
+    slug === "13eme-mois" || slug === "prime-precarite"
       ? []
       : getRecentGuideLinks(
           relatedGuides.map((item) => item.href),

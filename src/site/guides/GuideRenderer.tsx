@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { GuideMastheadShare } from "./GuideMastheadShare";
 import { getGuideCover } from "./covers";
@@ -24,10 +25,49 @@ function isExternalHref(href: string): boolean {
   return href.startsWith("http://") || href.startsWith("https://");
 }
 
+/** Gras `**…**` et liens `[libellé](url)` fournis dans le texte éditorial. */
+function renderInlineText(text: string): ReactNode {
+  const nodes: ReactNode[] = [];
+  const pattern = /(\*\*([^*]+)\*\*|\[([^\]]+)\]\(([^)]+)\))/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let key = 0;
+
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(text.slice(lastIndex, match.index));
+    }
+    if (match[2]) {
+      nodes.push(<strong key={`b-${key++}`}>{match[2]}</strong>);
+    } else if (match[3] && match[4]) {
+      const href = match[4];
+      const label = match[3];
+      nodes.push(
+        isExternalHref(href) ? (
+          <a key={`a-${key++}`} href={href} rel="noopener noreferrer" target="_blank">
+            {label}
+          </a>
+        ) : (
+          <Link key={`a-${key++}`} href={href}>
+            {label}
+          </Link>
+        ),
+      );
+    }
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+
+  return nodes.length > 0 ? nodes : text;
+}
+
 function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTemplate?: boolean }) {
   switch (block.type) {
     case "paragraph":
-      return <p>{block.text}</p>;
+      return <p>{renderInlineText(block.text)}</p>;
 
     case "list": {
       const ListTag = block.ordered ? "ol" : "ul";
@@ -35,11 +75,11 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
         <ListTag>
           {block.items.map((item) => {
             if (typeof item === "string") {
-              return <li key={item}>{item}</li>;
+              return <li key={item}>{renderInlineText(item)}</li>;
       }
       return (
               <li key={`${item.text}-${item.href}`}>
-                {item.text}{" "}
+                {renderInlineText(item.text)}{" "}
                 {item.href.startsWith("http") ? (
                   <a href={item.href} rel="noopener noreferrer" target="_blank">
                     {item.label}
@@ -93,15 +133,21 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
         </aside>
       );
 
-    case "steps":
+    case "steps": {
+      const isBadge = block.variant === "badge";
       return (
-        <ol className="guide-steps">
+        <ol className={isBadge ? "pp-steps" : "guide-steps"} role="list">
           {block.items.map((step, i) => (
-            <li key={step.title} className="guide-steps__item">
-              <span className="guide-steps__num" aria-hidden="true">{i + 1}</span>
-              <div>
-                <p className="guide-steps__title">
-                  {step.title}
+            <li key={step.title} className={isBadge ? "pp-step" : "guide-steps__item"}>
+              <span
+                className={isBadge ? "pp-step-number" : "guide-steps__num"}
+                aria-hidden="true"
+              >
+                {i + 1}
+              </span>
+              <div className={isBadge ? "pp-step-content" : undefined}>
+                <p className={isBadge ? "pp-step-title" : "guide-steps__title"}>
+                  {renderInlineText(step.title)}
                   {step.href && step.label ? (
                     <>
                       {" "}
@@ -116,20 +162,47 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
                   ) : null}
                 </p>
                 {step.description ? (
-                <p className="guide-steps__desc">{step.description}</p>
+                  <p className={isBadge ? "pp-step-detail" : "guide-steps__desc"}>
+                    {renderInlineText(step.description)}
+                  </p>
                 ) : null}
               </div>
             </li>
           ))}
         </ol>
       );
+    }
+
+    case "formula":
+      return (
+        <div className="pp-formula">
+          <p className="pp-formula__label">{block.label}</p>
+          <p className="pp-formula__expression">{block.expression}</p>
+        </div>
+      );
+
+    case "example-card":
+      return (
+        <aside className="pp-example-card" aria-label="Exemple chiffré">
+          {block.lines.map((line, lineIndex) => (
+            <p
+              key={line}
+              className={
+                lineIndex === block.lines.length - 1 ? "pp-example-card__result" : undefined
+              }
+            >
+              {renderInlineText(line)}
+            </p>
+          ))}
+        </aside>
+      );
 
     case "callout":
       return (
         <aside className={`prose-callout prose-callout--${block.variant}`}>
-          <strong>{GUIDE_CALLOUT_LABELS[block.variant]}</strong>
+          <strong>{block.heading ?? GUIDE_CALLOUT_LABELS[block.variant]}</strong>
           {block.paragraphs.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+            <p key={paragraph}>{renderInlineText(paragraph)}</p>
           ))}
         </aside>
       );
@@ -778,10 +851,10 @@ export function GuideArticle({
       />
 
       <div className="guide-intro">
-        {firstParagraph ? <p>{firstParagraph}</p> : null}
+        {firstParagraph ? <p>{renderInlineText(firstParagraph)}</p> : null}
         {!coverAfterSlot && cover ? <CoverFigure cover={cover} priority /> : null}
         {restIntroduction.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
+          <p key={paragraph}>{renderInlineText(paragraph)}</p>
         ))}
         {tocAfterSlot && tocBlock ? (
           <p className="guide-toc-skip-wrap">

@@ -63,6 +63,8 @@ export const GUIDE_HUB_TEASERS: Record<string, string> = {
     "Indemnité de rupture conventionnelle : minimum, calcul, négociation, prélèvements et sommes versées au départ.",
   "13eme-mois":
     "13ᵉ mois : calcul, montant net et conditions. Vérifiez votre droit, le prorata et ce qui change en cas de départ.",
+  "prime-precarite":
+    "À qui est due la prime de fin de CDD ? Retrouvez le calcul, les exceptions et la différence entre le brut, le net et les congés payés.",
   "quel-est-un-bon-salaire-en-france":
     "Est-ce que votre salaire est bon ? Médiane, déciles et repères Insee pour vous situer entre 2 000 et 5 000 € net.",
   "comment-est-calcule-le-salaire-net":

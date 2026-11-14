@@ -552,7 +552,7 @@ export const thirteenthMonthGuide: Guide = {
               intro:
                 "Le 13ᵉ mois et l'indemnité de fin de CDD, aussi appelée indemnité de précarité, sont deux sommes différentes. Leur calcul peut toutefois être lié : lorsqu'un 13ᵉ mois est dû au titre du contrat, il entre en principe dans la rémunération brute servant à calculer l'",
               label: "indemnité de fin de contrat",
-              href: S.codeL1243_8.href,
+              href: "/prime-precarite",
               outro: ", si vous avez droit à cette indemnité.",
             },
           ],

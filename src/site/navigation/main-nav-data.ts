@@ -4,6 +4,7 @@ import { getGuidePublicPath } from "@/site/guides/paths";
 import { seoConfig } from "@/site/seo.config";
 import { getAllCalculators } from "./calculators-registry";
 import { SMIC_HISTORY_PATH } from "@/site/smic-history/constants";
+import { THIRTEENTH_NAV_LABEL } from "@/site/13eme-mois";
 
 export type MainNavIconId =
   | "calculator"
@@ -419,7 +420,11 @@ function buildAidesDroitsPanel(): MainNavMegaPanel {
           },
           {
             href: guideHref("13eme-mois", "/13eme-mois"),
-            label: "13ᵉ mois",
+            label: THIRTEENTH_NAV_LABEL,
+          },
+          {
+            href: guideHref("prime-precarite", "/prime-precarite"),
+            label: "Prime de précarité",
           },
           {
             href: "/calculateurs/indemnite-licenciement",
@@ -518,6 +523,7 @@ export function getMainNavItems(): MainNavItem[] {
         "/solde-de-tout-compte",
         "/indemnite-rupture-conventionnelle",
         "/13eme-mois",
+        "/prime-precarite",
         "/calculateurs/indemnite-licenciement",
       ],
     },

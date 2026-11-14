@@ -9,6 +9,9 @@ export const THIRTEENTH_SLUG = "13eme-mois";
 export const THIRTEENTH_PATH = "/13eme-mois";
 export const THIRTEENTH_BREADCRUMB = "13ᵉ mois";
 
+/** Libellé court menu et cartes latérales pointant vers /13eme-mois. */
+export const THIRTEENTH_NAV_LABEL = "13ᵉ mois : montant et conditions";
+
 export const THIRTEENTH_H1 =
   "13ᵉ mois : calcul, montant net et conditions pour le toucher";
 
