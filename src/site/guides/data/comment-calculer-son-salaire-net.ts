@@ -357,6 +357,10 @@ export const commentCalculerSonSalaireNetGuide: Guide = {
             "Dans toute comparaison, exprimez les montants dans la même unité (horaire, mensuel ou annuel) et au même niveau : salaire brut avec salaire brut, salaire net avant impôt avec salaire net avant impôt.",
           ],
         },
+        {
+          type: "paragraph",
+          text: "Pour préparer votre entretien d'embauche, découvrez également comment formuler vos [prétentions salariales](https://entretienfacile.com/blog/pretentions-salariales) et présenter une fourchette de rémunération cohérente.",
+        },
       ],
     },
     {
