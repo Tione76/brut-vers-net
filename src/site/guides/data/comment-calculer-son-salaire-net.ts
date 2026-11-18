@@ -533,6 +533,10 @@ export const commentCalculerSonSalaireNetGuide: Guide = {
         title: "Calcul du salaire pendant un arrêt maladie",
         href: "/salaire-arret-maladie",
       },
+      {
+        title: "Épargner avec un petit salaire",
+        href: "/epargner-petit-salaire",
+      },
     ],
   },
 };

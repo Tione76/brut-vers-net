@@ -13,9 +13,9 @@ describe("changement de méga-menu (état centralisé)", () => {
 
     expect(dropdownIds).toEqual([
       "calculateurs",
-      "smic",
       "salaires-emploi",
       "aides-droits",
+      "banque-epargne",
     ]);
 
     let openId: string | null = null;
@@ -30,15 +30,15 @@ describe("changement de méga-menu (état centralisé)", () => {
     openMenu("calculateurs");
     expect(openId).toBe("calculateurs");
 
-    openMenu("smic");
-    expect(openId).toBe("smic");
-    expect(openId).not.toBe("calculateurs");
-
     openMenu("salaires-emploi");
     expect(openId).toBe("salaires-emploi");
+    expect(openId).not.toBe("calculateurs");
 
     openMenu("aides-droits");
     expect(openId).toBe("aides-droits");
+
+    openMenu("banque-epargne");
+    expect(openId).toBe("banque-epargne");
 
     openMenu("calculateurs");
     expect(openId).toBe("calculateurs");

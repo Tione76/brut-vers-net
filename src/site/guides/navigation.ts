@@ -63,6 +63,11 @@ export const guidesNavigation: GuideNavItem[] = [
     title: "Prime d'activité 2026 : montants, plafonds et conditions",
   },
   {
+    slug: "epargner-petit-salaire",
+    shortTitle: "Épargner avec un petit salaire",
+    title: "Comment épargner avec un petit salaire ?",
+  },
+  {
     slug: "prime-de-noel",
     shortTitle: "Prime de Noël",
     title: "Prime de Noël 2026 : montant, date de versement et conditions",

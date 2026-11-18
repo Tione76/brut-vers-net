@@ -552,6 +552,12 @@ export const smicGuide: Guide = {
       { title: "Cotisations salariales", href: COTISATIONS_HREF },
       { title: "Lire une fiche de paie", href: LIRE_FICHE_PAIE_HREF },
     ],
-    discover: [{ title: "Hub salaire brut mensuel en net", href: BRUT_VERS_NET_HUB }],
+    discover: [
+      { title: "Hub salaire brut mensuel en net", href: BRUT_VERS_NET_HUB },
+      {
+        title: "Épargner avec un petit salaire",
+        href: "/epargner-petit-salaire",
+      },
+    ],
   },
 };

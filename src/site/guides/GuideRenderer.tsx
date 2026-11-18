@@ -241,10 +241,10 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
                             {isRowHeader && block.rowFlags?.[rowIndex] ? (
                               <span className="guide-country-cell">
                                 <CountryFlag code={block.rowFlags[rowIndex]} />
-                                {cell}
+                                {renderInlineText(cell)}
                               </span>
                             ) : (
-                              cell
+                              renderInlineText(cell)
                             )}
                           </Cell>
                         );
@@ -275,10 +275,10 @@ function GuideBlockRenderer({ block, isTemplate }: { block: GuideBlock; isTempla
                         {cellIndex === 0 && block.rowFlags?.[rowIndex] ? (
                           <span className="guide-country-cell">
                             <CountryFlag code={block.rowFlags[rowIndex]} />
-                            {cell}
+                            {renderInlineText(cell)}
                           </span>
                         ) : (
-                          cell
+                          renderInlineText(cell)
                         )}
                       </span>
                     </div>
@@ -590,6 +590,11 @@ interface GuideArticleProps {
    * - `after-slot` : juste après le calculateur / `afterToc`
    */
   tocPlacement?: "inline" | "after-slot";
+  /**
+   * Section à afficher juste après la couverture / l'intro, avant le sommaire
+   * (ex. carte d'orientation). Compatible avec la convention `reponse-courte`.
+   */
+  prefaceSectionId?: string;
   /** Contenu React injecté juste sous le H2 d'une section (clé = id de section). */
   sectionSlots?: Record<string, import("react").ReactNode>;
   /** Identifiant d'ancre de la section FAQ (défaut : faq). */
@@ -766,6 +771,7 @@ export function GuideArticle({
   afterToc,
   coverPlacement = "inline",
   tocPlacement = "inline",
+  prefaceSectionId,
   sectionSlots,
   faqSectionId = "faq",
   bibliography,
@@ -798,7 +804,14 @@ export function GuideArticle({
   /** « Réponse courte » : affichée juste sous l'intro, avant les cartes. */
   const leadAnswerSection =
     sections[0]?.id === "reponse-courte" ? sections[0] : null;
-  const bodySections = leadAnswerSection ? sections.slice(1) : sections;
+  const prefaceSection =
+    !leadAnswerSection && prefaceSectionId
+      ? (sections.find((section) => section.id === prefaceSectionId) ?? null)
+      : null;
+  const earlySection = leadAnswerSection ?? prefaceSection;
+  const bodySections = earlySection
+    ? sections.filter((section) => section.id !== earlySection.id)
+    : sections;
 
   const renderSection = (
     section: (typeof sections)[number],
@@ -871,8 +884,11 @@ export function GuideArticle({
         <CoverFigure cover={cover} priority={false} />
       ) : null}
 
-      {leadAnswerSection
-        ? renderSection(leadAnswerSection, "guide-section--lead-answer")
+      {earlySection
+        ? renderSection(
+            earlySection,
+            leadAnswerSection ? "guide-section--lead-answer" : undefined,
+          )
         : null}
 
       {/* Cartes chiffrées : réponse immédiate avant L'essentiel et le sommaire */}

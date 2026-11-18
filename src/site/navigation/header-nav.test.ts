@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { buildHeaderNavEntries, getAllHeaderHrefs } from "./header-nav";
 import { getMainNavItems } from "./main-nav-data";
+import { smicNavigation } from "./smic";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 
@@ -9,9 +10,9 @@ describe("buildHeaderNavEntries", () => {
     const entries = buildHeaderNavEntries();
     expect(entries.map((entry) => entry.label)).toEqual([
       "Calculateurs",
-      "SMIC",
       "Salaires & emploi",
       "Aides & droits",
+      "Banque & épargne",
       "Actualités",
     ]);
   });
@@ -38,7 +39,7 @@ describe("buildHeaderNavEntries", () => {
     expect(getMainNavItems().some((item) => item.id === "tous-les-guides")).toBe(false);
   });
 
-  it("inclut le méga-menu Salaires & emploi avec CTA calculateurs", () => {
+  it("inclut le méga-menu Salaires & emploi sans colonne SMIC", () => {
     const salaires = getMainNavItems().find((item) => item.id === "salaires-emploi");
     expect(salaires?.kind).toBe("dropdown");
     if (salaires?.kind === "dropdown" && salaires.panel.kind === "mega") {
@@ -47,20 +48,45 @@ describe("buildHeaderNavEntries", () => {
         "Situations professionnelles",
         "Fiche de paie",
       ]);
-      expect(salaires.panel.cta?.href).toBe("/nos-outils");
-      expect(salaires.panel.cta?.buttonLabel).toBe("Voir les calculateurs");
+      expect(salaires.panel.cta).toBeUndefined();
+      expect(salaires.panel.columns.some((column) => column.id === "smic")).toBe(false);
     }
   });
 
-  it("expose SMIC en spotlight et Calculateurs en méga à 3 catégories", () => {
-    const smic = getMainNavItems().find((item) => item.id === "smic");
-    const calc = getMainNavItems().find((item) => item.id === "calculateurs");
-    expect(smic?.kind).toBe("dropdown");
-    expect(calc?.kind).toBe("dropdown");
-    if (smic?.kind === "dropdown" && smic.panel.kind === "spotlight") {
-      expect(smic.panel.links).toHaveLength(5);
-      expect(smic.panel.cta.href).toBe("/smic");
+  it("place SMIC en quatrième colonne de Aides & droits", () => {
+    const aides = getMainNavItems().find((item) => item.id === "aides-droits");
+    expect(aides?.kind).toBe("dropdown");
+    if (aides?.kind === "dropdown" && aides.panel.kind === "mega") {
+      expect(aides.panel.columns.map((column) => column.title)).toEqual([
+        "Aides sociales",
+        "Arrêt maladie",
+        "Droits des salariés",
+        "SMIC",
+      ]);
+      expect(aides.panel.cta).toBeUndefined();
+      expect(aides.panel.columns.some((column) => column.id === "budget-epargne")).toBe(
+        false,
+      );
+      const smicColumn = aides.panel.columns.find((column) => column.id === "smic");
+      expect(smicColumn?.icon).toBe("coins");
+      expect(smicColumn?.links.map((link) => link.href)).toEqual(
+        smicNavigation.map((item) => item.href),
+      );
+      expect(smicColumn?.links.map((link) => link.label)).toEqual(
+        smicNavigation.map((item) => item.shortTitle),
+      );
+      expect(
+        smicColumn?.links.some((link) => link.href !== "/smic-europe" && /europe|italie|belgique|espagne|portugal|luxembourg|suisse|monaco|pays-bas|royaume/i.test(link.href)),
+      ).toBe(false);
     }
+  });
+
+  it("expose Calculateurs en méga à 3 catégories et Banque & épargne en simple", () => {
+    const calc = getMainNavItems().find((item) => item.id === "calculateurs");
+    const banque = getMainNavItems().find((item) => item.id === "banque-epargne");
+    expect(getMainNavItems().some((item) => item.id === "smic")).toBe(false);
+    expect(calc?.kind).toBe("dropdown");
+    expect(banque?.kind).toBe("dropdown");
     if (calc?.kind === "dropdown" && calc.panel.kind === "mega") {
       expect(calc.panel.layout).toBe("calc");
       expect(calc.panel.intro?.title).toBe("Calculateurs");
@@ -84,6 +110,16 @@ describe("buildHeaderNavEntries", () => {
       expect(calc.panel.cta?.href).toBe("/nos-outils");
       expect(calc.panel.cta?.buttonLabel).toBe("Voir tous les outils");
     }
+    if (banque?.kind === "dropdown" && banque.panel.kind === "simple") {
+      expect(banque.icon).toBe("banque");
+      expect(banque.panel.links).toEqual([
+        {
+          href: "/epargner-petit-salaire",
+          label: "Comment épargner avec un petit salaire ?",
+          title: "Comment épargner avec un petit salaire ?",
+        },
+      ]);
+    }
   });
 
   it("mappe les icônes SVG 17-19 pour les sous-catégories Calculateurs", async () => {
@@ -106,6 +142,22 @@ describe("buildHeaderNavEntries", () => {
     }
   });
 
+  it("mappe l'icône Banque & épargne et réutilise l'icône ronde coins pour SMIC", async () => {
+    const { getNavIconSrc } = await import("./NavIcons");
+    expect(getNavIconSrc("coins", "circle")).toBe(
+      "/icons/nav/14-mega-montants-calculs-smic.svg",
+    );
+    expect(getNavIconSrc("banque", "square")).toBe(
+      "/icons/nav/22-nav-banque-epargne.svg",
+    );
+    expect(
+      existsSync(join(process.cwd(), "public/icons/nav/14-mega-montants-calculs-smic.svg")),
+    ).toBe(true);
+    expect(
+      existsSync(join(process.cwd(), "public/icons/nav/22-nav-banque-epargne.svg")),
+    ).toBe(true);
+  });
+
   it("n'expose que des routes locales existantes dans app/", () => {
     const hrefs = getAllHeaderHrefs();
     expect(hrefs.length).toBeGreaterThan(10);
@@ -120,6 +172,7 @@ describe("buildHeaderNavEntries", () => {
     expect(hrefs).toContain("/prime-activite");
     expect(hrefs).toContain("/actu");
     expect(hrefs).toContain("/nos-outils");
+    expect(hrefs).toContain("/epargner-petit-salaire");
   });
 
   it("prépare l'emplacement public/logo.svg pour le logo définitif", () => {

@@ -4,15 +4,17 @@ import { describe, expect, it } from "vitest";
 import { getNavIconSrc } from "./NavIcons";
 import { getMainNavItems } from "./main-nav-data";
 
+function publicPathFromSrc(src: string): string {
+  return join(process.cwd(), "public", src.replace(/^\//, "").split("?")[0]!);
+}
+
 describe("nav icons SVG pack", () => {
-  it("résout les cinq icônes carrées du header vers des fichiers existants", () => {
+  it("résout les icônes carrées du header vers des fichiers existants", () => {
     const items = getMainNavItems();
     for (const item of items) {
       const src = getNavIconSrc(item.icon, "square");
       expect(src, `square manquant pour ${item.id}`).toBeTruthy();
-      expect(existsSync(join(process.cwd(), "public", src!.replace(/^\//, "")))).toBe(
-        true,
-      );
+      expect(existsSync(publicPathFromSrc(src!))).toBe(true);
     }
   });
 
@@ -23,7 +25,6 @@ describe("nav icons SVG pack", () => {
       { id: "euro", file: "06-mega-remuneration.svg" },
       { id: "briefcase", file: "07-mega-situations-professionnelles.svg" },
       { id: "document", file: "08-mega-fiche-de-paie.svg" },
-      { id: "chart", file: "09-mega-calcul-rapide.svg" },
       { id: "hand", file: "10-mega-aides-sociales.svg" },
       { id: "medical", file: "11-mega-arret-maladie.svg" },
       { id: "shield", file: "12-mega-droits-des-salaries.svg" },

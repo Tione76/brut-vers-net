@@ -526,7 +526,9 @@ export const quelEstUnBonSalaireEnFranceGuide: Guide = {
             {
               title: "Regardez votre capacité réelle à épargner",
               description:
-                "Un net « bon » sans aucune marge de précaution n'a pas le même sens qu'un net un peu plus bas avec une vraie capacité d'épargne.",
+                "Un net « bon » sans aucune marge de précaution n'a pas le même sens qu'un net un peu plus bas avec une vraie capacité d'épargne. Pour les situations serrées, le guide « Comment épargner avec un petit salaire ? » détaille des leviers réalistes.",
+              href: "/epargner-petit-salaire",
+              label: "Épargner avec un petit salaire",
             },
           ],
         },

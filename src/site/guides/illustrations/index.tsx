@@ -17,6 +17,15 @@ import { SmicYearJump } from "./SmicYearJump";
 import { SmicEuropeCountryNav } from "./SmicEuropeCountryNav";
 import { SmicEuropeTableLetterNav } from "./SmicEuropeTableLetterNav";
 import { SoldeCongesCompteurIllustration } from "./SoldeCongesCompteurIllustration";
+import { EpargneCombienIllustration } from "./EpargneCombienIllustration";
+import { EpargneConfusionsIllustration } from "./EpargneConfusionsIllustration";
+import { EpargneFriseIllustration } from "./EpargneFriseIllustration";
+import { EpargneLivretsIllustration } from "./EpargneLivretsIllustration";
+import { EpargneMargeIllustration } from "./EpargneMargeIllustration";
+import { EpargneOrientationIllustration } from "./EpargneOrientationIllustration";
+import { EpargnePlanIllustration } from "./EpargnePlanIllustration";
+import { EpargneProvisionsIllustration } from "./EpargneProvisionsIllustration";
+import { EpargneTroisCasIllustration } from "./EpargneTroisCasIllustration";
 
 const ILLUSTRATIONS: Record<string, () => ReactElement> = {
   "bon-salaire-distribution-scale": BonSalaireDistributionIllustration,
@@ -37,6 +46,15 @@ const ILLUSTRATIONS: Record<string, () => ReactElement> = {
   "smic-europe-country-nav": SmicEuropeCountryNav,
   "smic-europe-table-letter-nav": SmicEuropeTableLetterNav,
   "solde-conges-lecture-compteur": SoldeCongesCompteurIllustration,
+  "epargne-orientation": EpargneOrientationIllustration,
+  "epargne-marge-mensuelle": EpargneMargeIllustration,
+  "epargne-confusions": EpargneConfusionsIllustration,
+  "epargne-provisions": EpargneProvisionsIllustration,
+  "epargne-combien": EpargneCombienIllustration,
+  "epargne-trois-cas": EpargneTroisCasIllustration,
+  "epargne-frise": EpargneFriseIllustration,
+  "epargne-livrets": EpargneLivretsIllustration,
+  "epargne-plan": EpargnePlanIllustration,
 };
 
 export function GuideIllustration({ id, caption }: { id: string; caption?: string }) {

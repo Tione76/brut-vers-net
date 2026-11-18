@@ -145,6 +145,10 @@ export const commentLireUneFicheDePaieGuide: Guide = {
           ],
         },
         {
+          type: "paragraph",
+          text: "Dans l'en-tête, le code APE/NAF renseigne sur l'activité principale de l'employeur. Pour comprendre cette mention, consultez ce guide consacré au [code APE et à sa signification](https://www.2iportage.com/code-ape-cest-quoi-guide-complet-code-ape-naf/).",
+        },
+        {
           type: "callout",
           variant: "retain",
           paragraphs: [

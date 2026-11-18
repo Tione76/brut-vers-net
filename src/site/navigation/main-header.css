@@ -370,6 +370,10 @@
   gap: 0;
 }
 
+.mh-mega__grid--cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .mh-mega__grid--with-cta {
   grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(220px, 0.9fr);
 }

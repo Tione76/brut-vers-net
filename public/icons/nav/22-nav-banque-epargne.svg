@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Banque &amp; épargne</title>
+  <rect width="64" height="64" rx="15" fill="#f28539"/>
+  <g fill="white">
+    <path d="M30.6 12.5a3 3 0 0 1 2.8 0l17 9A2 2 0 0 1 49.5 25h-35a2 2 0 0 1-.9-3.5z"/>
+    <rect x="17" y="28" width="6" height="14" rx="1.5"/>
+    <rect x="29" y="28" width="6" height="14" rx="1.5"/>
+    <rect x="41" y="28" width="6" height="14" rx="1.5"/>
+    <rect x="12" y="45" width="40" height="6" rx="2"/>
+  </g>
+  <circle cx="32" cy="19.5" r="2.3" fill="#f28539"/>
+</svg>

@@ -25,12 +25,18 @@ describe("navigation header SMIC", () => {
     expect(guidesNavigation.some((item) => item.slug === "smic")).toBe(false);
   });
 
-  it("est branché dans le menu principal SMIC", () => {
-    const smic = getMainNavItems().find((item) => item.id === "smic");
-    expect(smic?.kind).toBe("dropdown");
-    if (smic?.kind === "dropdown" && smic.panel.kind === "simple") {
-      expect(smic.panel.links.map((link) => link.href)).toEqual(
+  it("est branché dans Aides & droits comme quatrième colonne", () => {
+    const aides = getMainNavItems().find((item) => item.id === "aides-droits");
+    expect(aides?.kind).toBe("dropdown");
+    if (aides?.kind === "dropdown" && aides.panel.kind === "mega") {
+      const smicColumn = aides.panel.columns.find((column) => column.id === "smic");
+      expect(smicColumn).toBeTruthy();
+      expect(smicColumn?.icon).toBe("coins");
+      expect(smicColumn?.links.map((link) => link.href)).toEqual(
         smicNavigation.map((item) => item.href),
+      );
+      expect(smicColumn?.links.map((link) => link.label)).toEqual(
+        smicNavigation.map((item) => item.shortTitle),
       );
     }
   });

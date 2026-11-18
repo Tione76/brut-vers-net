@@ -1,0 +1,957 @@
+/* Styles page-scopés du guide /epargner-petit-salaire
+   Carnet de budget : bleu nuit, papier chaud, pêche, orange de marque. */
+
+.guide-page--epargner-petit-salaire {
+  --eps-brand: var(--ds-brand, #f28539);
+  --eps-ink: #1a2744;
+  --eps-muted: #5c6578;
+  --eps-line: #eadfce;
+  --eps-brand-ink: #9a4a12;
+  --eps-brand-line: color-mix(in srgb, var(--eps-brand) 42%, transparent);
+  --eps-peach: #ffe8d6;
+  --eps-cream: #fffaf4;
+  --eps-paper: linear-gradient(180deg, #fffdf9 0%, #fff6ec 100%);
+  --eps-radius: 16px;
+  --eps-shadow: 0 2px 0 rgba(138, 83, 42, 0.08), 0 8px 20px rgba(40, 29, 19, 0.06);
+  --eps-edge: 1px solid rgba(255, 255, 255, 0.75);
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation,
+.guide-page--epargner-petit-salaire .eps-marge,
+.guide-page--epargner-petit-salaire .eps-confusions,
+.guide-page--epargner-petit-salaire .eps-provisions,
+.guide-page--epargner-petit-salaire .eps-combien,
+.guide-page--epargner-petit-salaire .eps-cases,
+.guide-page--epargner-petit-salaire .eps-frise,
+.guide-page--epargner-petit-salaire .eps-livrets,
+.guide-page--epargner-petit-salaire .eps-plan {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 1.25rem 0;
+  color: var(--eps-ink);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation *,
+.guide-page--epargner-petit-salaire .eps-marge *,
+.guide-page--epargner-petit-salaire .eps-confusions *,
+.guide-page--epargner-petit-salaire .eps-provisions *,
+.guide-page--epargner-petit-salaire .eps-combien *,
+.guide-page--epargner-petit-salaire .eps-cases *,
+.guide-page--epargner-petit-salaire .eps-frise *,
+.guide-page--epargner-petit-salaire .eps-livrets *,
+.guide-page--epargner-petit-salaire .eps-plan * {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation ul,
+.guide-page--epargner-petit-salaire .eps-orientation ol,
+.guide-page--epargner-petit-salaire .eps-marge ul,
+.guide-page--epargner-petit-salaire .eps-combien ul,
+.guide-page--epargner-petit-salaire .eps-confusions ul,
+.guide-page--epargner-petit-salaire .eps-cases ul,
+.guide-page--epargner-petit-salaire .eps-livrets ul,
+.guide-page--epargner-petit-salaire .eps-frise ol,
+.guide-page--epargner-petit-salaire .eps-plan ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation li,
+.guide-page--epargner-petit-salaire .eps-marge li,
+.guide-page--epargner-petit-salaire .eps-combien li,
+.guide-page--epargner-petit-salaire .eps-confusions li,
+.guide-page--epargner-petit-salaire .eps-livrets li,
+.guide-page--epargner-petit-salaire .eps-frise li,
+.guide-page--epargner-petit-salaire .eps-plan li {
+  margin: 0;
+}
+
+.guide-page--epargner-petit-salaire
+  :where(
+    .eps-orientation,
+    .eps-marge,
+    .eps-confusions,
+    .eps-combien,
+    .eps-cases,
+    .eps-frise,
+    .eps-livrets,
+    .eps-plan
+  )
+  p {
+  margin: 0;
+}
+
+.guide-page--epargner-petit-salaire .eps-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Orientation                                                         */
+/* ------------------------------------------------------------------ */
+
+.guide-page--epargner-petit-salaire .eps-orientation {
+  border: 1px solid var(--eps-line);
+  border-radius: var(--eps-radius);
+  background: var(--eps-paper);
+  overflow: hidden;
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.65rem 1.35rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation__row + .eps-orientation__row {
+  border-top: 1px solid var(--eps-line);
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation__body {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation__mark {
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: 0.45rem;
+  border-radius: 999px;
+  background: var(--eps-brand);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation__copy {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation__situation {
+  display: block;
+  font-weight: 700;
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation__advice {
+  display: block;
+  color: var(--eps-muted);
+  font-size: 0.94rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation__link {
+  justify-self: end;
+  font-weight: 600;
+  color: var(--eps-brand-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--eps-brand-line);
+  text-underline-offset: 0.18em;
+  white-space: nowrap;
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation__link:hover,
+.guide-page--epargner-petit-salaire .eps-orientation__link:focus-visible {
+  text-decoration-color: var(--eps-brand);
+  outline: 2px solid var(--eps-brand);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.guide-page--epargner-petit-salaire .eps-orientation__arrow {
+  display: inline-block;
+  margin-left: 0.3em;
+  color: var(--eps-brand);
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------ */
+/* Marge / confusions (blocs secondaires, calmes)                      */
+/* ------------------------------------------------------------------ */
+
+.guide-page--epargner-petit-salaire .eps-marge {
+  padding: 1.15rem 1.25rem;
+  border: 1px solid var(--eps-line);
+  border-radius: var(--eps-radius);
+  background: var(--eps-cream);
+}
+
+.guide-page--epargner-petit-salaire .eps-marge__list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-marge__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-marge__amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-marge__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin: 0.8rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--eps-line);
+  font-weight: 700;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-marge__split {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.9rem 0 0;
+  padding: 0.8rem 0 0;
+  border-top: 1px dashed var(--eps-line);
+}
+
+.guide-page--epargner-petit-salaire .eps-marge__split-title {
+  margin: 0 0 0.15rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-marge__annual {
+  margin: 0.9rem 0 0;
+  padding: 0.7rem 0.85rem;
+  border-left: 3px solid var(--eps-brand);
+  border-radius: 10px;
+  background: #fff;
+  font-weight: 600;
+}
+
+.guide-page--epargner-petit-salaire .eps-marge__note {
+  margin: 0.7rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--eps-muted);
+}
+
+.guide-page--epargner-petit-salaire .eps-confusions__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.85rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-confusions__card {
+  height: 100%;
+  padding: 1rem 1.05rem;
+  border: 1px solid var(--eps-line);
+  border-radius: var(--eps-radius);
+  background: var(--eps-cream);
+}
+
+.guide-page--epargner-petit-salaire .eps-confusions__marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.6rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--eps-brand-line);
+  border-radius: 999px;
+  background: var(--eps-peach);
+  color: var(--eps-brand-ink);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.guide-page--epargner-petit-salaire .eps-confusions__kind {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-confusions__title {
+  margin: 0.15rem 0 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-confusions__text {
+  color: var(--eps-ink);
+  font-size: 0.95rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Tables (provisions)                                                 */
+/* ------------------------------------------------------------------ */
+
+.guide-page--epargner-petit-salaire .eps-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--eps-line);
+  border-radius: var(--eps-radius);
+  background: var(--eps-cream);
+  font-size: 0.96rem;
+  overflow: hidden;
+}
+
+.guide-page--epargner-petit-salaire .eps-table caption {
+  caption-side: bottom;
+  padding: 0.65rem 0.15rem 0;
+  text-align: left;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--eps-muted);
+}
+
+.guide-page--epargner-petit-salaire .eps-table th,
+.guide-page--epargner-petit-salaire .eps-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: baseline;
+  border: 0;
+  border-top: 1px solid var(--eps-line);
+}
+
+.guide-page--epargner-petit-salaire .eps-table thead th {
+  border-top: 0;
+  background: #fff7ef;
+  border-bottom: 1px solid var(--eps-brand-line);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-table tbody th {
+  font-weight: 600;
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-table .eps-num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.guide-page--epargner-petit-salaire .eps-provisions .eps-table .eps-provisions__monthly {
+  font-weight: 700;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-provisions tfoot th,
+.guide-page--epargner-petit-salaire .eps-provisions tfoot td {
+  border-top: 1px solid var(--eps-brand-line);
+  background: var(--eps-peach);
+  font-weight: 700;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-provisions__note {
+  margin: 0.85rem 0 0;
+  padding: 0.75rem 0.9rem;
+  border-left: 3px solid var(--eps-brand);
+  border-radius: 10px;
+  background: var(--eps-cream);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------------ */
+/* Combien : reçu                                                      */
+/* ------------------------------------------------------------------ */
+
+.guide-page--epargner-petit-salaire .eps-combien {
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--eps-line);
+  border-top: var(--eps-edge);
+  border-radius: var(--eps-radius);
+  background: var(--eps-paper);
+  box-shadow: var(--eps-shadow);
+}
+
+.guide-page--epargner-petit-salaire .eps-combien__list {
+  display: grid;
+  gap: 0;
+}
+
+.guide-page--epargner-petit-salaire .eps-combien__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.55rem 0;
+}
+
+.guide-page--epargner-petit-salaire .eps-combien__row + .eps-combien__row {
+  border-top: 1px solid var(--eps-line);
+}
+
+.guide-page--epargner-petit-salaire .eps-combien__amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-combien__row--result {
+  margin-top: 0.55rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--eps-brand-line);
+  border-top: var(--eps-edge);
+  border-radius: 14px;
+  background: var(--eps-peach);
+  box-shadow: var(--eps-shadow);
+  font-weight: 700;
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-combien__row--result .eps-combien__amount {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-combien__equation {
+  margin: 0.7rem 0 0;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.92rem;
+  color: var(--eps-muted);
+}
+
+.guide-page--epargner-petit-salaire .eps-combien__template {
+  margin: 0.85rem 0 0;
+  padding: 0.75rem 0.9rem;
+  border: 1px dashed var(--eps-line);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 0.94rem;
+  line-height: 1.5;
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-combien__note {
+  margin: 0.7rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--eps-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Cas : fiches empilées + bandeau résultat                            */
+/* ------------------------------------------------------------------ */
+
+.guide-page--epargner-petit-salaire .eps-cases {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-page--epargner-petit-salaire .eps-case {
+  width: 100%;
+  padding: 1.2rem 1.3rem 1.25rem;
+  border: 1px solid var(--eps-line);
+  border-top: var(--eps-edge);
+  border-radius: var(--eps-radius);
+  background: var(--eps-paper);
+  box-shadow: var(--eps-shadow);
+}
+
+.guide-page--epargner-petit-salaire .eps-case__eyebrow {
+  margin: 0 0 0.2rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-case__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-case__situation,
+.guide-page--epargner-petit-salaire .eps-case__gesture {
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-case__gesture {
+  margin-top: 0.45rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-case__result {
+  margin-top: 1rem;
+  padding: 0.95rem 1.05rem;
+  border: 1px solid var(--eps-brand-line);
+  border-top: var(--eps-edge);
+  border-radius: 14px;
+  background: var(--eps-peach);
+  box-shadow: var(--eps-shadow);
+}
+
+.guide-page--epargner-petit-salaire .eps-case__result--neutral {
+  background: #f3f1ec;
+  border-color: var(--eps-line);
+  box-shadow: none;
+}
+
+.guide-page--epargner-petit-salaire .eps-case__result-amount {
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-case__result--neutral .eps-case__result-amount {
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-case__result-label {
+  margin-top: 0.15rem;
+  font-weight: 700;
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-case__result-detail {
+  margin-top: 0.35rem;
+  font-size: 0.94rem;
+  color: var(--eps-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Frise                                                               */
+/* ------------------------------------------------------------------ */
+
+.guide-page--epargner-petit-salaire .eps-frise {
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--eps-line);
+  border-radius: var(--eps-radius);
+  background: var(--eps-cream);
+}
+
+.guide-page--epargner-petit-salaire .eps-frise__list {
+  position: relative;
+  display: grid;
+  gap: 1.1rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-frise__list::before {
+  content: "";
+  position: absolute;
+  top: 0.6rem;
+  bottom: 0.6rem;
+  left: 0.45rem;
+  width: 2px;
+  background: var(--eps-brand-line);
+}
+
+.guide-page--epargner-petit-salaire .eps-frise__item {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-frise__dot {
+  position: absolute;
+  top: 0.35rem;
+  left: 0;
+  width: 0.95rem;
+  height: 0.95rem;
+  border: 2px solid var(--eps-brand);
+  border-radius: 50%;
+  background: var(--eps-brand);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.guide-page--epargner-petit-salaire .eps-frise__day {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-frise__title {
+  margin: 0.05rem 0 0.1rem;
+  font-weight: 700;
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-frise__text,
+.guide-page--epargner-petit-salaire .eps-frise__note {
+  color: var(--eps-muted);
+  font-size: 0.95rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-frise__note {
+  margin: 1rem 0 0;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--eps-line);
+}
+
+/* ------------------------------------------------------------------ */
+/* Livrets : fiches empilées / côte à côte                             */
+/* ------------------------------------------------------------------ */
+
+.guide-page--epargner-petit-salaire .eps-livrets__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-livret {
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--eps-line);
+  border-radius: var(--eps-radius);
+  background: #fffdf9;
+}
+
+.guide-page--epargner-petit-salaire .eps-livret--lep {
+  border-color: var(--eps-brand-line);
+  border-top: var(--eps-edge);
+  background: var(--eps-peach);
+  box-shadow: var(--eps-shadow);
+}
+
+.guide-page--epargner-petit-salaire .eps-livret__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-livret__name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-livret__rate {
+  display: grid;
+  justify-items: end;
+  gap: 0.1rem;
+  text-align: right;
+}
+
+.guide-page--epargner-petit-salaire .eps-livret__rate-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-livret__rate-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-livret__full {
+  margin-top: 0.2rem;
+  color: var(--eps-muted);
+  font-size: 0.9rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-livret__ceiling {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-top: 0.85rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--eps-line);
+}
+
+.guide-page--epargner-petit-salaire .eps-livret__meta-label,
+.guide-page--epargner-petit-salaire .eps-livret__who-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--eps-brand-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-livret__meta-value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-livret__who {
+  margin-top: 0.85rem;
+}
+
+.guide-page--epargner-petit-salaire .eps-livret__who-text {
+  margin-top: 0.25rem;
+  text-align: left;
+  color: var(--eps-ink);
+  overflow-wrap: break-word;
+  hyphens: manual;
+}
+
+.guide-page--epargner-petit-salaire .eps-livrets__note {
+  margin: 0.9rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--eps-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Plan                                                                */
+/* ------------------------------------------------------------------ */
+
+.guide-page--epargner-petit-salaire .eps-plan {
+  padding: 1rem;
+  border: 1px solid var(--eps-line);
+  border-top: var(--eps-edge);
+  border-radius: var(--eps-radius);
+  background: var(--eps-paper);
+  box-shadow: var(--eps-shadow);
+}
+
+.guide-page--epargner-petit-salaire .eps-plan__list {
+  display: grid;
+  gap: 0.55rem;
+  counter-reset: eps-plan;
+}
+
+.guide-page--epargner-petit-salaire .eps-plan__step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: start;
+  padding: 0.85rem 0.95rem;
+  border-bottom: 1px solid var(--eps-line);
+  counter-increment: eps-plan;
+}
+
+.guide-page--epargner-petit-salaire .eps-plan__step:last-child {
+  border-bottom: 0;
+}
+
+.guide-page--epargner-petit-salaire .eps-plan__step::before {
+  content: counter(eps-plan);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.15rem;
+  height: 2.15rem;
+  padding: 0 0.55rem;
+  border-radius: 999px;
+  border-top: var(--eps-edge);
+  background: var(--eps-brand);
+  box-shadow: var(--eps-shadow);
+  color: #2b1403;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.guide-page--epargner-petit-salaire .eps-plan__title {
+  margin: 0;
+  font-weight: 700;
+  color: var(--eps-ink);
+}
+
+.guide-page--epargner-petit-salaire .eps-plan__text {
+  margin: 0.15rem 0 0;
+  font-size: 0.95rem;
+  color: var(--eps-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Desktop                                                             */
+/* ------------------------------------------------------------------ */
+
+@media (min-width: 720px) {
+  .guide-page--epargner-petit-salaire .eps-confusions__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .guide-page--epargner-petit-salaire .eps-livrets__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+  }
+}
+
+@media (min-width: 900px) {
+  .guide-page--epargner-petit-salaire .eps-orientation__row,
+  .guide-page--epargner-petit-salaire .eps-combien,
+  .guide-page--epargner-petit-salaire .eps-case,
+  .guide-page--epargner-petit-salaire .eps-frise,
+  .guide-page--epargner-petit-salaire .eps-plan,
+  .guide-page--epargner-petit-salaire .eps-livret {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Mobile                                                              */
+/* ------------------------------------------------------------------ */
+
+@media (max-width: 719px) {
+  .guide-page--epargner-petit-salaire .eps-orientation__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.35rem;
+    padding: 0.95rem 1rem;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-orientation__link {
+    justify-self: start;
+    margin-left: 1.3rem;
+    white-space: normal;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-livrets__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .guide-page--epargner-petit-salaire .eps-table,
+  .guide-page--epargner-petit-salaire .eps-table tbody,
+  .guide-page--epargner-petit-salaire .eps-table tfoot,
+  .guide-page--epargner-petit-salaire .eps-table tr,
+  .guide-page--epargner-petit-salaire .eps-table th,
+  .guide-page--epargner-petit-salaire .eps-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-table {
+    border: 0;
+    background: transparent;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-table caption {
+    display: block;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-table tbody tr,
+  .guide-page--epargner-petit-salaire .eps-table tfoot tr {
+    margin-bottom: 0.65rem;
+    border: 1px solid var(--eps-line);
+    border-radius: var(--eps-radius);
+    background: var(--eps-cream);
+    overflow: hidden;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-table tbody th,
+  .guide-page--epargner-petit-salaire .eps-table tfoot th {
+    border-top: 0;
+    padding-bottom: 0.35rem;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.4rem 0.95rem;
+    border-top: 0;
+    text-align: right;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-table td:last-child {
+    padding-bottom: 0.7rem;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-table td::before {
+    content: attr(data-label);
+    flex: 0 1 auto;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-align: left;
+    color: var(--eps-brand-ink);
+  }
+
+  .guide-page--epargner-petit-salaire .eps-table .eps-num {
+    white-space: normal;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-provisions tfoot tr {
+    border-color: var(--eps-brand-line);
+    background: var(--eps-peach);
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .guide-page--epargner-petit-salaire .eps-marge,
+  .guide-page--epargner-petit-salaire .eps-combien,
+  .guide-page--epargner-petit-salaire .eps-frise,
+  .guide-page--epargner-petit-salaire .eps-case,
+  .guide-page--epargner-petit-salaire .eps-livret,
+  .guide-page--epargner-petit-salaire .eps-plan {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-marge__row,
+  .guide-page--epargner-petit-salaire .eps-marge__total,
+  .guide-page--epargner-petit-salaire .eps-combien__row,
+  .guide-page--epargner-petit-salaire .eps-livret__ceiling {
+    flex-wrap: wrap;
+    gap: 0.15rem 1rem;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-livret__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .guide-page--epargner-petit-salaire .eps-livret__rate {
+    justify-items: start;
+    text-align: left;
+  }
+}

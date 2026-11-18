@@ -4,7 +4,7 @@ import {
   SMIC_HISTORY_PATH,
 } from "@/site/smic-history/constants";
 
-/** Sous-menus du dropdown header « SMIC » (enrichi au fil des pages pilier). */
+/** Liens SMIC partagés (colonne Aides & droits + menus historiques). */
 export const smicNavigation: NavDropdownItem[] = [
   {
     href: "/smic",

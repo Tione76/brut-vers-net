@@ -395,6 +395,19 @@ export const GUIDE_COVERS: Record<string, GuideCoverImage> = {
     1200,
     630,
   ),
+  "epargner-petit-salaire": cover(
+    "guides/epargner-avec-petit-revenu.webp",
+    "Main tenant une pièce au-dessus d'une tirelire rose sur une table blanche",
+    {
+      photographer: "Dany Kurniawan",
+      source: "Pexels",
+      text: "Photo de Dany Kurniawan via Pexels",
+      acquireLicensePage:
+        "https://www.pexels.com/photo/a-person-putting-a-coin-in-a-piggy-bank-12357530/",
+    },
+    1200,
+    800,
+  ),
   "salaire-interim-calcul-brut-net": cover(
     "guides/Salaire-brut-net-interim.webp",
     "Deux agents logistiques transportant des cartons dans un entrepôt",
@@ -637,6 +650,9 @@ export function getGuideCoverByHref(href: string): GuideCoverImage | undefined {
   }
   if (href === "/banque-petit-salaire") {
     return getGuideCover("banque-petit-salaire");
+  }
+  if (href === "/epargner-petit-salaire") {
+    return getGuideCover("epargner-petit-salaire");
   }
   if (href === "/evolution-smic") {
     return getGuideCover("evolution-smic");

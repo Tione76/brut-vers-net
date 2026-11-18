@@ -51,6 +51,7 @@ const GUIDE_TOPIC_TOOLS: Record<string, readonly string[]> = {
   "evolution-smic": ["brut-vers-net", "salaire-heures-supplementaires"],
   "prime-de-noel": ["brut-vers-net"],
   "prime-activite": ["brut-vers-net"],
+  "epargner-petit-salaire": ["brut-vers-net"],
   "comment-calculer-son-salaire-net": ["brut-vers-net", "augmentation-salaire"],
   "comment-est-calcule-le-salaire-net": ["brut-vers-net", "augmentation-salaire"],
   "comment-lire-une-fiche-de-paie": ["brut-vers-net"],
@@ -105,7 +106,12 @@ const GUIDE_TOPIC_RELATED: Record<string, readonly string[]> = {
     "comment-lire-une-fiche-de-paie",
   ],
   "prime-de-noel": ["prime-activite", "smic", "salaire-moyen-france"],
-  "prime-activite": ["prime-de-noel", "smic", "salaire-moyen-france"],
+  "prime-activite": ["prime-de-noel", "smic", "epargner-petit-salaire"],
+  "epargner-petit-salaire": [
+    "smic",
+    "prime-activite",
+    "comment-calculer-son-salaire-net",
+  ],
   "solde-de-tout-compte": [
     "comment-lire-une-fiche-de-paie",
     "salaire-interim-calcul-brut-net",

@@ -39,6 +39,7 @@ import { salaireTempsPartielGuide } from "./data/salaire-temps-partiel";
 import { indemniteRuptureConventionnelleGuide } from "./data/indemnite-rupture-conventionnelle";
 import { thirteenthMonthGuide } from "./data/13eme-mois";
 import { primePrecariteGuide } from "./data/prime-precarite";
+import { epargnerPetitSalaireGuide } from "./data/epargner-petit-salaire";
 
 export { getGuidePublicPath } from "./paths";
 
@@ -82,6 +83,7 @@ export const guides: Guide[] = [
   attachGuideCover(soldeDeToutCompteGuide),
   attachGuideCover(congesPayesGuide),
   attachGuideCover(soldeCongesPayesGuide),
+  attachGuideCover(epargnerPetitSalaireGuide),
 ];
 
 /**

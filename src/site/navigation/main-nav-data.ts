@@ -3,8 +3,9 @@ import { getGuideBySlug } from "@/site/guides/registry";
 import { getGuidePublicPath } from "@/site/guides/paths";
 import { seoConfig } from "@/site/seo.config";
 import { getAllCalculators } from "./calculators-registry";
-import { SMIC_HISTORY_PATH } from "@/site/smic-history/constants";
 import { THIRTEENTH_NAV_LABEL } from "@/site/13eme-mois";
+import { EPARGNE_PATH } from "@/site/epargner-petit-salaire";
+import { smicNavigation } from "./smic";
 
 export type MainNavIconId =
   | "calculator"
@@ -14,11 +15,11 @@ export type MainNavIconId =
   | "book"
   | "euro"
   | "document"
-  | "chart"
   | "rights"
   | "medical"
   | "hand"
   | "search"
+  | "banque"
   | "calcRemuneration"
   | "calcSickLeave"
   | "calcContract";
@@ -104,7 +105,6 @@ function guideHref(slug: string, fallback: string): string {
 }
 
 const CALCULATORS_HUB = seoConfig.toolsHub.path;
-const GUIDES_HUB = seoConfig.guidesHub.path;
 
 function calcEntry(id: string) {
   const entry = getAllCalculators().find((calc) => calc.id === id);
@@ -202,48 +202,12 @@ function buildCalculatorsPanel(): MainNavMegaPanel {
   };
 }
 
-function buildSmicPanel(): MainNavSpotlightPanel {
-  return {
-    kind: "spotlight",
-    title: "SMIC",
-    description: "Tout sur le salaire minimum en France et en Europe.",
-    icon: "coins",
-    links: [
-      {
-        href: "/smic",
-        label: "SMIC : montants brut et net",
-        title: "SMIC 2026 : quel est le montant brut et net ?",
-      },
-      {
-        href: "/smic-selon-nombre-heures",
-        label: "SMIC selon le nombre d'heures",
-        title: "SMIC selon le nombre d'heures : brut et net de 10 h à 44 h",
-      },
-      {
-        href: "/smic-hotelier",
-        label: "SMIC hôtelier (HCR)",
-        title: "SMIC hôtelier 2026 : grille HCR et salaires à 35 h et 39 h",
-      },
-      {
-        href: SMIC_HISTORY_PATH,
-        label: "Évolution du SMIC depuis 1950",
-        title: "Évolution du SMIC depuis 1950",
-      },
-      {
-        href: "/smic-europe",
-        label: "SMIC en Europe",
-        title: "SMIC en Europe",
-      },
-    ],
-    cta: {
-      title: "Consulter le SMIC actuel",
-      description:
-        "Retrouvez les montants brut et net du salaire minimum et les principales règles applicables.",
-      buttonLabel: "Voir les montants du SMIC",
-      href: "/smic",
-      icon: "euro",
-    },
-  };
+function buildSmicColumnLinks(): MainNavLink[] {
+  return smicNavigation.map((item) => ({
+    href: item.href,
+    label: item.shortTitle,
+    title: item.title,
+  }));
 }
 
 function buildSalairesEmploiPanel(): MainNavMegaPanel {
@@ -340,13 +304,19 @@ function buildSalairesEmploiPanel(): MainNavMegaPanel {
         ],
       },
     ],
-    cta: {
-      title: "Besoin d'un calcul rapide ?",
-      description: "Accédez directement à nos calculateurs de salaire.",
-      buttonLabel: "Voir les calculateurs",
-      href: CALCULATORS_HUB,
-      icon: "chart",
-    },
+  };
+}
+
+function buildBanqueEpargnePanel(): MainNavSimplePanel {
+  return {
+    kind: "simple",
+    links: [
+      {
+        href: guideHref("epargner-petit-salaire", EPARGNE_PATH),
+        label: "Comment épargner avec un petit salaire ?",
+        title: "Comment épargner avec un petit salaire ?",
+      },
+    ],
   };
 }
 
@@ -443,15 +413,14 @@ function buildAidesDroitsPanel(): MainNavMegaPanel {
           },
         ],
       },
+      {
+        id: "smic",
+        title: "SMIC",
+        description: "Tout sur le salaire minimum en France et en Europe.",
+        icon: "coins",
+        links: buildSmicColumnLinks(),
+      },
     ],
-    cta: {
-      title: "Comprendre vos droits",
-      description:
-        "Accédez à nos guides et outils pour mieux comprendre votre situation.",
-      buttonLabel: "Explorer les guides",
-      href: GUIDES_HUB,
-      icon: "book",
-    },
   };
 }
 
@@ -468,20 +437,6 @@ export function getMainNavItems(): MainNavItem[] {
       kind: "dropdown",
       panel: buildCalculatorsPanel(),
       matchPaths: ["/", "/nos-outils", "/calculateurs"],
-    },
-    {
-      id: "smic",
-      label: "SMIC",
-      icon: "coins",
-      kind: "dropdown",
-      panel: buildSmicPanel(),
-      matchPaths: [
-        "/smic",
-        "/smic-selon-nombre-heures",
-        "/smic-hotelier",
-        "/evolution-smic",
-        "/smic-europe",
-      ],
     },
     {
       id: "salaires-emploi",
@@ -525,7 +480,20 @@ export function getMainNavItems(): MainNavItem[] {
         "/13eme-mois",
         "/prime-precarite",
         "/calculateurs/indemnite-licenciement",
+        "/smic",
+        "/smic-selon-nombre-heures",
+        "/smic-hotelier",
+        "/evolution-smic",
+        "/smic-europe",
       ],
+    },
+    {
+      id: "banque-epargne",
+      label: "Banque & épargne",
+      icon: "banque",
+      kind: "dropdown",
+      panel: buildBanqueEpargnePanel(),
+      matchPaths: [EPARGNE_PATH],
     },
     {
       id: "actu",

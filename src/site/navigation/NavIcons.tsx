@@ -15,7 +15,7 @@ const NAV_ICON_SRC: Record<
     circle: `${NAV_ICON_BASE}/16-mega-tous-nos-outils.svg`,
   },
   coins: {
-    square: `${NAV_ICON_BASE}/02-nav-smic.svg`,
+    // Colonne SMIC (ex-icône ronde « Budget et épargne »).
     circle: `${NAV_ICON_BASE}/14-mega-montants-calculs-smic.svg`,
   },
   briefcase: {
@@ -38,14 +38,14 @@ const NAV_ICON_SRC: Record<
     square: `${NAV_ICON_BASE}/20-nav-actualites.svg?v=20261109b`,
     circle: `${NAV_ICON_BASE}/08-mega-fiche-de-paie.svg`,
   },
-  chart: {
-    circle: `${NAV_ICON_BASE}/09-mega-calcul-rapide.svg`,
-  },
   hand: {
     circle: `${NAV_ICON_BASE}/10-mega-aides-sociales.svg`,
   },
   medical: {
     circle: `${NAV_ICON_BASE}/11-mega-arret-maladie.svg`,
+  },
+  banque: {
+    square: `${NAV_ICON_BASE}/22-nav-banque-epargne.svg`,
   },
   calcRemuneration: {
     circle: `${NAV_ICON_BASE}/17-mega-salaire-remuneration.svg`,

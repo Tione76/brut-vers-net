@@ -173,6 +173,20 @@ export const GUIDE_TOC_CONFIG: Record<string, GuideTocConfig> = {
     ],
   },
 
+  "epargner-petit-salaire": {
+    groups: [
+      { title: "Repérer et dégager une marge", icon: "help", start: 0, end: 3 },
+      { title: "Organiser et chiffrer", icon: "calculator", start: 3, end: 6 },
+      { title: "Versements, dettes et livrets", icon: "scale", start: 6, end: 9 },
+      {
+        title: "Difficultés, plan et sources",
+        icon: "badge",
+        start: 9,
+        end: 14,
+      },
+    ],
+  },
+
   "evolution-smic": {
     groups: [
       { title: "Vue d'ensemble", icon: "chart", start: 0, end: 2 },

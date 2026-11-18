@@ -91,10 +91,12 @@ export function MegaMenuPanel({
 }) {
   const isCalc = panel.layout === "calc";
   const columnIconSize = isCalc ? 36 : undefined;
+  const fourColumns = !panel.cta && !isCalc && panel.columns.length >= 4;
   const gridClass = [
     "mh-mega__grid",
     panel.cta ? "mh-mega__grid--with-cta" : "",
     isCalc ? "mh-mega__grid--calc" : "",
+    fourColumns ? "mh-mega__grid--cols-4" : "",
   ]
     .filter(Boolean)
     .join(" ");
