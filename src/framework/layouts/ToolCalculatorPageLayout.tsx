@@ -2,7 +2,6 @@
 
 import type { ComponentType, ReactNode } from "react";
 import { CalculatorProvider, useCalculatorSlot } from "@/framework/SiteProvider";
-import { AdSlot } from "@/framework/AdSlot";
 import { SiteShell } from "@/framework/design/components/SiteShell";
 import { ShareBlock, type ShareBlockProps } from "@/framework/design/components/ShareBlock";
 import { PageFooter } from "@/framework/design/PageFooter";
@@ -107,22 +106,17 @@ function ToolCalculatorPageInner({
             <div className="home-with-sidebar__main">
               {breadcrumb}
               {authorMeta}
+              {/*
+                In-Article : une insertion après le chapô éditorial (composants *Editorial),
+                sous le calculateur / résultats, jamais entre les champs et le résultat.
+              */}
               {editorial}
-              <div className="content-wrap">
-                <AdSlot position="after-result" />
-              </div>
             </div>
-            <aside className="article-sidebar" aria-label="Guides et outils">
-              {sidebar}
-            </aside>
+            {sidebar}
           </div>
         </div>
         </main>
       </SiteShell>
-
-      <div className="content-wrap">
-        <AdSlot position="before-footer" />
-      </div>
 
       <PageFooter />
     </>

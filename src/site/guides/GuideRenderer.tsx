@@ -4,6 +4,10 @@ import { GuideMastheadShare } from "./GuideMastheadShare";
 import { getGuideCover } from "./covers";
 import { GuideCoverImage } from "./GuideCoverImage";
 import { CoverFigure } from "./CoverFigure";
+import { AdSlot } from "@/framework/AdSlot";
+import { getInArticlePlacement } from "@/site/ads";
+import { getGuidePublicPath } from "./paths";
+import { getGuideBySlug } from "./registry";
 import type { GuideSidebarLink, SidebarTool } from "./sidebar";
 import type { GuideBlock, GuideTocEntry } from "./types";
 import { getGuideTocGroups } from "./toc-groups";
@@ -813,6 +817,30 @@ export function GuideArticle({
     ? sections.filter((section) => section.id !== earlySection.id)
     : sections;
 
+  const guidePath = (() => {
+    if (!slug) return "/";
+    const guide = getGuideBySlug(slug);
+    return guide ? getGuidePublicPath(guide) : `/${slug}`;
+  })();
+  /**
+   * In-Article : point d'insertion éditorial du gabarit (pas de numéro de paragraphe).
+   * - after-lead / défaut avec réponse courte : après ce bloc
+   * - after-quick-summary / défaut avec cartes montants : après les montants, avant L'essentiel
+   * - disable / pas d'ancre éditoriale : omis
+   */
+  const inArticlePlacement = getInArticlePlacement(guidePath);
+  const showInArticleAfterLead =
+    inArticlePlacement !== "disable" &&
+    Boolean(earlySection) &&
+    (inArticlePlacement === "after-lead" ||
+      (inArticlePlacement === "default" && Boolean(earlySection)));
+  const showInArticleAfterQuickSummary =
+    inArticlePlacement !== "disable" &&
+    isEarlyAmountSummary &&
+    !showInArticleAfterLead &&
+    (inArticlePlacement === "after-quick-summary" ||
+      inArticlePlacement === "default");
+
   const renderSection = (
     section: (typeof sections)[number],
     className?: string,
@@ -890,10 +918,16 @@ export function GuideArticle({
             leadAnswerSection ? "guide-section--lead-answer" : undefined,
           )
         : null}
+      {showInArticleAfterLead ? (
+        <AdSlot slotId="desktopInArticle" className="ads-slot--in-article" />
+      ) : null}
 
       {/* Cartes chiffrées : réponse immédiate avant L'essentiel et le sommaire */}
       {isEarlyAmountSummary && quickSummary ? (
         <GuideQuickSummaryBlock summary={quickSummary} />
+      ) : null}
+      {showInArticleAfterQuickSummary ? (
+        <AdSlot slotId="desktopInArticle" className="ads-slot--in-article" />
       ) : null}
 
       {introSummary ? (

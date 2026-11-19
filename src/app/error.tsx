@@ -10,6 +10,7 @@ export default function ErrorPage() {
       meta="Erreur"
       title={seoConfig.legal.error.title}
       subtitle={seoConfig.legal.error.description}
+      suppressAds
     >
       <p>
         <Link href="/" className="ds-btn ds-btn--primary">

@@ -18,10 +18,9 @@ const microsoftClarityId =
       readOptionalEnv("NEXT_PUBLIC_CLARITY_ID"))
     : undefined;
 const googleSearchConsoleId = "9nuZjW3-Co9y5HnEHO6pmgRJD0K-EBLnh3PHD3txmsw";
-const googleAdsenseClientId = readOptionalEnv("NEXT_PUBLIC_ADSENSE_ID");
-const adSlotAfterResult = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_AFTER_RESULT");
-const adSlotBeforeFooter = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_BEFORE_FOOTER");
-const adSlotUnderH1 = readOptionalEnv("NEXT_PUBLIC_AD_SLOT_UNDER_H1");
+/** AdSense : ID public du compte ; surcharge possible via NEXT_PUBLIC_ADSENSE_ID. */
+const googleAdsenseClientId =
+  readOptionalEnv("NEXT_PUBLIC_ADSENSE_ID") ?? "ca-pub-6823212353384678";
 
 export const siteConfig = {
   name: "Brut vers Net",
@@ -158,23 +157,11 @@ export const siteConfig = {
     googleAdsenseClientId,
   },
 
+  /**
+   * Emplacements manuels : source de vérité dans `src/site/ads/ads.config.ts`.
+   * Conservé ici pour compatibilité SiteProvider (objet non vide).
+   */
   ads: {
-    slots: {
-      "under-h1": {
-        enabled: Boolean(googleAdsenseClientId && adSlotUnderH1),
-        adSlot: adSlotUnderH1 ?? "",
-        format: "horizontal" as const,
-      },
-      "after-result": {
-        enabled: Boolean(googleAdsenseClientId && adSlotAfterResult),
-        adSlot: adSlotAfterResult ?? "",
-        format: "auto" as const,
-      },
-      "before-footer": {
-        enabled: Boolean(googleAdsenseClientId && adSlotBeforeFooter),
-        adSlot: adSlotBeforeFooter ?? "",
-        format: "horizontal" as const,
-      },
-    },
+    publisherId: googleAdsenseClientId,
   },
 };

@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 import {
   ADSENSE_DASHBOARD_EXCLUSIONS,
   ADSENSE_PUBLISHER_ID,
+  ADS_DIFFUSION_ENABLED,
+  ADS_MOBILE_IN_ARTICLE_ENABLED,
   MANUAL_AD_SLOTS,
+  isManualAdViewportAllowed,
 } from "./ads.config";
 import { getInArticlePlacement, isAdPathExcluded } from "./path-rules";
 
@@ -34,9 +37,24 @@ describe("AdSense path rules", () => {
 
   it("expose les trois slots manuels et l'éditeur attendus", () => {
     expect(ADSENSE_PUBLISHER_ID).toBe("ca-pub-6823212353384678");
+    expect(ADS_DIFFUSION_ENABLED).toBe(true);
     expect(MANUAL_AD_SLOTS.desktopTopBanner.adSlot).toBe("5914149453");
     expect(MANUAL_AD_SLOTS.desktopSidebar.adSlot).toBe("8155627429");
     expect(MANUAL_AD_SLOTS.desktopInArticle.adSlot).toBe("6161561464");
+    expect(MANUAL_AD_SLOTS.desktopTopBanner.desktopOnly).toBe(false);
+    expect(MANUAL_AD_SLOTS.desktopSidebar.desktopOnly).toBe(true);
+    expect(MANUAL_AD_SLOTS.desktopInArticle.desktopOnly).toBe(true);
+  });
+
+  it("autorise le bandeau sur mobile et réserve le latéral à l'ordinateur", () => {
+    expect(isManualAdViewportAllowed("desktopTopBanner", false)).toBe(true);
+    expect(isManualAdViewportAllowed("desktopTopBanner", true)).toBe(true);
+    expect(isManualAdViewportAllowed("desktopSidebar", false)).toBe(false);
+    expect(isManualAdViewportAllowed("desktopSidebar", true)).toBe(true);
+    expect(isManualAdViewportAllowed("desktopInArticle", true)).toBe(true);
+    expect(isManualAdViewportAllowed("desktopInArticle", false)).toBe(
+      ADS_MOBILE_IN_ARTICLE_ENABLED,
+    );
   });
 
   it("fournit la liste AdSense des pages exclues pour l'ancre", () => {

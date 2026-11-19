@@ -25,7 +25,11 @@ export interface SiteColors {
   error: string;
 }
 
-export type AdPosition = "under-h1" | "after-result" | "before-footer";
+/** @deprecated Emplacements manuels : voir `ManualAdSlotId` dans `@/site/ads`. */
+export type AdPosition =
+  | "desktopTopBanner"
+  | "desktopSidebar"
+  | "desktopInArticle";
 
 export interface ConsentPreferences {
   necessary: boolean;

@@ -2,10 +2,11 @@
 
 import { useEffect } from "react";
 import Script from "next/script";
-import { useSite } from "@/framework/SiteProvider";
+import { useConsent, useSite } from "@/framework/SiteProvider";
 import {
   ensureGoogleFcNamespace,
   pauseAdSenseAdRequests,
+  resumeAdSenseAdRequests,
 } from "@/framework/consent/google-cmp";
 import {
   ADSENSE_PUBLISHER_ID,
@@ -17,24 +18,36 @@ import {
  * Charge le tag AdSense pour déployer la CMP Google (message européen),
  * dès la première visite, sans attendre un consentement publicitaire maison.
  *
- * La pause des requêtes pubs est initialisée dans `app/layout.tsx` (head)
- * puis réaffirmée ici. Tant que ADS_DIFFUSION_ENABLED est false, on ne
- * lève jamais pauseAdRequests.
+ * Pause initiale (layout head + ici) jusqu'à l'accord publicitaire.
+ * Si ADS_DIFFUSION_ENABLED est false, la pause n'est jamais levée.
  */
 export function GoogleCmpLoader() {
   const { analytics } = useSite();
+  const { preferences, status, consentReady } = useConsent();
   const clientId = analytics.googleAdsenseClientId || ADSENSE_PUBLISHER_ID;
 
   useEffect(() => {
     ensureGoogleFcNamespace();
     pauseAdSenseAdRequests();
-
-    if (ADS_DIFFUSION_ENABLED) return;
-    const id = window.setInterval(() => {
-      pauseAdSenseAdRequests();
-    }, 1000);
-    return () => window.clearInterval(id);
   }, []);
+
+  useEffect(() => {
+    if (!ADS_DIFFUSION_ENABLED) {
+      pauseAdSenseAdRequests();
+      const id = window.setInterval(() => {
+        pauseAdSenseAdRequests();
+      }, 1000);
+      return () => window.clearInterval(id);
+    }
+
+    const allowAds =
+      consentReady && status !== "pending" && preferences.advertising;
+    if (allowAds) {
+      resumeAdSenseAdRequests();
+    } else {
+      pauseAdSenseAdRequests();
+    }
+  }, [consentReady, preferences.advertising, status]);
 
   if (!clientId) return null;
 
@@ -51,7 +64,14 @@ export function GoogleCmpLoader() {
       crossOrigin="anonymous"
       async
       onLoad={() => {
-        pauseAdSenseAdRequests();
+        if (
+          !ADS_DIFFUSION_ENABLED ||
+          !consentReady ||
+          status === "pending" ||
+          !preferences.advertising
+        ) {
+          pauseAdSenseAdRequests();
+        }
       }}
     />
   );

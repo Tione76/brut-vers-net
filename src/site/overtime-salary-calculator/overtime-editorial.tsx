@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdSlot } from "@/framework/AdSlot";
 import { EditorialBenefitItem } from "@/site/editorial-check-icon";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { getCalculatorCover } from "@/site/guides/covers";
@@ -110,6 +111,8 @@ export function OvertimeSalaryEditorial() {
               réellement vous rapporter ? Ce calculateur d&apos;heures supplémentaires estime le
               montant brut et net de vos heures majorées, puis votre nouveau salaire mensuel.
             </p>
+
+            <AdSlot slotId="desktopInArticle" className="ads-slot--in-article" />
 
             <CoverFigure cover={overtimeCover} priority />
 

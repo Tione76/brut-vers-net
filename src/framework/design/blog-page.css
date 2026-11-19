@@ -226,6 +226,7 @@
   min-width: 0;
 }
 
+/* Visibilité du slot pub : gérée dans ads.css (:not(:empty) + montage desktop). */
 .article-sidebar__slot--ad {
   display: none;
 }

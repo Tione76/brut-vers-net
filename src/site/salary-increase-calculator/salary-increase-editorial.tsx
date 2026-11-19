@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdSlot } from "@/framework/AdSlot";
 import { EditorialBenefitItem } from "@/site/editorial-check-icon";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { getCalculatorCover } from "@/site/guides/covers";
@@ -89,6 +90,8 @@ export function SalaryIncreaseEditorial() {
               et après prélèvement à la source, pour comprendre combien vous gagnerez vraiment en
               plus chaque mois et sur l&apos;année.
             </p>
+
+            <AdSlot slotId="desktopInArticle" className="ads-slot--in-article" />
 
             <CoverFigure cover={increaseCover} priority />
 

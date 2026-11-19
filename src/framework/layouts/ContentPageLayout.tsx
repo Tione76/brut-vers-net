@@ -12,6 +12,8 @@ interface ContentPageLayoutProps {
   children: ReactNode;
   sidebar?: ReactNode;
   prose?: boolean;
+  /** Désactive le bandeau pub (404, erreur). */
+  suppressAds?: boolean;
 }
 
 /** Template officiel : articles, guides, légal, FAQ, 404, etc. */
@@ -22,10 +24,11 @@ export function ContentPageLayout({
   children,
   sidebar,
   prose = true,
+  suppressAds = false,
 }: ContentPageLayoutProps) {
   return (
     <>
-      <SiteShell>
+      <SiteShell suppressAds={suppressAds}>
         <CompactPageHeader meta={meta} title={title} subtitle={subtitle} />
         <main id="main-content" className="article-page">
           <div className="content-wrap content-wrap--wide">

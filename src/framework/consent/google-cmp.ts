@@ -65,6 +65,18 @@ export function pauseAdSenseAdRequests(): void {
   window.adsbygoogle = queue;
 }
 
+/** Reprend les requêtes de diffusion après accord publicitaire (et flag activé). */
+export function resumeAdSenseAdRequests(): void {
+  const existing = window.adsbygoogle as AdsByGoogleQueue | undefined;
+  if (existing && typeof existing === "object") {
+    existing.pauseAdRequests = 0;
+    return;
+  }
+  const queue: AdsByGoogleQueue = [];
+  queue.pauseAdRequests = 0;
+  window.adsbygoogle = queue;
+}
+
 export function isAdSenseAdRequestsPaused(): boolean {
   const queue = window.adsbygoogle as AdsByGoogleQueue | undefined;
   return queue?.pauseAdRequests === 1;

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdSlot } from "@/framework/AdSlot";
 import {
   buildConversionTableRows,
   buildMethodologyProfiles,
@@ -64,6 +65,8 @@ export function HomeEditorial() {
             source. Les résultats restent indicatifs, mais utiles pour comparer une offre,
             préparer un entretien ou situer un ordre de grandeur.
           </p>
+
+          <AdSlot slotId="desktopInArticle" className="ads-slot--in-article" />
 
           <CoverFigure cover={HOME_COVER} priority />
 

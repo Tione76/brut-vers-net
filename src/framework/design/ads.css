@@ -1,0 +1,151 @@
+/* Emplacements AdSense manuels (viewport via montage React, pas CSS seul). */
+
+.ads-slot {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.ads-slot .adsbygoogle {
+  max-width: 100%;
+}
+
+/* Bandeau haut : une instance, centré dans l'encart sous le menu (tous viewports) */
+.ads-slot--top-banner,
+.ads-slot--desktopTopBanner {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: min(100%, 728px);
+  margin-inline: auto;
+}
+
+.ads-slot--top-banner .adsbygoogle,
+.ads-slot--desktopTopBanner .adsbygoogle {
+  width: 100%;
+  max-width: 100%;
+}
+
+.site-shell__ad-fallback {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #ffffff;
+}
+
+.site-shell__ad-fallback a,
+.site-shell__ad-fallback a:link,
+.site-shell__ad-fallback a:visited {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.site-shell__ad-fallback a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+/* Pub montée : masquer le texte partenaire ; sinon conserver le fallback compact */
+.site-shell__top--ad:has(.ads-slot) .site-shell__ad-fallback {
+  display: none;
+}
+
+.site-shell__top--ad:not(:has(.ads-slot)) {
+  min-height: 0;
+}
+
+/* Colonne droite : vise ~300×250 dans une colonne 300px */
+.article-sidebar__slot--ad {
+  display: none;
+}
+
+.article-sidebar__slot--ad:not(:empty) {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 0 8px;
+}
+
+.ads-slot--desktopSidebar {
+  width: 100%;
+  max-width: 300px;
+  margin-inline: auto;
+}
+
+.ads-slot--desktopSidebar .adsbygoogle {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  min-height: 0;
+}
+
+/* In-Article : séparation claire, sans réserve permanente vide */
+.ads-slot--in-article,
+.ads-slot--desktopInArticle {
+  margin: 1.75rem 0;
+  text-align: center;
+}
+
+.ads-slot--in-article .adsbygoogle,
+.ads-slot--desktopInArticle .adsbygoogle {
+  display: block;
+  margin-inline: auto;
+}
+
+/* Repères de dimensions (local / pas de créatif servi) */
+.ads-slot__preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px dashed rgba(41, 54, 64, 0.35);
+  background: rgba(41, 54, 64, 0.04);
+  color: #60717d;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ads-slot__preview--top {
+  min-height: 90px;
+  width: 100%;
+  max-width: 728px;
+  margin-inline: auto;
+}
+
+@media (max-width: 1099px) {
+  .ads-slot__preview--top {
+    min-height: 70px;
+  }
+
+  .ads-slot__preview--in-article {
+    min-height: 100px;
+    max-width: 100%;
+  }
+}
+
+.ads-slot__preview--sidebar {
+  width: 300px;
+  max-width: 100%;
+  min-height: 250px;
+  margin-inline: auto;
+}
+
+.ads-slot__preview--in-article {
+  min-height: 120px;
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+.site-shell__top--ad .ads-slot__preview {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+}

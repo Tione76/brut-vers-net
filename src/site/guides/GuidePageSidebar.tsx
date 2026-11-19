@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { AdSlot } from "@/framework/AdSlot";
 import { GuideSidebar } from "./GuideRenderer";
 import {
   hasSidebarContent,
@@ -19,8 +20,10 @@ export interface SiteSidebarProps {
 function SidebarShell({ children }: { children: ReactNode }) {
   return (
     <aside className="article-sidebar" aria-label="Maillage interne">
-      {/* Emplacement futur publicité (non rendu). Aucun sticky. */}
-      <div className="article-sidebar__slot article-sidebar__slot--ad" hidden aria-hidden="true" />
+      {/* Pub desktop en tête de colonne : « À lire aussi » et les cartes passent dessous. */}
+      <div className="article-sidebar__slot article-sidebar__slot--ad">
+        <AdSlot slotId="desktopSidebar" />
+      </div>
       <div className="article-sidebar__recommendations">{children}</div>
     </aside>
   );

@@ -3,7 +3,6 @@
 import type { ComponentType, ReactNode } from "react";
 import Link from "next/link";
 import { useSite, CalculatorProvider } from "@/framework/SiteProvider";
-import { AdSlot } from "@/framework/AdSlot";
 import { SiteShell } from "@/framework/design/components/SiteShell";
 import { ShareBlock, type ShareBlockProps } from "@/framework/design/components/ShareBlock";
 import { PageFooter } from "@/framework/design/PageFooter";
@@ -58,67 +57,60 @@ function CalculatorPageInner({ Calculator, share, authorMeta }: CalculatorPageLa
             <div className={`article-layout${showSidebar ? "" : " article-layout--single"}`}>
               <div className="home-with-sidebar__main">
                 {authorMeta}
+                {/* In-Article : une insertion après le chapô, dans HomeEditorial. */}
                 <HomeEditorial />
                 <HomeLatestActu />
 
-        {site.blogPosts.length > 0 && (
-          <section id="blog" className="content-section content-section--border">
-            <div className="content-wrap">
-              <div className="section-heading">
-                <div>
-                  <p className="section-eyebrow section-eyebrow--dark">Blog</p>
-                  <h2 className="section-title section-title--dark">Derniers articles</h2>
-                </div>
-              </div>
-              <div className="blog-grid">
-                {site.blogPosts.map((post) => (
-                  <article key={post.title} className="blog-card">
-                    <div className="blog-card__thumb">
-                      <span className="blog-card__meta">
-                        {post.date} · {post.readTime}
-                      </span>
+                {site.blogPosts.length > 0 && (
+                  <section id="blog" className="content-section content-section--border">
+                    <div className="content-wrap">
+                      <div className="section-heading">
+                        <div>
+                          <p className="section-eyebrow section-eyebrow--dark">Blog</p>
+                          <h2 className="section-title section-title--dark">Derniers articles</h2>
+                        </div>
+                      </div>
+                      <div className="blog-grid">
+                        {site.blogPosts.map((post) => (
+                          <article key={post.title} className="blog-card">
+                            <div className="blog-card__thumb">
+                              <span className="blog-card__meta">
+                                {post.date} · {post.readTime}
+                              </span>
+                            </div>
+                            <div className="blog-card__body">
+                              <h3 className="blog-card__title">
+                                <Link href={post.href}>{post.title}</Link>
+                              </h3>
+                              <p className="blog-card__excerpt">{post.excerpt}</p>
+                              <Link href={post.href} className="blog-card__cta">
+                                Lire l&apos;article →
+                              </Link>
+                            </div>
+                          </article>
+                        ))}
+                      </div>
                     </div>
-                    <div className="blog-card__body">
-                      <h3 className="blog-card__title">
-                        <Link href={post.href}>{post.title}</Link>
-                      </h3>
-                      <p className="blog-card__excerpt">{post.excerpt}</p>
-                      <Link href={post.href} className="blog-card__cta">
-                        Lire l&apos;article →
-                      </Link>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+                  </section>
+                )}
 
-        <div className="content-wrap">
-          <AdSlot position="after-result" />
-        </div>
+                <section id="faq" className="content-section content-section--border">
+                  <div className="content-wrap">
+                    <p className="section-eyebrow section-eyebrow--dark">FAQ</p>
+                    <h2 className="section-title section-title--dark">
+                      Questions fréquentes sur le salaire Brut vers Net
+                    </h2>
+                    <HomeFaqContent />
+                  </div>
+                </section>
 
-        <section id="faq" className="content-section content-section--border">
-          <div className="content-wrap">
-            <p className="section-eyebrow section-eyebrow--dark">FAQ</p>
-            <h2 className="section-title section-title--dark">
-              Questions fréquentes sur le salaire Brut vers Net
-            </h2>
-            <HomeFaqContent />
-          </div>
-        </section>
-
-        <HomeOfficialSourcesSection />
+                <HomeOfficialSourcesSection />
               </div>
               {showSidebar && <HomePageSidebar />}
             </div>
           </div>
         </main>
       </SiteShell>
-
-      <div className="content-wrap">
-        <AdSlot position="before-footer" />
-      </div>
 
       <PageFooter />
     </>

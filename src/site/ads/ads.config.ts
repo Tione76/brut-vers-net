@@ -11,18 +11,25 @@ export const ADSENSE_PUBLISHER_ID = "ca-pub-6823212353384678";
 export const ADSENSE_SCRIPT_SRC = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_PUBLISHER_ID}`;
 
 /**
- * Coupe la diffusion publicitaire (slots manuels + reprise pauseAdRequests).
- * Le tag AdSense peut quand même charger pour la CMP Google (voir GoogleCmpLoader),
- * avec pauseAdRequests=1 tant que ce flag reste false.
- * Passer à `true` pour activer les requêtes de diffusion réelles.
+ * Active la diffusion publicitaire (slots manuels + reprise pauseAdRequests
+ * après accord publicitaire). Le tag AdSense charge aussi pour la CMP Google.
+ * Remettre à `false` pour couper toute diffusion réelle.
  */
-export const ADS_DIFFUSION_ENABLED = false;
+export const ADS_DIFFUSION_ENABLED = true;
 
 /**
  * Breakpoint desktop du site (aligné sur la nav principale : mobile ≤ 1099px).
- * Les trois blocs manuels ne sont montés qu'à partir de cette largeur.
+ * Latéral et In-Article ordinateur : montage à partir de cette largeur.
+ * Bandeau haut : une instance sur tous les viewports.
  */
 export const ADS_DESKTOP_MIN_WIDTH_PX = 1100;
+
+/**
+ * In-Article sur mobile (même unité 6161561464, mêmes exclusions / gabarits).
+ * Indépendant du bandeau haut : passer à `false` pour ne garder que l'ordinateur
+ * (et le bandeau) sans retirer le placement éditorial du code.
+ */
+export const ADS_MOBILE_IN_ARTICLE_ENABLED = true;
 
 export type ManualAdSlotId =
   | "desktopTopBanner"
@@ -35,8 +42,12 @@ export type ManualAdSlotConfig = {
   label: string;
   adSlot: string;
   enabled: boolean;
-  /** Toujours true pour ce lancement : pas de montage mobile. */
-  desktopOnly: true;
+  /**
+   * true : ordinateur uniquement (sauf In-Article mobile si
+   * ADS_MOBILE_IN_ARTICLE_ENABLED).
+   * false : tous les viewports (bandeau haut).
+   */
+  desktopOnly: boolean;
   format: "auto" | "fluid";
   fullWidthResponsive?: boolean;
   layout?: "in-article";
@@ -45,7 +56,10 @@ export type ManualAdSlotConfig = {
 };
 
 /**
- * Trois emplacements manuels ordinateur.
+ * Emplacements manuels.
+ * - Bandeau haut : une seule instance (SiteShell), ordinateur + mobile.
+ * - Latéral 300×250 : ordinateur uniquement.
+ * - In-Article : ordinateur ; mobile via ADS_MOBILE_IN_ARTICLE_ENABLED.
  * Modifier `adSlot` / `enabled` ici pour piloter la diffusion.
  */
 export const MANUAL_AD_SLOTS: Record<ManualAdSlotId, ManualAdSlotConfig> = {
@@ -54,7 +68,7 @@ export const MANUAL_AD_SLOTS: Record<ManualAdSlotId, ManualAdSlotConfig> = {
     label: "Ordinateur - Bandeau haut",
     adSlot: "5914149453",
     enabled: true,
-    desktopOnly: true,
+    desktopOnly: false,
     format: "auto",
     fullWidthResponsive: true,
   },
@@ -78,6 +92,18 @@ export const MANUAL_AD_SLOTS: Record<ManualAdSlotId, ManualAdSlotConfig> = {
     style: { display: "block", textAlign: "center" },
   },
 };
+
+/** Viewport autorisé pour un slot manuel (après `ready` client). */
+export function isManualAdViewportAllowed(
+  slotId: ManualAdSlotId,
+  isDesktop: boolean,
+): boolean {
+  const slot = MANUAL_AD_SLOTS[slotId];
+  if (!slot?.desktopOnly) return true;
+  if (isDesktop) return true;
+  if (slotId === "desktopInArticle") return ADS_MOBILE_IN_ARTICLE_ENABLED;
+  return false;
+}
 
 /**
  * Exclusions exactes (chemin === entrée).

@@ -17,6 +17,7 @@ export default function NotFound() {
       meta="Erreur"
       title={seoConfig.legal.notFound.title}
       subtitle={seoConfig.legal.notFound.description}
+      suppressAds
     >
       <p>
         <Link href="/" className="ds-btn ds-btn--primary">

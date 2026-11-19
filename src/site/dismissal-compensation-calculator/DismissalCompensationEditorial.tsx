@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdSlot } from "@/framework/AdSlot";
 import { EditorialBenefitItem } from "@/site/editorial-check-icon";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { getCalculatorCover } from "@/site/guides/covers";
@@ -85,6 +86,8 @@ export function DismissalCompensationEditorial() {
             estimation du minimum légal à partir de votre salaire brut de référence, de votre
             ancienneté et du motif de la rupture.
           </p>
+
+          <AdSlot slotId="desktopInArticle" className="ads-slot--in-article" />
 
           <CoverFigure cover={dismissalCover} priority />
 
