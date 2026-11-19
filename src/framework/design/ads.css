@@ -12,19 +12,20 @@
   max-width: 100%;
 }
 
-/* Bandeau haut : une instance, centré dans l'encart sous le menu (tous viewports) */
+/* Bandeau haut fixe : 728×90 ou 320×50, dimensions via style inline AdSense */
 .ads-slot--top-banner,
-.ads-slot--desktopTopBanner {
+.ads-slot--desktopTopBanner,
+.ads-slot--mobileTopBanner {
   display: flex;
   justify-content: center;
-  width: 100%;
-  max-width: min(100%, 728px);
+  width: fit-content;
+  max-width: 100%;
   margin-inline: auto;
 }
 
 .ads-slot--top-banner .adsbygoogle,
-.ads-slot--desktopTopBanner .adsbygoogle {
-  width: 100%;
+.ads-slot--desktopTopBanner .adsbygoogle,
+.ads-slot--mobileTopBanner .adsbygoogle {
   max-width: 100%;
 }
 
@@ -114,17 +115,24 @@
 }
 
 .ads-slot__preview--top {
-  min-height: 90px;
-  width: 100%;
-  max-width: 728px;
+  min-height: 50px;
+  width: max-content;
+  max-width: 100%;
   margin-inline: auto;
+  padding: 0.5rem 0.75rem;
+}
+
+.ads-slot--desktopTopBanner .ads-slot__preview--top {
+  min-height: 90px;
+  min-width: min(100%, 728px);
+}
+
+.ads-slot--mobileTopBanner .ads-slot__preview--top {
+  min-height: 50px;
+  min-width: min(100%, 320px);
 }
 
 @media (max-width: 1099px) {
-  .ads-slot__preview--top {
-    min-height: 70px;
-  }
-
   .ads-slot__preview--in-article {
     min-height: 100px;
     max-width: 100%;

@@ -24,8 +24,8 @@ const IS_DEV = process.env.NODE_ENV === "development";
 /**
  * Bloc AdSense manuel commun.
  * - Gabarits partagés décident du placement (une instance par emplacement).
- * - Bandeau haut : tous viewports ; latéral : ordinateur ; In-Article : ordinateur
- *   (+ mobile si ADS_MOBILE_IN_ARTICLE_ENABLED).
+ * - Bandeaux haut fixes : SiteShell monte 728×90 ou 320×50 selon la largeur.
+ * - Latéral : ordinateur ; In-Article : ordinateur (+ mobile si activé).
  * - Remontage propre à chaque navigation (clé pathname) pour un seul push par unité.
  */
 export function AdSlot({ slotId, className = "" }: AdSlotProps) {
@@ -76,17 +76,28 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
 
   if (!canRender && !showPreview) return null;
 
-  const style =
-    slot.layout === "in-article"
+  const style = slot.fixedSize
+    ? {
+        display: "inline-block" as const,
+        width: `${slot.fixedSize.width}px`,
+        height: `${slot.fixedSize.height}px`,
+      }
+    : slot.layout === "in-article"
       ? { display: "block" as const, textAlign: "center" as const }
       : { display: "block" as const };
 
   const previewModifier =
-    slotId === "desktopTopBanner"
+    slotId === "desktopTopBanner" || slotId === "mobileTopBanner"
       ? "ads-slot__preview--top"
       : slotId === "desktopSidebar"
         ? "ads-slot__preview--sidebar"
         : "ads-slot__preview--in-article";
+
+  const previewSizeLabel = slot.fixedSize
+    ? `${slot.fixedSize.width} × ${slot.fixedSize.height}`
+    : slotId === "desktopSidebar"
+      ? "responsive"
+      : "repère local";
 
   return (
     <aside
@@ -103,7 +114,7 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
           style={style}
           data-ad-client={ADSENSE_PUBLISHER_ID}
           data-ad-slot={slot.adSlot}
-          data-ad-format={slot.format}
+          {...(slot.format ? { "data-ad-format": slot.format } : {})}
           {...(slot.fullWidthResponsive
             ? { "data-full-width-responsive": "true" }
             : {})}
@@ -112,9 +123,7 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
       ) : (
         <div className={`ads-slot__preview ${previewModifier}`} aria-hidden="true">
           <span>{slot.label}</span>
-          <span>
-            {slotId === "desktopSidebar" ? "300 × 250" : "repère local"}
-          </span>
+          <span>{previewSizeLabel}</span>
         </div>
       )}
     </aside>

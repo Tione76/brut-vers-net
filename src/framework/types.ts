@@ -28,6 +28,7 @@ export interface SiteColors {
 /** @deprecated Emplacements manuels : voir `ManualAdSlotId` dans `@/site/ads`. */
 export type AdPosition =
   | "desktopTopBanner"
+  | "mobileTopBanner"
   | "desktopSidebar"
   | "desktopInArticle";
 

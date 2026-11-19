@@ -7,7 +7,7 @@ import { ADS_DESKTOP_MIN_WIDTH_PX } from "./ads.config";
  * Détecte le viewport desktop AdSense (≥ 1100px).
  * `ready` passe à true après le premier match côté client (évite le SSR).
  * Latéral / In-Article ordinateur s'appuient sur `isDesktop` ;
- * le bandeau haut et l'In-Article mobile utilisent surtout `ready`.
+ * les bandeaux haut (728×90 / 320×50) utilisent `useTopBannerSlot`.
  */
 export function useDesktopAds(minWidthPx = ADS_DESKTOP_MIN_WIDTH_PX): {
   ready: boolean;

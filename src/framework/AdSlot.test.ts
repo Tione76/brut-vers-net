@@ -43,6 +43,8 @@ describe("AdSense wiring", () => {
     expect(adSlotSource).toContain("isAdPathExcluded");
     expect(adSlotSource).toContain("preferences.advertising");
     expect(adSlotSource).toContain('slotId === "desktopInArticle"');
+    expect(adSlotSource).toContain("fixedSize");
+    expect(adSlotSource).toContain('display: "inline-block"');
     expect(adSlotSource).not.toContain("position:");
   });
 
@@ -52,14 +54,15 @@ describe("AdSense wiring", () => {
     expect(cmpLoaderSource).toContain("pauseAdSenseAdRequests");
     expect(cmpLoaderSource).toContain("ADS_DIFFUSION_ENABLED");
     expect(adsConfigSource).toContain("ADS_DIFFUSION_ENABLED = true");
-    expect(adsConfigSource).toMatch(/pauseAdRequests/);
     expect(cmpLoaderSource).toContain("resumeAdSenseAdRequests");
   });
 
-  it("expose le bandeau tous viewports et l'In-Article mobile coupable à part", () => {
-    expect(adsConfigSource).toMatch(
-      /desktopTopBanner:[\s\S]*?desktopOnly:\s*false/,
-    );
+  it("expose les bandeaux fixes sans auto/FWR et l'In-Article mobile coupable à part", () => {
+    expect(adsConfigSource).toContain('adSlot: "5914149453"');
+    expect(adsConfigSource).toContain('adSlot: "9463025573"');
+    expect(adsConfigSource).toContain("fixedSize: { width: 728, height: 90 }");
+    expect(adsConfigSource).toContain("fixedSize: { width: 320, height: 50 }");
+    expect(adsConfigSource).toContain("resolveTopBannerSlotId");
     expect(adsConfigSource).toMatch(
       /desktopSidebar:[\s\S]*?desktopOnly:\s*true/,
     );
@@ -67,9 +70,11 @@ describe("AdSense wiring", () => {
     expect(adsConfigSource).toContain("isManualAdViewportAllowed");
   });
 
-  it("place le bandeau haut une seule fois dans SiteShell", () => {
-    expect(siteShellSource).toContain('slotId="desktopTopBanner"');
-    expect(siteShellSource.match(/slotId="desktopTopBanner"/g)?.length).toBe(1);
+  it("place un seul bandeau haut dans SiteShell selon la largeur", () => {
+    expect(siteShellSource).toContain("useTopBannerSlot");
+    expect(siteShellSource).toContain("slotId={slotId}");
+    expect(siteShellSource).not.toContain('slotId="desktopTopBanner"');
+    expect(siteShellSource).not.toContain('slotId="mobileTopBanner"');
   });
 
   it("insère l'In-Article via le gabarit guide et après le chapô des calculateurs", () => {

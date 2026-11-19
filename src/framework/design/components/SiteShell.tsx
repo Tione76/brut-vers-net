@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdSlot } from "@/framework/AdSlot";
 import { useSite } from "@/framework/SiteProvider";
-import { isAdPathExcluded } from "@/site/ads";
+import { isAdPathExcluded, useTopBannerSlot } from "@/site/ads";
 import { SiteNav } from "./SiteNav";
 
 const PARTNER_HREF = "/devenir-partenaire";
@@ -28,6 +28,8 @@ function PartnerRail({ side }: { side: "left" | "right" }) {
 
 function TopAdBand() {
   const pathname = usePathname() || "/";
+  const { ready, slotId, containerRef } = useTopBannerSlot();
+
   if (isAdPathExcluded(pathname)) {
     return (
       <div className="site-shell__top site-shell__top--partner-only">
@@ -43,8 +45,10 @@ function TopAdBand() {
   }
 
   return (
-    <div className="site-shell__top site-shell__top--ad">
-      <AdSlot slotId="desktopTopBanner" className="ads-slot--top-banner" />
+    <div ref={containerRef} className="site-shell__top site-shell__top--ad">
+      {ready && slotId ? (
+        <AdSlot slotId={slotId} className="ads-slot--top-banner" />
+      ) : null}
       <p className="site-shell__ad-fallback">
         <Link href={PARTNER_HREF}>Devenez partenaire</Link>
         <span aria-hidden="true"> · </span>
@@ -58,8 +62,7 @@ function TopAdBand() {
 
 /**
  * Chrome commun : menu pleine largeur, fond ardoise, invitations de partenariat
- * et panneau blanc. Bandeau AdSense (une instance) dans l'encart sous le menu,
- * ordinateur et mobile.
+ * et panneau blanc. Bandeau AdSense fixe (728×90 ou 320×50) sous le menu.
  */
 export function SiteShell({
   children,

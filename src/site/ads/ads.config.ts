@@ -20,7 +20,6 @@ export const ADS_DIFFUSION_ENABLED = true;
 /**
  * Breakpoint desktop du site (aligné sur la nav principale : mobile ≤ 1099px).
  * Latéral et In-Article ordinateur : montage à partir de cette largeur.
- * Bandeau haut : une instance sur tous les viewports.
  */
 export const ADS_DESKTOP_MIN_WIDTH_PX = 1100;
 
@@ -33,8 +32,14 @@ export const ADS_MOBILE_IN_ARTICLE_ENABLED = true;
 
 export type ManualAdSlotId =
   | "desktopTopBanner"
+  | "mobileTopBanner"
   | "desktopSidebar"
   | "desktopInArticle";
+
+export type ManualAdSlotFixedSize = {
+  width: number;
+  height: number;
+};
 
 export type ManualAdSlotConfig = {
   id: ManualAdSlotId;
@@ -45,10 +50,16 @@ export type ManualAdSlotConfig = {
   /**
    * true : ordinateur uniquement (sauf In-Article mobile si
    * ADS_MOBILE_IN_ARTICLE_ENABLED).
-   * false : tous les viewports (bandeau haut).
+   * false : sélectionnée autrement (bandeaux haut selon largeur dispo).
    */
   desktopOnly: boolean;
-  format: "auto" | "fluid";
+  /**
+   * Unités Display fixes : pas de `data-ad-format` / FWR, style
+   * `display:inline-block` + width/height explicites (snippet AdSense).
+   */
+  fixedSize?: ManualAdSlotFixedSize;
+  /** Absent pour les unités fixes Display. */
+  format?: "auto" | "fluid";
   fullWidthResponsive?: boolean;
   layout?: "in-article";
   /** Style inline minimal demandé par AdSense (In-Article). */
@@ -57,24 +68,31 @@ export type ManualAdSlotConfig = {
 
 /**
  * Emplacements manuels.
- * - Bandeau haut : une seule instance (SiteShell), ordinateur + mobile.
- * - Latéral 300×250 : ordinateur uniquement.
+ * - Bandeau haut : 728×90 ordinateur ou 320×50 mobile (un seul, si la largeur tient).
+ * - Latéral Display responsive : ordinateur uniquement.
  * - In-Article : ordinateur ; mobile via ADS_MOBILE_IN_ARTICLE_ENABLED.
  * Modifier `adSlot` / `enabled` ici pour piloter la diffusion.
  */
 export const MANUAL_AD_SLOTS: Record<ManualAdSlotId, ManualAdSlotConfig> = {
   desktopTopBanner: {
     id: "desktopTopBanner",
-    label: "Ordinateur - Bandeau haut",
+    label: "Ordinateur - Bandeau haut 728x90",
     adSlot: "5914149453",
     enabled: true,
     desktopOnly: false,
-    format: "auto",
-    fullWidthResponsive: true,
+    fixedSize: { width: 728, height: 90 },
+  },
+  mobileTopBanner: {
+    id: "mobileTopBanner",
+    label: "Mobile - Bandeau haut 320x50",
+    adSlot: "9463025573",
+    enabled: true,
+    desktopOnly: false,
+    fixedSize: { width: 320, height: 50 },
   },
   desktopSidebar: {
     id: "desktopSidebar",
-    label: "Ordinateur - Colonne droite - 300x250",
+    label: "Ordinateur - Colonne droite - Display responsive",
     adSlot: "8155627429",
     enabled: true,
     desktopOnly: true,
@@ -92,6 +110,32 @@ export const MANUAL_AD_SLOTS: Record<ManualAdSlotId, ManualAdSlotConfig> = {
     style: { display: "block", textAlign: "center" },
   },
 };
+
+/**
+ * Choisit le bandeau haut selon la largeur réellement disponible.
+ * Priorité 728×90, sinon 320×50, sinon aucun (pas d'espace réservé).
+ */
+export function resolveTopBannerSlotId(
+  availableWidthPx: number,
+): "desktopTopBanner" | "mobileTopBanner" | null {
+  const desktop = MANUAL_AD_SLOTS.desktopTopBanner;
+  const mobile = MANUAL_AD_SLOTS.mobileTopBanner;
+  if (
+    desktop.enabled &&
+    desktop.fixedSize &&
+    availableWidthPx >= desktop.fixedSize.width
+  ) {
+    return "desktopTopBanner";
+  }
+  if (
+    mobile.enabled &&
+    mobile.fixedSize &&
+    availableWidthPx >= mobile.fixedSize.width
+  ) {
+    return "mobileTopBanner";
+  }
+  return null;
+}
 
 /** Viewport autorisé pour un slot manuel (après `ready` client). */
 export function isManualAdViewportAllowed(

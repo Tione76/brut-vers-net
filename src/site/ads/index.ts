@@ -8,9 +8,12 @@ export {
   IN_ARTICLE_EXCEPTIONS,
   MANUAL_AD_SLOTS,
   isManualAdViewportAllowed,
+  resolveTopBannerSlotId,
   type InArticlePlacement,
   type ManualAdSlotConfig,
+  type ManualAdSlotFixedSize,
   type ManualAdSlotId,
 } from "./ads.config";
 export { getInArticlePlacement, isAdPathExcluded } from "./path-rules";
 export { useDesktopAds } from "./useDesktopAds";
+export { useTopBannerSlot, type TopBannerSlotId } from "./useTopBannerSlot";
