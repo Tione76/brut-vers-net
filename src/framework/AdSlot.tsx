@@ -63,9 +63,15 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
     Boolean(slot.adSlot) &&
     !slotPending;
 
-  /** Repère de mise en page : local DEV, diffusion coupée, ou unité AdSense en attente. */
+  /**
+   * Repère local uniquement quand la diffusion est active (DEV / slot en attente).
+   * Si ADS_DIFFUSION_ENABLED est false : aucun rendu, aucun espace réservé.
+   */
   const showPreview =
-    surfaceOk && !canRender && (IS_DEV || !ADS_DIFFUSION_ENABLED || slotPending);
+    ADS_DIFFUSION_ENABLED &&
+    surfaceOk &&
+    !canRender &&
+    (IS_DEV || slotPending);
 
   useEffect(() => {
     pushed.current = false;
@@ -86,7 +92,7 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
     }
   }, [canRender, pathname, slotId, status]);
 
-  if (!canRender && !showPreview) return null;
+  if (!ADS_DIFFUSION_ENABLED || (!canRender && !showPreview)) return null;
 
   const style = slot.fixedSize
     ? {

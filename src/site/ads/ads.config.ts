@@ -13,9 +13,10 @@ export const ADSENSE_SCRIPT_SRC = `https://pagead2.googlesyndication.com/pagead/
 /**
  * Active la diffusion publicitaire (slots manuels + reprise pauseAdRequests
  * après un choix CMP Sirdata). Le tag AdSense ne sert plus la CMP Google.
- * Remettre à `false` pour couper toute diffusion réelle.
+ * `false` : aucune balise adsbygoogle, aucun emplacement rendu, bandeau
+ * partenaire d'origine sous le menu (réactivation = remettre à `true`).
  */
-export const ADS_DIFFUSION_ENABLED = true;
+export const ADS_DIFFUSION_ENABLED = false;
 
 /**
  * Breakpoint desktop du site (aligné sur la nav principale : mobile ≤ 1099px).

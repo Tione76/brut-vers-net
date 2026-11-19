@@ -38,7 +38,7 @@ describe("AdSense path rules", () => {
 
   it("expose les slots manuels et l'éditeur attendus", () => {
     expect(ADSENSE_PUBLISHER_ID).toBe("ca-pub-6823212353384678");
-    expect(ADS_DIFFUSION_ENABLED).toBe(true);
+    expect(ADS_DIFFUSION_ENABLED).toBe(false);
     expect(MANUAL_AD_SLOTS.desktopTopBanner.adSlot).toBe("5914149453");
     expect(MANUAL_AD_SLOTS.desktopTopBanner.fixedSize).toEqual({
       width: 728,

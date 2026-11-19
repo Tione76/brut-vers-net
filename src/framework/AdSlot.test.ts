@@ -56,8 +56,9 @@ describe("AdSense wiring", () => {
     expect(adsenseLoaderSource).toContain('crossOrigin="anonymous"');
     expect(adsenseLoaderSource).toContain("pauseAdSenseAdRequests");
     expect(adsenseLoaderSource).toContain("ADS_DIFFUSION_ENABLED");
-    expect(adsConfigSource).toContain("ADS_DIFFUSION_ENABLED = true");
+    expect(adsConfigSource).toContain("ADS_DIFFUSION_ENABLED = false");
     expect(adsenseLoaderSource).toContain("!ADS_DIFFUSION_ENABLED) return null");
+    expect(adSlotSource).toContain("if (!ADS_DIFFUSION_ENABLED || (!canRender && !showPreview)) return null");
     expect(adsenseLoaderSource).toContain("resumeAdSenseAdRequests");
     expect(adsenseLoaderSource).toContain("consentReady");
     expect(adsenseLoaderSource).not.toContain("googlefc");
@@ -82,6 +83,8 @@ describe("AdSense wiring", () => {
   it("place un seul bandeau haut dans SiteShell selon la largeur", () => {
     expect(siteShellSource).toContain("useTopBannerSlot");
     expect(siteShellSource).toContain("slotId={slotId}");
+    expect(siteShellSource).toContain("ADS_DIFFUSION_ENABLED");
+    expect(siteShellSource).toContain("PartnerInviteBand");
     expect(siteShellSource).not.toContain('slotId="desktopTopBanner"');
     expect(siteShellSource).not.toContain('slotId="mobileTopBanner"');
   });

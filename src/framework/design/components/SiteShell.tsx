@@ -5,7 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdSlot } from "@/framework/AdSlot";
 import { useSite } from "@/framework/SiteProvider";
-import { isAdPathExcluded, useTopBannerSlot } from "@/site/ads";
+import {
+  ADS_DIFFUSION_ENABLED,
+  isAdPathExcluded,
+  useTopBannerSlot,
+} from "@/site/ads";
 import { SiteNav } from "./SiteNav";
 
 const PARTNER_HREF = "/devenir-partenaire";
@@ -23,6 +27,25 @@ function PartnerRail({ side }: { side: "left" | "right" }) {
         </span>
       </Link>
     </aside>
+  );
+}
+
+/**
+ * Bandeau d'origine (avant AdSense) : écart sous le menu + invitation partenaire.
+ * Hauteurs : 4.75rem par défaut, 8.25rem ≥900px, padding 12/16/14 sur ≤639px.
+ */
+function PartnerInviteBand() {
+  return (
+    <div className="site-shell__top">
+      <p className="site-shell__ad-kicker">Votre publicité ici</p>
+      <p className="site-shell__ad-links">
+        <Link href={PARTNER_HREF}>Devenez partenaire</Link>
+        <span aria-hidden="true"> · </span>
+        <Link href={PARTNER_HREF}>
+          Contactez-nous <span aria-hidden="true">→</span>
+        </Link>
+      </p>
+    </div>
   );
 }
 
@@ -71,7 +94,8 @@ function TopAdBand() {
 
 /**
  * Chrome commun : menu pleine largeur, fond ardoise, invitations de partenariat
- * et panneau blanc. Bandeau AdSense (728×90 ou mobile pleine largeur ×60) sous le menu.
+ * et panneau blanc. Bandeau AdSense si ADS_DIFFUSION_ENABLED, sinon bandeau
+ * partenaire d'origine (écart sous le menu indépendant des pubs).
  */
 export function SiteShell({
   children,
@@ -84,8 +108,18 @@ export function SiteShell({
   const site = useSite();
   const pathname = usePathname() || "/";
   const isPartnerPage = pathname === PARTNER_HREF;
-  const homeAdsPaused = pathname === "/";
-  const hideAdBand = isPartnerPage || suppressAds || homeAdsPaused;
+  const adsLive = ADS_DIFFUSION_ENABLED && !suppressAds;
+  const homeAdsPaused = adsLive && pathname === "/";
+  const hideChromeBand = isPartnerPage || suppressAds;
+
+  let topBand: ReactNode = null;
+  if (!hideChromeBand) {
+    if (!ADS_DIFFUSION_ENABLED) {
+      topBand = <PartnerInviteBand />;
+    } else if (!homeAdsPaused) {
+      topBand = <TopAdBand />;
+    }
+  }
 
   return (
     <>
@@ -99,8 +133,9 @@ export function SiteShell({
       <div
         className={`site-shell${isPartnerPage ? " site-shell--partner" : ""}${suppressAds ? " site-shell--no-ads" : ""}${homeAdsPaused ? " site-shell--home-ads-paused" : ""}`}
         data-ad-skin="default"
+        data-ads-diffusion={ADS_DIFFUSION_ENABLED ? "on" : "off"}
       >
-        {!hideAdBand ? <TopAdBand /> : null}
+        {topBand}
         <div className="site-shell__frame">
           {!isPartnerPage ? <PartnerRail side="left" /> : null}
           <div className="site-panel">{children}</div>

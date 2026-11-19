@@ -20,6 +20,12 @@ body {
   background: var(--ds-slate);
 }
 
+/*
+ * Écart sous le menu (design d'origine, indépendant d'AdSense) :
+ * - défaut : --ds-ad-top-height 4.75rem + padding bandeau 12/12/14
+ * - ≥900px : 8.25rem + padding 20/16
+ * - ≤639px : min-height auto, padding 12/16/14
+ */
 .site-shell {
   --ds-ad-top-height: 4.75rem;
   position: relative;
