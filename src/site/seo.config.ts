@@ -134,7 +134,7 @@ export const seoConfig = {
     cookies: {
       title: "Gestion des cookies",
       description:
-        "Découvrez les cookies utilisés sur BRUT-VERS-NET.FR, gérez vos préférences et comprenez le fonctionnement du bandeau de consentement.",
+        "Découvrez les cookies utilisés sur BRUT-VERS-NET.FR, gérez vos préférences et comprenez le message de consentement Google.",
       metaDescription:
         "Gérez vos préférences en matière de cookies et découvrez leur utilisation sur brut-vers-net.fr.",
     },

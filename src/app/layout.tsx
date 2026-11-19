@@ -37,7 +37,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-            gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',functionality_storage:'denied',security_storage:'granted',wait_for_update:500});`,
+gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',functionality_storage:'denied',security_storage:'granted',wait_for_update:500});
+window.adsbygoogle=window.adsbygoogle||[];window.adsbygoogle.pauseAdRequests=1;
+window.googlefc=window.googlefc||{};window.googlefc.callbackQueue=window.googlefc.callbackQueue||[];
+try{localStorage.removeItem('cookie-consent-preferences');}catch(e){}`,
           }}
         />
       </head>
@@ -46,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SkipLink />
           {children}
         </SiteProvider>
-        {/* Vercel Web Analytics : agrégé, hors bandeau de consentement (indépendant de GA/Clarity). */}
+        {/* Vercel Web Analytics : agrégé, hors CMP Google (indépendant de GA/Clarity). */}
         <Analytics />
       </body>
     </html>

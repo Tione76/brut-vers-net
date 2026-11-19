@@ -1,44 +1,31 @@
-import type { ConsentPreferences } from "@/framework/types";
-
+/**
+ * Ancien stockage de la CMP maison (version 1).
+ * Conservé uniquement pour invalidation : ne plus lire ni convertir en consentement Google/TCF.
+ */
 export const CONSENT_STORAGE_KEY = "cookie-consent-preferences";
-const CONSENT_VERSION = 1;
 
-export function getDefaultPreferences(): ConsentPreferences {
-  return { necessary: true, analytics: false, advertising: false, timestamp: Date.now() };
-}
+/** @deprecated Ne plus utiliser pour appliquer un consentement. */
+export const CONSENT_LEGACY_VERSION = 1;
 
-export function loadConsentPreferences(): ConsentPreferences | null {
-  if (typeof window === "undefined") return null;
+/**
+ * Supprime les choix locaux de la bannière maison.
+ * Un ancien « Accepter et fermer » ne doit jamais devenir un consentement TCF/Google.
+ */
+export function clearLegacyConsentPreferences(): void {
+  if (typeof window === "undefined") return;
   try {
-    const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
-    if (!stored) return null;
-    const parsed = JSON.parse(stored) as ConsentPreferences & { version?: number };
-    if (parsed.version !== CONSENT_VERSION) return null;
-    return {
-      necessary: true,
-      analytics: Boolean(parsed.analytics),
-      advertising: Boolean(parsed.advertising),
-      timestamp: parsed.timestamp,
-    };
+    localStorage.removeItem(CONSENT_STORAGE_KEY);
   } catch {
-    return null;
+    /* ignore */
   }
 }
 
-export function saveConsentPreferences(
-  prefs: Omit<ConsentPreferences, "timestamp" | "necessary">,
-): ConsentPreferences {
-  const full: ConsentPreferences & { version: number } = {
-    necessary: true,
-    analytics: prefs.analytics,
-    advertising: prefs.advertising,
-    timestamp: Date.now(),
-    version: CONSENT_VERSION,
-  };
-  localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(full));
-  return full;
-}
-
-export function hasConsentChoice(): boolean {
-  return loadConsentPreferences() !== null;
+/** True si une entrée legacy est encore présente (avant purge). */
+export function hasLegacyConsentRecord(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return localStorage.getItem(CONSENT_STORAGE_KEY) !== null;
+  } catch {
+    return false;
+  }
 }

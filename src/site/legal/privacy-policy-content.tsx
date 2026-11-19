@@ -279,9 +279,9 @@ export function PrivacyPolicyContent() {
         <aside className="prose-callout prose-callout--legal">
           <strong>Point important</strong>
           <br />
-          Google Analytics 4 n&apos;est chargé qu&apos;après votre acceptation des cookies
-          analytiques via le bandeau de consentement. Sans ce consentement, aucune mesure d&apos;audience
-          par ce service n&apos;est activée sur votre navigateur.
+          Google Analytics 4 n&apos;est chargé qu&apos;après votre acceptation de la mesure
+          d&apos;audience via le message de consentement Google. Sans ce consentement, aucune mesure
+          d&apos;audience par ce service n&apos;est activée sur votre navigateur.
         </aside>
         <p>
           Google peut traiter certaines données de navigation (pages vues, type d&apos;appareil,
@@ -306,9 +306,9 @@ export function PrivacyPolicyContent() {
         <aside className="prose-callout prose-callout--legal">
           <strong>Point important</strong>
           <br />
-          Microsoft Clarity n&apos;est chargé qu&apos;après votre acceptation des cookies
-          analytiques via le bandeau de consentement. Sans ce consentement, le service n&apos;est
-          pas activé sur votre navigateur. Les champs susceptibles de contenir des données
+          Microsoft Clarity n&apos;est chargé qu&apos;après votre acceptation de la mesure
+          d&apos;audience via le message de consentement Google. Sans ce consentement, le service
+          n&apos;est pas activé sur votre navigateur. Les champs susceptibles de contenir des données
           personnelles (formulaire de contact, montants saisis dans les calculateurs) sont masqués
           dans les enregistrements.
         </aside>

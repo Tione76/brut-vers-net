@@ -10,15 +10,16 @@ import {
   type ReactNode,
 } from "react";
 import type { ConsentPreferences, ConsentStatus } from "@/framework/types";
-import {
-  getDefaultPreferences,
-  hasConsentChoice,
-  loadConsentPreferences,
-  saveConsentPreferences,
-} from "@/framework/consent/storage";
+import { clearLegacyConsentPreferences } from "@/framework/consent/storage";
 import { initConsentModeDefault, updateConsentMode } from "@/framework/consent/consent-mode";
-import { CookieBanner } from "@/framework/CookieBanner";
-import { AnalyticsScripts, AdSenseLoader, ClarityLoader } from "@/framework/AnalyticsScripts";
+import {
+  ensureGoogleFcNamespace,
+  queueGoogleFcCallback,
+  readGoogleConsentPreferences,
+  showGoogleCmpRevocationMessage,
+} from "@/framework/consent/google-cmp";
+import { AnalyticsScripts, ClarityLoader } from "@/framework/AnalyticsScripts";
+import { GoogleCmpLoader } from "@/framework/GoogleCmpLoader";
 import type { config } from "@/site";
 
 export type SiteConfig = typeof config;
@@ -38,13 +39,10 @@ export function useSite(): SiteConfig {
 interface ConsentContextValue {
   status: ConsentStatus;
   preferences: ConsentPreferences;
-  showBanner: boolean;
-  showPreferences: boolean;
-  acceptAll: () => void;
-  rejectAll: () => void;
-  savePreferences: (prefs: { analytics: boolean; advertising: boolean }) => void;
+  /** Rouvre le message Google (révocation / modification). */
   openPreferences: () => void;
-  closePreferences: () => void;
+  /** True une fois le premier signal Consent Mode Google reçu (ou hors périmètre). */
+  consentReady: boolean;
 }
 
 const ConsentContext = createContext<ConsentContextValue | null>(null);
@@ -53,6 +51,21 @@ export function useConsent(): ConsentContextValue {
   const ctx = useContext(ConsentContext);
   if (!ctx) throw new Error("useConsent must be used within SiteProvider");
   return ctx;
+}
+
+function statusFromPreferences(prefs: ConsentPreferences): ConsentStatus {
+  if (prefs.analytics && prefs.advertising) return "granted";
+  if (!prefs.analytics && !prefs.advertising) return "denied";
+  return "custom";
+}
+
+function deniedPreferences(): ConsentPreferences {
+  return {
+    necessary: true,
+    analytics: false,
+    advertising: false,
+    timestamp: Date.now(),
+  };
 }
 
 /* ─── Calculator context ─── */
@@ -74,63 +87,76 @@ export function useCalculatorSlot(): CalculatorContextValue {
 /* ─── Provider ─── */
 
 export function SiteProvider({ config, children }: { config: SiteConfig; children: ReactNode }) {
-  const [preferences, setPreferences] = useState<ConsentPreferences>(getDefaultPreferences);
+  const [preferences, setPreferences] = useState<ConsentPreferences>(deniedPreferences);
   const [status, setStatus] = useState<ConsentStatus>("pending");
-  const [showBanner, setShowBanner] = useState(false);
-  const [showPreferences, setShowPreferences] = useState(false);
-  const [isReady, setIsReady] = useState(false);
+  const [consentReady, setConsentReady] = useState(false);
 
-  const applyPreferences = useCallback((prefs: ConsentPreferences) => {
+  const applyPreferences = useCallback((prefs: ConsentPreferences, ready = true) => {
     setPreferences(prefs);
     updateConsentMode(prefs);
-    setStatus(
-      prefs.analytics && prefs.advertising ? "granted" : !prefs.analytics && !prefs.advertising ? "denied" : "custom",
-    );
-    setShowBanner(false);
+    setStatus(statusFromPreferences(prefs));
+    if (ready) setConsentReady(true);
   }, []);
+
+  const syncFromGoogleCmp = useCallback(() => {
+    const fromGoogle = readGoogleConsentPreferences();
+    if (!fromGoogle) return;
+    applyPreferences(fromGoogle, true);
+  }, [applyPreferences]);
 
   useEffect(() => {
     initConsentModeDefault();
-    const stored = loadConsentPreferences();
-    if (stored) applyPreferences(stored);
-    else setShowBanner(true);
-    setIsReady(true);
+    // Ne jamais convertir un ancien « Accepter et fermer » maison en consentement Google.
+    clearLegacyConsentPreferences();
+    ensureGoogleFcNamespace();
+
+    queueGoogleFcCallback("CONSENT_MODE_DATA_READY", () => {
+      syncFromGoogleCmp();
+    });
+
+    queueGoogleFcCallback("CONSENT_API_READY", () => {
+      const tcf = window.__tcfapi;
+      if (typeof tcf !== "function") return;
+      tcf("addEventListener", 2, (tcData, success) => {
+        if (!success || !tcData || typeof tcData !== "object") return;
+        const eventStatus = (tcData as { eventStatus?: string }).eventStatus;
+        if (
+          eventStatus === "tcloaded" ||
+          eventStatus === "useractioncomplete" ||
+          eventStatus === "cmpuishown"
+        ) {
+          // Après révocation / nouveau choix : resynchroniser (y compris navigation SPA).
+          syncFromGoogleCmp();
+        }
+      });
+    });
+  }, [syncFromGoogleCmp]);
+
+  const openPreferences = useCallback(() => {
+    // Retrait immédiat côté site (mesure stoppée) en attendant le nouveau choix Google.
+    applyPreferences(deniedPreferences(), false);
+    setConsentReady(false);
+    setStatus("pending");
+    showGoogleCmpRevocationMessage();
   }, [applyPreferences]);
 
   const consentValue = useMemo(
     () => ({
       status,
       preferences,
-      showBanner: isReady && showBanner,
-      showPreferences,
-      acceptAll: () => { applyPreferences(saveConsentPreferences({ analytics: true, advertising: true })); setShowPreferences(false); },
-      rejectAll: () => { applyPreferences(saveConsentPreferences({ analytics: false, advertising: false })); setShowPreferences(false); },
-      savePreferences: (prefs: { analytics: boolean; advertising: boolean }) => {
-        applyPreferences(saveConsentPreferences(prefs));
-        setShowPreferences(false);
-      },
-      openPreferences: () => {
-        const stored = loadConsentPreferences();
-        if (stored) setPreferences(stored);
-        setShowPreferences(true);
-        setShowBanner(false);
-      },
-      closePreferences: () => {
-        setShowPreferences(false);
-        if (!hasConsentChoice()) setShowBanner(true);
-      },
+      openPreferences,
+      consentReady,
     }),
-    [status, preferences, isReady, showBanner, showPreferences, applyPreferences],
+    [status, preferences, openPreferences, consentReady],
   );
 
   return (
     <SiteContext.Provider value={config}>
       <ConsentContext.Provider value={consentValue}>
         {children}
-        <CookieBanner />
+        <GoogleCmpLoader />
         <AnalyticsScripts />
         <ClarityLoader />
-        <AdSenseLoader />
       </ConsentContext.Provider>
     </SiteContext.Provider>
   );

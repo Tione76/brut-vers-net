@@ -32,10 +32,19 @@ describe("Microsoft Clarity integration", () => {
     expect(analyticsSource).toContain("preferences.analytics");
     expect(analyticsSource).toContain("clarityInitialized");
     expect(analyticsSource).toContain('analytics_Storage: "denied"');
+    expect(analyticsSource).toContain("consentReady");
   });
 
   it("ne s'appuie pas sur Google Consent Mode pour piloter Clarity", () => {
     expect(analyticsSource).not.toContain("updateConsentMode");
     expect(analyticsSource).not.toContain("gtag");
+  });
+});
+
+describe("GA4 gating", () => {
+  it("ne monte GA4 que si analytics est accordé et le consentement prêt", () => {
+    expect(analyticsSource).toContain("GoogleAnalytics");
+    expect(analyticsSource).toContain("!preferences.analytics");
+    expect(analyticsSource).toContain("consentReady");
   });
 });

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { useConsent, useSite } from "@/framework/SiteProvider";
 
@@ -18,52 +17,43 @@ function toClarityConsent(enabled: boolean): ClarityConsentState {
 }
 
 /**
- * Google Analytics 4 via @next/third-parties.
- * Chargé une seule fois, uniquement après consentement analytique (bandeau cookies).
+ * Google Analytics 4 : chargé uniquement après acceptation de la mesure
+ * (Consent Mode analytics via CMP Google). Retrait → démontage React + update denied.
  */
 export function AnalyticsScripts() {
   const { analytics } = useSite();
-  const { preferences, status } = useConsent();
+  const { preferences, status, consentReady } = useConsent();
   const gaId = analytics.googleAnalyticsId;
 
-  if (!gaId || status === "pending" || !preferences.analytics) {
+  if (!gaId || !consentReady || status === "pending" || !preferences.analytics) {
     return null;
   }
 
   return <GoogleAnalytics gaId={gaId} debugMode={IS_DEVELOPMENT} />;
 }
 
-export function AdSenseLoader() {
-  const { analytics } = useSite();
-  const { preferences, status } = useConsent();
-  const clientId = analytics.googleAdsenseClientId;
-
-  if (!clientId || status === "pending" || !preferences.advertising) return null;
-
-  return (
-    <Script
-      id="google-adsense"
-      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${clientId}`}
-      strategy="lazyOnload"
-      crossOrigin="anonymous"
-    />
-  );
-}
-
 /**
  * Microsoft Clarity (Consent API V2).
- * - Script chargé une seule fois (layout via SiteProvider, pas à chaque route).
- * - Init uniquement après consentement analytique (pas de cookies Clarity avant accord).
- * - Retrait du consentement : consentV2 transmis immédiatement.
- * - Google Consent Mode ne pilote pas Clarity : on réutilise preferences.analytics / advertising.
+ * Init seulement si analytics accordé. Retrait : consentV2 denied immédiatement.
  */
 export function ClarityLoader() {
   const { analytics } = useSite();
-  const { preferences, status } = useConsent();
+  const { preferences, status, consentReady } = useConsent();
   const projectId = analytics.microsoftClarityId;
 
   useEffect(() => {
-    if (!IS_PRODUCTION || !projectId || status === "pending") return;
+    if (!IS_PRODUCTION || !projectId) return;
+    if (!consentReady || status === "pending") {
+      if (clarityInitialized || document.getElementById("clarity-script")) {
+        void import("@microsoft/clarity").then(({ default: Clarity }) => {
+          Clarity.consentV2({
+            analytics_Storage: "denied",
+            ad_Storage: "denied",
+          });
+        });
+      }
+      return;
+    }
 
     let cancelled = false;
 
@@ -84,7 +74,6 @@ export function ClarityLoader() {
         return;
       }
 
-      // Refus ou retrait : signal explicite seulement si Clarity a déjà été initialisé
       if (clarityInitialized || document.getElementById("clarity-script")) {
         Clarity.consentV2({
           analytics_Storage: "denied",
@@ -96,7 +85,13 @@ export function ClarityLoader() {
     return () => {
       cancelled = true;
     };
-  }, [projectId, preferences.analytics, preferences.advertising, status]);
+  }, [
+    projectId,
+    preferences.analytics,
+    preferences.advertising,
+    status,
+    consentReady,
+  ]);
 
   return null;
 }

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { CookiePreferencesPanel } from "@/framework/CookiePreferencesPanel";
 import { GuideInlineToc } from "@/site/guides";
 import type { GuideTocGroup } from "@/site/guides/GuideEditorialToc";
-import { CONSENT_STORAGE_KEY } from "@/framework/consent/storage";
 import { COOKIE_POLICY_TOC } from "./cookie-policy-toc";
 
 const COOKIE_TOC_GROUPS: GuideTocGroup[] = [
@@ -18,8 +17,9 @@ export function CookiePolicyContent() {
         <p>
           Cette page décrit comment <strong>BRUT-VERS-NET.FR</strong> utilise les cookies et
           technologies similaires, et comment vous pouvez gérer vos préférences. Elle est rédigée
-          en lien direct avec le bandeau de consentement affiché sur le site et avec les services
-          réellement utilisés (Google Analytics 4, Microsoft Clarity, Google AdSense, Google Consent Mode).
+          en lien avec le message de consentement Google Affichage (réglementations européennes)
+          et avec les services réellement utilisés (Google Analytics 4, Microsoft Clarity, Google
+          AdSense, Google Consent Mode).
         </p>
       </div>
 
@@ -80,7 +80,7 @@ export function CookiePolicyContent() {
               <tbody>
                 <tr>
                   <td>Strictement nécessaires</td>
-                  <td>Fonctionnement du site, bandeau cookies, mémorisation des préférences</td>
+                  <td>Fonctionnement du site et mémorisation des préférences de consentement</td>
                   <td>Non</td>
                 </tr>
                 <tr>
@@ -101,19 +101,9 @@ export function CookiePolicyContent() {
         <div className="guide-subsection">
           <h3>Cookies strictement nécessaires</h3>
           <p>
-            Ces cookies et traceurs locaux sont indispensables au fonctionnement de{" "}
-            <strong>BRUT-VERS-NET.FR</strong>. Ils permettent notamment :
-          </p>
-          <ul>
-            <li>de mémoriser votre choix de consentement (acceptation, refus ou personnalisation) ;</li>
-            <li>d&apos;afficher ou de masquer le bandeau de cookies en fonction de votre décision ;</li>
-            <li>de conserver vos préférences analytiques et publicitaires entre vos visites.</li>
-          </ul>
-          <p>
-            Vos préférences sont enregistrées localement dans votre navigateur, via{" "}
-            <code>localStorage</code>, sous la clé <code>{CONSENT_STORAGE_KEY}</code>. Ce stockage
-            n&apos;est pas un cookie au sens strict, mais il remplit la même fonction pratique :
-            retenir vos choix sans vous redemander à chaque page.
+            Ces cookies et traceurs sont indispensables au fonctionnement de{" "}
+            <strong>BRUT-VERS-NET.FR</strong>. Ils permettent notamment de mémoriser votre choix de
+            consentement recueilli via le message Google (réglementations européennes).
           </p>
           <p>
             Ces éléments ne nécessitent pas de consentement préalable, car ils sont strictement
@@ -125,37 +115,24 @@ export function CookiePolicyContent() {
         <div className="guide-subsection">
           <h3>Cookies analytiques</h3>
           <p>
-            Lorsque vous acceptez les cookies analytiques, le site peut charger{" "}
-            <strong>Google Analytics 4</strong> et <strong>Microsoft Clarity</strong> afin de
-            mesurer l&apos;audience de manière agrégée et d&apos;analyser l&apos;expérience de
-            navigation (cartes de chaleur, enregistrements de session anonymisés).
+            Lorsque vous acceptez la mesure d&apos;audience dans le message de consentement Google,
+            le site peut charger <strong>Google Analytics 4</strong> et{" "}
+            <strong>Microsoft Clarity</strong> afin de mesurer l&apos;audience de manière agrégée et
+            d&apos;analyser l&apos;expérience de navigation.
           </p>
           <aside className="prose-callout prose-callout--legal">
             <strong>Point important</strong>
             <br />
-            Google Analytics 4 et Microsoft Clarity ne sont jamais chargés sans votre accord. Tant
-            que vous n&apos;avez pas accepté les cookies analytiques, aucun script de mesure
-            d&apos;audience n&apos;est exécuté sur votre navigateur.
+            Google Analytics 4 et Microsoft Clarity ne sont jamais chargés sans votre accord sur la
+            mesure d&apos;audience. Tant que ce consentement n&apos;est pas accordé, aucun script
+            de mesure d&apos;audience n&apos;est exécuté sur votre navigateur. Un retrait de
+            consentement arrête la collecte, y compris après navigation interne.
           </aside>
-          <p>Ces cookies permettent notamment de :</p>
-          <ul>
-            <li>mesurer le nombre de visites et de pages vues ;</li>
-            <li>identifier les contenus et calculateurs les plus consultés ;</li>
-            <li>comprendre comment les visiteurs naviguent sur le site ;</li>
-            <li>améliorer progressivement les guides, les outils et l&apos;expérience utilisateur.</li>
-          </ul>
           <p>
-            Le site utilise <strong>Google Consent Mode</strong> pour transmettre vos choix à Google
-            avant tout chargement des outils Google de mesure. Par défaut, le stockage analytique
-            Google est refusé. Il n&apos;est activé qu&apos;après votre acceptation explicite via le
-            bandeau ou le panneau de préférences.
-          </p>
-          <p>
-            Pour <strong>Microsoft Clarity</strong>, le même choix analytique est transmis via la{" "}
-            <strong>Clarity Consent API V2</strong> (<code>analytics_Storage</code> /{" "}
-            <code>ad_Storage</code>). Google Consent Mode ne pilote pas Clarity automatiquement :
-            le site réutilise votre préférence analytique (et publicitaire le cas échéant) pour
-            envoyer le signal attendu par Microsoft.
+            Le site s&apos;appuie sur <strong>Google Consent Mode</strong> (signaux issus de la CMP
+            Google) pour les services Google. Pour <strong>Microsoft Clarity</strong>, le même
+            choix analytique (et publicitaire le cas échéant) est transmis via la{" "}
+            <strong>Clarity Consent API V2</strong>.
           </p>
         </div>
 
@@ -164,50 +141,39 @@ export function CookiePolicyContent() {
           <p>
             Le site est conçu pour pouvoir afficher des publicités via{" "}
             <strong>Google AdSense</strong>. Ces annonces peuvent être personnalisées en fonction
-            de votre navigation, sous réserve de votre consentement.
+            de votre navigation, sous réserve de votre consentement recueilli par la CMP Google.
           </p>
-          <p>Concrètement :</p>
-          <ul>
-            <li>aucun cookie publicitaire n&apos;est déposé tant que vous n&apos;avez pas accepté cette catégorie ;</li>
-            <li>le script AdSense n&apos;est chargé qu&apos;après accord sur les cookies publicitaires ;</li>
-            <li>Google Consent Mode pilote également ce comportement, en bloquant le stockage publicitaire tant que le consentement n&apos;est pas accordé.</li>
-          </ul>
           <p>
-            Même si certaines zones publicitaires ne sont pas encore actives au moment de votre
-            lecture, cette politique décrit le fonctionnement prévu afin de garantir la transparence
-            dès l&apos;activation du service.
+            Le script technique AdSense peut être chargé pour afficher le message de consentement.
+            La diffusion d&apos;annonces (y compris l&apos;annonce ancrée) reste soumise à votre
+            choix et à l&apos;activation éditoriale du site.
           </p>
         </div>
       </section>
 
       <section id="bandeau-consentement" className="guide-section">
-        <h2>Fonctionnement du bandeau de consentement</h2>
+        <h2>Fonctionnement du message de consentement</h2>
         <p>
-          Lors de votre première visite sur <strong>BRUT-VERS-NET.FR</strong>, un bandeau maison
-          s&apos;affiche en bas de l&apos;écran. Il vous informe de l&apos;utilisation des cookies
-          et vous propose trois options :
-        </p>
-        <ul>
-          <li><strong>Tout accepter</strong> : activation des cookies analytiques et publicitaires ;</li>
-          <li><strong>Tout refuser</strong> : seuls les cookies strictement nécessaires restent actifs ;</li>
-          <li><strong>Personnaliser</strong> : ouverture d&apos;un panneau détaillé pour choisir catégorie par catégorie.</li>
-        </ul>
-        <p>
-          Le panneau de personnalisation distingue clairement les cookies nécessaires (non
-          désactivables), les cookies analytiques et les cookies publicitaires. Vous pouvez modifier
-          votre décision à tout moment, sans limite de durée.
+          Lors de votre première visite sur <strong>BRUT-VERS-NET.FR</strong> (visiteurs concernés
+          par les réglementations européennes), un message de consentement Google s&apos;affiche.
+          Il vous informe de l&apos;utilisation des cookies et des partenaires publicitaires, et
+          vous propose notamment d&apos;accepter, de refuser ou de personnaliser vos choix.
         </p>
         <p>
-          Un bouton <strong>« Gérer les cookies »</strong> est également disponible dans le pied de
-          page du site. Il rouvre le panneau de préférences à la demande, y compris après un choix
-          initial.
+          Ce message remplace l&apos;ancienne bannière maison. Vos choix sont enregistrés par la
+          plate-forme de gestion du consentement Google (CMP) conformément au cadre applicable
+          (dont le Transparency and Consent Framework lorsque celui-ci s&apos;applique).
+        </p>
+        <p>
+          Un bouton <strong>« Gérer les cookies »</strong> est disponible dans le pied de page du
+          site, ainsi que sur cette page. Il rouvre le message Google pour modifier vos préférences.
         </p>
         <aside className="prose-callout prose-callout--hint">
           <strong>À retenir</strong>
           <br />
           Tant qu&apos;aucun choix n&apos;a été enregistré, Google Consent Mode maintient le refus
-          par défaut pour les cookies analytiques et publicitaires. Aucun outil de mesure ou de
-          publicité tiers n&apos;est chargé dans ce cas.
+          par défaut pour le stockage analytique et publicitaire. Aucun outil de mesure d&apos;audience
+          n&apos;est chargé dans ce cas.
         </aside>
       </section>
 
@@ -219,7 +185,7 @@ export function CookiePolicyContent() {
           <h3>Depuis le site BRUT-VERS-NET.FR</h3>
           <p>
             Cliquez sur le bouton <strong>« Gérer les cookies »</strong> en bas de page, ou utilisez
-            le panneau ci-dessous pour rouvrir vos préférences à tout moment :
+            le bouton ci-dessous pour rouvrir le message de consentement Google :
           </p>
           <CookiePreferencesPanel />
         </div>
@@ -227,9 +193,9 @@ export function CookiePolicyContent() {
         <div className="guide-subsection">
           <h3>Depuis votre navigateur</h3>
           <p>
-            Vous pouvez également supprimer les cookies et données locales déjà enregistrés via les
-            paramètres de votre navigateur. Cette action effacera notamment la mémorisation de votre
-            consentement : le bandeau pourra réapparaître lors d&apos;une prochaine visite.
+            Vous pouvez également supprimer les cookies et données du site via les paramètres de
+            votre navigateur. Cette action peut entraîner la réapparition du message de
+            consentement lors d&apos;une prochaine visite.
           </p>
           <p>Guides officiels des principaux navigateurs :</p>
           <ul>
@@ -289,10 +255,10 @@ export function CookiePolicyContent() {
               </thead>
               <tbody>
                 <tr>
-                  <td>Bandeau maison + stockage local</td>
-                  <td>Mémorisation de vos choix de consentement</td>
-                  <td>Données en localStorage (<code>{CONSENT_STORAGE_KEY}</code>)</td>
-                  <td>Non (strictement nécessaire)</td>
+                  <td>CMP Google (Confidentialité et messages)</td>
+                  <td>Recueil et mémorisation de vos choix (réglementations européennes)</td>
+                  <td>Cookies / stockage gérés par Google pour le consentement</td>
+                  <td>Non (strictement nécessaire au dispositif)</td>
                 </tr>
                 <tr>
                   <td>Google Analytics 4</td>
@@ -343,10 +309,9 @@ export function CookiePolicyContent() {
           pas une durée unique pour l&apos;ensemble des cookies du site.
         </p>
         <p>
-          Vos préférences de consentement sont mémorisées localement dans votre navigateur jusqu&apos;à
-          ce que vous les modifiiez, que vous supprimiez les données du site ou que vous effaciez
-          le stockage local. Tant que ce choix est conservé, le bandeau ne vous sera pas redemandé
-          à chaque visite.
+          Vos préférences de consentement sont mémorisées par la CMP Google jusqu&apos;à ce que vous
+          les modifiiez, que vous demandiez une nouvelle collecte via « Gérer les cookies », ou que
+          vous effaciez les données du site dans votre navigateur.
         </p>
         <p>
           Les cookies déposés par Google Analytics 4, Microsoft Clarity ou Google AdSense,
@@ -363,14 +328,14 @@ export function CookiePolicyContent() {
         </p>
         <ul>
           <li>
-            les <strong>cookies strictement nécessaires</strong> (dont la mémorisation du
+            les <strong>cookies strictement nécessaires</strong> (dont le dispositif de
             consentement) reposent sur l&apos;<strong>intérêt légitime</strong> de l&apos;éditeur
             à assurer le bon fonctionnement du site et le respect de vos choix ;
           </li>
           <li>
             les <strong>cookies analytiques</strong> et <strong>cookies publicitaires</strong>{" "}
-            nécessitent votre <strong>consentement préalable</strong>, recueilli via le bandeau ou le
-            panneau de préférences.
+            nécessitent votre <strong>consentement préalable</strong>, recueilli via le message
+            Google.
           </li>
         </ul>
         <p>
@@ -403,7 +368,7 @@ export function CookiePolicyContent() {
       <section id="contact" className="guide-section">
         <h2>Contact</h2>
         <p>
-          Pour toute question relative aux cookies, au bandeau de consentement ou à l&apos;utilisation
+          Pour toute question relative aux cookies, au message de consentement ou à l&apos;utilisation
           de vos données sur <strong>BRUT-VERS-NET.FR</strong>, vous pouvez contacter l&apos;éditeur :
         </p>
         <p>

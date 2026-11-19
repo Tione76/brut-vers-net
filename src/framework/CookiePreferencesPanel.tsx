@@ -9,8 +9,8 @@ export function CookiePreferencesPanel() {
     <>
       <p>
         Vous pouvez à tout moment modifier vos préférences concernant les cookies analytiques et
-        publicitaires. Les cookies strictement nécessaires au fonctionnement du site ne peuvent pas
-        être désactivés.
+        publicitaires via le message de consentement Google. Les cookies strictement nécessaires au
+        fonctionnement du site ne peuvent pas être désactivés.
       </p>
       <p>
         <button type="button" className="ds-btn ds-btn--primary" onClick={openPreferences}>
