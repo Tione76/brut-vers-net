@@ -11,7 +11,8 @@ import {
 import { getInArticlePlacement, isAdPathExcluded } from "./path-rules";
 
 describe("AdSense path rules", () => {
-  it("exclut les pages légales, contact et partenariat par chemin exact", () => {
+  it("exclut l'accueil, les pages légales, contact et partenariat par chemin exact", () => {
+    expect(isAdPathExcluded("/")).toBe(true);
     expect(isAdPathExcluded("/mentions-legales")).toBe(true);
     expect(isAdPathExcluded("/politique-de-confidentialite")).toBe(true);
     expect(isAdPathExcluded("/gestion-des-cookies")).toBe(true);
@@ -21,7 +22,6 @@ describe("AdSense path rules", () => {
   });
 
   it("laisse les pages de contenu éligibles", () => {
-    expect(isAdPathExcluded("/")).toBe(false);
     expect(isAdPathExcluded("/smic")).toBe(false);
     expect(isAdPathExcluded("/guides")).toBe(false);
     expect(isAdPathExcluded("/nos-outils")).toBe(false);
@@ -83,11 +83,14 @@ describe("AdSense path rules", () => {
 
   it("fournit la liste AdSense des pages exclues pour l'ancre", () => {
     expect(ADSENSE_DASHBOARD_EXCLUSIONS).toContain(
+      "https://www.brut-vers-net.fr/",
+    );
+    expect(ADSENSE_DASHBOARD_EXCLUSIONS).toContain(
       "https://www.brut-vers-net.fr/mentions-legales",
     );
     expect(ADSENSE_DASHBOARD_EXCLUSIONS).toContain(
       "https://brut-vers-net.fr/contact",
     );
-    expect(ADSENSE_DASHBOARD_EXCLUSIONS).toHaveLength(10);
+    expect(ADSENSE_DASHBOARD_EXCLUSIONS).toHaveLength(12);
   });
 });

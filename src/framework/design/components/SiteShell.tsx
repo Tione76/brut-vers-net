@@ -31,6 +31,9 @@ function TopAdBand() {
   const { ready, slotId, containerRef } = useTopBannerSlot();
 
   if (isAdPathExcluded(pathname)) {
+    // Accueil : pas de bandeau ni d'espace réservé. Autres exclusions : lien partenaire.
+    if (pathname === "/") return null;
+
     return (
       <div className="site-shell__top site-shell__top--partner-only">
         <p className="site-shell__ad-links">
@@ -79,9 +82,10 @@ export function SiteShell({
   suppressAds?: boolean;
 }) {
   const site = useSite();
-  const pathname = usePathname();
+  const pathname = usePathname() || "/";
   const isPartnerPage = pathname === PARTNER_HREF;
-  const hideAdBand = isPartnerPage || suppressAds;
+  const homeAdsPaused = pathname === "/";
+  const hideAdBand = isPartnerPage || suppressAds || homeAdsPaused;
 
   return (
     <>
@@ -93,7 +97,7 @@ export function SiteShell({
         toolsNavigation={site.toolsNavigation}
       />
       <div
-        className={`site-shell${isPartnerPage ? " site-shell--partner" : ""}${suppressAds ? " site-shell--no-ads" : ""}`}
+        className={`site-shell${isPartnerPage ? " site-shell--partner" : ""}${suppressAds ? " site-shell--no-ads" : ""}${homeAdsPaused ? " site-shell--home-ads-paused" : ""}`}
         data-ad-skin="default"
       >
         {!hideAdBand ? <TopAdBand /> : null}

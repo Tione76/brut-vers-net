@@ -183,6 +183,11 @@ body {
   padding-top: 1.25rem;
 }
 
+/* Accueil : pubs manuelles en pause, aucun espace réservé sous le menu */
+.site-shell--home-ads-paused {
+  --ds-ad-top-height: 0px;
+}
+
 @media (min-width: 900px) {
   .site-shell {
     --ds-ad-top-height: 8.25rem;
@@ -191,6 +196,10 @@ body {
   .site-shell--partner {
     --ds-ad-top-height: 1.75rem;
     padding-top: 1.75rem;
+  }
+
+  .site-shell--home-ads-paused {
+    --ds-ad-top-height: 0px;
   }
 
   .site-shell__top {

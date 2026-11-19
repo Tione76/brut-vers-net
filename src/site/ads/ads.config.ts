@@ -170,9 +170,10 @@ export function isManualAdViewportAllowed(
 
 /**
  * Exclusions exactes (chemin === entrée).
- * Pages légales, contact, partenariat : aucune annonce manuelle.
+ * Accueil, pages légales, contact, partenariat : aucune annonce manuelle.
  */
 export const AD_EXACT_EXCLUSIONS: readonly string[] = [
+  "/",
   "/mentions-legales",
   "/politique-de-confidentialite",
   "/gestion-des-cookies",
@@ -210,11 +211,13 @@ export const IN_ARTICLE_EXCEPTIONS: Readonly<Record<string, InArticlePlacement>>
  * www + apex : le panneau peut demander les deux formes.
  */
 export const ADSENSE_DASHBOARD_EXCLUSIONS: readonly string[] = [
+  "https://www.brut-vers-net.fr/",
   "https://www.brut-vers-net.fr/mentions-legales",
   "https://www.brut-vers-net.fr/politique-de-confidentialite",
   "https://www.brut-vers-net.fr/gestion-des-cookies",
   "https://www.brut-vers-net.fr/contact",
   "https://www.brut-vers-net.fr/devenir-partenaire",
+  "https://brut-vers-net.fr/",
   "https://brut-vers-net.fr/mentions-legales",
   "https://brut-vers-net.fr/politique-de-confidentialite",
   "https://brut-vers-net.fr/gestion-des-cookies",
