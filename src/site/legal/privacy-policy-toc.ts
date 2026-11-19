@@ -16,6 +16,7 @@ export const PRIVACY_POLICY_TOC: GuideTocEntry[] = [
   { id: "microsoft-clarity", title: "Microsoft Clarity", level: 2 },
   { id: "google-search-console", title: "Google Search Console", level: 2 },
   { id: "ahrefs", title: "Ahrefs Webmaster Tools", level: 2 },
+  { id: "cadre-tcf-sirdata", title: "Cadre TCF et Sirdata ABconsent", level: 2 },
   { id: "cookies", title: "Cookies", level: 2 },
   { id: "droits-utilisateurs", title: "Vos droits", level: 2 },
   { id: "contact", title: "Contact", level: 2 },

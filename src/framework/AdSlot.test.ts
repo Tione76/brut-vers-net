@@ -3,8 +3,8 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const adSlotSource = readFileSync(join(process.cwd(), "src/framework/AdSlot.tsx"), "utf8");
-const cmpLoaderSource = readFileSync(
-  join(process.cwd(), "src/framework/GoogleCmpLoader.tsx"),
+const adsenseLoaderSource = readFileSync(
+  join(process.cwd(), "src/framework/AdSenseLoader.tsx"),
   "utf8",
 );
 const adsConfigSource = readFileSync(
@@ -35,6 +35,7 @@ const overtimeEditorialSource = readFileSync(
   join(process.cwd(), "src/site/overtime-salary-calculator/overtime-editorial.tsx"),
   "utf8",
 );
+const layoutSource = readFileSync(join(process.cwd(), "src/app/layout.tsx"), "utf8");
 
 describe("AdSense wiring", () => {
   it("monte les slots manuels via ManualAdSlotId et le garde-fou viewport", () => {
@@ -50,16 +51,16 @@ describe("AdSense wiring", () => {
     expect(adSlotSource).not.toContain("position:");
   });
 
-  it("reprend AdSense après un choix CMP, sans exiger l'accord publicitaire", () => {
-    expect(cmpLoaderSource).toContain('id="google-adsense-cmp"');
-    expect(cmpLoaderSource).toContain('crossOrigin="anonymous"');
-    expect(cmpLoaderSource).toContain("pauseAdSenseAdRequests");
-    expect(cmpLoaderSource).toContain("ADS_DIFFUSION_ENABLED");
+  it("reprend AdSense après un choix CMP, sans Funding Choices", () => {
+    expect(adsenseLoaderSource).toContain('id="google-adsense-loader"');
+    expect(adsenseLoaderSource).toContain('crossOrigin="anonymous"');
+    expect(adsenseLoaderSource).toContain("pauseAdSenseAdRequests");
+    expect(adsenseLoaderSource).toContain("ADS_DIFFUSION_ENABLED");
     expect(adsConfigSource).toContain("ADS_DIFFUSION_ENABLED = true");
-    expect(cmpLoaderSource).toContain("resumeAdSenseAdRequests");
-    expect(cmpLoaderSource).toContain("consentReady");
-    expect(cmpLoaderSource).toContain('status !== "pending"');
-    expect(cmpLoaderSource).not.toContain("preferences.advertising");
+    expect(adsenseLoaderSource).toContain("resumeAdSenseAdRequests");
+    expect(adsenseLoaderSource).toContain("consentReady");
+    expect(adsenseLoaderSource).not.toContain("googlefc");
+    expect(layoutSource).not.toContain("googlefc");
   });
 
   it("expose les bandeaux fixes sans auto/FWR et l'In-Article mobile coupable à part", () => {

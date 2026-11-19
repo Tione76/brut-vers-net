@@ -12,7 +12,7 @@ export const ADSENSE_SCRIPT_SRC = `https://pagead2.googlesyndication.com/pagead/
 
 /**
  * Active la diffusion publicitaire (slots manuels + reprise pauseAdRequests
- * après accord publicitaire). Le tag AdSense charge aussi pour la CMP Google.
+ * après un choix CMP Sirdata). Le tag AdSense ne sert plus la CMP Google.
  * Remettre à `false` pour couper toute diffusion réelle.
  */
 export const ADS_DIFFUSION_ENABLED = true;

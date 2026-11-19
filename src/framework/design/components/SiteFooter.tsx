@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useConsent } from "@/framework/SiteProvider";
+import { CmpPreferencesLink } from "@/framework/CmpPreferencesLink";
 import type { NavLink } from "@/framework/types";
 
 interface SiteFooterProps {
@@ -28,7 +28,6 @@ export function SiteFooter({
   footerDescription,
   footerLinks,
 }: SiteFooterProps) {
-  const { openPreferences } = useConsent();
   const year = new Date().getFullYear();
 
   return (
@@ -52,9 +51,7 @@ export function SiteFooter({
             </span>
           ))}
           <span className="site-footer__legal-item">
-            <button type="button" onClick={openPreferences}>
-              Gérer les cookies
-            </button>
+            <CmpPreferencesLink>Gérer les cookies</CmpPreferencesLink>
           </span>
         </nav>
 

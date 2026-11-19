@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Source_Sans_3 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { config, seoConfig } from "@/site";
@@ -6,6 +7,10 @@ import { SiteProvider } from "@/framework/SiteProvider";
 import { ThemeStyles } from "@/framework/ThemeStyles";
 import { SkipLink } from "@/framework/SkipLink";
 import { buildRootMetadata } from "@/framework/seo/metadata";
+import {
+  SIRDATA_CMP_SRC,
+  SIRDATA_STUB_SRC,
+} from "@/framework/consent/sirdata-cmp";
 import "./globals.css";
 /* Design system global : import serveur (root layout) pour forcer <link rel="stylesheet">.
    Ne pas importer uniquement depuis des layouts "use client" (Next peut émettre <script src="*.css">). */
@@ -34,22 +39,38 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang={config.language} className={sourceSans.variable}>
       <head>
         <ThemeStyles colors={config.colors} />
+        {/* Consent Mode restrictif + pause AdSense avant toute balise pub / mesure. */}
         <script
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',functionality_storage:'denied',security_storage:'granted',wait_for_update:500});
 window.adsbygoogle=window.adsbygoogle||[];window.adsbygoogle.pauseAdRequests=1;
-window.googlefc=window.googlefc||{};window.googlefc.callbackQueue=window.googlefc.callbackQueue||[];
 try{localStorage.removeItem('cookie-consent-preferences');}catch(e){}`,
           }}
         />
+        {/* Sirdata stub synchrone dans le HTML initial (avant la CMP async). */}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts -- stub Sirdata obligatoire en synchrone (TCF / Consent Mode) */}
+        <script
+          type="text/javascript"
+          src={SIRDATA_STUB_SRC}
+          data-cfasync="false"
+          referrerPolicy="unsafe-url"
+        />
       </head>
       <body className="min-h-screen flex flex-col font-sans antialiased">
+        {/* CMP async après le stub : évite que Next hisse le script async avant le stub. */}
+        <Script
+          id="sirdata-abconsent-cmp"
+          src={SIRDATA_CMP_SRC}
+          strategy="afterInteractive"
+          data-cfasync="false"
+          referrerPolicy="unsafe-url"
+        />
         <SiteProvider config={config}>
           <SkipLink />
           {children}
         </SiteProvider>
-        {/* Vercel Web Analytics : agrégé, hors CMP Google (indépendant de GA/Clarity). */}
+        {/* Vercel Web Analytics : agrégé, hors CMP (indépendant de GA/Clarity). */}
         <Analytics />
       </body>
     </html>

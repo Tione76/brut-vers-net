@@ -4,10 +4,9 @@ import { useEffect } from "react";
 import Script from "next/script";
 import { useConsent, useSite } from "@/framework/SiteProvider";
 import {
-  ensureGoogleFcNamespace,
   pauseAdSenseAdRequests,
   resumeAdSenseAdRequests,
-} from "@/framework/consent/google-cmp";
+} from "@/framework/consent/adsense-queue";
 import {
   ADSENSE_PUBLISHER_ID,
   ADSENSE_SCRIPT_SRC,
@@ -15,20 +14,16 @@ import {
 } from "@/site/ads";
 
 /**
- * Charge le tag AdSense pour déployer la CMP Google (message européen),
- * dès la première visite, sans attendre un consentement publicitaire maison.
- *
- * Pause initiale jusqu'à un choix CMP valide (Autoriser ou Refuser).
- * AdSense applique ensuite Consent Mode (personnalisé, limité ou rien).
- * Si ADS_DIFFUSION_ENABLED est false, la pause n'est jamais levée.
+ * Charge le tag AdSense (emplacements manuels uniquement).
+ * Pause jusqu'à un choix CMP Sirdata valide ; AdSense applique ensuite le TCF /
+ * Consent Mode (personnalisé, limité ou vide).
  */
-export function GoogleCmpLoader() {
+export function AdSenseLoader() {
   const { analytics } = useSite();
   const { status, consentReady } = useConsent();
   const clientId = analytics.googleAdsenseClientId || ADSENSE_PUBLISHER_ID;
 
   useEffect(() => {
-    ensureGoogleFcNamespace();
     pauseAdSenseAdRequests();
   }, []);
 
@@ -58,7 +53,7 @@ export function GoogleCmpLoader() {
 
   return (
     <Script
-      id="google-adsense-cmp"
+      id="google-adsense-loader"
       src={src}
       strategy="afterInteractive"
       crossOrigin="anonymous"

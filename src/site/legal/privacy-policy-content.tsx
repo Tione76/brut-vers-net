@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CmpPreferencesLink } from "@/framework/CmpPreferencesLink";
 import { GuideInlineToc } from "@/site/guides";
 import type { GuideTocGroup } from "@/site/guides/GuideEditorialToc";
 import { PRIVACY_POLICY_TOC } from "./privacy-policy-toc";
@@ -6,7 +7,7 @@ import { PRIVACY_POLICY_TOC } from "./privacy-policy-toc";
 const PRIVACY_TOC_GROUPS: GuideTocGroup[] = [
   { title: "Traitement des données", icon: "file", start: 0, end: 9 },
   { title: "Outils d'analyse", icon: "chart", start: 9, end: 14 },
-  { title: "Cookies et droits", icon: "badge", start: 14, end: 17 },
+  { title: "Consentement, cookies et droits", icon: "badge", start: 14, end: 18 },
 ];
 
 /** Contenu éditorial de la page /politique-de-confidentialite */
@@ -280,14 +281,14 @@ export function PrivacyPolicyContent() {
           <strong>Point important</strong>
           <br />
           Google Analytics 4 n&apos;est chargé qu&apos;après votre acceptation de la mesure
-          d&apos;audience via le message de consentement Google. Sans ce consentement, aucune mesure
-          d&apos;audience par ce service n&apos;est activée sur votre navigateur.
+          d&apos;audience via Sirdata ABconsent. Sans ce consentement, aucune mesure d&apos;audience
+          par ce service n&apos;est activée sur votre navigateur.
         </aside>
         <p>
           Google peut traiter certaines données de navigation (pages vues, type d&apos;appareil,
           événements de consultation) conformément à sa propre politique de confidentialité. Le site
-          utilise Google Consent Mode pour transmettre vos choix de consentement à Google avant tout
-          chargement des scripts de mesure.
+          s&apos;appuie sur <strong>Google Consent Mode</strong> (signaux émis par Sirdata) pour
+          transmettre vos choix à Google avant tout chargement des scripts de mesure.
         </p>
         <p>
           Pour le détail des cookies et traceurs associés, reportez-vous à la page{" "}
@@ -307,10 +308,10 @@ export function PrivacyPolicyContent() {
           <strong>Point important</strong>
           <br />
           Microsoft Clarity n&apos;est chargé qu&apos;après votre acceptation de la mesure
-          d&apos;audience via le message de consentement Google. Sans ce consentement, le service
-          n&apos;est pas activé sur votre navigateur. Les champs susceptibles de contenir des données
-          personnelles (formulaire de contact, montants saisis dans les calculateurs) sont masqués
-          dans les enregistrements.
+          d&apos;audience via Sirdata ABconsent. Sans ce consentement, le service n&apos;est pas
+          activé sur votre navigateur. Les champs susceptibles de contenir des données personnelles
+          (formulaire de contact, montants saisis dans les calculateurs) sont masqués dans les
+          enregistrements.
         </aside>
         <p>
           Microsoft peut traiter certaines données de navigation conformément à sa propre politique
@@ -355,6 +356,35 @@ export function PrivacyPolicyContent() {
         </p>
       </section>
 
+      <section id="cadre-tcf-sirdata" className="guide-section">
+        <h2>Cadre TCF et Sirdata ABconsent</h2>
+        <p>
+          <strong>BRUT-VERS-NET.FR</strong> (édité par Antoine Denis) obtient votre consentement
+          conformément aux règles et spécifications techniques du Transparency &amp; Consent
+          Framework de l&apos;IAB Europe. Il utilise la Consent Management Platform n°92 (
+          <strong>Sirdata ABconsent</strong>, offre Essentials).
+        </p>
+        <p>
+          Sur cette offre Essentials, l&apos;interface de choix présente également les demandes de
+          consentement propres à Sirdata et à ses partenaires, telles qu&apos;elles sont configurées
+          dans le portail Sirdata. Chaque visiteur peut les accepter ou les refuser librement. Ces
+          demandes s&apos;ajoutent à celles liées aux services du site (mesure d&apos;audience,
+          publicité).
+        </p>
+        <p>
+          Les signaux ainsi recueillis alimentent <strong>Google Consent Mode</strong> pour les
+          services Google (notamment AdSense et Analytics lorsque vous les autorisez).{" "}
+          <strong>Google AdSense</strong>, <strong>Google Analytics 4</strong> et{" "}
+          <strong>Microsoft Clarity</strong> restent des services distincts de la CMP.
+        </p>
+        <p>
+          Vous pouvez modifier vos choix à tout moment en{" "}
+          <CmpPreferencesLink>cliquant ici</CmpPreferencesLink>, via le lien{" "}
+          <strong>« Gérer les cookies »</strong> du pied de page, ou depuis la page{" "}
+          <Link href="/gestion-des-cookies">Gestion des cookies</Link>.
+        </p>
+      </section>
+
       <section id="cookies" className="guide-section">
         <h2>Cookies</h2>
         <p>
@@ -364,9 +394,9 @@ export function PrivacyPolicyContent() {
         </p>
         <p>
           L&apos;ensemble des informations relatives aux cookies, aux catégories concernées, aux
-          services tiers (Google Analytics 4, Microsoft Clarity, Google AdSense, Google Consent Mode)
-          et aux modalités
-          de gestion de votre consentement est détaillé sur la page dédiée :
+          services tiers (Sirdata ABconsent, Google Consent Mode, Google Analytics 4, Microsoft
+          Clarity, Google AdSense) et aux modalités de gestion de votre consentement est détaillé
+          sur la page dédiée :
         </p>
         <p>
           <Link href="/gestion-des-cookies">

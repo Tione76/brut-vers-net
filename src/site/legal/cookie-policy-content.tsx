@@ -17,9 +17,10 @@ export function CookiePolicyContent() {
         <p>
           Cette page décrit comment <strong>BRUT-VERS-NET.FR</strong> utilise les cookies et
           technologies similaires, et comment vous pouvez gérer vos préférences. Elle est rédigée
-          en lien avec le message de consentement Google Affichage (réglementations européennes)
-          et avec les services réellement utilisés (Google Analytics 4, Microsoft Clarity, Google
-          AdSense, Google Consent Mode).
+          en lien avec la plate-forme de consentement <strong>Sirdata ABconsent</strong> (CMP n°92
+          du Transparency &amp; Consent Framework de l&apos;IAB Europe) et avec les services
+          réellement utilisés (Google Consent Mode, Google Analytics 4, Microsoft Clarity, Google
+          AdSense).
         </p>
       </div>
 
@@ -103,7 +104,7 @@ export function CookiePolicyContent() {
           <p>
             Ces cookies et traceurs sont indispensables au fonctionnement de{" "}
             <strong>BRUT-VERS-NET.FR</strong>. Ils permettent notamment de mémoriser votre choix de
-            consentement recueilli via le message Google (réglementations européennes).
+            consentement recueilli via Sirdata ABconsent.
           </p>
           <p>
             Ces éléments ne nécessitent pas de consentement préalable, car ils sont strictement
@@ -115,10 +116,10 @@ export function CookiePolicyContent() {
         <div className="guide-subsection">
           <h3>Cookies analytiques</h3>
           <p>
-            Lorsque vous acceptez la mesure d&apos;audience dans le message de consentement Google,
-            le site peut charger <strong>Google Analytics 4</strong> et{" "}
-            <strong>Microsoft Clarity</strong> afin de mesurer l&apos;audience de manière agrégée et
-            d&apos;analyser l&apos;expérience de navigation.
+            Lorsque vous acceptez la mesure d&apos;audience dans l&apos;interface Sirdata, le site
+            peut charger <strong>Google Analytics 4</strong> et <strong>Microsoft Clarity</strong>{" "}
+            afin de mesurer l&apos;audience de manière agrégée et d&apos;analyser l&apos;expérience
+            de navigation.
           </p>
           <aside className="prose-callout prose-callout--legal">
             <strong>Point important</strong>
@@ -129,9 +130,9 @@ export function CookiePolicyContent() {
             consentement arrête la collecte, y compris après navigation interne.
           </aside>
           <p>
-            Le site s&apos;appuie sur <strong>Google Consent Mode</strong> (signaux issus de la CMP
-            Google) pour les services Google. Pour <strong>Microsoft Clarity</strong>, le même
-            choix analytique (et publicitaire le cas échéant) est transmis via la{" "}
+            Le site s&apos;appuie sur <strong>Google Consent Mode</strong> (signaux émis par Sirdata)
+            pour les services Google. Pour <strong>Microsoft Clarity</strong>, le même choix
+            analytique (et publicitaire le cas échéant) est transmis via la{" "}
             <strong>Clarity Consent API V2</strong>.
           </p>
         </div>
@@ -141,12 +142,14 @@ export function CookiePolicyContent() {
           <p>
             Le site est conçu pour pouvoir afficher des publicités via{" "}
             <strong>Google AdSense</strong>. Ces annonces peuvent être personnalisées en fonction
-            de votre navigation, sous réserve de votre consentement recueilli par la CMP Google.
+            de votre navigation, sous réserve de votre consentement recueilli par Sirdata. En cas
+            de refus, AdSense peut éventuellement servir des annonces limitées si Google les juge
+            éligibles au regard du TCF et de Consent Mode.
           </p>
           <p>
-            Le script technique AdSense peut être chargé pour afficher le message de consentement.
-            La diffusion d&apos;annonces (y compris l&apos;annonce ancrée) reste soumise à votre
-            choix et à l&apos;activation éditoriale du site.
+            Le script technique AdSense charge les emplacements publicitaires manuels du site. La
+            diffusion reste soumise à votre choix et à l&apos;activation éditoriale du site. Les
+            annonces automatiques et les ancres ne sont pas activées.
           </p>
         </div>
       </section>
@@ -155,25 +158,28 @@ export function CookiePolicyContent() {
         <h2>Fonctionnement du message de consentement</h2>
         <p>
           Lors de votre première visite sur <strong>BRUT-VERS-NET.FR</strong> (visiteurs concernés
-          par les réglementations européennes), un message de consentement Google s&apos;affiche.
-          Il vous informe de l&apos;utilisation des cookies et des partenaires publicitaires, et
-          vous propose notamment d&apos;accepter, de refuser ou de personnaliser vos choix.
+          par les réglementations européennes), une fenêtre Sirdata ABconsent s&apos;affiche. Elle
+          vous informe de l&apos;utilisation des cookies et des partenaires, et vous propose
+          notamment de continuer sans accepter, de tout accepter ou de personnaliser vos choix.
         </p>
         <p>
-          Ce message remplace l&apos;ancienne bannière maison. Vos choix sont enregistrés par la
-          plate-forme de gestion du consentement Google (CMP) conformément au cadre applicable
-          (dont le Transparency and Consent Framework lorsque celui-ci s&apos;applique).
+          Sur l&apos;offre Essentials, cette interface présente aussi les demandes de consentement
+          propres à Sirdata et à ses partenaires, telles qu&apos;elles figurent dans la
+          configuration Sirdata. Vous pouvez les accepter ou les refuser librement, indépendamment
+          des choix relatifs aux services du site.
         </p>
         <p>
-          Un bouton <strong>« Gérer les cookies »</strong> est disponible dans le pied de page du
-          site, ainsi que sur cette page. Il rouvre le message Google pour modifier vos préférences.
+          Vos choix sont enregistrés par Sirdata ABconsent (CMP n°92) conformément au Transparency
+          &amp; Consent Framework de l&apos;IAB Europe. Un lien{" "}
+          <strong>« Gérer les cookies »</strong> est disponible dans le pied de page du site, ainsi
+          que sur cette page, pour rouvrir l&apos;interface.
         </p>
         <aside className="prose-callout prose-callout--hint">
           <strong>À retenir</strong>
           <br />
           Tant qu&apos;aucun choix n&apos;a été enregistré, Google Consent Mode maintient le refus
           par défaut pour le stockage analytique et publicitaire. Aucun outil de mesure d&apos;audience
-          n&apos;est chargé dans ce cas.
+          n&apos;est chargé dans ce cas, et les requêtes de diffusion AdSense restent en pause.
         </aside>
       </section>
 
@@ -184,8 +190,8 @@ export function CookiePolicyContent() {
         <div className="guide-subsection">
           <h3>Depuis le site BRUT-VERS-NET.FR</h3>
           <p>
-            Cliquez sur le bouton <strong>« Gérer les cookies »</strong> en bas de page, ou utilisez
-            le bouton ci-dessous pour rouvrir le message de consentement Google :
+            Cliquez sur le lien <strong>« Gérer les cookies »</strong> en bas de page, ou utilisez
+            le contrôle ci-dessous pour rouvrir Sirdata ABconsent :
           </p>
           <CookiePreferencesPanel />
         </div>
@@ -255,10 +261,19 @@ export function CookiePolicyContent() {
               </thead>
               <tbody>
                 <tr>
-                  <td>CMP Google (Confidentialité et messages)</td>
-                  <td>Recueil et mémorisation de vos choix (réglementations européennes)</td>
-                  <td>Cookies / stockage gérés par Google pour le consentement</td>
+                  <td>Sirdata ABconsent (CMP n°92)</td>
+                  <td>
+                    Recueil et mémorisation de vos choix (TCF IAB Europe), y compris les demandes
+                    Essentials de Sirdata et de ses partenaires
+                  </td>
+                  <td>Cookies / stockage gérés par Sirdata pour le consentement</td>
                   <td>Non (strictement nécessaire au dispositif)</td>
+                </tr>
+                <tr>
+                  <td>Google Consent Mode</td>
+                  <td>Transmission des signaux de consentement aux services Google</td>
+                  <td>Aucun cookie déposé en tant que tel</td>
+                  <td>Non (mécanisme technique de pilotage)</td>
                 </tr>
                 <tr>
                   <td>Google Analytics 4</td>
@@ -274,15 +289,9 @@ export function CookiePolicyContent() {
                 </tr>
                 <tr>
                   <td>Google AdSense</td>
-                  <td>Affichage de publicités, y compris personnalisées</td>
+                  <td>Affichage de publicités (personnalisées ou limitées selon vos choix)</td>
                   <td>Cookies publicitaires Google</td>
-                  <td>Oui</td>
-                </tr>
-                <tr>
-                  <td>Google Consent Mode</td>
-                  <td>Transmission des signaux de consentement aux services Google</td>
-                  <td>Aucun cookie déposé en tant que tel</td>
-                  <td>Non (mécanisme technique de pilotage)</td>
+                  <td>Oui (personnalisation) ; limitées selon signaux TCF</td>
                 </tr>
               </tbody>
             </table>
@@ -309,9 +318,11 @@ export function CookiePolicyContent() {
           pas une durée unique pour l&apos;ensemble des cookies du site.
         </p>
         <p>
-          Vos préférences de consentement sont mémorisées par la CMP Google jusqu&apos;à ce que vous
-          les modifiiez, que vous demandiez une nouvelle collecte via « Gérer les cookies », ou que
-          vous effaciez les données du site dans votre navigateur.
+          Vos préférences de consentement sont mémorisées par Sirdata ABconsent jusqu&apos;à ce que
+          vous les modifiiez, que vous rouvriez l&apos;interface via « Gérer les cookies », ou que
+          vous effaciez les données du site dans votre navigateur. La durée par défaut côté Sirdata
+          suit en principe les recommandations de la CNIL (environ 180 jours), sous réserve des
+          réglages du portail.
         </p>
         <p>
           Les cookies déposés par Google Analytics 4, Microsoft Clarity ou Google AdSense,
@@ -329,13 +340,13 @@ export function CookiePolicyContent() {
         <ul>
           <li>
             les <strong>cookies strictement nécessaires</strong> (dont le dispositif de
-            consentement) reposent sur l&apos;<strong>intérêt légitime</strong> de l&apos;éditeur
-            à assurer le bon fonctionnement du site et le respect de vos choix ;
+            consentement Sirdata) reposent sur l&apos;<strong>intérêt légitime</strong> de
+            l&apos;éditeur à assurer le bon fonctionnement du site et le respect de vos choix ;
           </li>
           <li>
             les <strong>cookies analytiques</strong> et <strong>cookies publicitaires</strong>{" "}
-            nécessitent votre <strong>consentement préalable</strong>, recueilli via le message
-            Google.
+            nécessitent votre <strong>consentement préalable</strong>, recueilli via Sirdata
+            ABconsent.
           </li>
         </ul>
         <p>
@@ -377,8 +388,7 @@ export function CookiePolicyContent() {
           </a>
         </p>
         <p>
-          Vous pouvez aussi utiliser notre <Link href="/contact">page Contact</Link> pour nous
-          adresser un message.
+          Vous pouvez également utiliser notre <Link href="/contact">page Contact</Link>.
         </p>
       </section>
     </>

@@ -26,6 +26,10 @@ export function initConsentModeDefault(): void {
   });
 }
 
+/**
+ * @deprecated Ne plus appeler depuis le site : Sirdata ABconsent écrit déjà les
+ * `consent update`. Conservé pour tests / outillage éventuel hors CMP.
+ */
 export function updateConsentMode(preferences: ConsentPreferences): void {
   if (typeof window === "undefined" || !window.gtag) return;
   window.gtag("consent", "update", {

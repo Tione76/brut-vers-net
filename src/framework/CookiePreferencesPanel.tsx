@@ -1,21 +1,19 @@
 "use client";
 
-import { useConsent } from "@/framework/SiteProvider";
+import { CmpPreferencesLink } from "@/framework/CmpPreferencesLink";
 
 export function CookiePreferencesPanel() {
-  const { openPreferences } = useConsent();
-
   return (
     <>
       <p>
         Vous pouvez à tout moment modifier vos préférences concernant les cookies analytiques et
-        publicitaires via le message de consentement Google. Les cookies strictement nécessaires au
-        fonctionnement du site ne peuvent pas être désactivés.
+        publicitaires via la plate-forme de consentement Sirdata ABconsent. Les cookies strictement
+        nécessaires au fonctionnement du site ne peuvent pas être désactivés.
       </p>
       <p>
-        <button type="button" className="ds-btn ds-btn--primary" onClick={openPreferences}>
+        <CmpPreferencesLink className="ds-btn ds-btn--primary">
           Gérer mes préférences
-        </button>
+        </CmpPreferencesLink>
       </p>
     </>
   );

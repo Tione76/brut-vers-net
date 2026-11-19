@@ -1,6 +1,6 @@
 /**
  * Ancien stockage de la CMP maison (version 1).
- * Conservé uniquement pour invalidation : ne plus lire ni convertir en consentement Google/TCF.
+ * Conservé uniquement pour invalidation : ne plus lire ni convertir en consentement Sirdata/TCF.
  */
 export const CONSENT_STORAGE_KEY = "cookie-consent-preferences";
 
@@ -9,7 +9,7 @@ export const CONSENT_LEGACY_VERSION = 1;
 
 /**
  * Supprime les choix locaux de la bannière maison.
- * Un ancien « Accepter et fermer » ne doit jamais devenir un consentement TCF/Google.
+ * Un ancien choix maison ou Google ne doit jamais devenir un consentement Sirdata/TCF.
  */
 export function clearLegacyConsentPreferences(): void {
   if (typeof window === "undefined") return;

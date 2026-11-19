@@ -18,7 +18,7 @@ function toClarityConsent(enabled: boolean): ClarityConsentState {
 
 /**
  * Google Analytics 4 : chargé uniquement après acceptation de la mesure
- * (Consent Mode analytics via CMP Google). Retrait → démontage React + update denied.
+ * (Consent Mode analytics via Sirdata). Retrait → démontage React + update denied.
  */
 export function AnalyticsScripts() {
   const { analytics } = useSite();

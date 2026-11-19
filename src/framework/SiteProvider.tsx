@@ -12,15 +12,14 @@ import {
 } from "react";
 import type { ConsentPreferences, ConsentStatus } from "@/framework/types";
 import { clearLegacyConsentPreferences } from "@/framework/consent/storage";
-import { initConsentModeDefault, updateConsentMode } from "@/framework/consent/consent-mode";
+import { initConsentModeDefault } from "@/framework/consent/consent-mode";
 import {
-  ensureGoogleFcNamespace,
-  queueGoogleFcCallback,
-  readGoogleConsentPreferences,
-  showGoogleCmpRevocationMessage,
-} from "@/framework/consent/google-cmp";
+  readSirdataConsentPreferences,
+  showSirdataCmpUI,
+  whenTcfApiReady,
+} from "@/framework/consent/sirdata-cmp";
 import { AnalyticsScripts, ClarityLoader } from "@/framework/AnalyticsScripts";
-import { GoogleCmpLoader } from "@/framework/GoogleCmpLoader";
+import { AdSenseLoader } from "@/framework/AdSenseLoader";
 import type { config } from "@/site";
 
 export type SiteConfig = typeof config;
@@ -40,9 +39,9 @@ export function useSite(): SiteConfig {
 interface ConsentContextValue {
   status: ConsentStatus;
   preferences: ConsentPreferences;
-  /** Rouvre le message Google (révocation / modification). */
+  /** Rouvre l'UI Sirdata ABconsent. */
   openPreferences: () => void;
-  /** True une fois le premier signal Consent Mode Google reçu (ou hors périmètre). */
+  /** True une fois un choix TCF / Consent Mode enregistré (ou hors périmètre). */
   consentReady: boolean;
 }
 
@@ -91,73 +90,73 @@ export function SiteProvider({ config, children }: { config: SiteConfig; childre
   const [preferences, setPreferences] = useState<ConsentPreferences>(deniedPreferences);
   const [status, setStatus] = useState<ConsentStatus>("pending");
   const [consentReady, setConsentReady] = useState(false);
-  /** True tant que la CMP est ouverte : bloque le déblocage pubs / mesure. */
+  /** True tant que la CMP est ouverte : bloque pubs / mesure. */
   const awaitingCmpChoice = useRef(false);
 
   const applyPreferences = useCallback((prefs: ConsentPreferences, ready = true) => {
+    // Ne pas réécrire Consent Mode : Sirdata le pilote déjà.
     setPreferences(prefs);
-    updateConsentMode(prefs);
     setStatus(statusFromPreferences(prefs));
     if (ready) setConsentReady(true);
   }, []);
 
-  const syncFromGoogleCmp = useCallback(() => {
+  const syncFromSirdata = useCallback(() => {
     if (awaitingCmpChoice.current) return;
-    const fromGoogle = readGoogleConsentPreferences();
-    if (!fromGoogle) return;
-    applyPreferences(fromGoogle, true);
+    const fromSirdata = readSirdataConsentPreferences();
+    if (!fromSirdata) {
+      // Choix TCF sans update Consent Mode encore visible : refuser mesure / pubs côté site.
+      applyPreferences(deniedPreferences(), true);
+      return;
+    }
+    applyPreferences(fromSirdata, true);
   }, [applyPreferences]);
 
   useEffect(() => {
+    // Défaut restrictif déjà posé dans le <head> ; rappel idempotent.
     initConsentModeDefault();
-    // Ne jamais convertir un ancien « Accepter et fermer » maison en consentement Google.
+    // Ne jamais convertir un ancien choix maison ou Google en consentement Sirdata.
     clearLegacyConsentPreferences();
-    ensureGoogleFcNamespace();
 
-    // Consent Mode prêt : ignorer si l'utilisateur est encore dans la CMP.
-    queueGoogleFcCallback("CONSENT_MODE_DATA_READY", () => {
-      syncFromGoogleCmp();
-    });
-
-    queueGoogleFcCallback("CONSENT_API_READY", () => {
+    whenTcfApiReady(() => {
       const tcf = window.__tcfapi;
       if (typeof tcf !== "function") return;
+
       tcf("addEventListener", 2, (tcData, success) => {
         if (!success || !tcData || typeof tcData !== "object") return;
         const data = tcData as { eventStatus?: string; tcString?: string };
         const eventStatus = data.eventStatus;
-        // Ouverture CMP : rester en attente, ne pas débloquer les pubs.
+
         if (eventStatus === "cmpuishown") {
           awaitingCmpChoice.current = true;
           setConsentReady(false);
           setStatus("pending");
           return;
         }
+
         if (eventStatus === "useractioncomplete") {
           awaitingCmpChoice.current = false;
-          syncFromGoogleCmp();
+          // Laisser Sirdata pousser Consent Mode, puis synchroniser l'état site.
+          window.setTimeout(() => syncFromSirdata(), 0);
           return;
         }
-        // Recharge avec choix déjà stocké (chaîne TC présente), hors UI CMP.
+
         if (
           eventStatus === "tcloaded" &&
           String(data.tcString || "").length > 0 &&
           !awaitingCmpChoice.current
         ) {
-          syncFromGoogleCmp();
+          window.setTimeout(() => syncFromSirdata(), 0);
         }
       });
     });
-  }, [syncFromGoogleCmp]);
+  }, [syncFromSirdata]);
 
   const openPreferences = useCallback(() => {
-    // Retrait immédiat côté site (mesure stoppée) en attendant le nouveau choix Google.
     awaitingCmpChoice.current = true;
-    applyPreferences(deniedPreferences(), false);
     setConsentReady(false);
     setStatus("pending");
-    showGoogleCmpRevocationMessage();
-  }, [applyPreferences]);
+    showSirdataCmpUI();
+  }, []);
 
   const consentValue = useMemo(
     () => ({
@@ -173,7 +172,7 @@ export function SiteProvider({ config, children }: { config: SiteConfig; childre
     <SiteContext.Provider value={config}>
       <ConsentContext.Provider value={consentValue}>
         {children}
-        <GoogleCmpLoader />
+        <AdSenseLoader />
         <AnalyticsScripts />
         <ClarityLoader />
       </ConsentContext.Provider>
