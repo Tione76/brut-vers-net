@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { GuideMastheadShare } from "@/site/guides";
 import { GROSS_TO_NET_UPDATED_AT } from "./config";
 import { buildGrossToNetHubPayload, grossToNetHubFicheDomId } from "./hub";
@@ -54,6 +55,8 @@ export function GrossToNetHubPageContent() {
           ))}
         </div>
       </section>
+
+      <InArticleSlot />
 
       <section
         id="hub-catalogue"

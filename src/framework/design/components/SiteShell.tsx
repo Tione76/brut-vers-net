@@ -44,8 +44,14 @@ function TopAdBand() {
     );
   }
 
+  const mobileBleed = ready && slotId === "mobileTopBanner";
+
   return (
-    <div ref={containerRef} className="site-shell__top site-shell__top--ad">
+    <div
+      ref={containerRef}
+      className={`site-shell__top site-shell__top--ad${mobileBleed ? " site-shell__top--ad-mobile-bleed" : ""}`}
+      data-top-banner={slotId ?? undefined}
+    >
       {ready && slotId ? (
         <AdSlot slotId={slotId} className="ads-slot--top-banner" />
       ) : null}
@@ -62,7 +68,7 @@ function TopAdBand() {
 
 /**
  * Chrome commun : menu pleine largeur, fond ardoise, invitations de partenariat
- * et panneau blanc. Bandeau AdSense fixe (728×90 ou 320×50) sous le menu.
+ * et panneau blanc. Bandeau AdSense (728×90 ou mobile pleine largeur ×60) sous le menu.
  */
 export function SiteShell({
   children,

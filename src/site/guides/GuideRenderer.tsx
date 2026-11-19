@@ -4,7 +4,7 @@ import { GuideMastheadShare } from "./GuideMastheadShare";
 import { getGuideCover } from "./covers";
 import { GuideCoverImage } from "./GuideCoverImage";
 import { CoverFigure } from "./CoverFigure";
-import { AdSlot } from "@/framework/AdSlot";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { getInArticlePlacement } from "@/site/ads";
 import { getGuidePublicPath } from "./paths";
 import { getGuideBySlug } from "./registry";
@@ -823,10 +823,11 @@ export function GuideArticle({
     return guide ? getGuidePublicPath(guide) : `/${slug}`;
   })();
   /**
-   * In-Article : point d'insertion éditorial du gabarit (pas de numéro de paragraphe).
-   * - after-lead / défaut avec réponse courte : après ce bloc
-   * - after-quick-summary / défaut avec cartes montants : après les montants, avant L'essentiel
-   * - disable / pas d'ancre éditoriale : omis
+   * In-Article : un seul bloc par page.
+   * - after-lead / défaut avec réponse courte ou preface : après ce bloc
+   * - after-quick-summary / défaut avec cartes montants : après les montants
+   * - sinon (défaut) : après l'ouverture éditoriale (intro / early cluster)
+   * - disable : omis
    */
   const inArticlePlacement = getInArticlePlacement(guidePath);
   const showInArticleAfterLead =
@@ -840,6 +841,10 @@ export function GuideArticle({
     !showInArticleAfterLead &&
     (inArticlePlacement === "after-quick-summary" ||
       inArticlePlacement === "default");
+  const showInArticleAfterOpening =
+    inArticlePlacement !== "disable" &&
+    !showInArticleAfterLead &&
+    !showInArticleAfterQuickSummary;
 
   const renderSection = (
     section: (typeof sections)[number],
@@ -918,17 +923,14 @@ export function GuideArticle({
             leadAnswerSection ? "guide-section--lead-answer" : undefined,
           )
         : null}
-      {showInArticleAfterLead ? (
-        <AdSlot slotId="desktopInArticle" className="ads-slot--in-article" />
-      ) : null}
+      {showInArticleAfterLead ? <InArticleSlot /> : null}
 
       {/* Cartes chiffrées : réponse immédiate avant L'essentiel et le sommaire */}
       {isEarlyAmountSummary && quickSummary ? (
         <GuideQuickSummaryBlock summary={quickSummary} />
       ) : null}
-      {showInArticleAfterQuickSummary ? (
-        <AdSlot slotId="desktopInArticle" className="ads-slot--in-article" />
-      ) : null}
+      {showInArticleAfterQuickSummary ? <InArticleSlot /> : null}
+      {showInArticleAfterOpening ? <InArticleSlot /> : null}
 
       {introSummary ? (
         <aside className="guide-checklist guide-intro-summary">

@@ -44,7 +44,7 @@ export function AdSenseLoader() {
     }
   }, [consentReady, status]);
 
-  if (!clientId) return null;
+  if (!clientId || !ADS_DIFFUSION_ENABLED) return null;
 
   const src =
     clientId === ADSENSE_PUBLISHER_ID
@@ -59,7 +59,7 @@ export function AdSenseLoader() {
       crossOrigin="anonymous"
       async
       onLoad={() => {
-        if (!ADS_DIFFUSION_ENABLED || !consentReady || status === "pending") {
+        if (!consentReady || status === "pending") {
           pauseAdSenseAdRequests();
         }
       }}

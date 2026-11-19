@@ -21,6 +21,7 @@ import {
 } from "@/site/guides";
 import { coverToOgInput } from "@/site/guides/covers";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { buildActuArticleJsonLd } from "@/site/schema";
@@ -122,6 +123,7 @@ export default async function ActuArticlePage({ params }: PageProps) {
           description={article.description}
         />
         <CoverFigure cover={article.cover} priority />
+        <InArticleSlot />
         <Body />
       </GuidePageLayout>
     </>

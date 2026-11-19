@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { CoverFigure, GuideMastheadShare } from "@/site/guides";
 import { GROSS_TO_NET_SERIES_COVER } from "@/site/guides/covers";
 import { GuideSidebar } from "@/site/guides/GuideRenderer";
@@ -229,6 +230,8 @@ export function GrossToNet1000PageContent({
         profileGroupLabel="Statut professionnel"
         appearance="onBrand"
       />
+
+      <InArticleSlot />
 
       <section
         className="net-gross-1500__table-section"

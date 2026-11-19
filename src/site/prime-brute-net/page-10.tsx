@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { GuideMastheadShare } from "@/site/guides";
 import {
   GROSS_PRIME_CALCULATOR_ANCHOR_ID,
@@ -107,6 +108,8 @@ export function GrossPrimeSeriesPageContent({
       </section>
 
       <MiniGrossPrimeCalculatorCta defaultGrossPrime={grossPrime} />
+
+      <InArticleSlot />
 
       {editorialSections.map(({ id, title, paragraphs }) => (
         <section

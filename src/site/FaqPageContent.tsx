@@ -1,4 +1,5 @@
 import { ShareBlock } from "@/framework/design/components/ShareBlock";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { GuideInlineToc } from "@/site/guides";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { FAQ_COVER } from "@/site/guides/covers";
@@ -25,6 +26,7 @@ export function FaqPageContent({ share }: { share: FaqPageShare }) {
       <div className="faq-page__header">
         <p className="faq-page__intro">{FAQ_PAGE_INTRO}</p>
         <CoverFigure cover={FAQ_COVER} priority />
+        <InArticleSlot />
         <ShareBlock
           url={share.url}
           title={share.title}

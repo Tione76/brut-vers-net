@@ -12,10 +12,9 @@
   max-width: 100%;
 }
 
-/* Bandeau haut fixe : 728×90 ou 320×50, dimensions via style inline AdSense */
-.ads-slot--top-banner,
+/* Bandeau haut ordinateur : 728×90 centré */
 .ads-slot--desktopTopBanner,
-.ads-slot--mobileTopBanner {
+.ads-slot--desktopTopBanner.ads-slot--top-banner {
   display: flex;
   justify-content: center;
   width: fit-content;
@@ -23,10 +22,25 @@
   margin-inline: auto;
 }
 
-.ads-slot--top-banner .adsbygoogle,
-.ads-slot--desktopTopBanner .adsbygoogle,
-.ads-slot--mobileTopBanner .adsbygoogle {
+.ads-slot--desktopTopBanner .adsbygoogle {
   max-width: 100%;
+}
+
+/* Bandeau mobile : pleine largeur, hauteur 60 px (AdSense largeur variable / hauteur fixe) */
+.ads-slot--mobileTopBanner,
+.ads-slot--mobileTopBanner.ads-slot--top-banner {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  height: 60px;
+}
+
+.ads-slot--mobileTopBanner .adsbygoogle {
+  display: block;
+  width: 100%;
+  height: 60px;
+  max-width: none;
 }
 
 .site-shell__ad-fallback {
@@ -128,8 +142,14 @@
 }
 
 .ads-slot--mobileTopBanner .ads-slot__preview--top {
-  min-height: 50px;
-  min-width: min(100%, 320px);
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  min-height: 60px;
+  height: 60px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 @media (max-width: 1099px) {

@@ -45,6 +45,10 @@ export type ManualAdSlotConfig = {
   id: ManualAdSlotId;
   /** Nom lisible (AdSense / docs internes). */
   label: string;
+  /**
+   * ID d'unité AdSense. Chaîne vide = unité pas encore créée :
+   * repère local uniquement, aucun `push` réseau.
+   */
   adSlot: string;
   enabled: boolean;
   /**
@@ -58,6 +62,13 @@ export type ManualAdSlotConfig = {
    * `display:inline-block` + width/height explicites (snippet AdSense).
    */
   fixedSize?: ManualAdSlotFixedSize;
+  /**
+   * Bandeau mobile pleine largeur, hauteur fixe (doc AdSense
+   * « largeur variable et hauteur fixe » : width 100% + height contrôlée,
+   * sans data-ad-format ni data-full-width-responsive).
+   * @see https://support.google.com/adsense/answer/9183363?hl=fr
+   */
+  fullBleedHeightPx?: number;
   /** Absent pour les unités fixes Display. */
   format?: "auto" | "fluid";
   fullWidthResponsive?: boolean;
@@ -67,8 +78,14 @@ export type ManualAdSlotConfig = {
 };
 
 /**
+ * Ancien slot fixe 320×50, remplacé par le Display responsive
+ * `4949154780` (largeur variable, hauteur 60 px sur le `<ins>`).
+ */
+export const MOBILE_TOP_BANNER_RETIRED_FIXED_SLOT = "9463025573";
+
+/**
  * Emplacements manuels.
- * - Bandeau haut : 728×90 ordinateur ou 320×50 mobile (un seul, si la largeur tient).
+ * - Bandeau haut : 728×90 ordinateur, ou mobile pleine largeur ×60 px.
  * - Latéral Display responsive : ordinateur uniquement.
  * - In-Article : ordinateur ; mobile via ADS_MOBILE_IN_ARTICLE_ENABLED.
  * Modifier `adSlot` / `enabled` ici pour piloter la diffusion.
@@ -84,11 +101,11 @@ export const MANUAL_AD_SLOTS: Record<ManualAdSlotId, ManualAdSlotConfig> = {
   },
   mobileTopBanner: {
     id: "mobileTopBanner",
-    label: "Mobile - Bandeau haut 320x50",
-    adSlot: "9463025573",
+    label: "Mobile - Bandeau haut pleine largeur 60px",
+    adSlot: "4949154780",
     enabled: true,
     desktopOnly: false,
-    fixedSize: { width: 320, height: 50 },
+    fullBleedHeightPx: 60,
   },
   desktopSidebar: {
     id: "desktopSidebar",
@@ -112,8 +129,8 @@ export const MANUAL_AD_SLOTS: Record<ManualAdSlotId, ManualAdSlotConfig> = {
 };
 
 /**
- * Choisit le bandeau haut selon la largeur réellement disponible.
- * Priorité 728×90, sinon 320×50, sinon aucun (pas d'espace réservé).
+ * Choisit le bandeau haut selon la largeur du conteneur.
+ * Priorité 728×90 ; sinon bandeau mobile pleine largeur (même sous 320 px).
  */
 export function resolveTopBannerSlotId(
   availableWidthPx: number,
@@ -127,14 +144,16 @@ export function resolveTopBannerSlotId(
   ) {
     return "desktopTopBanner";
   }
-  if (
-    mobile.enabled &&
-    mobile.fixedSize &&
-    availableWidthPx >= mobile.fixedSize.width
-  ) {
+  if (mobile.enabled && (mobile.fullBleedHeightPx || mobile.fixedSize)) {
     return "mobileTopBanner";
   }
   return null;
+}
+
+/** True tant que l'unité AdSense mobile pleine largeur n'est pas renseignée. */
+export function isManualAdSlotPending(slotId: ManualAdSlotId): boolean {
+  const slot = MANUAL_AD_SLOTS[slotId];
+  return Boolean(slot?.enabled) && !slot.adSlot;
 }
 
 /** Viewport autorisé pour un slot manuel (après `ready` client). */

@@ -7,6 +7,8 @@ export {
   ADS_MOBILE_IN_ARTICLE_ENABLED,
   IN_ARTICLE_EXCEPTIONS,
   MANUAL_AD_SLOTS,
+  MOBILE_TOP_BANNER_RETIRED_FIXED_SLOT,
+  isManualAdSlotPending,
   isManualAdViewportAllowed,
   resolveTopBannerSlotId,
   type InArticlePlacement,

@@ -52,6 +52,24 @@ body {
   box-sizing: border-box;
 }
 
+/* Mobile pleine largeur : aucun padding / gap entre menu, bandeau et contenu */
+.site-shell__top--ad-mobile-bleed {
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+  min-height: 60px;
+  height: 60px;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: none;
+  overflow: hidden;
+}
+
+.site-shell__top--ad-mobile-bleed .site-shell__ad-fallback {
+  display: none;
+}
+
 .site-shell__ad-kicker {
   margin: 0;
   font-size: 0.8125rem;
@@ -238,6 +256,14 @@ body {
     background-repeat: no-repeat;
     background-size: 100% 720px;
     background-position: top center;
+  }
+
+  .site-shell__top--ad-mobile-bleed {
+    padding: 0;
+    min-height: 60px;
+    height: 60px;
+    background-image: none;
+    background-color: var(--ds-slate);
   }
 
   .site-panel {

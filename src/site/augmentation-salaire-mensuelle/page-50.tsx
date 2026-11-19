@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { GuideMastheadShare } from "@/site/guides";
 import {
   MONTHLY_INCREASE_PROFILES,
@@ -102,6 +103,8 @@ export function MonthlyIncreaseSeriesPageContent({
       </section>
 
       <MiniIncreaseCalculatorCta defaultGrossMonthlyIncrease={grossMonthlyIncrease} />
+
+      <InArticleSlot />
 
       {editorialSections.map(({ id, title, paragraphs }) => (
         <section

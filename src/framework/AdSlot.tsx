@@ -9,6 +9,7 @@ import {
   MANUAL_AD_SLOTS,
   getInArticlePlacement,
   isAdPathExcluded,
+  isManualAdSlotPending,
   isManualAdViewportAllowed,
   useDesktopAds,
   type ManualAdSlotId,
@@ -24,7 +25,7 @@ const IS_DEV = process.env.NODE_ENV === "development";
 /**
  * Bloc AdSense manuel commun.
  * - Gabarits partagés décident du placement (une instance par emplacement).
- * - Bandeaux haut fixes : SiteShell monte 728×90 ou 320×50 selon la largeur.
+ * - Bandeaux haut : SiteShell monte 728×90 ou mobile pleine largeur ×50.
  * - Latéral : ordinateur ; In-Article : ordinateur (+ mobile si activé).
  * - Diffusion après un choix CMP valide : AdSense décide du mode (personnalisé /
  *   limité / vide). Remontage propre après révocation ou navigation.
@@ -36,6 +37,7 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
   const pushed = useRef(false);
   const reactId = useId();
   const slot = MANUAL_AD_SLOTS[slotId];
+  const slotPending = isManualAdSlotPending(slotId);
 
   const excluded = isAdPathExcluded(pathname);
   const inArticleBlocked =
@@ -45,19 +47,25 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
   const surfaceOk =
     Boolean(slot?.enabled) &&
     Boolean(ADSENSE_PUBLISHER_ID) &&
-    Boolean(slot.adSlot) &&
     ready &&
     viewportOk &&
     !excluded &&
-    !inArticleBlocked;
+    !inArticleBlocked &&
+    (Boolean(slot.adSlot) || slotPending);
 
   /** Choix CMP enregistré (Autoriser ou Refuser) : laisser AdSense filtrer. */
   const choiceRecorded = consentReady && status !== "pending";
 
-  const canRender = surfaceOk && ADS_DIFFUSION_ENABLED && choiceRecorded;
+  const canRender =
+    surfaceOk &&
+    ADS_DIFFUSION_ENABLED &&
+    choiceRecorded &&
+    Boolean(slot.adSlot) &&
+    !slotPending;
 
-  /** Repère de mise en page local : pas de push AdSense. */
-  const showPreview = IS_DEV && surfaceOk && !canRender;
+  /** Repère de mise en page : local DEV, diffusion coupée, ou unité AdSense en attente. */
+  const showPreview =
+    surfaceOk && !canRender && (IS_DEV || !ADS_DIFFUSION_ENABLED || slotPending);
 
   useEffect(() => {
     pushed.current = false;
@@ -86,9 +94,15 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
         width: `${slot.fixedSize.width}px`,
         height: `${slot.fixedSize.height}px`,
       }
-    : slot.layout === "in-article"
-      ? { display: "block" as const, textAlign: "center" as const }
-      : { display: "block" as const };
+    : slot.fullBleedHeightPx
+      ? {
+          display: "block" as const,
+          width: "100%",
+          height: `${slot.fullBleedHeightPx}px`,
+        }
+      : slot.layout === "in-article"
+        ? { display: "block" as const, textAlign: "center" as const }
+        : { display: "block" as const };
 
   const previewModifier =
     slotId === "desktopTopBanner" || slotId === "mobileTopBanner"
@@ -99,9 +113,11 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
 
   const previewSizeLabel = slot.fixedSize
     ? `${slot.fixedSize.width} × ${slot.fixedSize.height}`
-    : slotId === "desktopSidebar"
-      ? "responsive"
-      : "repère local";
+    : slot.fullBleedHeightPx
+      ? `100% × ${slot.fullBleedHeightPx}`
+      : slotId === "desktopSidebar"
+        ? "responsive"
+        : "repère local";
 
   return (
     <aside
@@ -110,6 +126,7 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
       data-ad-slot-id={slotId}
       data-ad-path={pathname}
       data-ad-preview={showPreview ? "true" : undefined}
+      data-ad-pending={slotPending ? "true" : undefined}
     >
       {canRender ? (
         <ins

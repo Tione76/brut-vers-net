@@ -57,17 +57,20 @@ describe("AdSense wiring", () => {
     expect(adsenseLoaderSource).toContain("pauseAdSenseAdRequests");
     expect(adsenseLoaderSource).toContain("ADS_DIFFUSION_ENABLED");
     expect(adsConfigSource).toContain("ADS_DIFFUSION_ENABLED = true");
+    expect(adsenseLoaderSource).toContain("!ADS_DIFFUSION_ENABLED) return null");
     expect(adsenseLoaderSource).toContain("resumeAdSenseAdRequests");
     expect(adsenseLoaderSource).toContain("consentReady");
     expect(adsenseLoaderSource).not.toContain("googlefc");
     expect(layoutSource).not.toContain("googlefc");
   });
 
-  it("expose les bandeaux fixes sans auto/FWR et l'In-Article mobile coupable à part", () => {
+  it("expose le bandeau ordinateur fixe, le mobile pleine largeur et l'In-Article", () => {
     expect(adsConfigSource).toContain('adSlot: "5914149453"');
-    expect(adsConfigSource).toContain('adSlot: "9463025573"');
     expect(adsConfigSource).toContain("fixedSize: { width: 728, height: 90 }");
-    expect(adsConfigSource).toContain("fixedSize: { width: 320, height: 50 }");
+    expect(adsConfigSource).toContain("fullBleedHeightPx: 60");
+    expect(adsConfigSource).toContain('adSlot: "4949154780"');
+    expect(adsConfigSource).toContain("MOBILE_TOP_BANNER_RETIRED_FIXED_SLOT");
+    expect(adsConfigSource).toContain('"9463025573"');
     expect(adsConfigSource).toContain("resolveTopBannerSlotId");
     expect(adsConfigSource).toMatch(
       /desktopSidebar:[\s\S]*?desktopOnly:\s*true/,
@@ -84,9 +87,10 @@ describe("AdSense wiring", () => {
   });
 
   it("insère l'In-Article via le gabarit guide et après le chapô des calculateurs", () => {
-    expect(guideRendererSource).toContain('slotId="desktopInArticle"');
+    expect(guideRendererSource).toContain("InArticleSlot");
     expect(guideRendererSource).toContain("showInArticleAfterLead");
     expect(guideRendererSource).toContain("showInArticleAfterQuickSummary");
+    expect(guideRendererSource).toContain("showInArticleAfterOpening");
     expect(adsConfigSource).toContain('"/smic": "after-quick-summary"');
     expect(homeLayoutSource).not.toContain('slotId="desktopInArticle"');
     expect(toolLayoutSource).not.toContain('slotId="desktopInArticle"');

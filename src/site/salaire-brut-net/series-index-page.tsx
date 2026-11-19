@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { GuideInlineToc, GuideMastheadShare } from "@/site/guides";
 import { GROSS_TO_NET_UPDATED_AT } from "./config";
 import { formatEuroAmount } from "./data";
@@ -38,6 +39,8 @@ export function GrossToNetIndexPageContent() {
         }))}
         title="Explorer cette page"
       />
+
+      <InArticleSlot />
 
       <section
         id="index-table"

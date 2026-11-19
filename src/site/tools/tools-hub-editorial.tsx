@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { CoverFigure } from "@/site/guides/CoverFigure";
 import { TOOLS_HUB_COVER } from "@/site/guides/covers";
 
@@ -13,6 +14,8 @@ export function ToolsHubEditorial() {
         </p>
 
         <CoverFigure cover={TOOLS_HUB_COVER} priority />
+
+        <InArticleSlot />
 
         <p>
           Ils s&apos;adressent aux salariés, aux demandeurs d&apos;emploi et aux employeurs qui

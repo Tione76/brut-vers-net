@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { CoverFigure, GuideMastheadShare } from "@/site/guides";
 import { NET_TO_GROSS_SERIES_COVER } from "@/site/guides/covers";
 import {
@@ -258,6 +259,8 @@ export function NetToGrossSeriesPageContent({
         buttonLabel={isRedesign ? PAGE_1650_CALCULATOR_BUTTON : undefined}
         appearance={isRedesign ? "onBrand" : undefined}
       />
+
+      <InArticleSlot />
 
       {isRedesign ? table : null}
 

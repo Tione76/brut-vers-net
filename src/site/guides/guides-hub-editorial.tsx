@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { CoverFigure } from "./CoverFigure";
 import { GUIDES_HUB_COVER } from "./covers";
 
@@ -17,6 +18,8 @@ export function GuidesHubEditorial() {
         </p>
 
         <CoverFigure cover={GUIDES_HUB_COVER} priority />
+
+        <InArticleSlot />
 
         <p>
           Ils s&apos;adressent aux salariés, aux personnes qui recherchent un emploi, aux employeurs,

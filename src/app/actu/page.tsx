@@ -12,6 +12,7 @@ import {
 import "@/site/actu/actu.css";
 import { GuidePageLayout } from "@/site/guides";
 import { PageBreadcrumb } from "@/framework/design/components/PageBreadcrumb";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { JsonLd } from "@/framework/JsonLd";
 import { buildPageMetadata, getCanonicalUrl } from "@/framework/seo/metadata";
 import { buildActuHubJsonLd } from "@/site/schema";
@@ -63,6 +64,7 @@ export default function ActuHubPage() {
           d&apos;achat. Chaque actualité distingue ce qui a été annoncé, ce qui
           est déjà applicable, et renvoie vers nos guides de référence.
         </p>
+        <InArticleSlot />
         {articles.length === 0 ? (
           <p>Aucune actualité publiée pour le moment.</p>
         ) : (

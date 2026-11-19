@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { SITE_AUTHOR } from "@/site/author";
 import {
   AuthorMessageIcon,
@@ -137,6 +138,8 @@ export function AuthorPageContent({ breadcrumb }: { breadcrumb?: ReactNode }) {
             ))}
           </div>
         </section>
+
+        <InArticleSlot />
 
         <div className="author-pair">
           <section id={publish.id} className="author-block author-block--card">

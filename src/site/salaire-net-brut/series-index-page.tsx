@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InArticleSlot } from "@/framework/InArticleSlot";
 import { GuideInlineToc, GuideMastheadShare } from "@/site/guides";
 import { NET_TO_GROSS_UPDATED_AT } from "./config";
 import { formatNetShort } from "./data";
@@ -42,6 +43,8 @@ export function NetToGrossIndexPageContent() {
         }))}
         title="Explorer cette page"
       />
+
+      <InArticleSlot />
 
       <section
         id="index-table"

@@ -46,11 +46,11 @@ describe("AdSense path rules", () => {
     });
     expect(MANUAL_AD_SLOTS.desktopTopBanner.format).toBeUndefined();
     expect(MANUAL_AD_SLOTS.desktopTopBanner.fullWidthResponsive).toBeUndefined();
-    expect(MANUAL_AD_SLOTS.mobileTopBanner.adSlot).toBe("9463025573");
-    expect(MANUAL_AD_SLOTS.mobileTopBanner.fixedSize).toEqual({
-      width: 320,
-      height: 50,
-    });
+    expect(MANUAL_AD_SLOTS.mobileTopBanner.adSlot).toBe("4949154780");
+    expect(MANUAL_AD_SLOTS.mobileTopBanner.fullBleedHeightPx).toBe(60);
+    expect(MANUAL_AD_SLOTS.mobileTopBanner.fixedSize).toBeUndefined();
+    expect(MANUAL_AD_SLOTS.mobileTopBanner.format).toBeUndefined();
+    expect(MANUAL_AD_SLOTS.mobileTopBanner.fullWidthResponsive).toBeUndefined();
     expect(MANUAL_AD_SLOTS.desktopSidebar.adSlot).toBe("8155627429");
     expect(MANUAL_AD_SLOTS.desktopSidebar.format).toBe("auto");
     expect(MANUAL_AD_SLOTS.desktopSidebar.fullWidthResponsive).toBe(true);
@@ -59,12 +59,13 @@ describe("AdSense path rules", () => {
     expect(MANUAL_AD_SLOTS.desktopInArticle.desktopOnly).toBe(true);
   });
 
-  it("choisit le bandeau fixe selon la largeur disponible", () => {
+  it("choisit le bandeau selon la largeur disponible (mobile pleine largeur sous 728)", () => {
     expect(resolveTopBannerSlotId(800)).toBe("desktopTopBanner");
     expect(resolveTopBannerSlotId(728)).toBe("desktopTopBanner");
     expect(resolveTopBannerSlotId(727)).toBe("mobileTopBanner");
     expect(resolveTopBannerSlotId(320)).toBe("mobileTopBanner");
-    expect(resolveTopBannerSlotId(319)).toBeNull();
+    expect(resolveTopBannerSlotId(319)).toBe("mobileTopBanner");
+    expect(resolveTopBannerSlotId(1)).toBe("mobileTopBanner");
   });
 
   it("autorise les bandeaux haut sur tous viewports et réserve le latéral à l'ordinateur", () => {

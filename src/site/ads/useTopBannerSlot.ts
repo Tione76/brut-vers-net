@@ -20,7 +20,7 @@ function contentWidthPx(el: HTMLElement): number {
 }
 
 /**
- * Mesure la largeur utile du bandeau haut et choisit 728×90, 320×50, ou rien.
+ * Mesure la largeur du bandeau haut et choisit 728×90 ou mobile pleine largeur.
  */
 export function useTopBannerSlot(): {
   ready: boolean;
