@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -90,6 +91,8 @@ export function SiteProvider({ config, children }: { config: SiteConfig; childre
   const [preferences, setPreferences] = useState<ConsentPreferences>(deniedPreferences);
   const [status, setStatus] = useState<ConsentStatus>("pending");
   const [consentReady, setConsentReady] = useState(false);
+  /** True tant que la CMP est ouverte : bloque le déblocage pubs / mesure. */
+  const awaitingCmpChoice = useRef(false);
 
   const applyPreferences = useCallback((prefs: ConsentPreferences, ready = true) => {
     setPreferences(prefs);
@@ -99,6 +102,7 @@ export function SiteProvider({ config, children }: { config: SiteConfig; childre
   }, []);
 
   const syncFromGoogleCmp = useCallback(() => {
+    if (awaitingCmpChoice.current) return;
     const fromGoogle = readGoogleConsentPreferences();
     if (!fromGoogle) return;
     applyPreferences(fromGoogle, true);
@@ -110,7 +114,7 @@ export function SiteProvider({ config, children }: { config: SiteConfig; childre
     clearLegacyConsentPreferences();
     ensureGoogleFcNamespace();
 
-    // Signal Google : Consent Mode prêt après un choix (ou hors périmètre UE).
+    // Consent Mode prêt : ignorer si l'utilisateur est encore dans la CMP.
     queueGoogleFcCallback("CONSENT_MODE_DATA_READY", () => {
       syncFromGoogleCmp();
     });
@@ -124,16 +128,22 @@ export function SiteProvider({ config, children }: { config: SiteConfig; childre
         const eventStatus = data.eventStatus;
         // Ouverture CMP : rester en attente, ne pas débloquer les pubs.
         if (eventStatus === "cmpuishown") {
+          awaitingCmpChoice.current = true;
           setConsentReady(false);
           setStatus("pending");
           return;
         }
         if (eventStatus === "useractioncomplete") {
+          awaitingCmpChoice.current = false;
           syncFromGoogleCmp();
           return;
         }
-        // Recharge avec choix déjà stocké (chaîne TC présente).
-        if (eventStatus === "tcloaded" && String(data.tcString || "").length > 0) {
+        // Recharge avec choix déjà stocké (chaîne TC présente), hors UI CMP.
+        if (
+          eventStatus === "tcloaded" &&
+          String(data.tcString || "").length > 0 &&
+          !awaitingCmpChoice.current
+        ) {
           syncFromGoogleCmp();
         }
       });
@@ -142,6 +152,7 @@ export function SiteProvider({ config, children }: { config: SiteConfig; childre
 
   const openPreferences = useCallback(() => {
     // Retrait immédiat côté site (mesure stoppée) en attendant le nouveau choix Google.
+    awaitingCmpChoice.current = true;
     applyPreferences(deniedPreferences(), false);
     setConsentReady(false);
     setStatus("pending");

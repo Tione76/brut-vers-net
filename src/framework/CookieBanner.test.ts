@@ -46,6 +46,7 @@ describe("Migration CMP Google", () => {
     expect(providerSource).toContain("GoogleCmpLoader");
     expect(providerSource).toContain('eventStatus === "cmpuishown"');
     expect(providerSource).toContain('eventStatus === "useractioncomplete"');
+    expect(providerSource).toContain("awaitingCmpChoice");
   });
 
   it("conserve Consent Mode v2 en défaut denied", () => {
