@@ -26,11 +26,12 @@ const IS_DEV = process.env.NODE_ENV === "development";
  * - Gabarits partagés décident du placement (une instance par emplacement).
  * - Bandeaux haut fixes : SiteShell monte 728×90 ou 320×50 selon la largeur.
  * - Latéral : ordinateur ; In-Article : ordinateur (+ mobile si activé).
- * - Remontage propre à chaque navigation (clé pathname) pour un seul push par unité.
+ * - Diffusion après un choix CMP valide : AdSense décide du mode (personnalisé /
+ *   limité / vide). Remontage propre après révocation ou navigation.
  */
 export function AdSlot({ slotId, className = "" }: AdSlotProps) {
   const pathname = usePathname() || "/";
-  const { preferences, status } = useConsent();
+  const { status, consentReady } = useConsent();
   const { ready, isDesktop } = useDesktopAds();
   const pushed = useRef(false);
   const reactId = useId();
@@ -50,11 +51,10 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
     !excluded &&
     !inArticleBlocked;
 
-  const canRender =
-    surfaceOk &&
-    ADS_DIFFUSION_ENABLED &&
-    status !== "pending" &&
-    preferences.advertising;
+  /** Choix CMP enregistré (Autoriser ou Refuser) : laisser AdSense filtrer. */
+  const choiceRecorded = consentReady && status !== "pending";
+
+  const canRender = surfaceOk && ADS_DIFFUSION_ENABLED && choiceRecorded;
 
   /** Repère de mise en page local : pas de push AdSense. */
   const showPreview = IS_DEV && surfaceOk && !canRender;
@@ -64,7 +64,11 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
   }, [pathname, slotId]);
 
   useEffect(() => {
-    if (!canRender || pushed.current) return;
+    if (!canRender) {
+      pushed.current = false;
+      return;
+    }
+    if (pushed.current) return;
     try {
       const queue = (window.adsbygoogle = window.adsbygoogle || []);
       queue.push({});
@@ -72,7 +76,7 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
     } catch {
       /* ignore */
     }
-  }, [canRender, pathname, slotId]);
+  }, [canRender, pathname, slotId, status]);
 
   if (!canRender && !showPreview) return null;
 
@@ -109,7 +113,7 @@ export function AdSlot({ slotId, className = "" }: AdSlotProps) {
     >
       {canRender ? (
         <ins
-          key={`${pathname}-${slotId}-${reactId}`}
+          key={`${pathname}-${slotId}-${status}-${reactId}`}
           className="adsbygoogle"
           style={style}
           data-ad-client={ADSENSE_PUBLISHER_ID}

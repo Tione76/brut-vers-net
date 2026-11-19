@@ -41,20 +41,25 @@ describe("AdSense wiring", () => {
     expect(adSlotSource).toContain("useDesktopAds");
     expect(adSlotSource).toContain("isManualAdViewportAllowed");
     expect(adSlotSource).toContain("isAdPathExcluded");
-    expect(adSlotSource).toContain("preferences.advertising");
+    expect(adSlotSource).toContain("consentReady");
+    expect(adSlotSource).toContain('status !== "pending"');
+    expect(adSlotSource).not.toContain("preferences.advertising");
     expect(adSlotSource).toContain('slotId === "desktopInArticle"');
     expect(adSlotSource).toContain("fixedSize");
     expect(adSlotSource).toContain('display: "inline-block"');
     expect(adSlotSource).not.toContain("position:");
   });
 
-  it("charge le tag AdSense pour la CMP avec pause diffusion et flag coupé", () => {
+  it("reprend AdSense après un choix CMP, sans exiger l'accord publicitaire", () => {
     expect(cmpLoaderSource).toContain('id="google-adsense-cmp"');
     expect(cmpLoaderSource).toContain('crossOrigin="anonymous"');
     expect(cmpLoaderSource).toContain("pauseAdSenseAdRequests");
     expect(cmpLoaderSource).toContain("ADS_DIFFUSION_ENABLED");
     expect(adsConfigSource).toContain("ADS_DIFFUSION_ENABLED = true");
     expect(cmpLoaderSource).toContain("resumeAdSenseAdRequests");
+    expect(cmpLoaderSource).toContain("consentReady");
+    expect(cmpLoaderSource).toContain('status !== "pending"');
+    expect(cmpLoaderSource).not.toContain("preferences.advertising");
   });
 
   it("expose les bandeaux fixes sans auto/FWR et l'In-Article mobile coupable à part", () => {

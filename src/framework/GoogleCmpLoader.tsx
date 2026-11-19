@@ -18,12 +18,13 @@ import {
  * Charge le tag AdSense pour déployer la CMP Google (message européen),
  * dès la première visite, sans attendre un consentement publicitaire maison.
  *
- * Pause initiale (layout head + ici) jusqu'à l'accord publicitaire.
+ * Pause initiale jusqu'à un choix CMP valide (Autoriser ou Refuser).
+ * AdSense applique ensuite Consent Mode (personnalisé, limité ou rien).
  * Si ADS_DIFFUSION_ENABLED est false, la pause n'est jamais levée.
  */
 export function GoogleCmpLoader() {
   const { analytics } = useSite();
-  const { preferences, status, consentReady } = useConsent();
+  const { status, consentReady } = useConsent();
   const clientId = analytics.googleAdsenseClientId || ADSENSE_PUBLISHER_ID;
 
   useEffect(() => {
@@ -40,14 +41,13 @@ export function GoogleCmpLoader() {
       return () => window.clearInterval(id);
     }
 
-    const allowAds =
-      consentReady && status !== "pending" && preferences.advertising;
-    if (allowAds) {
+    const choiceRecorded = consentReady && status !== "pending";
+    if (choiceRecorded) {
       resumeAdSenseAdRequests();
     } else {
       pauseAdSenseAdRequests();
     }
-  }, [consentReady, preferences.advertising, status]);
+  }, [consentReady, status]);
 
   if (!clientId) return null;
 
@@ -64,12 +64,7 @@ export function GoogleCmpLoader() {
       crossOrigin="anonymous"
       async
       onLoad={() => {
-        if (
-          !ADS_DIFFUSION_ENABLED ||
-          !consentReady ||
-          status === "pending" ||
-          !preferences.advertising
-        ) {
+        if (!ADS_DIFFUSION_ENABLED || !consentReady || status === "pending") {
           pauseAdSenseAdRequests();
         }
       }}

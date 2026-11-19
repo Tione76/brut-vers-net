@@ -110,6 +110,7 @@ export function SiteProvider({ config, children }: { config: SiteConfig; childre
     clearLegacyConsentPreferences();
     ensureGoogleFcNamespace();
 
+    // Signal Google : Consent Mode prêt après un choix (ou hors périmètre UE).
     queueGoogleFcCallback("CONSENT_MODE_DATA_READY", () => {
       syncFromGoogleCmp();
     });
@@ -119,13 +120,20 @@ export function SiteProvider({ config, children }: { config: SiteConfig; childre
       if (typeof tcf !== "function") return;
       tcf("addEventListener", 2, (tcData, success) => {
         if (!success || !tcData || typeof tcData !== "object") return;
-        const eventStatus = (tcData as { eventStatus?: string }).eventStatus;
-        if (
-          eventStatus === "tcloaded" ||
-          eventStatus === "useractioncomplete" ||
-          eventStatus === "cmpuishown"
-        ) {
-          // Après révocation / nouveau choix : resynchroniser (y compris navigation SPA).
+        const data = tcData as { eventStatus?: string; tcString?: string };
+        const eventStatus = data.eventStatus;
+        // Ouverture CMP : rester en attente, ne pas débloquer les pubs.
+        if (eventStatus === "cmpuishown") {
+          setConsentReady(false);
+          setStatus("pending");
+          return;
+        }
+        if (eventStatus === "useractioncomplete") {
+          syncFromGoogleCmp();
+          return;
+        }
+        // Recharge avec choix déjà stocké (chaîne TC présente).
+        if (eventStatus === "tcloaded" && String(data.tcString || "").length > 0) {
           syncFromGoogleCmp();
         }
       });
