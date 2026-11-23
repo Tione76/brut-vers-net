@@ -416,6 +416,16 @@ export const quelEstUnBonSalaireEnFranceGuide: Guide = {
             "Ces moyennes PCS contextualisent un salaire dans un groupe comparable ; la médiane du privé en EQTP reste le premier repère général.",
           ],
         },
+        {
+          type: "internal-link",
+          variant: "guide",
+          intro: "Par exemple, la",
+          label:
+            "grille des salaires en expertise comptable publiée par Achil",
+          href: "https://www.achil.io/blog/salaire-expert-comptable-2026/",
+          outro:
+            " montre comment les fourchettes varient selon le poste, l'expérience et la ville.",
+        },
       ],
     },
     {
