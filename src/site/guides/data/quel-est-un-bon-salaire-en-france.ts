@@ -419,9 +419,9 @@ export const quelEstUnBonSalaireEnFranceGuide: Guide = {
         {
           type: "internal-link",
           variant: "guide",
-          intro: "Par exemple, la",
-          label:
-            "grille des salaires en expertise comptable publiée par Achil",
+          intro:
+            "Par exemple, la grille des salaires en expertise comptable publiée par",
+          label: "Achil",
           href: "https://www.achil.io/blog/salaire-expert-comptable-2026/",
           outro:
             " montre comment les fourchettes varient selon le poste, l'expérience et la ville.",
